@@ -1,6 +1,6 @@
 // JavaScript Document
 function enviarRegistro(nombre,telefono,email){
-$.ajax({  type: "POST",  url: "http://igitsoft.com/pgtest.php",  data: "nom="+nombre+"$tel="+telefono+"&ema="+email}).done(function( msg ) {  alert( "Data Saved: " + msg );
+$.ajax({  type: "POST",  url: "http://igitsoft.com/pgtest.php",  data: "nom="+nombre+"&tel="+telefono+"&ema="+email+"&id="+disp()[id]}).done(function( msg ) {  alert( "Data Saved: " + msg );
 if (msg==1){
 navigator.notification.confirm("Datos guardados satisfactoriamente",function(botones){
 	
