@@ -1,14 +1,18 @@
 // EVENTOS
 $(document).ready(function() {
-	document.addEventListener("deviceready",function(){
-		
-    $('#regEnviar').tap(function(){
+	document.addEventListener("deviceready",function(){		
 		window.location.href='#login';
+			$('#regFoto').tap(function(){
+			tomarfoto();
+			});
+	$('#regEnviar').tap(function(){		
+
 		var nom=$('#regNom').val();
 		var email=$('#regEmail').val();
 		var tel=$('#regTel').val();
-		if (nom!='' && email !='' && tel!='') {
-			enviarRegistro(nom,tel,email);
+		var foto=$('#regFoto').attr('rel');
+		if (nom!='' && email !='' && tel!='' && foto!=undefined && foto !='') {
+			enviarRegistro(nom,tel,email,foto);
 	/*		navigator.notification.confirm("Nombre: "+nom+"\nMail: "+email+"\nTelefono"+tel,function(botones){
 		switch(botones){
 		 case 1:
