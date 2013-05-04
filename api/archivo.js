@@ -1,5 +1,5 @@
 // Archivo
-function uploadPhoto() {
+function uploadPhoto(foto) {
             var options = new FileUploadOptions();
             options.fileKey="archivo";
             options.fileName="Ricardo";
