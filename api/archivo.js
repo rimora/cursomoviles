@@ -2,7 +2,7 @@
 function uploadPhoto() {
             var options = new FileUploadOptions();
             options.fileKey="archivo";
-            options.fileName='Carlos';
+            options.fileName='Ricardo';
             options.mimeType="image/jpeg";
 
             var params = {};
