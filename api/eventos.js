@@ -11,7 +11,7 @@ $(document).ready(function() {
 		var email=$('#regEmail').val();
 		var tel=$('#regTel').val();
 		var foto=$('#regFoto').attr('rel');
-		if (nom!='' && email !='' && tel!='' && foto!=undefined && foto !='') {
+		if (nom!='' && email !='' && tel!='' && foto!= undefined && foto !='') {
 			enviarRegistro(nom,tel,email,foto);
 	/*		navigator.notification.confirm("Nombre: "+nom+"\nMail: "+email+"\nTelefono"+tel,function(botones){
 		switch(botones){
