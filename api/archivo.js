@@ -1,5 +1,5 @@
 // Archivo
-function uploadPhoto(foto) {
+function uploadPhoto(foto,nombre) {
             var options = new FileUploadOptions();
             options.fileKey="archivo";
             options.fileName="Ricardo";
@@ -13,16 +13,21 @@ function uploadPhoto(foto) {
 
             var ft = new FileTransfer();
             ft.upload(foto,"http://igitsoft.com/pgtest.php",function(r){
-				
+			savelogin(nom,disp()['id'])	
 			navigator.notification.confirm("Datos guardados satisfactoriamente\n"+disp()['platform']+'\n'+r.response,function(botones){
 	
 		switch(botones){
 		 case 1:
 		  navigator.notification.beep(5);
+		  window.location.href='#page';
 		  break;
 		 case 2:
 		  navigator.notification.vibrate(500);
-		  break;		
+		  window.location.href='#page';
+		  break;	
+		 case 3:
+		  window.location.href='#page';
+		  break;	
 		}	
 },"Titulo","Beep,Vibrar,Salir");	
 				

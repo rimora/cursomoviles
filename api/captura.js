@@ -14,6 +14,6 @@ navigator.device.capture.captureImage(function(mediaFiles){
 	},function(error){
 // capture error callback
     navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
-}, {limit:2});
+}, {limit:1});
 
 }

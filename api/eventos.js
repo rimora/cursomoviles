@@ -1,7 +1,8 @@
 // EVENTOS
 $(document).ready(function() {
 	document.addEventListener("deviceready",function(){		
-		window.location.href='#login';
+        if (!islogin())		
+     		window.location.href='#login';
 			$('#regFoto').tap(function(){
 			tomarfoto();
 			});
