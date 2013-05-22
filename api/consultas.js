@@ -18,11 +18,10 @@ function listo() {
 }
 function queryDB(tx){        
 	tx.executeSql('SELECT * FROM DEMO',[],querySuccess,errorCB);    }
-function querySuccess(tx,results){        
-$('#catalogo').empty();        
-$.each(results.rows,function(index){           
- var row = results.rows.item(index);            
- $('#catalogo').append('<li><a href="#"><h3>'+row['Name']+'</h3><p>Club '+row['Club']+'</p></a></li>');        
- });         
- $('#catalogo').listview('refresh');
+function querySuccess(tx,results){  
+ var row = results.rows.item(0);  
+$("#nomcli").text("Nombre:   hola2"+row['Name']);
+$("#salcli").text("Saldo:    $1000.00"+row['Club']);
+
+
  }

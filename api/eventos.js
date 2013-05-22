@@ -26,9 +26,7 @@ $("li").click(function() {
 $('#datoscli').live('pageshow',function(event, ui){
 
 //alert('This page was just hidden: '+ ui.prevPage);
-$("#nomcli").text("Nombre:   hola2");
-$("#salcli").text("Saldo:    $1000.00");
-$("#dircli").text("Dirección:dirección del cliente");
+
 var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
 db.transaction(consulta, errorconsulta, listo);
 	
