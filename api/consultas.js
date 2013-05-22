@@ -24,5 +24,5 @@ $.each(results.rows,function(index){
  var row = results.rows.item(index);            
  $('#catalogo').append('<li><a href="#"><h3>'+row['Name']+'</h3><p>Club '+row['Club']+'</p></a></li>');        
  });         
- $('#catalogo').listview();    
+ $('#catalogo').listview('refresh');
  }
