@@ -1,11 +1,5 @@
 // consultas
-function inicia(){
-var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
-db.transaction(consulta, errorCB, successCB);
-	
-	
-	
-}
+
 
 function consulta(tx) {
      tx.executeSql('DROP TABLE IF EXISTS DEMO');
