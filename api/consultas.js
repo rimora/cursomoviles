@@ -18,10 +18,10 @@ function listo() {
 }
 function queryDB(tx){        
 	tx.executeSql('SELECT * FROM DEMO',[],querySuccess,errorCB);    }
-function querySuccess(tx,result){        
+function querySuccess(tx,results){        
 $('#catalogo').empty();        
-$.each(result.rows,function(index){           
- var row = result.rows.item(index);            
+$.each(results.rows,function(index){           
+ var row = results.rows.item(index);            
  $('#catalogo').append('<li><a href="#"><h3>'+row['Name']+'</h3><p>Club '+row['Club']+'</p></a></li>');        
  });         
  $('#catalogo').listview();    
