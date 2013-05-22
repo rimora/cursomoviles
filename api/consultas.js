@@ -12,7 +12,7 @@ function errorconsulta(err) {
     alert("Error processing SQL: "+err);
 }
 
-function listo() {
+function listo(db) {
     alert("success!");
 	db.transaction(queryDB,errorconsulta);
 }
@@ -23,6 +23,6 @@ function querySuccess(tx,results){
   alert(row['Name']);
 $("#nomcli").text("Nombre:   hola2"+row['Name']);
 $("#salcli").text("Saldo:    $1000.00"+row['Club']);
-
+	
 
  }
