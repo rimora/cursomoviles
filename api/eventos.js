@@ -51,12 +51,12 @@ function queryDB(tx){
 	alert("entro a queryDB");
 	}
 function querySuccess(tx,results){  
- var row = results.rows.item(0);  
-  alert(row['Name']);
-$("#nomcli").text("Nombre:   hola2"+row['Name']);
-$("#salcli").text("Saldo:    $1000.00"+row['Club']);
-	
-
+ $('#catalogo').empty();        
+$.each(result.rows,function(index){           
+ var row = result.rows.item(index);            
+ $('#catalogo').append('<li><a href="#"><h3>'+row['Name']+'</h3><p>Club '+row['Club']+'</p></a></li>');        
+ });         
+ $('#catalogo').listview('refresh'); 
  }
 
 	
