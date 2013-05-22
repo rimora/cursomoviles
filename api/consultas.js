@@ -20,6 +20,7 @@ function queryDB(tx){
 	tx.executeSql('SELECT * FROM DEMO',[],querySuccess,errorCB);    }
 function querySuccess(tx,results){  
  var row = results.rows.item(0);  
+  alert(row['Name']);
 $("#nomcli").text("Nombre:   hola2"+row['Name']);
 $("#salcli").text("Saldo:    $1000.00"+row['Club']);
 
