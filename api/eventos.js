@@ -29,8 +29,6 @@ $('#datoscli').live('pageshow',function(event, ui){
 
 var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
 db.transaction(consulta, errorconsulta, listo);
-	
-});
 
 function consulta(tx) {
      tx.executeSql('DROP TABLE IF EXISTS DEMO');
@@ -46,6 +44,7 @@ function errorconsulta(err) {
 function listo() {
     alert("success!");
 	db.transaction(queryDB,errorconsulta);
+	 alert("PASO");
 }
 function queryDB(tx){        
 	tx.executeSql('SELECT * FROM DEMO',[],querySuccess,errorconsulta);    
@@ -59,6 +58,10 @@ $("#salcli").text("Saldo:    $1000.00"+row['Club']);
 	
 
  }
+
+	
+});
+
 
 });
 
