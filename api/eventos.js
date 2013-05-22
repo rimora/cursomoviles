@@ -43,12 +43,14 @@ function errorconsulta(err) {
     alert("Error processing SQL: "+err);
 }
 
-function listo(db) {
+function listo() {
     alert("success!");
 	db.transaction(queryDB,errorconsulta);
 }
 function queryDB(tx){        
-	tx.executeSql('SELECT * FROM DEMO',[],querySuccess,errorCB);    }
+	tx.executeSql('SELECT * FROM DEMO',[],querySuccess,errorconsulta);    
+	alert("entro a queryDB");
+	}
 function querySuccess(tx,results){  
  var row = results.rows.item(0);  
   alert(row['Name']);
