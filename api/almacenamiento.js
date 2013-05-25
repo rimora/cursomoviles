@@ -33,14 +33,7 @@ function reservaInt(t,p,h,d){
 	},function(err){
 		alert(error.code);
 		
-	},function(err){
-		alert(error.code);
-	});
-
-	function errorCB(err) {
-    alert("Error processing SQL: "+err);
-	}
-
+	},successCB);
 	function successCB() {
     	navigator.notification.alert('esperando conexion a internet',function(){
 		window.location.href="#page";

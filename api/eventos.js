@@ -48,7 +48,7 @@ $(document).ready(function() {
 			 }
 			window.location.href="#nr2"
 		}
-		$("#reserva").tap(function(){
+		$("#reservar").tap(function(){
 			var th =$("#nr2").attr("th");
 			var pr =$("#nr2 select:eq(0)").val();
 			var hb =$("#nr2 select:eq(1)").val();
