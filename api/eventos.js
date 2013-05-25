@@ -56,8 +56,10 @@ $(document).ready(function() {
 		if (navigator.connection.type !=Connection.NONE)
 		{
 			reservaHB(th,pr,hb,ds);
+			alert('conexion a internet');
 			}	
 			else{
+			alert('SIN conexion a internet');	
 			reservaInt(th,pr,hb,ds);	
 			}
 			
