@@ -55,7 +55,7 @@ $(document).ready(function() {
 			var ds =$("#nr2 select:eq(2)").val();
 		if (navigator.connection.type !=Connection.NONE)
 		{
-			reservarHB(th,pr,hb,ds);
+			reservaHB(th,pr,hb,ds);
 			}	
 			else{
 			reservaInt(th,pr,hb,ds);	
