@@ -9,7 +9,29 @@ function consultadb()
 
 function iniciar()
 {		
-		consultadb().transaction(creartb,function(err)
+	
+	var db = window.openDatabase("Database", "1.0", "Cordova Demo", 1000000);
+db.transaction(populateDB, errorCB, successCB);
+
+	
+		function populateDB(tx) {
+			alert('funcion creartb');	
+    tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
+         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');  
+		 }
+
+function errorCB(err) {
+    alert("Error processing SQL: "+err.code);
+}
+
+function successCB() {
+    alert("success!");
+}
+
+
+		/*
+		
+		consultadb().transaction(populateDB,function(err)
 		{
 		alert("Error al insertar clientes: "+err.code+err.message);			
 		},alert('bd generada'));
@@ -17,11 +39,9 @@ function iniciar()
 		  alert('funcion creartb');	
 		tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
          tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');   	
-			
-			
 		}
 		
-	   
+	 */  
 }
 function insertar(){
 		
