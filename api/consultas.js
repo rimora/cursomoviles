@@ -2,6 +2,7 @@
 function consultadb()
 {
 	var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);		
+	alert(db.version);
 	return db;	
 }
 
@@ -9,14 +10,15 @@ function consultadb()
 
 function iniciar()
 {		
-		consultadb().transaction(consulta, function(err){
+		consultadb().transaction(consulta(tx), function(err){
     	  alert("Error processing SQL al crear BD: "+err.message);
           },alert('bd generada'));	
 				
 		function consulta(tx) {
-         tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
+         alert('al crearla tabla');      		 
+		 tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
          tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');  
-		 alert('al crearla tabla')      		 
+		 
      	}		
 	   
 }
