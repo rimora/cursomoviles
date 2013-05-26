@@ -1,13 +1,18 @@
 // consultas
+function consultadb()
+{
+	var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);		
+	return db;	
+}
+
+
 
 function iniciar()
-{
-		var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);		
-		db.transaction(consulta, function(err){
-    	  alert("Error processing SQL al crear BD: "+err);
+{		
+		consultadb().transaction(consulta, function(err){
+    	  alert("Error processing SQL al crear BD: "+err.message);
           },alert('bd generada'));	
-		
-		
+				
 		function consulta(tx) {
          tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
          tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');        		 
@@ -15,14 +20,14 @@ function iniciar()
 	   
 }
 function insertar(){
-		var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
-		db.transaction(insertarcli,function(err){
+		
+		consultadb().transaction(insertarcli,function(err){
     	  alert("Error al insertar clientes: "+err.code+err.message);
           },listacliente);
 		alert('funcion insertar');			
     	function insertarcli(tx) {
-		tx.executeSql('INSERT INTO CLIENTES(nombre,clave,dia) VALUES ("Cesar Menso", "1020","Lunes")');        
-    	tx.executeSql('INSERT INTO CLIENTES(nombre,clave,dia) VALUES ("Diego Morales", "1010","Martes")');		 		
+		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia) VALUES ("Cesar Menso", "1020","Lunes")');        
+    	tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia) VALUES ("Diego Morales", "1010","Martes")');		 		
 		}
         function listacliente(tx){
 			var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);

@@ -7,6 +7,16 @@ $(document).ready(function() {
 		
 	
 	});*/
+	$('#formulario').submit(function() { 
+			 	// recolecta los valores que inserto el usuario	
+				var Usuario = $("#nombredeusuario").val()	
+				var Pass = $("#clave").val()	  	
+				if(Usuario == "r1"){
+					$.mobile.changePage("#page")
+		  		}else{		  		  
+				alert('Usuario No Válio');
+				}  	
+	});
 	
 	$("#carga").click(function() {
                  //var clavecli = $(this).attr("id");
