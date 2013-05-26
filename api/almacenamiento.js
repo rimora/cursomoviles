@@ -13,7 +13,7 @@ var id=window.localStorage.getItem('id');
 	   return false;
 }
 function accesobd(){
-	var db = window.openDatabase("Hotel", "2.0", "Hotel DB", 1000000);
+	var db = window.openDatabase("Hotel2","2.0", "Hotel DB2", 1000000);
 	alert(db);
     return db;
 	
