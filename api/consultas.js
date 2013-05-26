@@ -2,7 +2,7 @@
 function consultadb()
 {
 	var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);		
-	alert(db.version);
+	alert(db);
 	return db;	
 }
 
@@ -10,7 +10,7 @@ function consultadb()
 
 function iniciar()
 {		
-		consultadb().transaction(consulta(tx), function(err){
+		consultadb().transaction(consulta, function(err){
     	  alert("Error processing SQL al crear BD: "+err.message);
           },alert('bd generada'));	
 				
