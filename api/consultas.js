@@ -15,7 +15,8 @@ function iniciar()
 				
 		function consulta(tx) {
          tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');        		 
+         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');  
+		 alert('al crearla tabla')      		 
      	}		
 	   
 }
