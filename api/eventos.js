@@ -7,8 +7,7 @@ $(document).ready(function() {
 			tomarfoto();
 			});
 			*/
-		var db = window.openDatabase("Hotel","", "Hotel DB2", 1000000);
-	        alert(db.version);	
+		
 	$('#regEnviar').tap(function(){		
 
 		var nom=$('#regNom').val();
@@ -56,6 +55,9 @@ $(document).ready(function() {
 			var pr =$("#nr2 select:eq(0)").val();
 			var hb =$("#nr2 select:eq(1)").val();
 			var ds =$("#nr2 select:eq(2)").val();
+			var db = window.openDatabase("Hotel","", "Hotel DB2", 1000000);
+	        alert(db.version);	
+			
 		if (navigator.connection.type !=Connection.NONE)
 		{
 			reservaHB(th,pr,hb,ds);
