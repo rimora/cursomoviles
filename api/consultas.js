@@ -17,7 +17,7 @@ function iniciar()
 function insertar(){
 		var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		db.transaction(insertarcli,function(err){
-    	  alert("Error al insertar clientes: "+err.code);
+    	  alert("Error al insertar clientes: "+err.code+err.message);
           },listacliente);
 		alert('funcion insertar');			
     	function insertarcli(tx) {
