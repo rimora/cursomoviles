@@ -21,15 +21,15 @@ function reservaInt(t,p,h,d){
 	var f=new Date();
 	var fecha=f.getDate()+'/'+ (f.getMonth()+1)+'/'+ f.getYear() + f.getFullYear();
 	
-	
+	alert('funcion reservaInt');
 	accesobd().transaction(function(tx){
 
-     tx.executeSql('DROP TABLE IF EXISTS DEMO');
+    // tx.executeSql('DROP TABLE IF EXISTS reservaciones');
      tx.executeSql('CREATE TABLE IF NOT EXISTS reservaciones (id unique, tipohabitacion,personas,habitaciones,dias)');
      tx.executeSql('INSERT INTO reservaciones (tipohabitacion,personas,habitaciones,dias) VALUES ("'+t+'","'+p+'","'+h+'","'+d+'")');
  tx.executeSql('CREATE TABLE IF NOT EXISTS historial (id unique, tipohabitacion,personas,habitaciones,dias,fecha)');
       tx.executeSql('INSERT INTO historial (tipohabitacion,personas,habitaciones,dias,fecha) VALUES ("'+t+'","'+p+'","'+h+'","'+d+'","'+fecha+'")');
-
+alert('datos insertados');
 	},function(err){
 		alert(error.code);
 		
