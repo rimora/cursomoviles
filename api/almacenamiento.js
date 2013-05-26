@@ -14,6 +14,7 @@ var id=window.localStorage.getItem('id');
 }
 function accesobd(){
 	var db = window.openDatabase("Hotel", "1.0", "Hotel DB", 1000000);
+	alert(db);
     return db;
 	
 }
@@ -23,6 +24,7 @@ function reservaInt(t,p,h,d){
 	
 	alert('funcion reservaInt');
 	accesobd().transaction(function(tx){
+
         alert('datos insertados');
     // tx.executeSql('DROP TABLE IF EXISTS reservaciones');
      tx.executeSql('CREATE TABLE IF NOT EXISTS reservaciones (id unique, tipohabitacion,personas,habitaciones,dias)');
