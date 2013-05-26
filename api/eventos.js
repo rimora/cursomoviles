@@ -1,11 +1,14 @@
 // EVENTOS
 $(document).ready(function() {
 	document.addEventListener("deviceready",function(){		
-        if (!islogin())		
+       /* if (!islogin())		
      		window.location.href='#login';
 			$('#regFoto').tap(function(){
 			tomarfoto();
 			});
+			*/
+		var db = window.openDatabase("Hotel","", "Hotel DB2", 1000000);
+	        alert(db.version);	
 	$('#regEnviar').tap(function(){		
 
 		var nom=$('#regNom').val();
