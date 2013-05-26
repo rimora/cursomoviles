@@ -23,13 +23,13 @@ function reservaInt(t,p,h,d){
 	
 	alert('funcion reservaInt');
 	accesobd().transaction(function(tx){
-
+        alert('datos insertados');
     // tx.executeSql('DROP TABLE IF EXISTS reservaciones');
      tx.executeSql('CREATE TABLE IF NOT EXISTS reservaciones (id unique, tipohabitacion,personas,habitaciones,dias)');
      tx.executeSql('INSERT INTO reservaciones (tipohabitacion,personas,habitaciones,dias) VALUES ("'+t+'","'+p+'","'+h+'","'+d+'")');
  tx.executeSql('CREATE TABLE IF NOT EXISTS historial (id unique, tipohabitacion,personas,habitaciones,dias,fecha)');
       tx.executeSql('INSERT INTO historial (tipohabitacion,personas,habitaciones,dias,fecha) VALUES ("'+t+'","'+p+'","'+h+'","'+d+'","'+fecha+'")');
-alert('datos insertados');
+
 	},function(err){
 		alert(error.code);
 		
