@@ -7,12 +7,13 @@ $(document).ready(function() {
 		
 	
 	});*/
-	$('#formulario').submit(function() { 
+	$('#botonLogin').tap(function() { 
 			 	// recolecta los valores que inserto el usuario	
 				var Usuario = $("#nombredeusuario").val()	
 				var Pass = $("#clave").val()	  	
 				if(Usuario == "r1"){
-					$.mobile.changePage("#page")
+
+					window.location.href='#page';
 		  		}else{		  		  
 				alert('Usuario No Válio');
 				}  	

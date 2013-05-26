@@ -15,10 +15,11 @@
 	<div data-role="header">
     	<h1>Ingreso</h1>	
     </div>
-    <div data-role="content"><form id="formulario" ><label> Usuario </label>
+    <div data-role="content">
+    				<label> Usuario </label>
           			<input type="text" id="nombredeusuario" name="nombredeusuario"> 
                     <label> Password </label>
-                    <input type="password" id="clave" name="clave" >
+                    <input type="password" id="pass" name="clave" >
                     <input type="submit" value="Login" id="botonLogin"></form>
     </div>	 
 </div> 
@@ -154,76 +155,6 @@
 
 
 
-
-
-
-<div data-role="page" id="nuevo">
-	<div data-role="header">
-    <a data-direction="reverse"  data-rel="back" data-role="button" data-theme="b">Atrás</a>	
-		<h1>Registro</h1>
-	</div>
-	<div data-role="content">	
-    <ul data-role="listview" data-inset="true" data-dividertheme="a">
-    <li data-role="list-divider">Datos</li>
-    <li><input type="text" value="" id="regNom" value="" placeholder="Nombre" title="Requerido" required/></li>
-    <li><input type="datetime" id="regFecha" placeholder="Fecha formato (2013-04-01)" title="Requerido" required/></li>
-    <li><input type="text" id="regTipo" placeholder="Tipo 1=Temporal,2=Definitivo " /></li>
-        <li><input type="text" id="regDescri" placeholder="Descripcion" title="Requerido" required/></li>
-        <li><input type="text" id="regResu" placeholder="Resumen" title="Requerido" required /></li>
-     <!--   <li> <textarea rows="2" id="resu" ></textarea></li>-->
-                <li><input type="text" id="regAnte" placeholder="Antecedentes" title="Requerido" required /></li>
-                        <li><input type="text" id="regSecu" placeholder="Secuencia" title="Requerido" required /></li>
-        <li><input type="text" id="regAn" placeholder="Análisis" title="Requerido" required /></li>
-        <li><input type="text" id="regMedi" placeholder="Medidas" title="Requerido" required /></li>        
-        <li><input type="text" id="regCon" placeholder="Conclusión" title="Requerido" required /></li>
-
-
-    <li><a href="#" id="regFoto">Tomar Foto</a></li>
-    </ul>
-    <a href="#" id="regEnviar" data-icon="check" data-role="button" data-theme="a">Registrar</a>
-
-	</div>
-	
-</div>
-<div data-role="page" id="consulta">
-	<div data-role="header">    
-		<h1>Consulta</h1>
-        <a data-role="button" data-rel="back" data-direction="reverse" data-theme="b">Atrás</a>	
-	</div>
-	<div data-role="content" style="text-align:justify;">	
-      <input type="number" id="numRepor" placeholder="Número de Reporte" />
-		<a href="#" data-role="button" id="consultar" data-theme="a" data-icon="search">Consultar</a>
-	</div>
-</div>
-
-<!--Pagina que muestra resultado de la consulta del reporte-->
-
-<div data-role="page" id="resultado">
-	<div data-role="header">
-    <a data-role="button" data-rel="back" data-direction="reverse" data-theme="b">Atrás</a>	
-		<h1>Reporte</h1>
-	</div>
-	<div data-role="content">	
-    <ul data-role="listview" data-inset="true" data-dividertheme="b">
-    <li data-role="list-divider" >Resultado</li>
-   <li> <label id="resuRepor"></label></li> 
-   <li> <label id="resuNom"></label></li>
-   <li> <label id="resuFecha"></label></li>
-   <li> <label id="resuTipo"></label></li>
-   <li> <label id="resuDescri"></label></li>
-   <li> <label id="resuResu"></label></li>
-     <!--   <li> <textarea rows="2" id="resu" ></textarea></li>-->
-   <li> <label id="resuAnte"></label>  </li>
-   <li> <label id="resuSecu"></label></li>
-   <li> <label id="resuAn"></label></li>
-   <li> <label id="resuMedi"></label></li>
-   <li> <label id="resuCon"></label></li>
-   <li><a href="#" id="resuFoto">Ver Foto</a></li> 
-    </ul>
-	</div>	
-</div>
-
-<!--*********************************-->
 
 </body>
 </html>
