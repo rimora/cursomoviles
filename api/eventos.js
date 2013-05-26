@@ -19,20 +19,20 @@ $(document).ready(function() {
 				}  	
 	});
 	
-	$("#carga").click(function() {
+	$("#carga").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				  //alert (oID);
 				  iniciar();
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
                });
-     $("#envia").click(function() {
+     $("#envia").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				  //alert (oID);
 				  insertar();
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
                });			   
 			  
-	$("#clientes").click(function() {
+	$("#clientes").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				  //alert (oID);				  
                   

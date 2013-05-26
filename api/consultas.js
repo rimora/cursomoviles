@@ -1,8 +1,7 @@
 // consultas
 function consultadb()
 {
-	var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);		
-	alert(db);
+	var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);			
 	return db;	
 }
 
@@ -10,16 +9,18 @@ function consultadb()
 
 function iniciar()
 {		
-		consultadb().transaction(consulta, function(err){
-    	  alert("Error processing SQL al crear BD: "+err.message);
-          },alert('bd generada'));	
-				
-		function consulta(tx) {
-         alert('al crearla tabla');      		 
-		 tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');  
-		 
-     	}		
+		consultadb().transaction(creartb,function(err)
+		{
+		alert("Error al insertar clientes: "+err.code+err.message);			
+		},alert('bd generada'));
+		function creartb(tx) {
+		  alert('funcion creartb');	
+		tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
+         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');   	
+			
+			
+		}
+		
 	   
 }
 function insertar(){
@@ -28,14 +29,13 @@ function insertar(){
     	  alert("Error al insertar clientes: "+err.code+err.message);
           },listacliente);
 				
-    	function insertarcli(tx) {
-		alert('funcion insertar');	
-		tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');  
+    	function insertarcli(tx) {		
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia) VALUES ("Cesar Menso", "1020","Lunes")');        
     	tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia) VALUES ("Diego Morales", "1010","Martes")');		 		
 		}
         function listacliente(tx){
+			 alert('funcion listacliente');	
+			
 			var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 			 db.transaction(function(tx){      			
 		    	tx.executeSql('SELECT * FROM CLIENTES ',[],
