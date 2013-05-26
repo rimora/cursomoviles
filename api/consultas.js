@@ -27,8 +27,9 @@ function insertar(){
 		consultadb().transaction(insertarcli,function(err){
     	  alert("Error al insertar clientes: "+err.code+err.message);
           },listacliente);
-		alert('funcion insertar');			
+				
     	function insertarcli(tx) {
+		alert('funcion insertar');	
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia) VALUES ("Cesar Menso", "1020","Lunes")');        
     	tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia) VALUES ("Diego Morales", "1010","Martes")');		 		
 		}
