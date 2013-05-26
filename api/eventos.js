@@ -1,77 +1,48 @@
 // EVENTOS
 $(document).ready(function() {
-	document.addEventListener("deviceready",function(){		
-       /* if (!islogin())		
-     		window.location.href='#login';
-			$('#regFoto').tap(function(){
-			tomarfoto();
-			});
-			*/
-		 alert('al entrar');	
-	$('#regEnviar').tap(function(){		
-
-		var nom=$('#regNom').val();
-		var email=$('#regEmail').val();
-		var tel=$('#regTel').val();
-		var foto=$('#regFoto').attr('rel');
-		if (nom!='' && email !='' && tel!='' && foto!= undefined && foto !='') {
-			enviarRegistro(nom,tel,email,foto);
-	/*		navigator.notification.confirm("Nombre: "+nom+"\nMail: "+email+"\nTelefono"+tel,function(botones){
-		switch(botones){
-		 case 1:
-		  navigator.notification.beep(5);
-		  break;
-		 case 2:
-		  navigator.notification.vibrate(500);
-		  break;		
-		}	
-},"Titulo","Beep,Vibrar,Salir");*/
-		} 
-		else{
-				navigator.notification.alert('Todos los campos son requeridos',null,'Error de Registro','Aceptar');
-		//alert('Todos los campos son requeridos');	
-			
-		}
-			
-	});
-	$("#nr1 li").tap(function(){
-		if ($(this).index()!=0){
-		     switch($(this).index()){
-				case 1:
-					$("#nr2").attr("th",1);
-					break;
-				case 2:
-					$("#nr2").attr("th",2);
-					break;
-				case 3:
-					$("#nr2").attr("th",3);
-					break;		 
-				 
-			 }
-			window.location.href="#nr2"
-		}
-		$("#reservar").tap(function(){
-			var th =$("#nr2").attr("th");
-			var pr =$("#nr2 select:eq(0)").val();
-			var hb =$("#nr2 select:eq(1)").val();
-			var ds =$("#nr2 select:eq(2)").val();
-			
-			var db = window.openDatabase("Hotel","", "Hotel DB2", 1000000);
-	        alert(db.version);	
-			
-		if (navigator.connection.type !=Connection.NONE)
-		{
-			reservaHB(th,pr,hb,ds);
-			alert('conexion a internet');
-			}	
-			else{
-			alert('SIN conexion a internet');	
-			reservaInt(th,pr,hb,ds);	
-			}
-			
-		});
-	});
-	},false);
+	//document.addEventListener("deviceready",function(){
+	/*	var db = window.openDatabase("Sardel", "1.0", "SardelDB", 1000000);
+    $('#clientes').click(function() {
+		db.transaction(consulta,errorconsulta,listo);
+		
 	
+	});*/
+	
+	$("#carga").click(function() {
+                 //var clavecli = $(this).attr("id");
+				  //alert (oID);
+				  iniciar();
+				  //$.mobile.changePage($("#datoscli"));	  			  				  
+               });
+     $("#envia").click(function() {
+                 //var clavecli = $(this).attr("id");
+				  //alert (oID);
+				  insertar();
+				  //$.mobile.changePage($("#datoscli"));	  			  				  
+               });			   
+			  
+	$("#clientes").click(function() {
+                 //var clavecli = $(this).attr("id");
+				  //alert (oID);				  
+                  
+				  mostrarclientes("Lunes");
+				  $("select#menu").val("Lunes").selectmenu("refresh");
+				  //$.mobile.changePage($("#datoscli"));	  			  				  
+               });
+    $("#menu").bind("change",function(event,ui){
+		//alert($("#menu").val());
+	    mostrarclientes($("#menu").val());	
+		
+	});
+		
+    $("li").bind("click",function(event,ui) {
+                  var clavecli = $(this).attr("id");
+				  alert (clavecli);
+				  mostrarcliente(clavecli);
+				  //$.mobile.changePage($("#datoscli"));	  			  				  
+               });
 });
+			   
+			   
+
 
