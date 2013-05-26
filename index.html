@@ -17,15 +17,11 @@
 	</div>
 	<div data-role="content">	
 		<ul data-role="listview" data-inset="true" data-theme="c">     
-            <a href="#pclientes" id ="clientes" data-mini="true" data-role="button" data-theme="e" data-icon="sardel-clientes" data-iconpos="left"> Clientes</a>              
-            <a href="#pventas" id ="pedidos"  data-role="button" data-theme="b"> Pedidos</a> 
-            <a href="#" id ="cobros" data-role="button"> Cobros</a> 
+            <a href="#pclientes" id ="clientes" data-mini="true" data-role="button" data-theme="e" data-icon="sardel-clientes" data-iconpos="left"> Clientes</a>                          
             <a href="#" id ="depositos"  data-role="button"> Depositos</a> 
             <a href="#pdatos" id ="datos"  data-role="button"> Datos</a> 
-            <a href="#" id ="reportes"  data-role="button"> Reportes</a> 
-            
-			<a href="#" id="Salir" data-icon="delete" data-role="button" data-theme="a" onclick="window.close();">Salir</a>
-		</ul>	
+            <a href="#" id ="reportes"  data-role="button"> Reportes</a> 		
+          </ul>	
         <img border="0"  alt="hola"	src="imagenes/ajustador.png">
 	</div>
     
@@ -69,34 +65,39 @@
 	</div>
 </div>
 <!-- F I N   P A G I N A  C L I E N T E S   -->
+
+<!-- P A G I N A  MUESTRA DATOS DEL CLIENTE-->
+
 <div data-role="page" id="datoscli">
 	<div data-role="header">
 		 
 	</div>
-	<div data-role="content"		
+	<div data-role="content">		
        <h5 id="nomcli">Nombre</h5>
        <h5 id="clacli">Clave</h5>       
     </div>
 	<div data-role="footer">
-        <a class="ui-btn-left"  href="#page1" id="Visita" data-role="button" data-theme="b"
+        <a class="ui-btn-left"  href="#poperaciones" id="Visita" data-role="button" data-theme="b"
         data-icon="star" data-iconpos="left">Visita</a>
  		<a class="ui-btn-right" id="regresarcliselect" data-role="button" data-rel="back"
         data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
 	</div>
 </div>
+<!-- P A G I N A  MUESTRA OPERACIONES DEL CLIENTE-->
 <div data-role="page" id="poperaciones">
 	<div data-role="header">
 		<h1>Operaciones del Cliente</h1>
 	</div>
 	<div data-role="content">
-        <ul data-role="listview" data-inset="true" data-theme="c">     
-        	
-        </ul>
+       <ul data-role="listview" data-inset="true" data-theme="c">     
+            <a href="#pventa" id ="venta" data-mini="true" data-role="button" data-theme="e" data-icon="sardel-clientes" data-iconpos="left"> Ventas</a>                          
+            <a href="#" id ="cobros" data-role="button"> Cobros</a>             
+		</ul>	
     </div>
 	<div data-role="footer">        
-        <a class="ui-btn-right" id="regresarcli" data-role="button" data-rel="back"
+			<a class="ui-btn-right" id="regresardatoscli" data-role="button" data-rel="back"
         data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
-	</div>
+ 	</div>
 </div>
 
 <div data-role="page" id="pventas">
@@ -117,7 +118,7 @@
 </div><!-- /grid-c -->
 
     </div>
-	<div data-role="footer"
+	<div data-role="footer">
  		<h1>ventas</h1>
 	</div>
 </div>

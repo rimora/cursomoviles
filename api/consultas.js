@@ -2,8 +2,7 @@
 
 function iniciar()
 {
-		var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
-		alert(db.version);
+		var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);		
 		db.transaction(consulta, function(err){
     	  alert("Error processing SQL al crear BD: "+err);
           },alert('bd generada'));	
@@ -18,7 +17,7 @@ function iniciar()
 function insertar(){
 		var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		db.transaction(insertarcli,function(err){
-    	  alert("Error al insertar clientes: "+err);
+    	  alert("Error al insertar clientes: "+err.code);
           },listacliente);
 		alert('funcion insertar');			
     	function insertarcli(tx) {
