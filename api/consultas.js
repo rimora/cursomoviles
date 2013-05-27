@@ -11,10 +11,10 @@ function iniciar()
 {		
 	
 	var db = window.openDatabase("Database", "1.0", "Cordova Demo", 1000000);
-db.transaction(populateDB, errorCB, successCB);
+db.transaction(creartb, errorCB, successCB);
 
 	
-		function populateDB(tx) {
+		function creartb(tx) {
 			alert('funcion creartb');	
     tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
          tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL)');  
