@@ -8,7 +8,7 @@ function consultadb()
 function iniciar()
 {		
 	
-	var db = window.openDatabase("Database", "1.0", "Cordova Demo", 1000000);
+	var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);
 db.transaction(creartb, errorCB, successCB);
 
 	
