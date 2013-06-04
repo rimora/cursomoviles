@@ -12,7 +12,7 @@
 <script src="phonegap.js"></script>
 <body> 
 <div data-role="page" id="inicio"> 	
-	<div data-role="header">
+	<div data-role="header">    
     	<h1>Ingreso</h1>	
     </div>
     <div data-role="content">
@@ -21,11 +21,12 @@
                     <label> Password </label>
                     <input type="password" id="pass" name="clave" >
                     <input type="submit" value="Login" id="botonLogin">
+                    <img border="0"  alt="Sardel"	src="imagenes/sardel.jpg"> 
     </div>	 
 </div> 
 <!--  MENU PRINCIPAL   -->
 <div data-role="page" id="page">
-	<div data-role="header">
+	<div data-role="header" data-theme="b" data-position="fixed">
 		<h1>Menu Principal</h1>
 	</div>
 	<div data-role="content">	
@@ -33,7 +34,7 @@
             <a href="#pclientes" id ="clientes" data-mini="true" data-role="button" data-theme="e" data-icon="sardel-clientes" data-iconpos="left"> Clientes</a>                          
             <a href="#" id ="depositos"  data-role="button"> Depositos</a> 
             <a href="#pdatos" id ="datos"  data-role="button"> Datos</a> 
-            <a href="#" id ="reportes"  data-role="button"> Reportes</a> 		
+            <a href="#preportes" id ="reportes"  data-role="button"> Reportes</a> 		
           </ul>	
         <img border="0"  alt="hola"	src="imagenes/ajustador.png">
 	</div>
@@ -47,7 +48,7 @@
     </div>
     <div data-role="content">
         <div data-role="fieldcontain" data-theme="c">
-            <label for="menu">Día:</label>
+            <label for="menu"><b>Día:</b></label>
             <select name="Dia" id="menu" data-theme="b" class="diasruta">
                 <option value="Lunes">
                     Lunes
@@ -69,12 +70,24 @@
                 </option>
             </select>
         </div>	
+     <!--   <div id="ordencli" data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-type="vertical">
+                <input name="ordencli" id="checkcli" type="checkbox" data-theme="c">
+                <label for="checkcli">
+                    Orden Alfabético
+                </label>
+            </fieldset>
+        </div>-->
         <ul data-role="listview" data-inset="true" id="listaclientes" data-filter="true" data-filter-placeholder="Escribe Nombre">        	
         </ul>
+        
+
     </div>
 	<div data-role="footer">        
         <a class="ui-btn-right" id="regresarcli" data-role="button" data-rel="back"
         data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
+        <a class="ui-btn-left"  href="#pnuevocli" id="nuevocli" data-role="button" data-theme="b"
+        data-icon="plus" data-iconpos="left">Nuevo</a>        
 	</div>
 </div>
 <!-- F I N   P A G I N A  C L I E N T E S   -->
@@ -83,12 +96,61 @@
 
 <div data-role="page" id="datoscli">
 	<div data-role="header">
-		 
+		<h1><b>Cliente</b></h1> 
 	</div>
 	<div data-role="content">		
-       <h5 id="nomcli">Nombre</h5>
-       <h5 id="clacli">Clave</h5>       
+        <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupadatoscli">
+	       <h3>
+                    <b>Datos del cliente</b>
+           </h3>
+           <h5 id="clacli">Clave</h5>       
+    	   <h5 id="nomcli">Nombre</h5>       
+	       <h5 id="direccion">Dirección</h5>
+    	   <h5 id="telefono">Telefono</h5>       
+	       <h5 id="tipo">Tipo</h5>       
+    	   <h5 id="diascredito">Días de Crédito</h5>       
+	       <h5 id="limitecredito">Límite de Crédito</h5> 
+           <h5 id="saldo">Saldo</h5> 
+        </div>   
+       <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupacomentario">
+            
+                <h3>
+                    <b>Notas de Cuentas por Cobrar</b>
+                </h3>
+                <textarea cols="8" rows="50" name="textarea" id="notascxc" readonly></textarea>
+            
+        </div>    
+        <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupafac">
+            
+                <h3>
+                    <b>Documentos Pendientes</b>
+                </h3>
+                <div class="ui-grid-d" id="gridfaccli">
+				<!--
+                	 <div class="ui-block-a"><strong>Tipo</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-b"><strong>Documento</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-c"><strong>Vence</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-d"><strong>Saldo</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-e"><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+
+                  	 <div class="ui-block-a"><strong>Tipo</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-b"><strong>Documento</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-c"><strong>Vence</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-d"><strong>Saldo</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-e"><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     --> 
+				</div><!-- /grid-d --> 
+                <label> Saldo </label>
+                <input type="number" id="saldocli" readonly > 
+                <label> Monto </label>
+                <input type="number" id="montocli" readonly > 
+				
+				
+        </div>     
+            
+       
     </div>
+    
 	<div data-role="footer">
         <a class="ui-btn-left"  href="#poperaciones" id="Visita" data-role="button" data-theme="b"
         data-icon="star" data-iconpos="left">Visita</a>
@@ -112,7 +174,34 @@
         data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
  	</div>
 </div>
-
+<!-- P A G I N A  NUEVO CLIENTE-->
+<div data-role="page" id="pnuevocli">
+	<div data-role="header">
+		<h1>Nuevo Cliente</h1>
+	</div>
+	<div data-role="content">
+      				<label> Nombre </label>
+          			<input type="number" id="nomnuevocli" readonly > 
+                    <label> RFC </label>
+                    <input type="text" class="ui-bar-a" id="rfcnuevocli" >                    
+                    <label> Dirección </label>
+                    <input type="text" id="dirnuevocli" >
+                    <label> Colonia </label>
+                    <input type="text" id="colnuevocli" >
+                    <label> Estado </label>
+                    <input type="text" id="edonuevocli" >
+                    <label> Municipio</label>
+                    <input type="text" id="munnuevocli" >
+                    <label> Telefono</label>
+                    <input type="text" id="telnuevocli" >
+                    <input type="submit" value="Guardar" id="bguardacli" data-theme="b">
+    </div>
+	<div data-role="footer">        
+			<a class="ui-btn-right" id="regresarnuevocli" data-role="button" data-rel="back"
+        data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
+ 	</div>
+</div>
+<!-- P A G I N A  VENTAS-->
 <div data-role="page" id="pventas">
 	<div data-role="header">
 		<h1>Ventas</h1>
@@ -151,7 +240,88 @@
     
     
 </div>
+<!-- P A G I N A  REPORTES-->
+<div data-role="page" id="preportes">
+	<div data-role="header">
+		<h1>Operaciones del Cliente</h1>
+	</div>
+	<div data-role="content">
+    <table data-role="table" data-mode="columntoggle" id="my-table">
+     <div data-role="collapsible" data-theme="b" data-content-theme="c" id="colprueba">
+            
+                <h3>
+                    <b>Documentos Pendientes</b>
+                </h3>
+                <div class="ui-grid-d" id="gridprueba">
+					 <div class="ui-block-a"><strong>Tipo</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-b"><strong>Documento</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-c"><strong>Vence</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-d"><strong>Saldo</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-e"><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
 
+                  	 <div class="ui-block-a"><strong>Tipo</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-b"><strong>Documento</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-c"><strong>Vence</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-d"><strong>Saldo</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-e"><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+				</div><!-- /grid-d --> 
+                
+				
+				
+        </div>     
+    
+    
+    
+    
+       <span class="ui-btn-active">Dos columnas simples</span>
+     <div class="ui-grid-a">
+     <div class="ui-block-a" style="text-align:left" >
+     <div class="ui-bar ui-bar-e">
+        <strong>Esta es la columna numero 1</strong> El texto que se ecriba aqui se almodará a la mitad de pagina.
+     </div>
+     </div>
+     <div class="ui-block-b">
+     <div class="ui-bar ui-bar-b">
+        <strong>Esta es la columna numero 2</strong> El texto que se ecriba aqui se almodará a la otra mitad de pagina.
+     </div>
+     </div>
+     </div><!-- /grid-a -->
+     <br>
+     <span class="ui-btn-active">Dos columnas simples con dos filas</span>
+     
+     <div class="ui-grid-a">
+     <div class="ui-block-a" >
+     <div class="ui-bar ui-bar-e">
+        <strong>Esta es la columna numero 1</strong> El texto que se ecriba aqui se almodará a la mitad de pagina.
+     </div>
+     </div>
+     <div class="ui-block-b">
+     <div class="ui-bar ui-bar-a">
+        <strong>Esta es la columna numero 2</strong> El texto que se ecriba aqui se almodará a la otra mitad de pagina.
+     </div>
+     </div>
+        <div class="ui-block-a" >
+     <div class="ui-bar ui-bar-c">
+        <strong>Esta es la columna numero 1</strong> El texto que se ecriba aqui se almodará a la mitad de pagina.
+     </div>
+     </div>
+        
+        <div class="ui-block-b">
+     <div class="ui-bar ui-bar-b">
+        <strong>Esta es la columna numero 2</strong> El texto que se ecriba aqui se almodará a la otra mitad de pagina.
+     </div>
+     </div>
+     </div><!-- /grid-a con dos filas-->
+     
+     
+
+       
+    </div>
+	<div data-role="footer">        
+			<a class="ui-btn-right" id="regresarreportes" data-role="button" data-rel="back"
+        data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
+ 	</div>
+</div>
 
 
 
