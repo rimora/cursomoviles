@@ -119,8 +119,8 @@ $(document).ready(function() {
 			});
 			
 	$("#lpendientes li").tap(function(){
-			$(this).attr("id");
-				
+			
+			alert($(this).attr("id"));
 					
     });
 	
