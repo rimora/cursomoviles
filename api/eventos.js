@@ -89,7 +89,7 @@ $(document).ready(function() {
 	 {
 		 alert("cierra")
 	 });
-	$('#nuevatarea').tap(function(){		
+	$('#bguardar').tap(function(){		
 
 		var n=$('#regNom').val();
 		var d=$('#regEmail').val();
