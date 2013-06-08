@@ -1,126 +1,128 @@
 // EVENTOS
 $(document).ready(function() {
-	//document.addEventListener("deviceready",function(){
-	/*	var db = window.openDatabase("Sardel", "1.0", "SardelDB", 1000000);
-    $('#clientes').click(function() {
-		db.transaction(consulta,errorconsulta,listo);
-		
-	
-	});*/
-	$('#botonLogin').tap(function() { 
-			 	// recolecta los valores que inserto el usuario	
-				var Usuario = $("#nombredeusuario").val()	
-				var Pass = $("#clave").val()	  	
-				if(Usuario == "r1"){
+	document.addEventListener("deviceready",function(){		
+       /* if (!islogin())		
+     		window.location.href='#login';
+			$('#regFoto').tap(function(){
+			tomarfoto();
+			});
+			*/
+		 iniciar();	
+	$('#regEnviar').tap(function(){		
 
-					window.location.href='#page';
-		  		}else{		  		  
-				alert('Usuario No Válio');
-				}  	
+		var nom=$('#regNom').val();
+		var email=$('#regEmail').val();
+		var tel=$('#regTel').val();
+		var foto=$('#regFoto').attr('rel');
+		if (nom!='' && email !='' && tel!='' && foto!= undefined && foto !='') {
+			enviarRegistro(nom,tel,email,foto);
+	/*		navigator.notification.confirm("Nombre: "+nom+"\nMail: "+email+"\nTelefono"+tel,function(botones){
+		switch(botones){
+		 case 1:
+		  navigator.notification.beep(5);
+		  break;
+		 case 2:
+		  navigator.notification.vibrate(500);
+		  break;		
+		}	
+},"Titulo","Beep,Vibrar,Salir");*/
+		} 
+		else{
+				navigator.notification.alert('Todos los campos son requeridos',null,'Error de Registro','Aceptar');
+		//alert('Todos los campos son requeridos');	
+			
+		}
+			
 	});
-	
-	$("#carga").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-				  //alert (oID);
-				  iniciar();
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-               });
-     $("#envia").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-				  //alert (oID);
-				  insertar();
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-               });			   
-			  
-	$("#clientes").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-				  //alert (oID);				  
-                  
-				  mostrarclientes("Lunes");
-				  $("select#menu").val("Lunes").selectmenu("refresh");
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-               });
-  /*  $("#bguardacli").tap(function() { 
-	            var nombre = $("#nomnuevocli").val()	
-				var empresa = $("#empnuevocli").val()	
-				var rfc = $("#rfcnuevocli").val()	  	
-				var direccion = $("#dirnuevocli").val()	  	
-				var colonia = $("#colnuevocli").val()	  	
-				var estado = $("#edonuevocli").val()	  	
-				var municipio = $("#munnuevocli").val()	  	
-				var telefono = $("#telnuevocli").val()	  					
-				guardacliente(nombre,empresa,rfc,direccion,colonia,estado,municipio,telefono);
+	$("#nr1 li").tap(function(){
+		if ($(this).index()!=0){
+		     switch($(this).index()){
+				case 1:
+					$("#nr2").attr("th",1);
+					break;
+				case 2:
+					$("#nr2").attr("th",2);
+					break;
+				case 3:
+					$("#nr2").attr("th",3);
+					break;		 
 				 
-               });*/
-			   
-    $("#menu").bind("change",function(event,ui){
-		//alert($("#menu").val());
-	    mostrarclientes($("#menu").val());	
-		
+			 }
+			window.location.href="#nr2"
+		}
+		$("#reservar").tap(function(){
+			var th =$("#nr2").attr("th");
+			var pr =$("#nr2 select:eq(0)").val();
+			var hb =$("#nr2 select:eq(1)").val();
+			var ds =$("#nr2 select:eq(2)").val();
+			
+			var db = window.openDatabase("Hotel","", "Hotel DB2", 1000000);
+	        alert(db.version);	
+			
+		if (navigator.connection.type !=Connection.NONE)
+		{
+			reservaHB(th,pr,hb,ds);
+			alert('conexion a internet');
+			}	
+			else{
+			alert('SIN conexion a internet');	
+			reservaInt(th,pr,hb,ds);	
+			}
+			
+		});
 	});
-		
-    $("li").live("vclick",function(event){
-                  var clavecli = $(this).attr("id");
-				  //alert (clavecli);
-				  mostrarcliente(clavecli);
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-    });
-	$("#depositos").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-				  
-				  llamadascxc();
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-     });				   
-   $("#checkcli").bind("change",function(event){
-				  alert($("#menu").val());
-				  //llamadascxc();
-				  
-	   if ($("#checkcli").prop("checked")){
-		   alert("checado");
-		   
-	   }
-	   else{
-		   alert("NO checado");
-		   
-	   }
-  
-     });	
-	 $( "#colprueba" ).bind("expand",function(event)
+	},false);
+	$('#regFoto').tap(function(){
+			tomarfoto();
+			});
+	$( "#gpendientes" ).bind("expand",function(event)
 	 {
-		 alert("abre")
+		 //alert("abre")
+		 poblartarea("P");
+	 });
+	 $( "#gcompletadas" ).bind("expand",function(event)
+	 {
+		 //alert("abre")
+		 poblartarea("C");
 	 });
 	  $( "#colprueba" ).bind("collapse",function(event)
 	 {
 		 alert("cierra")
 	 });
+	$('#nuevatarea').tap(function(){		
 
-$("#reportes").click(function() { 	 
-	var cadena="555.5";
-	var saldo=0;
-	alert(Number(cadena)+1);
+		var n=$('#regNom').val();
+		var d=$('#regEmail').val();
+		var foto=$('#regFoto').attr('rel');		
+		if (n!='' && d !='' && e!='' && foto!= undefined && foto !='') {
+			nuevatarea(n,d,foto);
+	/*		navigator.notification.confirm("Nombre: "+nom+"\nMail: "+email+"\nTelefono"+tel,function(botones){
+		switch(botones){
+		 case 1:
+		  navigator.notification.beep(5);
+		  break;
+		 case 2:
+		  navigator.notification.vibrate(500);
+		  break;		
+		}	
+},"Titulo","Beep,Vibrar,Salir");*/
+		} 
+		else{
+				navigator.notification.alert('Todos los campos son requeridos',null,'Error de Registro','Aceptar');
+		//alert('Todos los campos son requeridos');	
+			
+		}
+			
+	});
+	$('#bcompletar').tap(function(){
+			completar($("#detalleid").val());
+			});
+			
+	$("#lpendientes li").tap(function(){
+			$(this).attr("id");
+				
+					
+    });
 	
-	
- $("#gridprueba").empty();
-	    var html = "";
-					 html += "<div class=ui-block-a><strong>Tipo</strong>creado por codigo.</div>";
-					 html += "<div class=ui-block-b><strong>Documento</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>";
-                     html += "<div class=ui-block-c><strong>Vence</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>";
-					 html += "<div class=ui-block-d><strong>Saldo</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>";
-                     html += "<div class=ui-block-e><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>";
-
-                  	 html += "<div class=ui-block-a><strong>Tipo</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>";
-					 html += "<div class=ui-block-b><strong>Documento</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>";
-                     html += "<div class=ui-block-c><strong>Vence</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>";
-					 html += "<div class=ui-block-d><strong>Saldo</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>";
-                     html += "<div class=ui-block-e><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>";
-		$("#gridprueba").append(html);  
-
 });
-
-
-
-});//ultimo
-			   
-			   
-
 
