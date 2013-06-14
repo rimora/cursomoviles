@@ -77,12 +77,14 @@ $(document).ready(function() {
 			});
 	$( "#gpendientes" ).bind("expand",function(event)
 	 {
-		 //alert("abre")
+		 //alert("abre")		 
 		 poblartarea("P");
+		 $('#lpendientes').listview('refresh');
 	 });
 	 $( "#gcompletadas" ).bind("expand",function(event)
 	 {
 		 //alert("abre")
+		 
 		 poblartarea("C");
 	 });
 	  $( "#colprueba" ).bind("collapse",function(event)
@@ -124,6 +126,13 @@ $(document).ready(function() {
 			detalletarea($(this).attr("id"),"P");
 					
     });
+	$('#nuevatarea').tap(function(){
+			$('#detalleid').text("");
+	   	    $('#detallen').text("");
+		    $('#detalledesc').text("");
+			$('#detallefecha').text("");
+  	   		$('#detallefoto').text("");
+	});
 	
 });
 
