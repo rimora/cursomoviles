@@ -120,12 +120,12 @@ $(document).ready(function() {
 			completar($("#detalleid").val());
 			});
 			
-	$("li").tap(function(){
+	$('#lpendientes li').live('click', function() {
 			
 			alert($(this).attr("id"));
 			detalletarea($(this).attr("id"),"P");
-					
-    });
+	});
+	
 	$('#nuevatarea').tap(function(){
 			$('#detalleid').text("");
 	   	    $('#detallen').text("");
