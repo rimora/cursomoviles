@@ -124,7 +124,7 @@ function detalletarea(id){
 	var sql='';
 		sql='SELECT * FROM TAREAS WHERE id='+id;
 	function consulta(tx) {
-		alert(sql);
+		//alert(sql);
 		tx.executeSql(sql,[],exito,errorconsulta);
 		}
 	
