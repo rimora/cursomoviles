@@ -120,7 +120,7 @@ $(document).ready(function() {
 			completar($("#detalleid").val());
 			});
 			
-	$("#lpendientes li").tap(function(){
+	$("li").tap(function(){
 			
 			alert($(this).attr("id"));
 			detalletarea($(this).attr("id"),"P");
