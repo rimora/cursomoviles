@@ -91,8 +91,8 @@ $(document).ready(function() {
 	 });
 	$('#bguardar').tap(function(){		
 
-		var n=$('#regNom').val();
-		var d=$('#regEmail').val();
+		var n=$('#nuevanom').val();
+		var d=$('#nuevadesc').val();
 		var foto=$('#regFoto').attr('rel');		
 		if (n!='' && d !='' && foto!= undefined && foto !='') {
 			nuevatarea(n,d,foto);
@@ -108,7 +108,7 @@ $(document).ready(function() {
 },"Titulo","Beep,Vibrar,Salir");*/
 		} 
 		else{
-				navigator.notification.alert('Todos los campos son requeridos',null,'Error de Registro','Aceptar');
+				navigator.notification.alert('Todos los campos son requeridos'+n+d+foto,null,'Error de Registro','Aceptar');
 		//alert('Todos los campos son requeridos');	
 			
 		}
