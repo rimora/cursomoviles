@@ -94,7 +94,7 @@ $(document).ready(function() {
 		var n=$('#regNom').val();
 		var d=$('#regEmail').val();
 		var foto=$('#regFoto').attr('rel');		
-		if (n!='' && d !='' && e!='' && foto!= undefined && foto !='') {
+		if (n!='' && d !='' && foto!= undefined && foto !='') {
 			nuevatarea(n,d,foto);
 	/*		navigator.notification.confirm("Nombre: "+nom+"\nMail: "+email+"\nTelefono"+tel,function(botones){
 		switch(botones){
@@ -121,6 +121,7 @@ $(document).ready(function() {
 	$("#lpendientes li").tap(function(){
 			
 			alert($(this).attr("id"));
+			detalletarea($(this).attr("id"),"P");
 					
     });
 	

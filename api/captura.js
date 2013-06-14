@@ -6,7 +6,7 @@ function tomarfoto(){
 navigator.device.capture.captureImage(function(mediaFiles){
 	
     path = mediaFiles[0].fullPath;
-	$('#regFoto').append('<img src="'+path+'" width="100%" />').attr('rel',path);
+	$('#regFoto').append('<img src="'+path+'" width="50%" />').attr('rel',path);
         // do something interesting with the file
     
 	

@@ -118,80 +118,29 @@ function completar(id){
 
 	
 }
-function mostrartarea(clavecli){
+function detalletarea(id){
 //  $('#datoscli').live('pageshow',function(event, ui){
-   	   window.localStorage.clear();
-	   saveidcliente(clavecli);
-		alert('entra mostrar cliente');
-		$('#notascxc').text("Notas para el cliente " + clavecli);
-		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
-		consultadb().transaction(consulta, errorconsulta);
-	
+   	   consultadb().transaction(consulta, errorconsulta);
+	var sql='';
+		sql='SELECT * FROM TAREAS WHERE id='+id;
 	function consulta(tx) {
-		tx.executeSql('SELECT * FROM CLIENTES  WHERE clave="'+clavecli+'"',[],exito,errorconsulta);
-		tx.executeSql('SELECT * FROM erpadmin_alcxc_pen_cob WHERE cod_clt="'+clavecli+'"',[],poblarfac,errorconsulta);    	
-		//alert('entro a la consulta de datos de un cliente');
+		alert(sql);
+		tx.executeSql(sql,[],exito,errorconsulta);
 		}
 	
 		function exito(tx,results){         
 	   		var row = results.rows.item(0);            
-	   		$('#nomcli').text("Nombre: "+row['nombre']);
-	   	    $('#clacli').text("Clave: "+row['clave']);
-		    $('#direccion').text("Dirección: "+row['direccion']);
-  	   		$('#telefono').text("Telefono: "+row['telefono']);
-	   		$('#tipo').text("Tipo: "+row['tipo']);
-  	   		$('#diascredito').text("Dias de Crédito: "+row['diasc']);
-	   		$('#limitecredito').text("Límite de Crédito: "+row['lcredito']);
-	   		$('#saldo').text("Saldo: "+row['saldo']);
+	   		$('#detalleid').text("ID TAREA: "+row['id']);
+	   	    $('#detallen').text("NOMBRE: "+row['nombre']);
+		    $('#detalledesc').text("DESCRIPCION: "+row['detalle']);
+			$('#detallefecha').text("FECHA: "+row['fecha']);
+  	   		$('#detallefoto').text("FOTO: "+row['foto']);
 		}
-		function poblarfac(tx,results){ 
-		      $("#gridfaccli").empty();			  
-			  var html = "";
-			  var tipo="";
-			  var saldot=0;
-			  var montot=0;
-			  var vencida="";
-			  alert(saldot);
-			  html += "<div class=ui-block-a><div class=ui-bar ui-bar-a><strong></strong> Tipo</div></div>";
-			  html += "<div class=ui-block-b><strong></strong> Documento</div>";
-			  html += "<div class=ui-block-c><strong></strong> Vencimiento</div>";
-			  html += "<div class=ui-block-d><strong></strong> Saldo</div>";
-			  html += "<div class=ui-block-e><strong></strong> Monto</div>";
-			  $.each(results.rows,function(index){
-				  var row = results.rows.item(index); 				     
-				     if (row['cod_tip_dc']=="1"){
-						 tipo="FAC"
-					 }
-					 else  {
-						 tipo="OTRO" 
-					 }
-					 if (row['vencida']=="S"){
-						 vencida="S"
-						 
-					 }
-					 saldot+=Number(row['saldo']);
-					 montot+=Number(row['monto']);
-					 html += "<div class=ui-block-a><strong></strong> " +tipo+"</div>";
-					 html += "<div class=ui-block-b><strong></strong> "+row['num_doc']+"</div>";
-                     html += "<div class=ui-block-c><strong></strong> "+row['fec_ven']+"</div>";
-					 html += "<div class=ui-block-d><strong></strong> "+row['saldo']+"</div>";
-                     html += "<div class=ui-block-e><strong></strong> "+row['monto']+"</div>";
-
-                  	 
-			  });
-					$("#gridfaccli").append(html); 
-					$("#saldocli").val(saldot); 
-					$("#montocli").val(montot); 
-					if (vencida=="S"){
-						alert('El cliente tiene facturas vencidas, no podrá');
-						
-					}
-					alert(saldot);
-	   }
+		
  		
 	function errorconsulta(err) {
-    	alert("Error SQL al poblar cliente: "+err.code+err.message);
+    	alert("Error SQL al poblar tarea: "+err.code+err.message);
 	}
 //  });	
 
-  }//funcion consulta(x)
+}//detalletarea(id){
