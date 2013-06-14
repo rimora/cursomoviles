@@ -117,13 +117,13 @@ $(document).ready(function() {
 			
 	});
 	$('#bcompletar').tap(function(){
-		alert('entra');
-			completar($("#detalleid").val());
+		//alert('entra');
+			completar($("#detalleid").text());
 			});
 			
 	$('#lpendientes li').live('click', function() {
 			
-			alert($(this).attr("id"));
+			//alert($(this).attr("id"));
 			detalletarea($(this).attr("id"),"P");
 	});
 	

@@ -71,7 +71,8 @@ function poblartarea(estado){
 }
 function nuevatarea(n,d,fo){
 	var f=new Date();
-	var fecha=f.getDate()+'/'+ (f.getMonth()+1)+'/'+ f.getYear() + f.getFullYear();
+	//var fecha=f.getDate()+'/'+ (f.getMonth()+1)+'/'+ f.getYear() + f.getFullYear();
+	var fecha=f.getDate()+'/'+ (f.getMonth()+1)+'/'+ f.getYear();
 	
 	
 	consultadb().transaction(function(tx){
