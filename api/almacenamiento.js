@@ -72,7 +72,7 @@ function poblartarea(estado){
 function nuevatarea(n,d,fo){
 	var f=new Date();
 	//var fecha=f.getDate()+'/'+ (f.getMonth()+1)+'/'+ f.getYear() + f.getFullYear();
-	var fecha=f.getDate()+'/'+ (f.getMonth()+1)+'/'+ f.getYear();
+	var fecha=f.getDate()+'/'+ (f.getMonth()+1)+'/'+ f.getFullYear();
 	
 	
 	consultadb().transaction(function(tx){
@@ -130,7 +130,11 @@ function detalletarea(id,estado){
 			
 		}
 		else {
+			alert('entra');
 			$("#bcompletar").attr('disabled','disabled');
+
+
+
 			
 		}
 		
