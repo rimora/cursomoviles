@@ -85,7 +85,7 @@ $(document).ready(function() {
 	 {
 		 //alert("abre")		 
 		 poblartarea("P");
-		 $('#lpendientes').listview('refresh');
+		 
 	 });
 	 $( "#gcompletadas" ).bind("expand",function(event)
 	 {
@@ -102,7 +102,8 @@ $(document).ready(function() {
 		var n=$('#nuevanom').val();
 		var d=$('#nuevadesc').val();
 		var foto=$('#regFoto').attr('rel');		
-		if (n!='' && d !='' && foto!= undefined && foto !='') {
+		//if (n!='' && d !='' && foto!= undefined && foto !='') {
+			if (n!='' && d !='' ) {
 			nuevatarea(n,d,foto);
 	/*		navigator.notification.confirm("Nombre: "+nom+"\nMail: "+email+"\nTelefono"+tel,function(botones){
 		switch(botones){
@@ -123,15 +124,21 @@ $(document).ready(function() {
 			
 	});
 	$('#bcompletar').tap(function(){
-		alert($("#detalleid").val());
+		//alert($("#detalleid").val());
 			completar($("#detalleid").val());
-			$('#lpendientes').listview('refresh'); 
+			$('#lpendientes').listview('refresh');
+			$("#gpendientes").trigger("collapse"); 
 	});
 			
 	$('#lpendientes li').live('click', function() {
 			
 			//alert($(this).attr("id"));
 			detalletarea($(this).attr("id"),"P");
+	});
+	$('#lcompletadas li').live('click', function() {
+			
+			//alert($(this).attr("id"));
+			detalletarea($(this).attr("id"),"C");
 	});
 	
 	$('#nuevatarea').tap(function(){

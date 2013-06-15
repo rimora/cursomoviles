@@ -63,7 +63,7 @@ function poblartarea(estado){
 		     $('#lcompletadas').empty();        
 			 $.each(results.rows,function(index){           
 				 var row = results.rows.item(index);            
-				 $('#lcompletadas').append('<li id="'+row['id']+'"><a href="#"><h3>'+row['nombre']+'</h3></a></li>');        
+				 $('#lcompletadas').append('<li id="'+row['id']+'"><a href="#ptarea"><h3>'+row['nombre']+'</h3></a></li>');        
 			 });         
 			 $('#lcompletadas').listview('refresh'); 	
 		}
@@ -119,11 +119,21 @@ function completar(id){
 
 	
 }
-function detalletarea(id){
+function detalletarea(id,estado){
 //  $('#datoscli').live('pageshow',function(event, ui){
    	   consultadb().transaction(consulta, errorconsulta);
 	var sql='';
 		sql='SELECT * FROM TAREAS WHERE id='+id;
+		if (estado=='P')
+		{
+			$("#bcompletar").attr('enabled','enabled');
+			
+		}
+		else {
+			$("#bcompletar").attr('disabled','disabled');
+			
+		}
+		
 	function consulta(tx) {
 		//alert(sql);
 		tx.executeSql(sql,[],exito,errorconsulta);
@@ -136,8 +146,12 @@ function detalletarea(id){
 		    $('#detalledesc').val(row['detalle']);
 			$('#detallefecha').val(row['fecha']);
   	   		$('#detallefoto').val(row['foto']);
-			$("#foto").attr({  src: row['foto']});
+			$("#foto").attr({  src: row['foto'],width:"30%"});
 			$('#detalleid').attr('disabled', 'disabled');
+			$('#detallen').attr('disabled', 'disabled');
+			$('#detalledesc').attr('disabled', 'disabled');
+			$('#detallefecha').attr('disabled', 'disabled');
+			$('#detallefoto').attr('disabled', 'disabled');
 
 
 		}
