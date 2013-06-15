@@ -117,7 +117,7 @@ $(document).ready(function() {
 			
 	});
 	$('#bcompletar').tap(function(){
-		//alert('entra');
+		alert($("#detalleid").text());
 			completar($("#detalleid").text());
 			});
 			
