@@ -126,12 +126,11 @@ function detalletarea(id,estado){
 		sql='SELECT * FROM TAREAS WHERE id='+id;
 		if (estado=='P')
 		{
-			$("#bcompletar").attr('enabled','enabled');
+			$("#bcompletar").button('enable');
 			
 		}
-		else {
-			alert('entra');
-			$("#bcompletar").attr('disabled','disabled');
+		else {			
+			$("#bcompletar").button('disable');
 
 
 
