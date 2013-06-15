@@ -141,11 +141,8 @@ $(document).ready(function() {
 	});
 	
 	$('#nuevatarea').tap(function(){
-			$('#detalleid').text("");
-	   	    $('#detallen').text("");
-		    $('#detalledesc').text("");
-			$('#detallefecha').text("");
-  	   		$('#detallefoto').text("");
+			$('#nuevanom').val("");
+	   	    $('#nuevadesc').val("");
 	});
 	
 });
