@@ -125,8 +125,7 @@ $(document).ready(function() {
 	});
 	$('#bcompletar').tap(function(){
 		//alert($("#detalleid").val());
-			completar($("#detalleid").val());
-			$('#lpendientes').listview('refresh');
+			completar($("#detalleid").val());			
 			$("#gpendientes").trigger("collapse"); 
 	});
 			
