@@ -131,11 +131,11 @@ function detalletarea(id){
 	
 		function exito(tx,results){         
 	   		var row = results.rows.item(0);            
-	   		$('#detalleid').text("ID TAREA: "+row['id']);
-	   	    $('#detallen').text("NOMBRE: "+row['nombre']);
-		    $('#detalledesc').text("DESCRIPCION: "+row['detalle']);
-			$('#detallefecha').text("FECHA: "+row['fecha']);
-  	   		$('#detallefoto').text("FOTO: "+row['foto']);
+	   		$('#detalleid').val("ID TAREA: "+row['id']);
+	   	    $('#detallen').val("NOMBRE: "+row['nombre']);
+		    $('#detalledesc').val("DESCRIPCION: "+row['detalle']);
+			$('#detallefecha').val("FECHA: "+row['fecha']);
+  	   		$('#detallefoto').val("FOTO: "+row['foto']);
 		}
 		
  		

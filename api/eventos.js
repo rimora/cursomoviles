@@ -7,6 +7,12 @@ $(document).ready(function() {
 			tomarfoto();
 			});
 			*/
+		document.addEventListener("backbutton", function(){
+			
+		    return false;	
+			
+		}, false);
+	
 		 iniciar();	
 	$('#regEnviar').tap(function(){		
 
@@ -117,8 +123,8 @@ $(document).ready(function() {
 			
 	});
 	$('#bcompletar').tap(function(){
-		alert($("#detalleid").text());
-			completar($("#detalleid").text());
+		alert($("#detalleid").val());
+			completar($("#detalleid").val());
 			});
 			
 	$('#lpendientes li').live('click', function() {
