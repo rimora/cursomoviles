@@ -11,7 +11,7 @@ function iniciar()
 	//var db = window.openDatabase("Database", "1.0", "Cordova Demo", 1000000);
 consultadb().transaction(creartb, errorCB, successCB);
 
-	alert('entra a funcion iniciar');
+	//alert('entra a funcion iniciar');
 		function creartb(tx) {
 			alert('funcion creartb');	
     	 tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
@@ -53,9 +53,9 @@ function insertar(){
 		 tx.executeSql('INSERT INTO erpadmin_alcxc_pen_cob (cod_zon,cod_tip_dc,num_doc,cod_clt,saldo,monto,fec_doc_ft,fec_ven,vencida) VALUES ("S04", "1","00041535","1020","888.55","1000.55","15/05/2013","15/05/2013","S")');  
 		 tx.executeSql('INSERT INTO erpadmin_alcxc_pen_cob (cod_zon,cod_tip_dc,num_doc,cod_clt,saldo,monto,fec_doc_ft,fec_ven,vencida) VALUES ("S04", "1","00041537","1020","998.55","1000.55","15/05/2013","15/06/2013","N")');        
 		 tx.executeSql('INSERT INTO erpadmin_alcxc_pen_cob (cod_zon,cod_tip_dc,num_doc,cod_clt,saldo,monto,fec_doc_ft,fec_ven,vencida) VALUES ("S04", "1","00041536","1030","5000.00","5000.00","08/06/2013","08/06/2013","N")');        
- 		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,class,accion,precio,descuento) VALUES ("ADE-01","ADEROGYL 15 SOL. C/5 AMP","OFERTA","ANTIDEA",100,30)'); 
-		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,class,accion,precio,descuento) VALUES ("ADE-01","ADEROGYL 15 SOL. C/5 AMP","OFERTA","ANTIDEA",100,30),("AGU-01","AGUA OXIGENADA CON 100 ML.","CATALOGO","ANTIGRIPAL",50,30)'); 
-		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,class,accion,precio,descuento) VALUES ("ADE-01","ADEROGYL 15 SOL. C/5 AMP","OFERTA","ANTIDEA",100,30),("AGU-01","AGUA OXIGENADA CON 100 ML.","CATALOGO","ANTIGRIPAL",40,30)'); 
+ 		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,precio,descuento) VALUES ("ADE-01","ADEROGYL 15 SOL. C/5 AMP","OFERTA","ANTIDEA",100,30)'); 
+		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,precio,descuento) VALUES ("ADE-01","ADEROGYL 15 SOL. C/5 AMP","OFERTA","ANTIDEA",100,30),("AGU-01","AGUA OXIGENADA CON 100 ML.","CATALOGO","ANTIGRIPAL",50,30)'); 
+		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,precio,descuento) VALUES ("ADE-01","ADEROGYL 15 SOL. C/5 AMP","OFERTA","ANTIDEA",100,30),("AGU-01","AGUA OXIGENADA CON 100 ML.","CATALOGO","ANTIGRIPAL",40,30)'); 
 
 		}
 }//function insertar(){
