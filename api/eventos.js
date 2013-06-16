@@ -1,12 +1,18 @@
 // EVENTOS
 $(document).ready(function() {
-	//document.addEventListener("deviceready",function(){
+	document.addEventListener("deviceready",function(){	
+
 	/*	var db = window.openDatabase("Sardel", "1.0", "SardelDB", 1000000);
     $('#clientes').click(function() {
 		db.transaction(consulta,errorconsulta,listo);
 		
 	
 	});*/
+	document.addEventListener("backbutton", function(){
+			
+		    return false;	
+			
+		}, false);
 	$('#botonLogin').tap(function() { 
 			 	// recolecta los valores que inserto el usuario	
 				var Usuario = $("#nombredeusuario").val()	
@@ -171,7 +177,9 @@ $("#pruebachec").click(function() {
 				  mostrarpedido();
 				  
      });	
-
+	 
+	 
+  },false);//document.addEventListener("deviceready",function(){	
 });//ultimo
 			   
 			   

@@ -35,7 +35,7 @@ function mostrarcliente(clavecli){
    	   window.localStorage.clear();
 	   //guarda el cliente con el que se harán operaciones
 	   saveidcliente(clavecli);
-
+       var limite=0;
 		$('#notascxc').text("Notas para el cliente " + clavecli);
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta);	
@@ -55,6 +55,7 @@ function mostrarcliente(clavecli){
   	   		$('#diascredito').text("Dias de Crédito: "+row['diasc']);
 	   		$('#limitecredito').text("Límite de Crédito: "+row['lcredito']);
 	   		$('#saldo').text("Saldo: "+row['saldo']);
+			limite=row['lcredito'];
 		}
 		function poblarfac(tx,results){ 
 		      $("#gridfaccli").empty();			  
@@ -63,7 +64,7 @@ function mostrarcliente(clavecli){
 			  var saldot=0;
 			  var montot=0;
 			  var vencida="";
-			  alert(saldot);
+			  
 			  html += "<div class=ui-block-a><div class=ui-bar ui-bar-a><strong></strong> Tipo</div></div>";
 			  html += "<div class=ui-block-b><strong></strong> Documento</div>";
 			  html += "<div class=ui-block-c><strong></strong> Vencimiento</div>";
@@ -95,10 +96,14 @@ function mostrarcliente(clavecli){
 					$("#saldocli").val(saldot); 
 					$("#montocli").val(montot); 
 					if (vencida=="S"){
-						alert('El cliente tiene facturas vencidas, no podrá');
+						alert('El cliente tiene facturas vencidas, no podrá realizar ventas');
 						
 					}
-					alert(saldot);
+					if (saldot>limite){
+						alert('Cliente limite de credito excedido, no podrá realizar ventas');
+						
+					}
+
 	   }
  		
 	function errorconsulta(err) {
