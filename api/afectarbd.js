@@ -83,3 +83,15 @@ function insertatemppedido(articulo,cantidad){
 		}
 	
 }//function insertatemppedido
+function insertatempfactura(articulo,cantidad){
+	   
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al insertar renglon factura: "+err.code+err.message);
+          },alert("Artículo insertado"));
+				
+    	function insertadet(tx) {		
+		alert('entra a insert de detallefactura');
+		tx.executeSql('INSERT INTO TEMFACTURA (articulo,cantidad) VALUES ("'+articulo+'",'+cantidad+')');        
+		}
+	
+}//function insertatemppedido
