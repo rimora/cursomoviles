@@ -143,7 +143,7 @@ function mostrarpedido(){
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
 		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
-		alert('consulta');
+		
 		}
 	
 		
@@ -167,8 +167,8 @@ function mostrarpedido(){
 				  var row = results.rows.item(index); 				     			     
 				     descuento=(row['precio']/100)*row['descuento'];
 				     precio=row['precio']-descuento;				 
-					 total+=precio*row['cantidad']
-					 					 
+					 total+=precio*row['cantidad'];
+					 alert(total);					 
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
                    	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
@@ -205,7 +205,7 @@ function mostrarfactura(){
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
 		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
-		alert('consulta');
+		
 		}
 	
 		
@@ -229,7 +229,7 @@ function mostrarfactura(){
 				  var row = results.rows.item(index); 				     			     
 				     descuento=(row['precio']/100)*row['descuento'];
 				     precio=row['precio']-descuento;				 
-					 total+=precio*row['cantidad']
+					 total+=precio*row['cantidad'];
 					 					 
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		

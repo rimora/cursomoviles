@@ -188,7 +188,13 @@ $("#pruebachec").click(function() {
 				  mostrarfactura();
 				  
      });	
-	 
+	 $("#bventa").tap(function() { 
+                 //var clavecli = $(this).attr("id");
+				 //limpia los grid
+                  $("#gridpedido").empty();
+				  $("#gridfactura").empty();
+				  
+     });	
 	 
 	 
 	 
