@@ -247,7 +247,7 @@ function mostrarfactura(){
                   	 
 			  });//.each
 					$("#gridfactura").append(html); 
-					$("#tpedido").value(total); 			
+					$("#tfactura").value(total); 			
 					
 					alert(total);
 	   }//function exito
@@ -257,4 +257,33 @@ function mostrarfactura(){
 	}
 //  });	
 
-  }//mostrarpedido
+  }//mostrarfatura
+function existeenpedido(articulo){
+	var existe=false;
+	consultadb().transaction(existep, function(err){
+    	 		 alert("Error select tabla TEMPPEDIDO: "+err.code+err.message);
+         		});		
+	function existep(tx){   	    
+			var sql='SELECT articulo FROM TEMPEDIDO WHERE articulo="'+articulo+'"  '			
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error consultar existeTEMPEDIDO : "+err.code+err.message);
+         		});    	
+			sql='SELECT articulo FROM TEMFACTURA WHERE articulo="'+articulo+'"  '			
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error consultar existeTEMFACTURA : "+err.code+err.message);
+         		});    	
+								
+	}
+	function listo(tx,results){ 
+	      
+	      if (results.rows.length>0){
+			alert('existe en pedido');  
+			existe=true;  
+		  }
+		  
+ 	}
+    return existe;
+	
+	
+}//function insertatemppedido
+  

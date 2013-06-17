@@ -162,7 +162,17 @@ $("#pruebachec").click(function() {
 	$("#lcatalogo li").click(function(){
                   var articulo = $(this).attr("id");
 				 // alert (articulo);
-				  guardaarticulo(articulo);//almacena localmente la clave de articulo
+				 if (existeenpedido(articulo)) {
+					alert('Artículo ya fue ingresado, modifiquelo desde el pedido o factura');
+				 }
+				 else{
+					guardaarticulo(articulo);//almacena localmente la clave de articulo 					 
+					window.location.href='#pcantidad';
+					
+				 }
+				 
+				 
+				  
     });
 	$("#guardapros").tap(function() { 
                  //var clavecli = $(this).attr("id");
@@ -175,8 +185,11 @@ $("#pruebachec").click(function() {
                  //var clavecli = $(this).attr("id");
 				 //muestra el pedido o factura armados				 
 				  mostrarpedido();
+				  mostrarfactura();
 				  
      });	
+	 
+	 
 	 
 	 
   },false);//document.addEventListener("deviceready",function(){	

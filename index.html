@@ -237,12 +237,12 @@
 	</div>
 	<div data-role="content">
     	<ul id="lcatalogo" data-role="listview" data-inset="true"    class="catalogo" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?">			          <li id="ADE-04">
-	        <a href="#pcantidad"><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> ADEROGYL 15 SOL. C/5 AMP</h3>
+	        <a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> ADEROGYL 15 SOL. C/5 AMP</h3>
 			<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$100.00 Existencia:10 ALG:20</p></a></li>
           <li id="AGU-10">
-            <a href="#pcantidad"><img src="imagenes/sardel.jpg" width="100" height="100"/><h3>AGUA OXIGENADA CON 100 ML.</h3>
+            <a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3>AGUA OXIGENADA CON 100 ML.</h3>
             <p>Detalle del producto... <br/>Clasificación: Oferta <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-          <li id="AMO-19"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AMOXIL SUSP. 500 MG. C/75 ML.</h3>
+          <li id="AMO-19"><a href=""><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AMOXIL SUSP. 500 MG. C/75 ML.</h3>
           	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
             <li id="AMO-06"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AMOXIBRON CAPS 500MG C/12</h3>
           	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
@@ -336,7 +336,10 @@
                 <div class="ui-grid-d" id="gridfactura" >
                        
           		</div><!--class="ui-grid-d"-->
-                
+                <div data-role="fieldcontain">
+          			<label for="tfactura">Total</label>
+		            <input type="number" id="tfactura" style="width:20%"> 
+        	    </div><!--<div data-role="fieldcontain">-->
                 
                 
                 
@@ -346,9 +349,8 @@
         </div>    
     </div>    
     <div data-role="footer" >
-        <a class="ui-btn-right" id="regresarcata" data-role="button" data-rel="back"
-        data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
-        <a href="#pcatalogo" id ="bcatalogo"  data-role="button" data-icon="star">Catálogo</a> 		
+        <a href="#poperaciones" id ="regresarop"  data-role="button" data-icon="star" data-theme="b">Regresa</a> 		
+        <a href="#pcatalogo" id ="bcatalogo"  data-role="button" data-icon="star" data-theme="b">Catálogo</a> 		
     </div>
     
 </div>
