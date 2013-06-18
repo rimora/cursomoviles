@@ -165,7 +165,7 @@ $("#pruebachec").click(function() {
 				 if (existeenpedido(articulo)) {
 					alert('Artículo ya fue ingresado, modifiquelo desde el pedido o factura');
 				 }
-				 else{
+				 {
 					guardaarticulo(articulo);//almacena localmente la clave de articulo 					 
 					window.location.href='#pcantidad';
 					
@@ -193,8 +193,15 @@ $("#pruebachec").click(function() {
 				 //limpia los grid
                   $("#gridpedido").empty();
 				  $("#gridfactura").empty();
+				  limpiartemp();
 				  
      });	
+	 $("#bcatalogo").live('click',function(){
+                 //var clavecli = $(this).attr("id");
+				 //limpia los grid
+                  armacatalogo();
+				  
+     });
 	 
 	 
 	 

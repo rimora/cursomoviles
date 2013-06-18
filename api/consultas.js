@@ -29,7 +29,7 @@ function mostrarclientes(dia){
 
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
-}
+}// mostrarclientes
 function mostrarcliente(clavecli){
 //  $('#datoscli').live('pageshow',function(event, ui){
    	   window.localStorage.clear();
@@ -122,17 +122,24 @@ function llamadascxc(){
 
 }
 function preparadetalletemp(articulo,cantidad){
-	   var precio=100.00;
-	   var descuento=10.00;
-	   var total=cantidad*precio;
-	   var descontado=(descuento/100)*total;
-
-	
-	insertatemppedido(articulo,cantidad);
-	insertatempfactura(articulo,cantidad);
-	
-	
-	
+	   //para obtener el importe de descuento:
+	   // dividir entre 100 el precio, multiplicar el resultado por el descuento y se obtiene el importe de descuento
+	   //restar el importe de descuento al precio
+	   var exis=existencia(articulo);
+	   var diferencia=exis-cantidad;
+	   if (diferencia>=0){
+	       insertatempfactura(articulo,cantidad);
+	   }
+	   else {
+		   if (exis>0){
+			   insertatempfactura(articulo,cantidad);
+               insertatemppedido(articulo,(cantidad-exis));
+			   
+		   }
+		   else{
+			   insertatemppedido(articulo,cantidad);
+		   }
+	   }
 }//function insertatemppedido
 function mostrarpedido(){
 	//muestra en un collapsible los renglones temporales de pedido, agregandolos en un grid
@@ -142,7 +149,7 @@ function mostrarpedido(){
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
-		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
+		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
 		
 		}
 	
@@ -204,7 +211,7 @@ function mostrarfactura(){
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
-		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
+		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
 		
 		}
 	
@@ -286,4 +293,61 @@ function existeenpedido(articulo){
 	
 	
 }//function insertatemppedido
-  
+function armacatalogo(){
+ // $('#pclientes').live('pageshow',function(event, ui){
+		//alert('This page was just hidden: '+ ui.prevPage);		
+		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);		
+		consultadb().transaction(poblarcat, function(err){
+    	 		 alert("Error select catálogo : "+err.code+err.message);
+         		});		
+	function poblarcat(tx){  	   
+			var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existenca as ebodega,c.existencia as c.ealg,';
+			sql+='(a.precio-((a.precio/100)*a.descuento)) as precio ';
+			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
+			sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" ORDER BY descripcion  '			
+		    tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error select catalogo: "+err.code+err.message);
+         	});    	
+	}
+	function listo(tx,results){  
+		 $('#lcatalogo').empty();        
+		 $.each(results.rows,function(index){           
+			 var row = results.rows.item(index);            
+			 var html="";	         
+			 html+='<li id='+row['articulo']+'>';
+	         html+='<a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> '+row['descripcion']+'</h3>';
+			 html+='Clasificación:'+row['clas']+' AcciónT:'+row['accion']+'<br/>Precio:'+row['precio']+' Existencia:'+row['ebodega']+' ALG:'+row['ealg']+'</p></a></li>';
+			 $('#lcatalogo').append(html);        
+		 });         
+		 $('#lcatalogo').listview('refresh'); 
+ 	}
+
+ // });	//$('#pclientes').live('pageshow',function(event, ui){
+	
+}//armacatalogo
+function existencia(articulo){
+	var existe=0;
+	consultadb().transaction(existebodega, function(err){
+    	 		 alert("Error select tabla ARTICULO_EXISTENCIA: "+err.code+err.message);
+         		});		
+	function existebodega(tx){   	    
+			var sql='SELECT existencia FROM ARTICULO_EXISTENCIA WHERE articulo="'+articulo+'" AND bodega="K01"';			
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error consultar existencia : "+err.code+err.message);
+         		});    	
+								
+	}
+	function listo(tx,results){ 
+	      
+	      if (results.rows.length>0){
+			var row = results.rows.item(index);    
+			existe=row['existencia'];			
+
+		  }
+		  
+ 	}
+    return existe;
+	
+	
+}//function existencia
+
