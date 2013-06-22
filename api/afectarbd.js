@@ -83,7 +83,7 @@ function insertatemppedido(articulo,cantidad){
 	   
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar renglon: "+err.code+err.message);
-          },alert("Artículo insertado"));
+          },alert("Artículo insertado en pedido"));
 				
     	function insertadet(tx) {		
 		alert('entra a insert de detallepedido');
@@ -95,12 +95,12 @@ function insertatempfactura(articulo,cantidad){
 	   
 	    consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar renglon factura: "+err.code+err.message);
-          },alert("Artículo insertado"));
+          },alert("Artículo insertado en factura"));
 				
     	function insertadet(tx) {		
 		
 		tx.executeSql('INSERT INTO TEMFACTURA (articulo,cantidad) VALUES ("'+articulo+'",'+cantidad+')');
-		tx.executeSql('UPDATE TEMFACTURA SET cantidad=cantidad-'+cantidad+' WHERE articulo="'+articulo+'"');        
+		tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+cantidad+' WHERE articulo="'+articulo+'" and bodega="K01"');        
 		}
 	
 }//function insertatemppedido

@@ -127,6 +127,7 @@ function preparadetalletemp(articulo,cantidad){
 	   //restar el importe de descuento al precio
 	   var exis=existencia(articulo);
 	   var diferencia=exis-cantidad;
+	   alert(diferencia);
 	   if (diferencia>=0){
 	       insertatempfactura(articulo,cantidad);
 	   }
