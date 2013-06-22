@@ -306,7 +306,7 @@ function armacatalogo(){
 			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
 			sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" ORDER BY a.descripcion  '			
 		    tx.executeSql(sql,[],listo,function(err){
-    	 		 alert("Error select catalogo: "+err.code+err.message);
+    	 		 alert("Error select catalogo: "+sql+err.code+err.message);
          	});    	
 	}
 	function listo(tx,results){  
