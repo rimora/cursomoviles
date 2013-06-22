@@ -13,7 +13,7 @@ $(document).ready(function() {
 		    return false;	
 			
 		}, false);
-	$('#botonLogin').tap(function() { 
+	$('#botonLogin').click(function() { 
 			 	// recolecta los valores que inserto el usuario	
 				var Usuario = $("#nombredeusuario").val()	
 				var Pass = $("#clave").val()	  	
@@ -200,6 +200,12 @@ $("#pruebachec").click(function() {
                  //var clavecli = $(this).attr("id");
 				 //limpia los grid
                   armacatalogo();
+				  
+     });
+	 $("#binicializar").click(function(){
+                 //var clavecli = $(this).attr("id");
+				 //limpia los grid
+                  pruebalocalizacion();
 				  
      });
 	 
