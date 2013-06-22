@@ -159,7 +159,7 @@ $("#pruebachec").click(function() {
 	
 
 	});
-	$("#lcatalogo li").click(function(){
+	$("#lcatalogo li").live('click',function(){
                   var articulo = $(this).attr("id");
 				 // alert (articulo);
 				 if (existeenpedido(articulo)) {
@@ -196,7 +196,7 @@ $("#pruebachec").click(function() {
 				  limpiartemp();
 				  
      });	
-	 $("#bcatalogo").live('click',function(){
+	 $("#bcatalogo").tap(function(){
                  //var clavecli = $(this).attr("id");
 				 //limpia los grid
                   armacatalogo();
