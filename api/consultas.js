@@ -331,6 +331,7 @@ function armacatalogo(){
 }//armacatalogo
 function existencia(articulo){
 	var existe=0;
+	alert(articulo);
 	consultadb().transaction(existebodega, function(err){
     	 		 alert("Error select tabla ARTICULO_EXISTENCIA: "+err.code+err.message);
          		});		

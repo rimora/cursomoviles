@@ -136,7 +136,7 @@ $(document).ready(function() {
 
 		});
 
-$("#beliminarp").tap(function() { 
+$("#bmodificarp").tap(function() { 
                  //var clavecli = $(this).attr("id");
 		$(':checkbox').each(function () {
            if (this.checked) {
