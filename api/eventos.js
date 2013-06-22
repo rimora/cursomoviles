@@ -135,13 +135,13 @@ $(document).ready(function() {
 			$("#gridprueba").append(html);  
 
 		});
-/*
-$("#pruebachec").click(function() { 
+
+$("#beliminarp").tap(function() { 
                  //var clavecli = $(this).attr("id");
 		$(':checkbox').each(function () {
            if (this.checked) {
-               alert($(this).val());
-			   alert($("#"+"c"+$(this).val()).val());
+               alert($(this).attr("name"));
+			   //alert($("#"+"c"+$(this).val()).val());
 			   
 			   
 			    
@@ -150,7 +150,7 @@ $("#pruebachec").click(function() {
 		
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
 });
-*/
+
 	$("#botoncantidad").click(function() { 	
      //llama a funcion que prepara las tablas temporales, insertando el articulo y cantidad
 	//alert($("#scantidad").val());	

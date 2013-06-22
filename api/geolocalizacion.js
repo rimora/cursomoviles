@@ -15,7 +15,7 @@ function initialize(latitud,longitud) {
 					position: latlng, 
 					map: map, 
 					title:"Mi posición"
-				});
+				}); 
 			}
 			
 function pruebalocalizacion(){

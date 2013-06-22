@@ -301,10 +301,6 @@ function armacatalogo(){
     	 		 alert("Error select catálogo : "+err.code+err.message);
          		});		
 	function poblarcat(tx){  	   
-		/*	var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,c.existencia as c.ealg,';
-			sql+='(a.precio-((a.precio/100)*a.descuento)) as precio ';
-			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
-			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" ORDER BY a.descripcion  '			*/
 			var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,c.existencia as ealg,';
 			sql+='(a.precio-((a.precio/100)*a.descuento)) as precio ';
 			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
