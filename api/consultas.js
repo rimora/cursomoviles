@@ -122,6 +122,28 @@ function llamadascxc(){
   
 
 }
+function existencia(articulo){
+	var existenciab=0;
+	alert(articulo);
+	
+	function listo(tx,results){ 	      
+	      if (results.rows.length>0){
+			var row = results.rows.item(index);    
+			existenciab=row['existencia'];			
+			alert('existencia de consulta '+existenciab);
+		  }		  
+ 	}
+	function consulexis(tx){   	    
+			var sql='SELECT existencia FROM ARTICULO_EXISTENCIA WHERE articulo="'+articulo+'" AND bodega="K01"';			
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error consultar existencia : "+err.code+err.message);
+         		});    									
+	}
+	consultadb().transaction(consulexis, function(err){
+    	 		 alert("Error select tabla ARTICULO_EXISTENCIA: "+err.code+err.message);
+         		});		
+    return existenciab;
+}//function existencia
 function preparadetalletemp(articulo,cantidad){
 	   //para obtener el importe de descuento:
 	   // dividir entre 100 el precio, multiplicar el resultado por el descuento y se obtiene el importe de descuento
@@ -334,33 +356,7 @@ function armacatalogo(){
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
 }//armacatalogo
-function existencia(articulo){
-	var existe=0;
-	alert(articulo);
-	consultadb().transaction(consulexis, function(err){
-    	 		 alert("Error select tabla ARTICULO_EXISTENCIA: "+err.code+err.message);
-         		});		
-	function consulexis(tx){   	    
-			var sql='SELECT existencia FROM ARTICULO_EXISTENCIA WHERE articulo="'+articulo+'" AND bodega="K01"';			
-			tx.executeSql(sql,[],listo,function(err){
-    	 		 alert("Error consultar existencia : "+err.code+err.message);
-         		});    	
-								
-	}
-	function listo(tx,results){ 
-	      
-	      if (results.rows.length>0){
-			var row = results.rows.item(index);    
-			existe=row['existencia'];			
-			alert('existencia de consulta '+existe);
 
-		  }
-		  
- 	}
-    return existe;
-	
-	
-}//function existencia
 function sugerido(){
 	var cliente=window.localStorage.getItem("clave");
 	consultadb().transaction(consultasug, function(err){
@@ -387,6 +383,7 @@ function sugerido(){
 		  }//if
 		  
  	}//function listo(tx,results){ 
-	    
-}//function existencia
-
+	mostrarpedido();
+    mostrarfactura();    
+		
+}//function sugerido
