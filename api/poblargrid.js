@@ -76,8 +76,7 @@ function mostrarfactura(){
 		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);		
 		}
 		function exito(tx,results){ 
-		    if (results.rows.length>0){
-				alert('entra poblar grid factura');
+		    if (results.rows.length>0){				
 			  $("#gridfactura").empty();			  
 			  var html = "";
 			  var tipo="";
@@ -92,16 +91,11 @@ function mostrarfactura(){
               html+=' <div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-a">Descrip.</div></div>';
               html+=' <div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-a">Cantidad</div></div>';
               html+=' <div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-a">Precio</div></div>';
-              alert('antes del each factura');
 			  $.each(results.rows,function(index){
-				  var row = results.rows.item(index); 	
-				    alert('dentro del each factura');			     			     
+				  var row = results.rows.item(index); 					    
 				     descuento=(row['precio']/100)*row['descuento'];
-					 alert(descuento);
 				     precio=row['precio']-descuento;				 
-					 alert(precio);
 					 total+=precio*row['cantidad'];
-					 alert(total);
 					 					 
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
@@ -117,12 +111,10 @@ function mostrarfactura(){
 	                html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
 
                   	 
-			  });//.each
-			         alert('fuera del each factura');	
-					$("#gridfactura").append(html); 
-					alert('fuera del each factura despues del append html');	
-					$("#tfactura").html("value="+total); 								 
-					alert('total factura'+total);					 					
+			  });//.each			        
+					$("#gridfactura").append(html); 					
+					$("#tfactura").attr("value",total); 								 
+					alert('total factura'+total);				 					
 			}//if (results.rows.length>0){				
 	   }//function exito
  		

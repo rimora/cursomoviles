@@ -197,7 +197,7 @@ $("#bmodificarp").tap(function() {
 				  $("#gridfactura").empty();
 				  limpiartemp();
 				  sugerido();
-				  insertatempfactura("ADE-04",50);
+				  //insertatempfactura("ADE-04",50);
 				  
      });	
 	 $("#bcatalogo").tap(function(){
