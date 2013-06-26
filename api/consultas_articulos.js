@@ -41,7 +41,7 @@ function fprueba(articulo){
 	      alert('entra a listo de consulexis');         
 	      if (results.rows.length>0){			  
 		    alert('despues del rows.length');         
-			var row = results.rows.item(index);    
+			var row = results.rows.item(0);    
 			alert('despues del var row');         
 			existenciab=row['existencia'];			
 			alert('existencia de consulta '+existenciab);
