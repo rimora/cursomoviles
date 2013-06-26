@@ -146,8 +146,7 @@ function preparadetalletemp(articulo,cantidad,existencia){
 	   }
 }//function insertatemppedido
 function existeenpedido(articulo){
-	existe=false;
-	
+	existe=false;	
 	function listo(tx,results){ 	
 	         alert('entra a funcion listo de existeenpedido');         	          
 	     	 if (results.rows.length>0){
