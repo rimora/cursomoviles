@@ -45,11 +45,12 @@ function fprueba(articulo){
 			alert('despues del var row');         
 			existenciab=row['existencia'];			
 			alert('existencia de consulta '+existenciab);
+			
 		  }		
 		  else{
 			  existenciab=0;
 			  alert('no hay existencias funcion existencia'); 
 		  }
  	}
-	
+	return existenciab;
 }//function insertatemppedido
