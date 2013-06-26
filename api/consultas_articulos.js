@@ -40,7 +40,9 @@ function fprueba(articulo){
 	function listo(tx,results){ 	 
 	      alert('entra a listo de consulexis');         
 	      if (results.rows.length>0){			  
+		    alert('despues del rows.length');         
 			var row = results.rows.item(index);    
+			alert('despues del var row');         
 			existenciab=row['existencia'];			
 			alert('existencia de consulta '+existenciab);
 		  }		

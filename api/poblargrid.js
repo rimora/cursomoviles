@@ -3,7 +3,7 @@ function mostrarpedido(){
 	//muestra en un collapsible los renglones temporales de pedido, agregandolos en un grid
 	//el usuario podrá eliminar los renglones que se selecciones por medio de checkbox
 //  $('#datoscli').live('pageshow',function(event, ui){   	   
-		alert('entra mostrar pedido');
+
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
@@ -13,9 +13,9 @@ function mostrarpedido(){
 	
 		
 		function exito(tx,results){ 
-		    alert('entra funcion exito de mostrar pedido');
-			if (results.rows.length>0){
-		      $("#gridpedido").empty();			  
+			
+		      $("#gridpedido").empty();	
+			  $("#tpedido").attr("value",0.0); 					  
 			  var html = "";
 			  var tipo="";
 			  var saldot=0;
@@ -25,13 +25,11 @@ function mostrarpedido(){
 			  //agrega encabezado de grid
 			  html+=' <div class="ui-block-a" style="width:70px;height:20px" > ';            
               html+=' <div class="ui-bar ui-bar-a">Elim.</div></div> ';           
-              html+=' <div class="ui-block-b"><div class="ui-bar ui-bar-a">Articulo</div></div>';
-              html+=' <div class="ui-block-c"><div class="ui-bar ui-bar-a">Descrip.</div></div>';
-              html+=' <div class="ui-block-d"><div class="ui-bar ui-bar-a">Cantidad</div></div>';
-              html+=' <div class="ui-block-e"><div class="ui-bar ui-bar-a">Precio</div></div>';
-               alert('antes de each mostrar pedido');
-			  $.each(results.rows,function(index){
-				  alert('entra each de mostrar pedido');
+              html+=' <div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
+              html+=' <div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-a">Descrip.</div></div>';
+              html+=' <div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-a">Cantidad</div></div>';
+              html+=' <div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-a">Precio</div></div>';
+			  $.each(results.rows,function(index){				  
 				  var row = results.rows.item(index); 				     			     
 				     descuento=(row['precio']/100)*row['descuento'];
 				     precio=row['precio']-descuento;				 
@@ -45,10 +43,10 @@ function mostrarpedido(){
                    	html+='		</div>';	
 		            html+='   </div>';
             		html+='</div>';            
-                    html+='<div class="ui-block-b"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
-                    html+='<div class="ui-block-c"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
-                    html+='<div class="ui-block-d"><div class="ui-bar ui-bar-b">'+row['cantidad']+'</div></div>';
-	                html+='<div class="ui-block-e"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
+                    html+='<div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
+                    html+='<div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
+                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+row['cantidad']+'</div></div>';
+	                html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
 
                   	 
 			  });//.each
@@ -56,7 +54,7 @@ function mostrarpedido(){
 					$("#tpedido").attr("value",total); 			
 					
 					alert('total'+total);					 
-			}//if (results.rows.length>0){
+			
 	   }//function exito
  		
 	function errorconsulta(err) {
@@ -75,9 +73,9 @@ function mostrarfactura(){
 	function consulta(tx) {		
 		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);		
 		}
-		function exito(tx,results){ 
-		    if (results.rows.length>0){				
-			  $("#gridfactura").empty();			  
+		function exito(tx,results){ 		    
+			  $("#gridfactura").empty();	
+			  $("#tfactura").attr("value",0.0); 		  
 			  var html = "";
 			  var tipo="";
 			  var saldot=0;
@@ -114,8 +112,7 @@ function mostrarfactura(){
 			  });//.each			        
 					$("#gridfactura").append(html); 					
 					$("#tfactura").attr("value",total); 								 
-					alert('total factura'+total);				 					
-			}//if (results.rows.length>0){				
+					alert('total factura'+total);				 								
 	   }//function exito
  		
 	function errorconsulta(err) {
