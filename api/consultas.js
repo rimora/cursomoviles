@@ -122,42 +122,20 @@ function llamadascxc(){
   
 
 }
-function existencia(articulo){
-	var existenciab=0;
-	alert(articulo);
-	
-	function listo(tx,results){ 	      
-	      if (results.rows.length>0){
-			var row = results.rows.item(index);    
-			existenciab=row['existencia'];			
-			alert('existencia de consulta '+existenciab);
-		  }		  
- 	}
-	function consulexis(tx){   	    
-			var sql='SELECT existencia FROM ARTICULO_EXISTENCIA WHERE articulo="'+articulo+'" AND bodega="K01"';			
-			tx.executeSql(sql,[],listo,function(err){
-    	 		 alert("Error consultar existencia : "+err.code+err.message);
-         		});    									
-	}
-	consultadb().transaction(consulexis, function(err){
-    	 		 alert("Error select tabla ARTICULO_EXISTENCIA: "+err.code+err.message);
-         		});		
-    return existenciab;
-}//function existencia
-function preparadetalletemp(articulo,cantidad){
+
+function preparadetalletemp(articulo,cantidad,existencia){
 	   //para obtener el importe de descuento:
 	   // dividir entre 100 el precio, multiplicar el resultado por el descuento y se obtiene el importe de descuento
-	   //restar el importe de descuento al precio
-	   var exis=existencia(articulo);
-	   var diferencia=exis-cantidad;
-	   alert('existencia '+exis);
-	   alert('cantidad '+exis);
+	   //restar el importe de descuento al precio	   
+	   var diferencia=existencia-cantidad;
+	   alert('existencia '+existencia);
+	   alert('cantidad '+cantidad);
 	   
 	   if (diferencia>=0){
 	       insertatempfactura(articulo,cantidad);
 	   }
 	   else {
-		   if (exis>0){
+		   if (existencia>0){
 			   insertatempfactura(articulo,cantidad);
                insertatemppedido(articulo,(cantidad-exis));
 			   
@@ -167,134 +145,11 @@ function preparadetalletemp(articulo,cantidad){
 		   }
 	   }
 }//function insertatemppedido
-function mostrarpedido(){
-	//muestra en un collapsible los renglones temporales de pedido, agregandolos en un grid
-	//el usuario podrá eliminar los renglones que se selecciones por medio de checkbox
-//  $('#datoscli').live('pageshow',function(event, ui){   	   
-		alert('entra mostrar pedido');
-		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
-		consultadb().transaction(consulta, errorconsulta);	
-	function consulta(tx) {		
-		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
-		
-		}
-	
-		
-		function exito(tx,results){ 
-		      $("#gridpedido").empty();			  
-			  var html = "";
-			  var tipo="";
-			  var saldot=0;
-			  var montot=0;			  
-		      var precio=0;
-	    	  var total=0;              
-			  //agrega encabezado de grid
-			  html+=' <div class="ui-block-a" style="width:70px;height:20px" > ';            
-              html+=' <div class="ui-bar ui-bar-a">Elim.</div></div> ';           
-              html+=' <div class="ui-block-b"><div class="ui-bar ui-bar-a">Articulo</div></div>';
-              html+=' <div class="ui-block-c"><div class="ui-bar ui-bar-a">Descrip.</div></div>';
-              html+=' <div class="ui-block-d"><div class="ui-bar ui-bar-a">Cantidad</div></div>';
-              html+=' <div class="ui-block-e"><div class="ui-bar ui-bar-a">Precio</div></div>';
-          
-			  $.each(results.rows,function(index){
-				  var row = results.rows.item(index); 				     			     
-				     descuento=(row['precio']/100)*row['descuento'];
-				     precio=row['precio']-descuento;				 
-					 total+=precio*row['cantidad'];
-					 
-					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
-           			html+='<div class="ui-bar ui-bar-e"  >';      		 		
-                   	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
-			        html+='     <label for="P'+row['articulo']+'" >&nbsp</label>';  
-            		html+='     <input type="checkbox" id="P'+row['articulo']+'" name="'+row['articulo']+'" />';
-                   	html+='		</div>';	
-		            html+='   </div>';
-            		html+='</div>';            
-                    html+='<div class="ui-block-b"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
-                    html+='<div class="ui-block-c"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
-                    html+='<div class="ui-block-d"><div class="ui-bar ui-bar-b">'+row['cantidad']+'</div></div>';
-	                html+='<div class="ui-block-e"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
-
-                  	 
-			  });//.each
-					$("#gridpedido").append(html); 
-					$("#tpedido").value(total); 			
-					
-					alert('total'+total);					 
-	   }//function exito
- 		
-	function errorconsulta(err) {
-    	alert("Error SQL al llenar detalles pedido: "+err.code+err.message);
-	}
-//  });	
-
-  }//mostrarpedido
-function mostrarfactura(){
-	//muestra en un collapsible los renglones temporales de pedido, agregandolos en un grid
-	//el usuario podrá eliminar los renglones que se selecciones por medio de checkbox
-//  $('#datoscli').live('pageshow',function(event, ui){   	   
-		alert('entra mostrar factura');
-		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
-		consultadb().transaction(consulta, errorconsulta);	
-	function consulta(tx) {		
-		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
-		
-		}
-	
-		
-		function exito(tx,results){ 
-		      $("#gridfactura").empty();			  
-			  var html = "";
-			  var tipo="";
-			  var saldot=0;
-			  var montot=0;			  
-		      var precio=0;
-	    	  var total=0;              
-			  //agrega encabezado de grid
-			  html+=' <div class="ui-block-a" style="width:70px;height:20px" > ';            
-              html+=' <div class="ui-bar ui-bar-a">Elim.</div></div> ';           
-              html+=' <div class="ui-block-b"><div class="ui-bar ui-bar-a">Articulo</div></div>';
-              html+=' <div class="ui-block-c"><div class="ui-bar ui-bar-a">Descrip.</div></div>';
-              html+=' <div class="ui-block-d"><div class="ui-bar ui-bar-a">Cantidad</div></div>';
-              html+=' <div class="ui-block-e"><div class="ui-bar ui-bar-a">Precio</div></div>';
-          
-			  $.each(results.rows,function(index){
-				  var row = results.rows.item(index); 				     			     
-				     descuento=(row['precio']/100)*row['descuento'];
-				     precio=row['precio']-descuento;				 
-					 total+=precio*row['cantidad'];
-					 					 
-					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
-           			html+='<div class="ui-bar ui-bar-e"  >';      		 		
-                   	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
-			        html+='     <label for="F'+row['articulo']+'" >&nbsp</label>';  
-            		html+='     <input type="checkbox" id="F'+row['articulo']+'" name="'+row['articulo']+'" />';
-                   	html+='		</div>';	
-		            html+='   </div>';
-            		html+='</div>';            
-                    html+='<div class="ui-block-b"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
-                    html+='<div class="ui-block-c"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
-                    html+='<div class="ui-block-d"><div class="ui-bar ui-bar-b">'+row['cantidad']+'</div></div>';
-	                html+='<div class="ui-block-e"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
-
-                  	 
-			  });//.each
-					$("#gridfactura").append(html); 
-					$("#tfactura").value(total); 			
-					
-					alert('total factura'+total);					 
-	   }//function exito
- 		
-	function errorconsulta(err) {
-    	alert("Error SQL al llenar detalles factura: "+err.code+err.message);
-	}
-//  });	
-
-  }//mostrarfatura
 function existeenpedido(articulo){
 	existe=false;
 	
-	function listo(tx,results){ 	      
+	function listo(tx,results){ 	
+	         alert('entra a funcion listo de existeenpedido');         	          
 	     	 if (results.rows.length>0){
 				alert('existe en pedido');  
 				existe=true;  				
@@ -302,7 +157,8 @@ function existeenpedido(articulo){
 			  }
 		  
  			}
-	function existep(tx){  	       	    
+	function existep(tx){  	
+	        alert('entra a funcion existep');         	    
 			var sql='SELECT articulo FROM TEMPEDIDO WHERE articulo="'+articulo+'"  ';			
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error consultar existeTEMPEDIDO : "+err.code+err.message);
@@ -358,32 +214,46 @@ function armacatalogo(){
 }//armacatalogo
 
 function sugerido(){
-	var cliente=window.localStorage.getItem("clave");
-	consultadb().transaction(consultasug, function(err){
-    	 		 alert("Error select tabla sugerido: "+err.code+err.message);
-         		});		
-	function consultasug(tx){   	    
-			var sql='SELECT * FROM SUGERIDO WHERE cliente="'+cliente+'" ';			
-			tx.executeSql(sql,[],listo,function(err){
-    	 		 alert("Error consultar sugerido del cliente : "+cliente+err.code+err.message);
-         		});    	
-								
-	}
-	function listo(tx,results){ 
-	      
+	var artsug=[];
+	var cantsug=[];
+	var exissug=[];
+	var cliente=window.localStorage.getItem("clave");	
+	var i=0;
+	function listo(tx,results){ 	      
 	      if (results.rows.length>0){
 			$.each(results.rows,function(index){           
-			 var row = results.rows.item(index);            
+			 var row = results.rows.item(index);            			
 			 if (row['cantidad']>0){
-			 	preparadetalletemp(row['articulo'],row['cantidad']);				
-			 }//if (row['cantidad']>0)
-			 
-		  	}); //$.each       
-
-		  }//if
-		  
+			 	//preparadetalletemp(row['articulo'],row['cantidad']);								
+				artsug[i]=row['articulo'];
+				cantsug[i]=row['cantidad'];
+				exissug[i]=row['existencia'];
+				i++;
+			 }//if (row['cantidad']>0)			 
+		  	}); //$.each       				  
+		  }//if			  
+		  /*else
+		  {
+			alert('no hubo resultados de sugerido');  
+			
+		  }*/
  	}//function listo(tx,results){ 
-	mostrarpedido();
-    mostrarfactura();    
-		
+	function consultasug(tx){   	    	        
+			var sql='SELECT * FROM SUGERIDO a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" WHERE cliente="'+cliente+'"  ';			
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error consultar sugerido del cliente : "+cliente+err.code+err.message);
+         		});    									
+	}
+	consultadb().transaction(consultasug, function(err){
+    	 			 alert("Error select tabla sugerido: "+err.code+err.message);
+         		},function(){
+				 alert(artsug.length);
+				 for (var i = 0, long = artsug.length; i < long; i++) {   					 
+					   alert(artsug[i]+' '+cantsug[i]+' '+exissug[i]);
+					   preparadetalletemp(artsug[i],cantsug[i],exissug[i])
+				 }
+				 mostrarpedido();
+                 mostrarfactura(); 
+				});		
+				
 }//function sugerido

@@ -151,13 +151,15 @@ $("#bmodificarp").tap(function() {
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
 });
 
-	$("#botoncantidad").click(function() { 	
+	$("#bpruebas").tap(function() { 	
      //llama a funcion que prepara las tablas temporales, insertando el articulo y cantidad
 	//alert($("#scantidad").val());	
-	preparadetalletemp(window.localStorage.getItem("articulo"),$("#scantidad").val())
-
 	
-
+	//preparadetalletemp(window.localStorage.getItem("articulo"),$("#scantidad").val())
+	  alert('boton pruebas2');
+      fprueba("ADE-04");
+	  insertatempfactura("ADE-04",5);
+      iniciar();
 	});
 	$("#lcatalogo li").live('click',function(){
                   var articulo = $(this).attr("id");
@@ -195,7 +197,7 @@ $("#bmodificarp").tap(function() {
 				  $("#gridfactura").empty();
 				  limpiartemp();
 				  sugerido();
-				  
+				  insertatempfactura("ADE-04",50);
 				  
      });	
 	 $("#bcatalogo").tap(function(){
