@@ -1,5 +1,4 @@
 // consultas
-var existe=false;// utilizada para saber si un producto ya existe en la tabla de pedidos o factura detalle y no la inserten de nuevo desde el catalogo
 function mostrarclientes(dia){
  // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
@@ -124,40 +123,41 @@ function llamadascxc(){
 }
 
 function preparadetalletemp(articulo,cantidad,existencia){
-	   //para obtener el importe de descuento:
-	   // dividir entre 100 el precio, multiplicar el resultado por el descuento y se obtiene el importe de descuento
-	   //restar el importe de descuento al precio	   
+	   //var existencia=consultaexis(articulo);
 	   var diferencia=existencia-cantidad;
-	   alert('existencia '+existencia);
-	   alert('cantidad '+cantidad);
+	  // alert('existencia '+existencia);
+	  // alert('cantidad '+cantidad);
 	   
 	   if (diferencia>=0){
+		   alert('diferencia>0');
 	       insertatempfactura(articulo,cantidad);
 	   }
 	   else {
 		   if (existencia>0){
+			   alert('diferencia<0 y existencia>0');
 			   insertatempfactura(articulo,cantidad);
                insertatemppedido(articulo,(cantidad-exis));
 			   
 		   }
 		   else{
+			   alert('diferencia<0 y existencia=0');
 			   insertatemppedido(articulo,cantidad);
 		   }
 	   }
 }//function insertatemppedido
 function existeenpedido(articulo){
-	existe=false;	
+	var existe=false;	
 	function listo(tx,results){ 	
-	         alert('entra a funcion listo de existeenpedido');         	          
+	         //alert('entra a funcion listo de existeenpedido');         	          
 	     	 if (results.rows.length>0){
-				alert('existe en pedido');  
+				//alert('existe en pedido');  
 				existe=true;  				
-				alert('prueba de existe '+existe);  				
+				//alert('prueba de existe '+existe);  				
 			  }
-		  
- 			}
+			 
+ 	}
 	function existep(tx){  	
-	        alert('entra a funcion existep');         	    
+	        //alert('entra a funcion existep');         	    
 			var sql='SELECT articulo FROM TEMPEDIDO WHERE articulo="'+articulo+'"  ';			
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error consultar existeTEMPEDIDO : "+err.code+err.message);
@@ -170,9 +170,19 @@ function existeenpedido(articulo){
 	}
 	consultadb().transaction(existep, function(err){
     	 		 alert("Error select tabla TEMPPEDIDO: "+err.code+err.message);
-         		});		
-	alert('prueba de existe2 '+existe);  
-    return existe;
+         		},function(){
+					//alert(existe);
+					if (existe){
+   					alert('Artículo ya fue ingresado, modifiquelo desde el pedido o factura');
+					}
+					else
+					{
+						guardaarticulo(articulo);//almacena localmente la clave de articulo 					 
+						window.location.href='#pcantidad';
+					}
+				});		
+
+    
 	
 	
 }//function insertatemppedido
@@ -183,12 +193,13 @@ function armacatalogo(){
 		consultadb().transaction(poblarcat, function(err){
     	 		 alert("Error select catálogo : "+err.code+err.message);
          		});		
-	function poblarcat(tx){  	   
+	function poblarcat(tx){  
+	        //alert('entra al poblarcat armacatalogo');        	   
 			var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,c.existencia as ealg,';
 			sql+='(a.precio-((a.precio/100)*a.descuento)) as precio ';
 			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
 			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" order by a.descripcion';
-			
+			//alert('despues del sql armacatalogo');        
 			
 			
 		    tx.executeSql(sql,[],listo,function(err){
@@ -197,15 +208,40 @@ function armacatalogo(){
 	}
 	function listo(tx,results){  
 		 $('#lcatalogo').empty();        
-		 $.each(results.rows,function(index){           
-			 var row = results.rows.item(index);            
-			 var html="";	         
+		 //alert('entra a listo de armacatalogo');
+		 $.each(results.rows,function(index){   
+		   //  alert('entra al each armacatalogo');        
+			 var row = results.rows.item(index);         
+			 //alert('despues del var row armacatalogo');           
+			 var html="";	
+			 if   (row['ebodega']==null)       
+			 {
+				var existencia=0; 				
+				//alert('existencia es null'+existencia); 
+			 }
+			 else 
+			 {
+				 var existencia=row['ebodega']; 
+				 
+			 }
+			  if   (row['ealg']==null)       
+			 {
+				var existenciaalg=0; 				
+				//alert('existencia es null'+existencia); 
+			 }
+			 else 
+			 {
+				 var existenciaalg=row['ealg']; 
+			 }
+			 
 			 html+='<li id='+row['articulo']+'>';
 	         html+='<a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> '+row['descripcion']+'</h3>';
-			 html+='Clasificación:'+row['clas']+' AcciónT:'+row['accion']+'<br/>Precio:'+row['precio']+' Existencia:'+row['ebodega']+' ALG:'+row['ealg']+'</p></a></li>';
+			 html+='Clasificación:'+row['clas']+' AcciónT:'+row['accion']+'<br/>Precio:'+row['precio']+' Existencia:'+existencia+' ALG:'+existenciaalg+'</p></a></li>';
 			 $('#lcatalogo').append(html);        
+			 //alert('despues de lcatalogo.append armacatalogo');        
 		 });         
 		 $('#lcatalogo').listview('refresh'); 
+		 //alert('despues de lcatalogo listview armacatalogo');        
  	}
 
  // });	//$('#pclientes').live('pageshow',function(event, ui){
@@ -222,13 +258,13 @@ function sugerido(){
 	      if (results.rows.length>0){
 			$.each(results.rows,function(index){           
 			 var row = results.rows.item(index);            			
-			 if (row['cantidad']>0){
+			 //if (row['cantidad']>0){
 			 	//preparadetalletemp(row['articulo'],row['cantidad']);								
 				artsug[i]=row['articulo'];
 				cantsug[i]=row['cantidad'];
 				exissug[i]=row['existencia'];
 				i++;
-			 }//if (row['cantidad']>0)			 
+			 //}//if (row['cantidad']>0)			 
 		  	}); //$.each       				  
 		  }//if			  
 		  /*else
@@ -246,9 +282,9 @@ function sugerido(){
 	consultadb().transaction(consultasug, function(err){
     	 			 alert("Error select tabla sugerido: "+err.code+err.message);
          		},function(){
-				 alert(artsug.length);
+				 //alert(artsug.length);
 				 for (var i = 0, long = artsug.length; i < long; i++) {   					 
-					   alert(artsug[i]+' '+cantsug[i]+' '+exissug[i]);
+					   //alert(artsug[i]+' '+cantsug[i]+' '+exissug[i]);
 					   preparadetalletemp(artsug[i],cantsug[i],exissug[i])
 				 }
 				 mostrarpedido();

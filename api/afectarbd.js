@@ -94,24 +94,62 @@ function insertatemppedido(articulo,cantidad){
           },alert("Artículo insertado en pedido"));
 				
     	function insertadet(tx) {		
-		alert('entra a insert de detallepedido');
+		//alert('entra a insert de detallepedido');
 		tx.executeSql('INSERT INTO TEMPEDIDO (articulo,cantidad) VALUES ("'+articulo+'",'+cantidad+')');        
 		}
 	
 }//function insertatemppedido
 function insertatempfactura(articulo,cantidad){
-	   alert('inserttafactura'+cantidad);
+	   //alert('inserttafactura'+cantidad);
 	    consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar renglon factura: "+err.code+err.message);
           });
 				
     	function insertadet(tx) {		
 		
-		tx.executeSql('INSERT INTO TEMFACTURA (articulo,cantidad) VALUES ("'+articulo+'",'+cantidad+')');
-		tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+cantidad+' WHERE articulo="'+articulo+'" and bodega="K01"');        
+		tx.executeSql('INSERT INTO TEMFACTURA (articulo,cantidad) VALUES ("'+articulo+'",'+Number(cantidad)+')');
+		tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+Number(cantidad)+' WHERE articulo="'+articulo+'" and bodega="K01"');        
 		}
 	
-}//function insertatemppedido
+}//function insertatempfactura
+function eliminatemppedido(articulo){
+	   
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al eliminar renglon: "+err.code+err.message);
+          },alert("Artículo eliminado en pedido"));
+				
+    	function insertadet(tx) {		
+		//alert('entra a delete de detallepedido');
+		tx.executeSql('DELETE FROM TEMPEDIDO WHERE ARTICULO="'+articulo+'"');        
+		}
+	
+}//function eliminatemppedido
+function eliminatempfactura(articulo,cantidad){
+	   
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al eliminar renglon de tempfactura: "+err.code+err.message);
+          },alert("Artículo eliminado en tempfac"));
+				
+    	function insertadet(tx) {		
+		//alert('entra a delete de detallefactura');
+		tx.executeSql('DELETE FROM TEMFACTURA WHERE ARTICULO="'+articulo+'"');        
+		tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia+'+cantidad+' WHERE articulo="'+articulo+'" and bodega="K01"');
+		}
+	
+}//function eliminatempfactura
+function modificatemppedido(articulo,cantidad){
+	   
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al modifica renglon: "+err.code+err.message);
+          },alert("Artículo modificado en pedido"));
+				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallepedido');
+		
+		tx.executeSql('UPDATE TEMPEDIDO SET CANTIDAD='+cantidad+' WHERE ARTICULO="'+articulo+'"');        
+		}
+	
+}//function modificatemppedido
 function limpiartemp(){
 	   //limpia tablas temporales que tienen articulos en pedido y/o factura
 	consultadb().transaction(limpiatabla,function(err){

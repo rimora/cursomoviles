@@ -33,13 +33,13 @@ function mostrarpedido(){
 				  var row = results.rows.item(index); 				     			     
 				     descuento=(row['precio']/100)*row['descuento'];
 				     precio=row['precio']-descuento;				 
-					 total+=precio*row['cantidad'];
+					 total+=Number(precio*row['cantidad']);
 					 
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
                    	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
 			        html+='     <label for="P'+row['articulo']+'" >&nbsp</label>';  
-            		html+='     <input type="checkbox" id="P'+row['articulo']+'" name="'+row['articulo']+'" />';
+            		html+='     <input type="checkbox" id="P'+row['articulo']+'" name="'+row['articulo']+'" value="'+row['cantidad']+'" class="clasep"  />';
                    	html+='		</div>';	
 		            html+='   </div>';
             		html+='</div>';            
@@ -51,9 +51,10 @@ function mostrarpedido(){
                   	 
 			  });//.each
 					$("#gridpedido").append(html); 
-					$("#tpedido").attr("value",total); 			
+					//$("#tpedido").attr("value",total); 			
+					$("#tpedido").val(total); 			
 					
-					alert('total'+total);					 
+					//alert('total'+total);					 
 			
 	   }//function exito
  		
@@ -67,7 +68,7 @@ function mostrarfactura(){
 	//muestra en un collapsible los renglones temporales de pedido, agregandolos en un grid
 	//el usuario podrá eliminar los renglones que se selecciones por medio de checkbox
 //  $('#datoscli').live('pageshow',function(event, ui){   	   
-		alert('entra mostrar factura');
+		//alert('entra mostrar factura');
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta,errorconsulta);	
 	function consulta(tx) {		
@@ -93,13 +94,13 @@ function mostrarfactura(){
 				  var row = results.rows.item(index); 					    
 				     descuento=(row['precio']/100)*row['descuento'];
 				     precio=row['precio']-descuento;				 
-					 total+=precio*row['cantidad'];
+					 total+=Number(precio*row['cantidad']);
 					 					 
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
                    	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
 			        html+='     <label for="F'+row['articulo']+'" >&nbsp</label>';  
-            		html+='     <input type="checkbox" id="F'+row['articulo']+'" name="'+row['articulo']+'" />';
+            		html+='     <input type="checkbox" id="F'+row['articulo']+'" name="'+row['articulo']+'" value="'+row['cantidad']+'" class="clasef"  />';
                    	html+='		</div>';	
 		            html+='   </div>';
             		html+='</div>';            
@@ -111,8 +112,9 @@ function mostrarfactura(){
                   	 
 			  });//.each			        
 					$("#gridfactura").append(html); 					
-					$("#tfactura").attr("value",total); 								 
-					alert('total factura'+total);				 								
+					//$("#tfactura").attr("value",total); 								 
+					$("#tfactura").val(total); 								 
+					//alert('total factura'+total);				 								
 	   }//function exito
  		
 	function errorconsulta(err) {
