@@ -138,9 +138,9 @@ $(document).ready(function() {
 
 $("#bmodificarp").tap(function() { 
                  //var clavecli = $(this).attr("id");
-				 
+		var contador=0;		 
 		$('input:checkbox.clasep').each(function () {
-			var contador=0;
+			alert('entra each');
            if (this.checked) {
                alert($(this).attr("name"));
 			   contador++;
@@ -148,12 +148,12 @@ $("#bmodificarp").tap(function() {
 			   //alert($("#"+"c"+$(this).val()).val());
            }		   
 		});//$('input:checkbox.clasep').each(function () {
-			alert(contador);
+			alert('contador'+contador);
 		if (contador>1) {
 		   navigator.notification.alert('Solo debe seleccionar un articulo',null,'Error Modificando Pedido','Aceptar');					
 		}
 		if (contador==1) {
-			 alert(articulo);
+			 alert('contador=1,'+articulo);
 		     guardaarticulo(articulo);//almacena localmente la clave de articulo 					 
 			 window.location.href='#pmodcantidadp';
 		}	
