@@ -139,8 +139,8 @@ $(document).ready(function() {
 $("#bmodificarp").tap(function() { 
                  //var clavecli = $(this).attr("id");
 		var contador=0;	
-		window.location.href='#pmodcantidadp';	 
-/*		$('input:checkbox.clasep').each(function () {
+		
+		$('input:checkbox.clasep').each(function () {
 			alert('entra each');
            if (this.checked) {
                alert($(this).attr("name"));
@@ -158,8 +158,12 @@ $("#bmodificarp").tap(function() {
 		     guardaarticulo(articulo);//almacena localmente la clave de articulo 					 
 			 window.location.href='#pmodcantidadp';
 		}	
+		if (contador==0) {
+			 alert('contador=0,'+articulo);
+		     
+		}	
 		
-	*/			  //$.mobile.changePage($("#datoscli"));	  			  				  
+				  //$.mobile.changePage($("#datoscli"));	  			  				  
 });
 $("#beliminarp").tap(function() { 
                  //var clavecli = $(this).attr("id");				 
