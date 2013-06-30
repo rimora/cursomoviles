@@ -145,11 +145,11 @@ $("#bmodificarp").tap(function() {
            if (this.checked) {
                alert($(this).attr("name"));
 			   contador++;
+			   alert('contador'+contador);
 			   var articulo=$(this).attr("name");
 			   //alert($("#"+"c"+$(this).val()).val());
            }		   
-		});//$('input:checkbox.clasep').each(function () {
-			alert('contador'+contador);
+		});//$('input:checkbox.clasep').each(function () {			
 		if (contador>1) {
 		   navigator.notification.alert('Solo debe seleccionar un articulo',null,'Error Modificando Pedido','Aceptar');					
 		}
@@ -159,10 +159,8 @@ $("#bmodificarp").tap(function() {
 			 window.location.href='#pmodcantidadp';
 		}	
 		if (contador==0) {
-			 alert('contador=0,'+articulo);
-		     
-		}	
-		
+			 alert('contador=0,'+articulo);		     
+		}			
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
 });
 $("#beliminarp").tap(function() { 
