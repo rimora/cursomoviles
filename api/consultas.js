@@ -242,7 +242,7 @@ function armacatalogo(){
 			 //alert('despues de lcatalogo.append armacatalogo');        
 		 });         
 		 			 alert('antes del refresh de lista de catalogo');
-		 $('#lcatalogo').listview('refresh'); 
+		 //$('#lcatalogo').listview('refresh'); 
 		 alert('despues de lcatalogo listview armacatalogo');        
  	}
 

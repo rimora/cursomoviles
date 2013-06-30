@@ -138,8 +138,9 @@ $(document).ready(function() {
 
 $("#bmodificarp").tap(function() { 
                  //var clavecli = $(this).attr("id");
-		var contador=0;		 
-		$('input:checkbox.clasep').each(function () {
+		var contador=0;	
+		window.location.href='#pmodcantidadp';	 
+/*		$('input:checkbox.clasep').each(function () {
 			alert('entra each');
            if (this.checked) {
                alert($(this).attr("name"));
@@ -158,7 +159,7 @@ $("#bmodificarp").tap(function() {
 			 window.location.href='#pmodcantidadp';
 		}	
 		
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
+	*/			  //$.mobile.changePage($("#datoscli"));	  			  				  
 });
 $("#beliminarp").tap(function() { 
                  //var clavecli = $(this).attr("id");				 
