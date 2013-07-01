@@ -13,7 +13,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 
 	//alert('entra a funcion iniciar');
 		function creartb(tx) {
-			alert('funcion creartb');	
+			//alert('funcion creartb');	
     	 tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
 		 tx.executeSql('DROP TABLE IF EXISTS erpadmin_alcxc_pen_cob');
 		 tx.executeSql('DROP TABLE IF EXISTS TEMPEDIDO');

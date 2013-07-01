@@ -287,7 +287,7 @@ $("#beliminarf").tap(function() {
                  //var clavecli = $(this).attr("id");
 				 //limpia los grid				  
                   armacatalogo();
-				  window.location.href='#pmodcantidadp';
+				  window.location.href='#pcatalogo';
 				  
      });
 	 $("#binicializar").click(function(){
