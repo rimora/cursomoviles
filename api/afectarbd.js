@@ -39,14 +39,14 @@ consultadb().transaction(creartb, errorCB, successCB);
 	}
 
 	function successCB() {
-    alert("success!");
+     navigator.notification.alert('Tablas Generadas',null,'Generar Tablas','Aceptar');					;
 	}	
 }//function iniciar()
 function insertar(){
 		
 		consultadb().transaction(insertarcli,function(err){
     	  alert("Error al insertar clientes: "+err.code+err.message);
-          },alert("clientes insertados"));
+          }, navigator.notification.alert('Datos insertados',null,'Insertar Datos','Aceptar'));
 				
     	function insertarcli(tx) {		
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia UNO", "1020","Lunes","Dirección del cliente","2281545130","C","30","10000.00","30000.00")');      

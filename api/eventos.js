@@ -41,7 +41,7 @@ $(document).ready(function() {
 	$("#clientes").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				 //botón clientes, genera lista con los clientes del día lunes
-				  alert ('llama a mostrar clientes');				                    
+				  //alert ('llama a mostrar clientes');				                    
 				  mostrarclientes("Lunes");
 				  $("select#menu").val("Lunes").selectmenu("refresh");
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
@@ -135,6 +135,11 @@ $(document).ready(function() {
 			$("#gridprueba").append(html);  
 
 		});
+$("a.clasep").live('click',function(){
+                  var articulo = $(this).attr("name");
+				  alert (articulo);
+				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
+    });
 
 $("#bmodificarp").tap(function() { 
                  //var clavecli = $(this).attr("id");
@@ -150,17 +155,16 @@ $("#bmodificarp").tap(function() {
 			   //alert($("#"+"c"+$(this).val()).val());
            }		   
 		});//$('input:checkbox.clasep').each(function () {			
-		if (contador>1) {
+		if (contador > 1) {
 		   navigator.notification.alert('Solo debe seleccionar un articulo',null,'Error Modificando Pedido','Aceptar');					
+		
+		} else{
+			if (contador == 1){
+		         alert('contador=1,'+articulo);
+			     guardaarticulo(articulo);//almacena localmente la clave de articulo 					 
+				 window.location.href='#pmodcantidadp';					
+			}
 		}
-		if (contador==1) {
-			 alert('contador=1,'+articulo);
-		     guardaarticulo(articulo);//almacena localmente la clave de articulo 					 
-			 window.location.href='#pmodcantidadp';
-		}	
-		if (contador==0) {
-			 alert('contador=0,'+articulo);		     
-		}			
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
 });
 $("#beliminarp").tap(function() { 
@@ -281,8 +285,9 @@ $("#beliminarf").tap(function() {
      });	
 	 $("#bcatalogo").tap(function(){
                  //var clavecli = $(this).attr("id");
-				 //limpia los grid
+				 //limpia los grid				  
                   armacatalogo();
+				  window.location.href='#pmodcantidadp';
 				  
      });
 	 $("#binicializar").click(function(){
