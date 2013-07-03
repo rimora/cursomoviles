@@ -8,9 +8,13 @@ function saveidcliente(clave){
 function guardaarticulo(articulo){
 	window.localStorage.setItem("articulo",articulo);
 	//alert (window.localStorage.getItem("clave"));
-	
-	
 }
+function guardacantidad(cantidad){
+	window.localStorage.setItem("cantidad",cantidad);
+	//alert (window.localStorage.getItem("clave"));
+}
+
+
 function tempdetalle(cantidad){
 	
 	alert(cantidad);	

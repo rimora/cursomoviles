@@ -45,7 +45,7 @@ function mostrarpedido(){
             		html+='</div>';            
                     html+='<div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
                     html+='<div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
-                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#pmodcantidadp" class="clasep" name="'+row['articulo']+'">'+row['cantidad']+'</a></div></div>';
+                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#pmodcantidadp" class="clasep" name="'+row['articulo']+'" id="P'+row['articulo']+'*'+row['cantidad']+'" ><font color="FF00CC">'+row['cantidad']+'</font></a></div></div>';
 	                html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
 
                   	 
@@ -106,7 +106,8 @@ function mostrarfactura(){
             		html+='</div>';            
                     html+='<div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
                     html+='<div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
-                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+row['cantidad']+'</div></div>';
+                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#pmodcantidadf" class="clasef" name="'+row['articulo']+'" id="F'+row['articulo']+'*'+row['cantidad']+'" ><font color="FF00CC">'+row['cantidad']+'</font></a></div></div>';
+
 	                html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
 
                   	 

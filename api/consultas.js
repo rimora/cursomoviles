@@ -254,6 +254,7 @@ function sugerido(){
 	var artsug=[];
 	var cantsug=[];
 	var exissug=[];
+	var preciosug=[];
 	var cliente=window.localStorage.getItem("clave");	
 	var i=0;
 	function listo(tx,results){ 	      
@@ -265,6 +266,7 @@ function sugerido(){
 				artsug[i]=row['articulo'];
 				cantsug[i]=row['cantidad'];
 				exissug[i]=row['existencia'];
+				preciosug[i]=row['precio']*(1+(row['impuesto']/100));
 				i++;
 			 //}//if (row['cantidad']>0)			 
 		  	}); //$.each       				  
@@ -275,8 +277,12 @@ function sugerido(){
 			
 		  }*/
  	}//function listo(tx,results){ 
-	function consultasug(tx){   	    	        
-			var sql='SELECT * FROM SUGERIDO a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" WHERE cliente="'+cliente+'"  ';			
+	function consultasug(tx){   	    	        			
+			var sql='SELECT a.articulo,b.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as precio,';
+			var sql='c.existencia ';	
+			sql+='FROM SUGERIDO a left outer join articulo b on b.articulo=a.articulo ';
+			sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="K01" WHERE a.cliente="'+cliente+'"  ';
+								
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error consultar sugerido del cliente : "+cliente+err.code+err.message);
          		});    									
@@ -285,12 +291,36 @@ function sugerido(){
     	 			 alert("Error select tabla sugerido: "+err.code+err.message);
          		},function(){
 				 //alert(artsug.length);
+				 
 				 for (var i = 0, long = artsug.length; i < long; i++) {   					 
 					   //alert(artsug[i]+' '+cantsug[i]+' '+exissug[i]);
-					   preparadetalletemp(artsug[i],cantsug[i],exissug[i])
-				 }
+					   
+					   
+					   if (validasaldo(cantsug[i]*preciosug[i]))
+					   {
+						   navigator.notification.alert('Limite de credito excedido,no se cargaron todos los articulos',null,'Limite de credito excedido','Aceptar');					
+						   return false;
+						   
+					   }
+					   else{
+						preparadetalletemp(artsug[i],cantsug[i],exissug[i])
+					   }
+					   
+				 }// for (var i = 0, long = artsug.length; i < long; i++) {   					 
 				 mostrarpedido();
                  mostrarfactura(); 
 				});		
 				
 }//function sugerido
+function validasaldo(importe)
+{
+	var limite=window.localStorage.getItem("limite");
+	var saldo=window.localStorage.getItem("saldo")+importe;
+	if (saldo>limite){
+	   return true;	   	
+	}
+	else{
+	   window.localStorage.setItem("saldo",saldo);
+	   return false;
+	}	
+}

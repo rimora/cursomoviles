@@ -67,7 +67,7 @@ $(document).ready(function() {
     $("#listaclientes li").live('click',function(){
 		          //al seleccionar un cliente de la lista, muestra sus datos
                   var clavecli = $(this).attr("id");
-				  alert (clavecli);
+				  //alert (clavecli);
 				  mostrarcliente(clavecli);
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
     });
@@ -140,8 +140,22 @@ $("a.clasep").live('click',function(){
 				  alert (articulo);
 				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
     });
+$("a.clasef").live('click',function(){
+                  var articulo = $(this).attr("name");
+				  var id = $(this).attr("id");
+				  var longitud=id.length;
+				  var posicion = id.indexOf('*'); 
+				  var cantidad=Number(id.substring(posicion+1));
+				  
+				  alert ($(this).attr("id"));				  
+				  alert (articulo);
+				  alert(cantidad);				  
+				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
+				 guardacantidad(cantidad);//almacena localmente la cantidad actual en factura
+    });
 
-$("#bmodificarp").tap(function() { 
+
+/*$("#bmodificarp").tap(function() { 
                  //var clavecli = $(this).attr("id");
 		var contador=0;	
 		
@@ -166,7 +180,7 @@ $("#bmodificarp").tap(function() {
 			}
 		}
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
-});
+});*/
 $("#beliminarp").tap(function() { 
                  //var clavecli = $(this).attr("id");				 
 	function onConfirm(button) {
@@ -217,9 +231,13 @@ $("#beliminarf").tap(function() {
 	
 	//preparadetalletemp(window.localStorage.getItem("articulo"),$("#scantidad").val())
 	  alert('boton pruebas2');
-      alert(consultaexis("ADE-04"));
-	  insertatempfactura("ADE-04",5);
-      iniciar();
+	  alert('ya');
+	    
+	  var c=0;
+	  
+	  var c=consultaexis2("ADE-04");
+      alert('despues de llamada'+c);	  
+      //iniciar();
 	});
 	$("#lcatalogo li").live('click',function(){
                   var articulo = $(this).attr("id");
@@ -231,7 +249,7 @@ $("#beliminarf").tap(function() {
 				 var cantidad=$('#scantidad').val();
 				  alert (cantidad);
 				  if (cantidad<=0){
-					  alert ('No es posible indicar cantidad cero');
+					  navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
 					  
 				  }
 				  else
@@ -254,9 +272,34 @@ $("#beliminarf").tap(function() {
 				  {
 				    //obtiene el articulo pulsado en la lista
     				var articulo = window.localStorage.getItem("articulo");
-	     			alert (cantidad);	  
+	     			//alert (cantidad);	  
 					 modificatemppedido(articulo,cantidad);
 					 mostrarpedido();
+				  }
+    });
+	$("#botonmodcantidadf").tap(function(){
+                 //var cantidad=$('#scantidad').attr('Val');
+				 var cantidad=$('#modcantidadf').val();
+				  //alert (cantidad);
+				 
+				  if (cantidad<=0){
+					   navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
+					  
+				  }
+				  else
+				  {
+				    var cantant=Number(window.localStorage.getItem("cantidad"));
+					var articulo = window.localStorage.getItem("articulo");
+					if (cantidad>cantant){
+					   		
+						
+					}
+					
+    				
+					
+	     			//alert (cantidad);	  
+					 modificatempfactura(articulo,cantidad);
+					 mostrarfactura();
 				  }
     });
 	$("#guardapros").tap(function() { 
