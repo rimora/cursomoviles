@@ -104,11 +104,15 @@ function mostrarcliente(clavecli){
 						
 					}
 					else {			
-						$("#bventa").addClass('ui-disabled');
+						$("#bventa").removeClass('ui-disabled'); 
 					}
 					if (saldot>limite){
 						alert('Cliente limite de credito excedido, no podrá realizar ventas');
+						$("#bventa").addClass('ui-disabled');
 						
+					}
+					else {			
+						$("#bventa").removeClass('ui-disabled'); 
 					}
 
 	   }
