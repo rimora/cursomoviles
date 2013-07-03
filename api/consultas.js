@@ -99,7 +99,12 @@ function mostrarcliente(clavecli){
 					$("#montocli").val(montot); 
 					if (vencida=="S"){
 						alert('El cliente tiene facturas vencidas, no podrá realizar ventas');
+						$("#bventa").addClass('ui-disabled');
+
 						
+					}
+					else {			
+						$("#bventa").addClass('ui-disabled');
 					}
 					if (saldot>limite){
 						alert('Cliente limite de credito excedido, no podrá realizar ventas');
@@ -285,7 +290,7 @@ function sugerido(){
  	}//function listo(tx,results){ 
 	function consultasug(tx){   	    	        			
 			var sql='SELECT a.articulo,a.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as precio,';
-			sql+='isnull(c.existencia,0) as existencia ';	
+			sql+='c.existencia ';	
 			sql+='FROM SUGERIDO a left outer join articulo b on b.articulo=a.articulo ';
 			sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="K01" WHERE a.cliente="'+cliente+'"  ';
 					
@@ -309,7 +314,13 @@ function sugerido(){
 						   
 					   }
 					   else{
-						preparadetalletemp(artsug[i],cantsug[i],exissug[i])
+						   if (exissug[i]==null){
+								preparadetalletemp(artsug[i],cantsug[i],0);
+						   }
+							else
+							  {
+								preparadetalletemp(artsug[i],cantsug[i],exissug[i]);
+							}
 					   }
 					   
 				 }// for (var i = 0, long = artsug.length; i < long; i++) {   					 
