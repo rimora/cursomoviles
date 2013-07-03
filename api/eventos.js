@@ -190,7 +190,7 @@ $("#beliminarp").tap(function() {
            		if (this.checked) {
              	  alert($(this).attr("name"));
 				  alert($(this).attr("value"));
-				   eliminatemppedido($(this).attr("name"))				    
+				   eliminalinea($(this).attr("name"),$(this).attr("value"),"P")				    
 			   //alert($("#"+"c"+$(this).val()).val());
           		 }
 			});//$('input:checkbox.clasep').each(function () {	

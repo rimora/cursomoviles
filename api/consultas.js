@@ -282,7 +282,7 @@ function sugerido(){
 		  }*/
  	}//function listo(tx,results){ 
 	function consultasug(tx){   	    	        			
-			var sql='SELECT a.articulo,b.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as precio,';
+			var sql='SELECT a.articulo,a.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as precio,';
 			sql+='c.existencia ';	
 			sql+='FROM SUGERIDO a left outer join articulo b on b.articulo=a.articulo ';
 			sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="K01" WHERE a.cliente="'+cliente+'"  ';
