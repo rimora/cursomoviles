@@ -56,6 +56,8 @@ function mostrarcliente(clavecli){
 	   		$('#limitecredito').text("Límite de Crédito: "+row['lcredito']);
 	   		$('#saldo').text("Saldo: "+row['saldo']);
 			limite=row['lcredito'];
+			window.localStorage.setItem("limite",Number(row['lcredito']));
+			window.localStorage.setItem("saldo",Number(row['saldo']));
 		}
 		function poblarfac(tx,results){ 
 		      $("#gridfaccli").empty();			  
@@ -260,6 +262,7 @@ function sugerido(){
 	function listo(tx,results){ 	      
 	      if (results.rows.length>0){
 			$.each(results.rows,function(index){           
+			alert('entra al each,listo sugerido');
 			 var row = results.rows.item(index);            			
 			 //if (row['cantidad']>0){
 			 	//preparadetalletemp(row['articulo'],row['cantidad']);								
@@ -268,6 +271,7 @@ function sugerido(){
 				exissug[i]=row['existencia'];
 				preciosug[i]=row['precio']*(1+(row['impuesto']/100));
 				i++;
+				
 			 //}//if (row['cantidad']>0)			 
 		  	}); //$.each       				  
 		  }//if			  
@@ -282,9 +286,9 @@ function sugerido(){
 			sql+='c.existencia ';	
 			sql+='FROM SUGERIDO a left outer join articulo b on b.articulo=a.articulo ';
 			sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="K01" WHERE a.cliente="'+cliente+'"  ';
-								
+					alert(sql);			
 			tx.executeSql(sql,[],listo,function(err){
-    	 		 alert("Error consultar sugerido del cliente : "+cliente+err.code+err.message);
+    	 		 alert("Error consultar sugerido del cliente : "+sql+err.code+err.message);
          		});    									
 	}
 	consultadb().transaction(consultasug, function(err){

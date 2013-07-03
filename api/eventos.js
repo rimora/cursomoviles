@@ -7,8 +7,7 @@ $(document).ready(function() {
 		db.transaction(consulta,errorconsulta,listo);
 		
 	
-	});*/
-	window.localStorage.setItem("limite",0);
+	});*/	
 	window.localStorage.setItem("saldo",0);
 	document.addEventListener("backbutton", function(){
 			
