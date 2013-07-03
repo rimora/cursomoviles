@@ -72,7 +72,8 @@ function mostrarfactura(){
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta,errorconsulta);	
 	function consulta(tx) {		
-		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);		
+		tx.executeSql('SELECT a.articulo,b.descripcion,(b.precio-((b.precio/100)*b.descuento)) as precio,a.cantidad,b.impuesto FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);		
+		
 		}
 		function exito(tx,results){ 		    
 			  $("#gridfactura").empty();	
@@ -82,7 +83,8 @@ function mostrarfactura(){
 			  var saldot=0;
 			  var montot=0;			  
 		      var precio=0;
-	    	  var total=0;              
+	    	  var total=0;
+			  var importe=0;              
 			  //agrega encabezado de grid
 			  html+=' <div class="ui-block-a" style="width:70px;height:20px" > ';            
               html+=' <div class="ui-bar ui-bar-a">Elim.</div></div> ';           
@@ -92,15 +94,16 @@ function mostrarfactura(){
               html+=' <div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-a">Precio</div></div>';
 			  $.each(results.rows,function(index){
 				  var row = results.rows.item(index); 					    
-				     descuento=(row['precio']/100)*row['descuento'];
-				     precio=row['precio']-descuento;				 
-					 total+=Number(precio*row['cantidad']);
+				     //descuento=(row['precio']/100)*row['descuento'];
+				     precio=row['precio']*(1+(row['impuesto']/100));				 
+					 importe=precio*row['cantidad'];
+					 total+=Number(importe);
 					 					 
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
                    	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
 			        html+='     <label for="F'+row['articulo']+'" >&nbsp</label>';  
-            		html+='     <input type="checkbox" id="F'+row['articulo']+'" name="'+row['articulo']+'" value="'+row['cantidad']+'" class="clasef"  />';
+            		html+='     <input type="checkbox" id="F'+row['articulo']+'" name="'+row['articulo']+'" value="'+importe+'" class="clasef"  />';
                    	html+='		</div>';	
 		            html+='   </div>';
             		html+='</div>';            

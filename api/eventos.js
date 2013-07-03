@@ -8,6 +8,8 @@ $(document).ready(function() {
 		
 	
 	});*/
+	window.localStorage.setItem("limite",0);
+	window.localStorage.setItem("saldo",0);
 	document.addEventListener("backbutton", function(){
 			
 		    return false;	
@@ -209,7 +211,7 @@ $("#beliminarf").tap(function() {
 		if (button==1){
 			$('input:checkbox.clasef').each(function () {
            		if (this.checked) {
-				   eliminatempfactura($(this).attr("name"),Number($(this).attr("value")))				    
+				   eliminalinea($(this).attr("name"),Number($(this).attr("value")),"F")				    
 			   //alert($("#"+"c"+$(this).val()).val());
           		 }
 			});//$('input:checkbox.clasep').each(function () {	
@@ -236,7 +238,42 @@ $("#beliminarf").tap(function() {
 	  var c=0;
 	  
 	  var c=consultaexis2("ADE-04");
-      alert('despues de llamada'+c);	  
+      alert('despues de llamada'+c);	
+	  function consultaexis2(articulo){	
+     
+	  alert('entra a función');
+	  consultadb().transaction(existencia,function(err){
+    	  alert("Error al insertar renglon factura: "+err.code+err.message);
+          },function()
+		  	{
+			  alert(exi);
+			  return exi;
+		  	}
+		);
+    	function existencia(tx){   	
+	        alert('entra a consulexis');    
+			var sql='SELECT existencia FROM ARTICULO_EXISTENCIA WHERE articulo="'+articulo+'" AND bodega="K01"';			
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error consultar existencia : "+err.code+err.message);
+         		});    									
+	    }
+		function listo(tx,results){ 	 
+	      alert('entra a listo de consulexis');         
+	      if (results.rows.length>0){			  
+		    //alert('despues del rows.length');         
+			var row = results.rows.item(0);    
+			//alert('despues del var row');         			
+			exi=row['existencia'];
+		  }		
+		  else
+		  {
+			exi=5000;
+		  }
+		  
+ 		}
+		
+	
+}//function consultaexis  
       //iniciar();
 	});
 	$("#lcatalogo li").live('click',function(){
