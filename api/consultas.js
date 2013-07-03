@@ -51,7 +51,7 @@ function mostrarcliente(clavecli){
 	   	    $('#clacli').text("Clave: "+row['clave']);
 		    $('#direccion').text("Dirección: "+row['direccion']);
   	   		$('#telefono').text("Telefono: "+row['telefono']);
-	   		$('#tipo').text("Tipo: "+row['tipo']);
+	   		$('#tipo').text("Estado: Credito "+row['tipo']);
   	   		$('#diascredito').text("Dias de Crédito: "+row['diasc']);
 	   		$('#limitecredito').text("Límite de Crédito: "+row['lcredito']);
 	   		$('#saldo').text("Saldo: "+row['saldo']);
@@ -258,11 +258,13 @@ function sugerido(){
 	var exissug=[];
 	var preciosug=[];
 	var cliente=window.localStorage.getItem("clave");	
+	alert(window.localStorage.getItem("limite"));
+	alert(window.localStorage.getItem("saldo"));
+	
 	var i=0;
 	function listo(tx,results){ 	      
 	      if (results.rows.length>0){
-			$.each(results.rows,function(index){           
-			alert('entra al each,listo sugerido');
+			$.each(results.rows,function(index){           			
 			 var row = results.rows.item(index);            			
 			 //if (row['cantidad']>0){
 			 	//preparadetalletemp(row['articulo'],row['cantidad']);								
@@ -283,10 +285,10 @@ function sugerido(){
  	}//function listo(tx,results){ 
 	function consultasug(tx){   	    	        			
 			var sql='SELECT a.articulo,a.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as precio,';
-			sql+='c.existencia ';	
+			sql+='isnull(c.existencia,0) as existencia ';	
 			sql+='FROM SUGERIDO a left outer join articulo b on b.articulo=a.articulo ';
 			sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="K01" WHERE a.cliente="'+cliente+'"  ';
-					alert(sql);			
+					
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error consultar sugerido del cliente : "+sql+err.code+err.message);
          		});    									
@@ -299,10 +301,10 @@ function sugerido(){
 				 for (var i = 0, long = artsug.length; i < long; i++) {   					 
 					   //alert(artsug[i]+' '+cantsug[i]+' '+exissug[i]);
 					   
-					   
+
 					   if (validasaldo(cantsug[i]*preciosug[i]))
 					   {
-						   navigator.notification.alert('Limite de credito excedido,no se cargaron todos los articulos',null,'Limite de credito excedido','Aceptar');					
+						   						   navigator.notification.alert('Limite de credito excedido,no se cargaron todos los articulos',null,'Limite de credito excedido','Aceptar');					
 						   return false;
 						   
 					   }
@@ -318,6 +320,8 @@ function sugerido(){
 }//function sugerido
 function validasaldo(importe)
 {
+	alert('limite '+window.localStorage.getItem("limite"));
+	alert('saldo '+window.localStorage.getItem("saldo"));
 	var limite=window.localStorage.getItem("limite");
 	var saldo=window.localStorage.getItem("saldo")+importe;
 	if (saldo>limite){
