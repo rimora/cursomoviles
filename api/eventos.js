@@ -8,7 +8,10 @@ $(document).ready(function() {
 		
 	
 	});*/	
+	window.localStorage.clear();
 	window.localStorage.setItem("saldo",0);
+	window.localStorage.setItem("consepedido","S03000375");
+	window.localStorage.setItem("ruta","S04");
 	document.addEventListener("backbutton", function(){
 			
 		    return false;	
@@ -42,9 +45,10 @@ $(document).ready(function() {
 	$("#clientes").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				 //botón clientes, genera lista con los clientes del día lunes
-				  //alert ('llama a mostrar clientes');				                    
+				  //alert ('llama a mostrar clientes');
+				  window.location.href='#pclientes';				                    
 				  mostrarclientes("Lunes");
-				  $("select#menu").val("Lunes").selectmenu("refresh");
+				  $("select#menu").val("Lunes").selectmenu("refresh");   
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
                });
   /*  $("#bguardacli").tap(function() { 
@@ -136,23 +140,19 @@ $(document).ready(function() {
 			$("#gridprueba").append(html);  
 
 		});
-$("a.clasep").live('click',function(){
+$("a.clasep").live('click',function(){//al modificar linea de pedido
                   var articulo = $(this).attr("name");
 				  alert (articulo);
 				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
     });
-$("a.clasef").live('click',function(){
+$("a.clasef").live('click',function(){//al modificar linea de factura
                   var articulo = $(this).attr("name");
-				  var id = $(this).attr("id");
+				 /* var id = $(this).attr("id");
 				  var longitud=id.length;
 				  var posicion = id.indexOf('*'); 
-				  var cantidad=Number(id.substring(posicion+1));
-				  
-				  alert ($(this).attr("id"));				  
-				  alert (articulo);
-				  alert(cantidad);				  
+				  var cantidad=Number(id.substring(posicion+1));*/
 				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
-				 guardacantidad(cantidad);//almacena localmente la cantidad actual en factura
+				
     });
 
 
@@ -186,6 +186,7 @@ $("#beliminarp").tap(function() {
                  //var clavecli = $(this).attr("id");				 
 	function onConfirm(button) {
 		if (button==1){
+			alert('boton si pulsado');
 			$('input:checkbox.clasep').each(function () {
            		if (this.checked) {
              	  alert($(this).attr("name"));
@@ -193,8 +194,13 @@ $("#beliminarp").tap(function() {
 				   eliminalinea($(this).attr("name"),$(this).attr("value"),"P")				    
 			   //alert($("#"+"c"+$(this).val()).val());
           		 }
+				 else{
+					alert('no checado'); 
+					alert($(this).attr("name"));
+				  	alert($(this).attr("value"));
+				 }
 			});//$('input:checkbox.clasep').each(function () {	
-			mostrarpedido();
+			//mostrarpedido();
 		}//if (button==1){
 	}			 
     navigator.notification.confirm('¿Estas seguro de eliminar los registros seleccionados?',     // mensaje (message)
@@ -210,11 +216,13 @@ $("#beliminarf").tap(function() {
 		if (button==1){
 			$('input:checkbox.clasef').each(function () {
            		if (this.checked) {
+				   alert('nombre '+$(this).attr("name")+' valor '+$(this).attr("value"));
 				   eliminalinea($(this).attr("name"),Number($(this).attr("value")),"F")				    
+				   
 			   //alert($("#"+"c"+$(this).val()).val());
           		 }
 			});//$('input:checkbox.clasep').each(function () {	
-			mostrarfactura();
+			
 		}//if (button==1){
 	}			 
     navigator.notification.confirm('¿Estas seguro de eliminar los registros seleccionados?',     // mensaje (message)
@@ -224,7 +232,21 @@ $("#beliminarf").tap(function() {
     );
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
 });
-
+$("#bimprimirp").tap(function() { 
+                 //var clavecli = $(this).attr("id");
+		function onConfirm(button) {
+		if (button==1){
+			imprimirped($("#pcomentario").val());
+			
+		}//if (button==1){
+	}			 
+    navigator.notification.confirm('¿Confirma generar pedido?',     // mensaje (message)
+    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    'Generar Pedido',            // titulo (title)
+        'SI,NO'       // botones (buttonLabels)
+    );
+				  //$.mobile.changePage($("#datoscli"));	  			  				  
+});
 
 	$("#bpruebas").tap(function() { 	
      //llama a funcion que prepara las tablas temporales, insertando el articulo y cantidad
@@ -293,12 +315,12 @@ $("#beliminarf").tap(function() {
 				    //obtiene el articulo pulsado en la lista
     				var articulo = window.localStorage.getItem("articulo");
 	     			//alert (articulo);	  
-					 consultaexis(articulo,cantidad);
+					 insertalinea(articulo,cantidad);
 				  }
     });
 	$("#botonmodcantidadp").tap(function(){
                  //var cantidad=$('#scantidad').attr('Val');
-				 var cantidad=$('#modcantidadp').val();
+				 var cantidad=Number($('#modcantidadp').val());
 				  //alert (cantidad);
 				  if (cantidad<=0){
 					   navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
@@ -309,8 +331,9 @@ $("#beliminarf").tap(function() {
 				    //obtiene el articulo pulsado en la lista
     				var articulo = window.localStorage.getItem("articulo");
 	     			//alert (cantidad);	  
-					 modificatemppedido(articulo,cantidad);
-					 mostrarpedido();
+					 modificalineap(articulo,cantidad);
+					 //alert('despues de llamada modificarlineap');
+					 //mostrarpedido();
 				  }
     });
 	$("#botonmodcantidadf").tap(function(){
@@ -323,19 +346,9 @@ $("#beliminarf").tap(function() {
 					  
 				  }
 				  else
-				  {
-				    var cantant=Number(window.localStorage.getItem("cantidad"));
-					var articulo = window.localStorage.getItem("articulo");
-					if (cantidad>cantant){
-					   		
-						
-					}
-					
-    				
-					
-	     			//alert (cantidad);	  
-					 modificatempfactura(articulo,cantidad);
-					 mostrarfactura();
+				  {				    
+					var articulo = window.localStorage.getItem("articulo");					
+					modificalineaf(articulo,cantidad);
 				  }
     });
 	$("#guardapros").tap(function() { 
@@ -345,7 +358,7 @@ $("#beliminarf").tap(function() {
 				  $.mobile.changePage($("#pclientes"));	  			  				  
 				  
      });	
-	 $("#bgenerav").tap(function() { 
+	 $("#bgenerav").tap(function() { //boton aceptar del catalogo
                  //var clavecli = $(this).attr("id");
 				 //muestra el pedido o factura armados				 
 				  mostrarpedido();
@@ -357,9 +370,10 @@ $("#beliminarf").tap(function() {
 				 //limpia los grid
                   $("#gridpedido").empty();
 				  $("#gridfactura").empty();
-				  limpiartemp();
-				  sugerido();
-				  //insertatempfactura("ADE-04",50);
+				  //limpiartemp();
+				  validasug();//valida si tiene facturas o pedidos pendientes de imprimir para insertar o no pedido sugerido en caso de tenerlo
+				  mostrarpedido();
+				  mostrarfactura();
 				  
      });	
 	 $("#bcatalogo").tap(function(){
@@ -375,7 +389,11 @@ $("#beliminarf").tap(function() {
                   pruebalocalizacion();
 				  
      });
-	 
+	 $("#bdevoluciones").tap(function() {                   
+				  //limpiartemp();
+				  listafacturas();
+				  
+     });	
 	 
 	 
   },false);//document.addEventListener("deviceready",function(){	

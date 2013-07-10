@@ -9,15 +9,15 @@ function guardaarticulo(articulo){
 	window.localStorage.setItem("articulo",articulo);
 	//alert (window.localStorage.getItem("clave"));
 }
-function guardacantidad(cantidad){
-	window.localStorage.setItem("cantidad",cantidad);
+function actsaldo(importe){
+	//alert(importe);
+	var saldoact=Number(window.localStorage.getItem("saldo"))+Number(importe);
+	//alert(saldoact);
+	window.localStorage.setItem("saldo",saldoact);
+	actsaldocliente(saldoact)
 	//alert (window.localStorage.getItem("clave"));
 }
-
-
-function tempdetalle(cantidad){
-	
-	alert(cantidad);	
-	alert (window.localStorage.getItem("articulo"));
-	
+function tempdetalle(cantidad){	
+	//alert(cantidad);	
+	alert (window.localStorage.getItem("articulo"));	
 }

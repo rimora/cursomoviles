@@ -7,8 +7,7 @@ function mostrarpedido(){
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
-		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);
-		
+		tx.executeSql('SELECT a.articulo,b.descripcion,(b.precio-((b.precio/100)*b.descuento)) as precio,b.descuento,a.cantidad,b.impuesto FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo where a.cliente="'+window.localStorage.getItem("clave")+'"',[],exito,errorconsulta);
 		}
 	
 		
@@ -41,20 +40,20 @@ function mostrarpedido(){
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
                    	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
 			        html+='     <label for="P'+row['articulo']+'" >&nbsp</label>';  
-            		html+='     <input type="checkbox" id="P'+row['articulo']+'" name="'+row['articulo']+'" value="'+importe+'" class="clasef"  />';
+            		html+='     <input type="checkbox" id="P'+row['articulo']+'" name="'+row['articulo']+'" value="'+importe+'" class="clasep"  />';
                    	html+='		</div>';	
 		            html+='   </div>';
             		html+='</div>';            
                     html+='<div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
                     html+='<div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
-                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#pmodcantidadp" class="clasep" name="'+row['articulo']+'" id="P'+row['articulo']+'*'+row['cantidad']+'" ><font color="FF00CC">'+row['cantidad']+'</font></a></div></div>';
-	                html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
+                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#pmodcantidadp" class="clasep" name="'+row['articulo']+'" id="P'+row['articulo']+'*'+row['cantidad']+'" ><font color="FFFFFF">'+row['cantidad']+'</font></a></div></div>';
+	                html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+precio.toFixed(2)+'</div></div> ';
 
                   	 
 			  });//.each
 					$("#gridpedido").append(html); 
 					//$("#tpedido").attr("value",total); 			
-					$("#tpedido").val(total); 			
+					$("#tpedido").val(total.toFixed(2)); 			
 					
 					//alert('total'+total);					 
 			
@@ -74,7 +73,7 @@ function mostrarfactura(){
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta,errorconsulta);	
 	function consulta(tx) {		
-		tx.executeSql('SELECT a.articulo,b.descripcion,(b.precio-((b.precio/100)*b.descuento)) as precio,a.cantidad,b.impuesto FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo',[],exito,errorconsulta);		
+		tx.executeSql('SELECT a.articulo,b.descripcion,(b.precio-((b.precio/100)*b.descuento)) as precio,a.cantidad,b.impuesto FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo where a.cliente="'+window.localStorage.getItem("clave")+'"',[],exito,errorconsulta);		
 		
 		}
 		function exito(tx,results){ 		    
@@ -111,15 +110,15 @@ function mostrarfactura(){
             		html+='</div>';            
                     html+='<div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
                     html+='<div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
-                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#pmodcantidadf" class="clasef" name="'+row['articulo']+'" id="F'+row['articulo']+'*'+row['cantidad']+'" ><font color="FF00CC">'+row['cantidad']+'</font></a></div></div>';
+                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#pmodcantidadf" class="clasef" name="'+row['articulo']+'" id="F'+row['articulo']+'*'+row['cantidad']+'" ><font color="FFFFFF">'+row['cantidad']+'</font></a></div></div>';
 
-	                html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+precio+'</div></div> ';
+	                html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+precio.toFixed(2)+'</div></div> ';
 
                   	 
 			  });//.each			        
 					$("#gridfactura").append(html); 					
 					//$("#tfactura").attr("value",total); 								 
-					$("#tfactura").val(total); 								 
+					$("#tfactura").val(total.toFixed(2)); 								 
 					//alert('total factura'+total);				 								
 	   }//function exito
  		

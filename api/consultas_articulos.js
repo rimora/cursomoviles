@@ -1,36 +1,40 @@
 // consultas de articulos
-function consultaexis(articulo,cantidad){	
-        //tipo I= insertar, M=Modificar
-		//cuando se modifica en facturas, se valida:
-		//1. Si la diferencia entre la cantidad actual y la nueva es mayor a la existencia en bodega, 
-		//		se valida si ya existe en pedido el producto para solicitarle al usuario que modifique la cantidad en pedido y solo se podrá
-		//	    insertar en FACTURA la cantidad que no supere la existencia.
-		//      ejemplo: articulo insertado en factura con existencia actual=5 y cantidad insertada=4, al modificar a 10
-		
-		//2. Si la diferencia es menor a la existencia en bodega, se modifica 
-    	function existencia(tx){   	
-	       // alert('entra a consulexis');    
-			var sql='SELECT existencia FROM ARTICULO_EXISTENCIA WHERE articulo="'+articulo+'" AND bodega="K01"';			
+function insertalinea(articulo,cantidad){	    	
+	function listo(tx,results){ 	      
+	      if (results.rows.length>0){			
+			 var row = results.rows.item(0);            			
+			 //if (row['cantidad']>0){
+			 	//preparadetalletemp(row['articulo'],row['cantidad']);								
+				var precio=row['precio']*(1+(row['impuesto']/100));
+					   //alert(artsug[i]+' '+cantsug[i]+' '+exissug[i]);
+					   if (validasaldo(cantidad*precio))
+					   {
+						 navigator.notification.alert('Limite de credito excedido',null,'Limite de credito excedido','Aceptar');					
+						 return false;
+						   
+					   }
+					   else{
+						   if (row['existencia']==null){
+								preparadetalletemp(articulo,cantidad,0);
+						   }
+							else
+							  {
+								preparadetalletemp(articulo,cantidad,row['existencia']);
+							}
+					   }
+		  }//if			  
+ 	}//function listo(tx,results){ 
+	function consultasug(tx){   	    	        			
+			var sql='SELECT a.impuesto,(a.precio-((a.precio/100)*a.descuento)) as precio,';
+			sql+='b.existencia ';	
+			sql+='FROM ARTICULO a left outer join ';
+			sql+='articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" WHERE a.articulo="'+articulo+'"  ';
+					
 			tx.executeSql(sql,[],listo,function(err){
-    	 		 alert("Error consultar existencia : "+err.code+err.message);
+    	 		 alert("Error consultar articulo : "+sql+err.code+err.message);
          		});    									
-	    }
-		function listo(tx,results){ 	 
-	      //alert('entra a listo de consulexis');         
-	      if (results.rows.length>0){			  
-		    //alert('despues del rows.length');         
-			var row = results.rows.item(0);    
-			//alert('despues del var row');         			
-			preparadetalletemp(articulo,cantidad,row['existencia'])
-		  }		
-		  else
-		  {
-			preparadetalletemp(articulo,cantidad,0)
-		  }
-		  
- 		}
-		consultadb().transaction(existencia,function(err){
-    	  alert("Error al insertar renglon factura: "+err.code+err.message);
-          });
-	
+	}
+	consultadb().transaction(consultasug, function(err){
+    	 			 alert("Error select tabla articulo: "+err.code+err.message);
+         		});		
 }//function consultaexis
