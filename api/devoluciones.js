@@ -9,7 +9,7 @@ function listafacturas(){
 	function poblarfac(tx){  
 		    alert('entra a poblarfac');
 			//var sql='SELECT * FROM ENCHISFAC WHERE CLIENTE="'+window.localStorage.getItem("clave")+'" ORDER BY FACTURA';		
-			var sql='SELECT * FROM ENCHISFAC ';		
+			var sql='SELECT * FROM CLIENTES ';		
 		    alert(sql);
 		tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select historico facturas: "+err.code+err.message);
@@ -21,9 +21,9 @@ function listafacturas(){
 		 $.each(results.rows,function(index){           
 			 var row = results.rows.item(index); 
 			 var html="";               			 
-			 html+='<li id="'+row['factura']+'">';
-	         html+='<a href=""><h5> '+row['factura']+'</h3>';
-			 html+='Total:'+row['monto']+' Pedido:'+row['pedido']+' Fecha:'+row['fecha']+'</a></li>';
+			 html+='<li id="'+row['CLAVE']+'">';
+	         html+='<a href=""><h5> '+row['SALDO']+'</h3>';
+			 html+='Total:'+row['telefono']+' Pedido:'+row['LIMITE']+' Fecha:'+row['NOMBRE']+'</a></li>';
 			 alert('antes del append de listfac '+html);
 			 $('#listahistfac').append(html);  			
 			 alert('despues del append de listfac '+html); 
