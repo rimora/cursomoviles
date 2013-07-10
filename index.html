@@ -618,7 +618,7 @@
            
 	</div>
 </div>
-
+<!--PAGINA HISTORICO FACTURAS DEL CLIENTE-->
 <div data-role="page" id="phistfac">
 	<div data-role="header">
 		<h3>FACTURAS DEL CLIENTE</h3>
@@ -633,7 +633,50 @@
     </div>
     
 </div>
+<!--PAGINA DETALLE HISTORICO FACTURAS DE CLIENTE -->
+<div data-role="page" id="pdethistfac">
+	<div data-role="header">
+		<h1><b>DETALLETES DE FACTURA</b></h1> 
+	</div>
+	<div data-role="content">		        
+                <div class="ui-grid-d" id="griddethistfac">
+				<!--
+                	 <div class="ui-block-a"><strong>Tipo</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-b"><strong>Documento</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-c"><strong>Vence</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-d"><strong>Saldo</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-e"><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
 
+                  	 <div class="ui-block-a"><strong>Tipo</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-b"><strong>Documento</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-c"><strong>Vence</strong> El texto que se ecriba aquí se amoldará a la mitad de pagina.</div>
+					 <div class="ui-block-d"><strong>Saldo</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     <div class="ui-block-e"><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
+                     --> 
+				</div><!-- /grid-d --> 
+              
+    </div>
+    
+	<div data-role="footer">       
+        <a href="#pclientes" class="ui-btn-right" id="regresarcliselect" data-role="button" 
+            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
+         <a class="ui-btn-left"  href="#poperaciones" id="Visita" data-role="button" data-theme="b"
+        data-icon="star" data-iconpos="left">Visita</a>    
+	</div>
+</div>
+<!-- P A G I N A  DIALOGO CANTIDAD A DEVOLVER-->
+<div data-role="dialog" id="pcantidaddev">
+    <div data-role="header">
+        <h1>Indica Cantidad a Devolver</h1>
+    </div>
+    <div data-role="content">
+       <div data-role="fieldcontain">
+		<label for="cantidaddev">Cantidad:</label>
+		<input type="number" data-type="range" name="cantidaddev" id="cantidaddev" value="1" min="1" max="100" data-theme="a" data-track-theme="b" />
+        <a href="#" data-role="button" data-rel="back" id="botoncantidaddev">Aceptar</a>
+	</div>
+    </div>
+</div>
 
 </body>
 </html>

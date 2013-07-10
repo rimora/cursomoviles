@@ -394,7 +394,13 @@ $("#bimprimirp").tap(function() {
 				  listafacturas();
 				  
      });	
-	 
+	 $("#listahistfac li").live('click',function(){
+		          //al seleccionar un cliente de la lista, muestra sus datos
+                  var factura = $(this).attr("id");
+				  //alert (clavecli);
+				  mostrarhistfac(factura);
+				  //$.mobile.changePage($("#datoscli"));	  			  				  
+    });
 	 
   },false);//document.addEventListener("deviceready",function(){	
 });//ultimo
