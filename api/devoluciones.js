@@ -22,8 +22,8 @@ function listafacturas(){
 			 var row = results.rows.item(index); 
 			 var html="";               			 
 			 html+='<li id="'+row['factura']+'">';
-	         html+='<a href="#pdethistfac"><h5> '+row['factura']+'</h3>';
-			 html+='Total:'+row['monto']+' Pedido:'+row['pedido']+' Fecha:'+row['fecha']+'</a></li>';
+	         html+='<a href="#pdethistfac"><h5> Factura: '+row['factura']+'</h3>';
+			 html+='Total:'+row['monto']+'   Pedido:'+row['pedido']+'   Fecha:'+row['fecha']+'</a></li>';
 			 alert('antes del append de listfac '+html);
 			 $('#listahistfac').append(html);  			
 			 alert('despues del append de listfac '+html); 
@@ -40,7 +40,7 @@ function mostrarhistfac(factura){
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {	
-        var sql='SELECT a.factura,a.articulo,a.cantidad,a.devuelto,a.precio,a.totlinea,a.linea ';
+        var sql='SELECT a.factura,a.articulo,a.cantidad,a.devuelto,a.precio,a.totlinea,a.linea, ';
 	    sql+='(a.precio-((a.precio/100)*b.descuento)) as preciocdesc,b.descripcion FROM DETHISFAC a ';	
 		sql+='left outer join articulo b on b.articulo=a.articulo where a.factura="'+factura+'"';	
 		
