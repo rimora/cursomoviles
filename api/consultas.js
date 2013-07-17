@@ -10,10 +10,10 @@ function mostrarclientes(dia){
 	function poblarcli(tx){  
 	    alert('entra a poblarcli'+dia);
 	    if (dia!="Todos"){
-			var sql='SELECT * FROM CLIENTES WHERE dia="'+dia+'" ORDER BY nombre  '			
+			var sql='SELECT nombre,clave FROM CLIENTES WHERE dia="'+dia+'" ORDER BY nombre  '			
 		}
 		else {
-			var sql='SELECT * FROM CLIENTES ORDER BY nombre'			
+			var sql='SELECT nombre,clave FROM CLIENTES ORDER BY nombre'			
 		}
 		tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select clientes por dia: "+err.code+err.message);
