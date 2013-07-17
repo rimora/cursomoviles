@@ -8,9 +8,9 @@ function mostrarclientes(dia){
     	 		 alert("Error select clientes : "+err.code+err.message);
          		});		
 	function poblarcli(tx){  
-	    alert('entra a poblarcli');
+	    alert('entra a poblarcli'+dia);
 	    if (dia!="Todos"){
-			var sql='SELECT * FROM CLIENTES WHERE DIA="'+dia+'" ORDER BY nombre  '			
+			var sql='SELECT * FROM CLIENTES WHERE dia="'+dia+'" ORDER BY nombre  '			
 		}
 		else {
 			var sql='SELECT * FROM CLIENTES ORDER BY nombre'			
@@ -21,7 +21,8 @@ function mostrarclientes(dia){
 	}
 	function listo(tx,results){  
 		 $('#listaclientes').empty();        
-		 $.each(results.rows,function(index){           
+		 $.each(results.rows,function(index){        
+		  alert('entra al each');   
 			 var row = results.rows.item(index);            
 			 $('#listaclientes').append('<li id="'+row['clave']+'"><a href="#datoscli"><h3>'+row['clave']+'  '+row['nombre']+'</h3></a></li>');        
 		 });    
