@@ -10,8 +10,10 @@ $(document).ready(function() {
 	});*/	
 	window.localStorage.clear();
 	window.localStorage.setItem("saldo",0);
-	window.localStorage.setItem("consepedido","S03000375");
+	window.localStorage.setItem("consepedido","S04000375");
+	window.localStorage.setItem("consedev","D04000375");
 	window.localStorage.setItem("ruta","S04");
+	window.localStorage.setItem("bodega","K01");
 	document.addEventListener("backbutton", function(){
 			
 		    return false;	
@@ -27,7 +29,7 @@ $(document).ready(function() {
 		  		}else{		  		  
 				alert('Usuario No Válio');
 				}  	
-	});
+	}); 
 	
 	$("#carga").tap(function() { 	           
                  //var clavecli = $(this).attr("id");
@@ -185,8 +187,7 @@ $("a.clasef").live('click',function(){//al modificar linea de factura
 $("#beliminarp").tap(function() { 
                  //var clavecli = $(this).attr("id");				 
 	function onConfirm(button) {
-		if (button==1){
-			alert('boton si pulsado');
+		if (button==1){			
 			$('input:checkbox.clasep').each(function () {
            		if (this.checked) {
              	  alert($(this).attr("name"));
@@ -382,6 +383,7 @@ $("#bimprimirp").tap(function() {
                   armacatalogo();
 				  window.location.href='#pcatalogo';
 				  
+				  
      });
 	 $("#binicializar").click(function(){
                  //var clavecli = $(this).attr("id");
@@ -389,21 +391,283 @@ $("#bimprimirp").tap(function() {
                   pruebalocalizacion();
 				  
      });
+	 //*****D E V O L U C I O N E S *****
 	 $("#bdevoluciones").tap(function() {                   
 				  //limpiartemp();
+				  window.location.href='#phistfac';
 				  listafacturas();
-				  
+				  eliminatempdev();
+				   
      });	
 	 $("#listahistfac li").live('click',function(){
-		          //al seleccionar un cliente de la lista, muestra sus datos
+		          //al seleccionar una factura de la lista, muestra los articulos
                   var factura = $(this).attr("id");
 				  //alert (clavecli);
-				  mostrarhistfac(factura);
+				  window.location.href='#pdethistfac';
+				  $("#gridartdev").empty();	
+				  $("#obsgendev").val('');
+				  guardafactura(factura);//almacena localmente el numero de factura	
+				  copiadethistempd();//copia a tabla temporal los renglones de la factura a devolver
+				  mostrarhistfac(factura);//muestra el grid con los detalles de los artículos de factura
+				  guardafechaactual();
+				  
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
     });
+	$("a.clasedev").live('click',function(){//al modificar linea de devolución.
+                  var linea = $(this).attr("name");//el nombre tiene el numero de linea que corresponde al articulo en la tabla de DETHISFAC
+				 /* var id = $(this).attr("id");
+				  var longitud=id.length;
+				  var posicion = id.indexOf('*'); 
+				  var cantidad=Number(id.substring(posicion+1));*/
+				 guardaarticulo(linea);//almacena localmente la linea, usando la función que guarda el articulo
+				 window.location.href='#pcantidaddev';//muestra dialogo para indicar cantidad a modificar y observaciones.
+				 mostrarddev(linea);
+				 
+				
+    });
+	$("#bcantidaddev").tap(function(){//boton aceptar del cuadro de dialogo
+                 //var cantidad=$('#scantidad').attr('Val');
+				 var cantidad=Number($('#cantidaddev').val());
+				 var observa=$('#obsrendev').val()
+				 alert('observa '+observa);
+				  //alert (cantidad);
+				  if (cantidad<0){
+					   navigator.notification.alert('Debe indicar cantidad valida',null,'Error Indicando Cantidad','Aceptar');					
+					  
+				  }
+				  else
+				  {
+				    //obtiene el articulo pulsado en la lista
+    				var linea = window.localStorage.getItem("articulo");
+	     			//alert (cantidad);	  
+					insertalindev(linea,cantidad,observa);					
+    				 //alert('despues de llamada modificarlineap');
+					 //mostrarpedido();
+				  }
+    });
+	$("#regresardedev").tap(function(){
+                function onConfirm(button) {
+					if (button==1){
+						 eliminatempdev();
+						 window.location.href='#phistfac';
+			
+					}//if (button==1){
+				}			 
+    	navigator.notification.confirm('Se perderán los datos no guardados',     // mensaje (message)
+	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    	'Generar Devolución',            // titulo (title)
+        'ACEPTAR,CANCELAR'       // botones (buttonLabels)
+	    );
+    }); 
+	$("#bguardadev").tap(function(){
+                function onConfirm(button) {
+					if (button==1){
+						 var observagen=$("#obsgendev").val();
+						 guardadev(observagen);//guarda la devolución.						 
+						 window.location.href='#phistfac';
+						 eliminatempdev();
+			
+					}//if (button==1){
+				}			 
+    	navigator.notification.confirm('¿Desea terminar y guardar la devolución?',     // mensaje (message)
+	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    	'Guardar Devolución',            // titulo (title)
+        'SI,NO'       // botones (buttonLabels)
+	    );
+    });  
+	 $("#probarfunciones").tap(function(){
+                function onConfirm(button) {
+					if (button==1){						 
+						alert('antes de llamar a f1');
+						f1();					 
+						alert('despues de llamar a f1');
+					}//if (button==1){
+				}			 
+    	navigator.notification.confirm('¿Desea terminar y guardar la devolución?',     // mensaje (message)
+	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    	'Guardar Devolución',            // titulo (title)
+        'SI,NO'       // botones (buttonLabels)
+	    );
+    });  
+	$("input").blur(function(){
+     
+	
+	
+	});
+ //*****C O B R O S *****	 
+	  $("#bcobros").tap(function() {                   				  
+				  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
+				  window.location.href='#pcobros';
+				  $("#labelencpcobros").append("Facturas pendientes del cliente: "+cliente);				  
+				  eliminatempcob();
+				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro
+				  listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
+				  guardafechaactual();
+				  			  
+				   
+     });
+	 $("a.clasecob").live('click',function(){//para indicar importe a pagar de la factura
+                  var factura = $(this).attr("name");//el nombre tiene el numero de documento en la tabla PENCOBRO
+				 /* var id = $(this).attr("id");
+				  var longitud=id.length;
+				  var posicion = id.indexOf('*'); 
+				  var cantidad=Number(id.substring(posicion+1));*/				 
+				 window.location.href='#pimportecob';//muestra dialogo para indicar cantidad a modificar y observaciones.
+				 mostrardcob(factura);//muestra dialogo de cobro
+				 guardafactura(factura);//almacena localmente el numero de factura
+				 
+				
+    });
+	$("#bcantidadcob").tap(function(){//boton aceptar del cuadro de dialogo
+                 //var cantidad=$('#scantidad').attr('Val');
+				 var cantidad=Number($('#cantidadcob').val());				 				 
+				  //alert (cantidad);
+				  if (cantidad<0){
+					   navigator.notification.alert('Debe indicar cantidad valida',null,'Error Indicando Cantidad','Aceptar');					
+					  
+				  }
+				  else
+				  {
+				    //obtiene el articulo pulsado en la lista
+    				var factura = window.localStorage.getItem("factura");
+	     			//alert (cantidad);	  
+					insertacobro(factura,cantidad);					
+    				 //alert('despues de llamada modificarlineap');
+					 //mostrarpedido();
+				  }
+    });
+	$("#regresardecob").tap(function(){
+                function onConfirm(button) {
+					if (button==1){
+						 eliminatempcob();
+						 window.location.href='#poperaciones';
+			
+					}//if (button==1){
+				}			 
+    	navigator.notification.confirm('Se perderán los datos no guardados',     // mensaje (message)
+	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    	'Generar Cobro',            // titulo (title)
+        'ACEPTAR,CANCELAR'       // botones (buttonLabels)
+	    );
+    }); 
+	
+	$("#baceptarcob").tap(function() {                   				  
+	            var saldofac=window.localStorage.getItem("saldofac");
+				var abono=window.localStorage.getItem("abono");
+				if (abono==0){
+					 navigator.notification.alert('Debe indicar abono para alguna factura',null,'Cantidad abonada igual a CERO','Aceptar');
+					
+				}
+				 else{
+					window.location.href='#paplicobros';
+					guardaefectivo(0);//inicia valor de cobrado en efectivo
+					guardacheque(0);//inicia valor de cobrado en cheque				 	  
+					guardapendiente(abono);//inicia valor de lo que se tiene que abonar (distribuir lo abonado)
+				  	aplicacionpago(saldofac,abono);//muestra grid con datos de lo abonado y saldo pendiente de facturas 
+				 }
+				  
+				  
+     });
+	 $("#baceptaraplic").tap(function() {                   				  
+	            			  
+				  
+     });
+	 $("#regresardeaplic").tap(function(){
+                function onConfirm(button) {
+					if (button==1){						 
+						 window.location.href='#pcobros';
+			
+					}//if (button==1){
+				}			 
+    	navigator.notification.confirm('Se perderán los datos no guardados',     // mensaje (message)
+	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    	'Generar Cobro',            // titulo (title)
+        'ACEPTAR,CANCELAR'       // botones (buttonLabels)
+	    );
+    });
+	 $("#efectivo").blur(function(){
+               
+	     //intento convertir a entero. 
+    	 //si era un entero no le afecta, si no lo era lo intenta convertir 
+	     var valor = parseInt($("#efectivo").val()); 
+		 var abono=Number(window.localStorage.getItem("abono"));
+		 var cheque=Number(window.localStorage.getItem("cheque"));
+		 var pendiente=abono-valor-cheque;
+		 alert(valor);
+	    //Compruebo si es un valor numérico 
+    	 if (isNaN(valor)) { 
+        //entonces (no es numero) 
+        	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');
+			 $("#efectivo").focus();
+	     }else{ 
+    	    //En caso contrario (Si era un número) devuelvo el valor 
+			if (valor>pendiente){
+				navigator.notification.alert('Cantidad indicada mayor al saldo pendiente por abonar',null,'Cantidad inválida','Aceptar');
+				$("#efectivo").focus();
+			}
+			else{
+        	guardaefectivo(valor); 
+			guardapendiente(pendiente);
+			actgridsaldo();
+			}
+	     } 
+	   
+    });
+	$("#bcheque").tap(function() {                   			
+		  	window.location.href='#pcheque';
+			poblarcuenta();	         
+			$("#numcheque").val("");
+			$("#numcuenta").val("");  
+			$("#monto").val(0); 
+			poblarcheques();
+				  
+     }); 
+	 $("#bagregacheque").tap(function() {                   				  
+	        var nche=$("#numcheque").val();  			  
+			var ncta=$("#numcuenta").val();  			  
+			var banco=$("#menucuentab").val();
+			var monto=$("#monto").val();
+			if (nche=="" || ncta=="" || banco=="Banco" || monto==0){
+				navigator.notification.alert('Debe indicar numero de cheque, de cuenta,seleccionar banco y monto válidos',null,'Faltan Datos','Aceptar');
+				$("#numcheque").focus();	
+							
+			}
+			insertarcheque(nche,ncta,banco,monto);
+			$("select#menucuentab").val("Banco").selectmenu("refresh"); 
+			$("#numcheque").val("");
+			$("#numcuenta").val("");  
+			$("#monto").val(0); 
+			poblarcheques();
+				  
+     });
+	$("#eliminarche").tap(function() {                   				  
+	       	function onConfirm(button) {
+				if (button==1){
+					$('input:checkbox.clasech').each(function () {
+        		   		if (this.checked) {
+						   alert('nombre '+$(this).attr("name")+' valor '+$(this).attr("value"));
+						   eliminacheque($(this).attr("name"))				    				   
+						   
+						   //alert($("#"+"c"+$(this).val()).val());
+    		      		 }
+					});//$('input:checkbox.clasep').each(function () {	
+					poblarcheques();
+				}//if (button==1){
+			}			 
+    	navigator.notification.confirm('¿Estas seguro de eliminar los registros seleccionados?',     // mensaje (message)
+	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    	'Eliminar Cheque',            // titulo (title)
+        'SI,NO'       // botones (buttonLabels)
+    );
+				 
+				  
+  }); 
+  $("#salirdecheque").tap(function(){
+    	actgridsaldo();
+  }); 
 	 
   },false);//document.addEventListener("deviceready",function(){	
-});//ultimo
+});//$(document).ready(function() 
 			   
 			   
 

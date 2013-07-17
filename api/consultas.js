@@ -44,7 +44,7 @@ function mostrarcliente(clavecli){
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {
 		tx.executeSql('SELECT * FROM CLIENTES  WHERE clave="'+clavecli+'"',[],exito,errorconsulta);
-		tx.executeSql('SELECT * FROM erpadmin_alcxc_pen_cob WHERE cod_clt="'+clavecli+'"',[],poblarfac,errorconsulta);    	
+		tx.executeSql('SELECT * FROM PENCOBRO WHERE cliente="'+clavecli+'"',[],poblarfac,errorconsulta);    	
 		//alert('entro a la consulta de datos de un cliente');
 		}
 	
@@ -71,8 +71,7 @@ function mostrarcliente(clavecli){
 		}
 		function poblarfac(tx,results){ 
 		      $("#gridfaccli").empty();			  
-			  var html = "";
-			  var tipo="";
+			  var html = "";			  
 			  var saldot=0;
 			  var montot=0;
 			  var vencida="";
@@ -84,7 +83,7 @@ function mostrarcliente(clavecli){
 			  html += '<div class="ui-block-e"><div class="ui-bar ui-bar-a"><strong>Monto</strong></div></div>';
 			  $.each(results.rows,function(index){
 				  var row = results.rows.item(index); 				     
-				     if (row['cod_tip_dc']=="1"){
+				     if (row['tipo']=="1"){
 						 tipo="FAC"
 					 }
 					 else  {
@@ -96,12 +95,11 @@ function mostrarcliente(clavecli){
 					 }
 					 saldot+=Number(row['saldo']);
 					 montot+=Number(row['monto']);
-					 html += "<div class=ui-block-a><strong>" +tipo+"</strong> </div>";
-					 html += "<div class=ui-block-b><strong>"+row['num_doc']+"</strong> </div>";
-                     html += "<div class=ui-block-c><strong>"+row['fec_ven']+"</strong> </div>";
+					 html += "<div class=ui-block-a><strong>" +row['tipo']+"</strong> </div>";
+					 html += "<div class=ui-block-b><strong>"+row['documento']+"</strong> </div>";
+                     html += "<div class=ui-block-c><strong>"+row['fechaven']+"</strong> </div>";
 					 html += "<div class=ui-block-d><strong>"+row['saldo']+"</strong> </div>";
                      html += "<div class=ui-block-e><strong>"+row['monto']+"</strong> </div>";
-
                   	 
 			  });
 					$("#gridfaccli").append(html); 
@@ -671,5 +669,7 @@ var pedido=inicial+pad(incremetarp,6);
          		});		
 				
 }//function imprimirped
+
+
 
 
