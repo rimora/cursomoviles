@@ -233,7 +233,7 @@ $("#bimprimirp").tap(function() {
 		function onConfirm(button) {
 		if (button==1){
 			imprimirped($("#pcomentario").val());
-			
+			mostrarpedido();
 		}//if (button==1){
 	}			 
     navigator.notification.confirm('¿Confirma generar pedido?',     // mensaje (message)
