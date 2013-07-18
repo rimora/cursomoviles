@@ -151,8 +151,7 @@ function aplicacionpago(saldofac,abono){
 	alert('pendiente '+pendiente);
 	var html="";
 	var html2="";
-	$("#gridaplicobros").empty();	
-	$("#gridaplicobros2").empty();	
+	
 	html+='         <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Saldo Total:</div></div>';
     html+='	        <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e" style="font-size:16px; color:#F00">'+saldofac.toFixed(2)+'</div></div>';
 	html+='    		<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Total a Pagar:</div></div>';

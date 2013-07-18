@@ -560,6 +560,8 @@ $("#bimprimirp").tap(function() {
 				}
 				 else{
 					window.location.href='#paplicobros';
+					$("#gridaplicobros").empty();	
+					$("#gridaplicobros2").empty();	
 					guardaefectivo(0);//inicia valor de cobrado en efectivo
 					guardacheque(0);//inicia valor de cobrado en cheque				 	  					
 				  	aplicacionpago(saldofac,abono);//muestra grid con datos de lo abonado y saldo pendiente de facturas 
@@ -591,7 +593,8 @@ $("#bimprimirp").tap(function() {
 	     //intento convertir a entero. 
     	 //si era un entero no le afecta, si no lo era lo intenta convertir 
 	     var montoefe = parseInt($("#efectivo").val()); 		 		 
-		 var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
+		 var pendiente1=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
+		 var pendiente=pendiente1-Number(window.localStorage.getItem("efectivo"));//restamos lo que tenga de efectivo para calcularlo de nuevo
 		 alert(montoefe);
 		 alert(pendiente);
 	    //Compruebo si es un valor numérico 
@@ -631,11 +634,11 @@ $("#bimprimirp").tap(function() {
 			 alert(pendiente);
 
 			if (nche=="" || ncta=="" || banco=="Banco" || monto==0){
-				navigator.notification.alert('Debe indicar numero de cheque, de cuenta,seleccionar banco y monto válidos',null,'Faltan Datos','Aceptar');
-				 ;	
-							
+				navigator.notification.alert('Debe indicar numero de cheque, de cuenta,seleccionar banco y monto válidos',null,'Faltan Datos','Aceptar');				 	
+				$("#monto").focus();			
+				return false;
 			}
-			if (monto>pendiente || valor<0){
+			if (monto>pendiente || monto<0){
 				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');
 				$("#monto").focus();
 			}			

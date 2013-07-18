@@ -421,17 +421,18 @@ function eliminatempcob(){
 	
 }//function eliminatempcob()
 function insertarcheque(nche,ncta,banco,monto){
-	   //alert('inserttafactura'+cantidad);
+	   alert('inserta cheque');
 	   var cliente=window.localStorage.getItem("clave");
 	   var ruta=window.localStorage.getItem("ruta");
 	   var fecha=window.localStorage.getItem("fecha");
 	    consultadb().transaction(insertadet,function(err){
-    	  alert("Error al insertar renglon temdevolucion: "+err.code+err.message);
+    	  alert("Error al insertar cheque: "+err.code+err.message);
           });
 				
     	function insertadet(tx) {
 			var sql='INSERT INTO CHEQUES (codbanco,cliente,ruta,fecha,monto,numcheque,cuenta,recibo,tipo) VALUES("'+banco+'","'+cliente+'","'+ruta+'", ';		
-				sql+='"'+fecha+'",'+monto+',"'+nche+'","'+ncta+'","99999","5")';		
+				sql+='"'+fecha+'",'+monto+',"'+nche+'","'+ncta+'","99999",5)';		
+				alert(sql);
 		   tx.executeSql(sql);		
 		}
 	
