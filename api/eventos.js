@@ -547,16 +547,14 @@ $("#bimprimirp").tap(function() {
     }); 
 	
 	$("#baceptarcob").tap(function() {                   				  
-	            var saldofac=window.localStorage.getItem("saldofac");
-				var abono=window.localStorage.getItem("abono");
+	            var saldofac=Number(window.localStorage.getItem("saldofac"));
+				var abono=Number(window.localStorage.getItem("abono"));
 				if (abono==0){
 					 navigator.notification.alert('Debe indicar abono para alguna factura',null,'Cantidad abonada igual a CERO','Aceptar');
 					
 				}
 				 else{
-					window.location.href='#paplicobros';
-					$("#gridaplicobros").empty();	
-					$("#gridaplicobros2").empty();					 	
+					window.location.href='#paplicobros';									 	
 					guardaefectivo(0);//inicia valor de cobrado en efectivo
 					guardacheque(0);//inicia valor de cobrado en cheque				 	  					
 				  	aplicacionpago(saldofac,abono);//muestra grid con datos de lo abonado y saldo pendiente de facturas 
@@ -584,12 +582,12 @@ $("#bimprimirp").tap(function() {
 	    );
     });
 	 $("#efectivo").blur(function(){
-               
+          //al salir del input de efectivo     
 	     //intento convertir a entero. 
     	 //si era un entero no le afecta, si no lo era lo intenta convertir 
 	     var montoefe = parseInt($("#efectivo").val()); 		 		 
 		 var pendiente1=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
-		 var pendiente=pendiente1-Number(window.localStorage.getItem("efectivo"));//restamos lo que tenga de efectivo para calcularlo de nuevo
+		 var pendiente=pendiente1+Number(window.localStorage.getItem("efectivo"));//aumentamos el efectivo que tenga guardado, es decir, si es modificación del importe, se anula para tomar este nuevo importe y actualizar el abono pendiente de distribuir en efectivo y cheque.
 		 alert(montoefe);
 		 alert(pendiente);
 	    //Compruebo si es un valor numérico 
