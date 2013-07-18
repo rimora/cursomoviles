@@ -147,22 +147,23 @@ function insertacobro(factura,cantidad){
 				
 }//function insertacobro
 function aplicacionpago(saldofac,abono){	
-	var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
-	alert('pendiente '+pendiente);
+	var pendiente=Number(saldopendiente());//obtiene el saldo pendiente de distribuir en los tipos de cobro
+	alert('pendiente de aplicacionpago'+pendiente);
 	var html="";
 	var html2="";
 	
 	html+='         <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Saldo Total:</div></div>';
-    html+='	        <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e" style="font-size:16px; color:#F00">'+saldofac.toFixed(2)+'</div></div>';
+    html+='	        <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e" style="font-size:16px; color:#F00">'+saldofac+'</div></div>';
 	html+='    		<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Total a Pagar:</div></div>';
-	html+='         <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e">'+abono.toFixed(2)+'</div></div>';
+	html+='         <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e">'+abono+'</div></div>';
     html+='    	    <br><br';           
     html2+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Saldo Pendiente:</div></div>';
     html2+='        <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e" style="font-size:16px; color:#F00">'+pendiente.toFixed(2)+'</div></div>';
 	
 	$("#gridaplicobros").append(html); 	
 	$("#gridaplicobros2").append(html2); 
-	$("#efectivo").val(0);
+	$("#efectivo").val(0); 	
+	$("#cheque").val(0);
 				
 }//function aplicacionpago()
 function actgridsaldo(){	
@@ -222,7 +223,7 @@ alert('entra poblar cheques ');
 			  html+=' <div class="ui-block-a" style="width:70px;height:20px" > ';            
               html+=' <div class="ui-bar ui-bar-a">Elim.</div></div> ';           
               html+=' <div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-a">Cheque</div></div>';
-              html+=' <div class="ui-block-c" style="width:110px"><div class="ui-bar ui-bar-a">Banco</div></div>';
+              html+=' <div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-a">Banco</div></div>';
               html+=' <div class="ui-block-d" style="width:110px"><div class="ui-bar ui-bar-a">Monto</div></div>';
 			if (results.rows.length>0){
 			  $.each(results.rows,function(index){				  
@@ -238,7 +239,7 @@ alert('entra poblar cheques ');
 		            html+='   </div>';
             		html+='</div>';            
                     html+='<div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-b">'+row['numcheque']+'</div></div>';
-                    html+='<div class="ui-block-c" style="width:110px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
+                    html+='<div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
 	                html+='<div class="ui-block-e" style="width:110px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div> ';
 
                   	 
@@ -269,10 +270,6 @@ var abono=window.localStorage.getItem("abono");//lo que el usuario indicó que s
 var montoefe=window.localStorage.getItem("efectivo");//el importe indicado en efectivo hasta el momento
 var montoche=window.localStorage.getItem("cheque");//el importe indicado en cheque hasta el momento
 var pendiente=Number(abono)-Number(montoefe)-Number(montoche);	
-alert('abono '+abono);
-alert('efectivo '+montoefe);
-alert('cheque '+montoche);
-alert('pendiente '+pendiente);
 
 return pendiente;
 

@@ -488,12 +488,7 @@ $("#bimprimirp").tap(function() {
     	'Guardar Devolución',            // titulo (title)
         'SI,NO'       // botones (buttonLabels)
 	    );
-    });  
-	$("input").blur(function(){
-     
-	
-	
-	});
+    });  	
  //*****C O B R O S *****	 
 	  $("#bcobros").tap(function() {                   				  
 				  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
@@ -561,7 +556,7 @@ $("#bimprimirp").tap(function() {
 				 else{
 					window.location.href='#paplicobros';
 					$("#gridaplicobros").empty();	
-					$("#gridaplicobros2").empty();	
+					$("#gridaplicobros2").empty();					 	
 					guardaefectivo(0);//inicia valor de cobrado en efectivo
 					guardacheque(0);//inicia valor de cobrado en cheque				 	  					
 				  	aplicacionpago(saldofac,abono);//muestra grid con datos de lo abonado y saldo pendiente de facturas 
@@ -602,11 +597,13 @@ $("#bimprimirp").tap(function() {
         //entonces (no es numero) 
         	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');
 			 $("#efectivo").focus();
+			 
 	     }else{ 
     	    //En caso contrario (Si era un número) devuelvo el valor 
 			if (montoefe>pendiente || montoefe<0){
 				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');
 				$("#efectivo").focus();
+				$("#efectivo").val(0);
 			}
 			else{
         	guardaefectivo(montoefe); 			
@@ -641,6 +638,7 @@ $("#bimprimirp").tap(function() {
 			if (monto>pendiente || monto<0){
 				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');
 				$("#monto").focus();
+				$("#monto").val(0); 
 			}			
 			else{
 				insertarcheque(nche,ncta,banco,monto);			
@@ -651,7 +649,7 @@ $("#bimprimirp").tap(function() {
 				poblarcheques();
 			}
      });
-	$("#eliminarche").tap(function() {                   				  
+	$("#beliminarche").tap(function() {                   				  
 	       	function onConfirm(button) {
 				if (button==1){
 					$('input:checkbox.clasech').each(function () {
