@@ -40,7 +40,7 @@ function guardaefectivo(efectivo){
 	window.localStorage.setItem("efectivo",efectivo);
 }
 function guardacheque(cheque){
-	window.localStorage.setItem("cheque",efectivo);
+	window.localStorage.setItem("cheque",cheque);
 }
 function guardapendiente(pendiente){
 	window.localStorage.setItem("pendiente",pendiente);

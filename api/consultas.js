@@ -3,17 +3,16 @@ function mostrarclientes(dia){
  // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);
-		alert('entra a mostrarclientes');
 		consultadb().transaction(poblarcli, function(err){
     	 		 alert("Error select clientes : "+err.code+err.message);
          		});		
 	function poblarcli(tx){  
-	    alert('entra a poblarcli'+dia);
+	    
 	    if (dia!="Todos"){
-			var sql='SELECT nombre,clave FROM CLIENTES WHERE dia="'+dia+'" ORDER BY nombre  '			
+			var sql='SELECT * FROM CLIENTES WHERE DIA="'+dia+'" ORDER BY nombre  '			
 		}
 		else {
-			var sql='SELECT nombre,clave FROM CLIENTES ORDER BY nombre'			
+			var sql='SELECT * FROM CLIENTES ORDER BY nombre'			
 		}
 		tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select clientes por dia: "+err.code+err.message);
@@ -21,14 +20,13 @@ function mostrarclientes(dia){
 	}
 	function listo(tx,results){  
 		 $('#listaclientes').empty();        
-		 $.each(results.rows,function(index){        
-		  alert('entra al each');   
+		 $.each(results.rows,function(index){           
 			 var row = results.rows.item(index);            
 			 $('#listaclientes').append('<li id="'+row['clave']+'"><a href="#datoscli"><h3>'+row['clave']+'  '+row['nombre']+'</h3></a></li>');        
 		 });    
-		 alert('antes de refresh de lista');  		 
+		 //alert('antes de refresh de lista');  		 
 		 $('#listaclientes').listview('refresh'); 
-		 alert('despues de refresh de lista');
+		 //alert('despues de refresh de lista');
  	}
 
  // });	//$('#pclientes').live('pageshow',function(event, ui){
