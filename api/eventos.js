@@ -79,12 +79,7 @@ $(document).ready(function() {
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
     });
 	 
-	$("#depositos").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-				  
-				  llamadascxc();
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-     });				   
+				   
   /*
    $("#checkcli").bind("change",function(event){
 				  alert($("#menu").val());

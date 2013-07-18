@@ -657,7 +657,7 @@ var pedido=inicial+pad(incremetarp,6);
 				var sql='SELECT a.articulo,a.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as preciocdesc,';
 				sql+='b.descuento,b.precio ';	
 				sql+='FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo ';
-				sql+='WHERE a.articulo="'+articulo+'" and a.cliente="'+window.localStorage.getItem("clave")+'"  ';
+				sql+='WHERE  a.cliente="'+window.localStorage.getItem("clave")+'"  ';
 			    alert(sql);
 								
 			tx.executeSql(sql,[],listo,function(err){
