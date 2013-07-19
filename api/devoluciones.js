@@ -7,16 +7,16 @@ function listafacturas(){
     	 		 alert("Error poblar facturas para devoluciones : "+err.code+err.message);
          		});		
 	function poblarfac(tx){  
-		    alert('entra a poblarfac');
+		    //alert('entra a poblarfac');
 			var sql='SELECT * FROM ENCHISFAC WHERE CLIENTE="'+window.localStorage.getItem("clave")+'" ORDER BY FACTURA';		
 			
-		    alert(sql);
+		    //alert(sql);
 		tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select historico facturas: "+err.code+err.message);
          		});    	
 	}
 	function listo(tx,results){  
-	      alert('entra a listo');
+	      //alert('entra a listo');
 		 $('#listahistfac').empty(); 		     
 		 $.each(results.rows,function(index){           
 			 var row = results.rows.item(index); 
@@ -24,13 +24,13 @@ function listafacturas(){
 			 html+='<li id="'+row['factura']+'">';
 	         html+='<a href="#pdethistfac"><h5> Factura: '+row['factura']+'</h5>';
 			 html+='Total:  '+row['monto']+'    Pedido:   '+row['pedido']+'    Fecha:   '+row['fecha']+'</a></li>';
-			 alert('antes del append de listfac '+html);
+			 //alert('antes del append de listfac '+html);
 			 $('#listahistfac').append(html);  			
-			 alert('despues del append de listfac '+html); 
+			 //alert('despues del append de listfac '+html); 
 		 });    
-		 alert('antes de refresh de lista');  		 
+		 //alert('antes de refresh de lista');  		 
 		 $('#listahistfac').listview('refresh'); 
-		 alert('despues de refresh de lista');
+		 //alert('despues de refresh de lista');
  	}
 
  // });	//$('#pclientes').live('pageshow',function(event, ui){
@@ -61,15 +61,15 @@ function mostrarhistfac(factura){
 				  var row = results.rows.item(index); 				     			     
 				     //descuento=(row['precio']/100)*row['descuento'];
 				     //precio=row['precio']*(1+(row['impuesto']/100));	
-					 alert (row['temdev']);
+					 //alert (row['temdev']);
 					 if (row['temdev']==null){
 						var devuelto= Number(row['devuelto']);												 
 					 }
 					 else {
 					 	var devuelto= Number(row['devuelto'])+Number(row['temdev']);												 
 					 }
-					 alert (devuelto);
-					 alert( row['cantidad']);
+					 //alert (devuelto);
+					 //alert( row['cantidad']);
 					 precio=row['preciocdesc'];	
 					 var disponible=Number(row['cantidad'])-Number(devuelto);			 
 					 //importe=precio*row['cantidad'];
@@ -153,13 +153,13 @@ var fechadev=window.localStorage.getItem("fecha");//recuperamos la fecha actual
 var longitud=consecutivo.length;
 var inicial=consecutivo.substr(0,3);
 var numdev= consecutivo.substr(3,(longitud-3));
- alert(numdev); 
+ //alert(numdev); 
 var incremetard=Number(numdev)+1;
- alert(incremetard); 
+ //alert(incremetard); 
 var devolucion=inicial+pad(incremetard,6);
- alert(devolucion); 
+ //alert(devolucion); 
    function pad(n, length){
-	   alert('entra a funcion'+n); 
+	//   alert('entra a funcion'+n); 
   	 n = n.toString();
    	 while(n.length < length) n = "0" + n;
   	 return n;
@@ -184,25 +184,25 @@ var devolucion=inicial+pad(incremetard,6);
 			 sumtotlinea+=sumtotlinea+totalinea;//suma del total de linea sin descuento y sin iva
 			 //summontodesc+=summontodesc+montodesc;//suma del total de linea sin descuento y sin iva
 			 sumivalinea+=sumivalinea+ivalinea;//suma del total de linea sin descuento y sin iva
-			 alert('antes de llamar a funcion guardadev');
+			 //alert('antes de llamar a funcion guardadev');
 			 guardadetdev(devolucion,ruta,articulo,totalinea.toFixed(2),precio,cantidad,observa,montodesc.toFixed(2),pordesc,factura,linea);
 			 actexis(articulo,cantidad);
-			 alert('despues de llamar a funcion guardadev');
+			 //alert('despues de llamar a funcion guardadev');
 			
 		 	});
-			alert('antes de llamar a funcion guardaencdev');
+			//alert('antes de llamar a funcion guardaencdev');
 			 guardaencdev(devolucion,ruta,cliente,horaini,horafin,fechadev,observagen,renglones,sumtotlinea.toFixed(2),sumivalinea.toFixed(2),bodega,factura)
-			alert('despues de llamar a funcion guardaencdev');
+			//alert('despues de llamar a funcion guardaencdev');
 		  }//if (results.rows.length>0){		  
  	}//function listo(tx,results){ 
 	function consultatemp(tx){  
-	             alert('ENTRA A CONSultatepm'); 
+	          //   alert('ENTRA A CONSultatepm'); 
 				  var sql='SELECT b.factura,a.articulo,a.cantidad,b.precio,a.obs,a.linea, ';
 	  			  sql+='c.impuesto,c.descuento FROM TEMDEV a left outer join DETHISFAC b on b.linea=a.linea ';					  
 			      sql+='left outer join articulo c on c.articulo=a.articulo  ';
 				  sql+=' where a.cantidad > 0 and b.factura="'+window.localStorage.getItem("factura")+'"';	
 
-			    alert(sql);
+			    //alert(sql);
 								
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error al preparar guardar devolución : "+linea+err.code+err.message);
@@ -221,13 +221,13 @@ function insertalindev(linea,cantidad,observa){
 			 //if (row['cantidad']>0){
 			 	//preparadetalletemp(row['articulo'],row['cantidad']);																
 				var dif=Number(row['cantidad'])-Number(row['devuelto']);
-				alert ('dif '+dif);
-				alert ('cantidad '+cantidad);
-				alert ('linea '+linea);
+				//alert ('dif '+dif);
+				//alert ('cantidad '+cantidad);
+				//alert ('linea '+linea);
  			 	if (cantidad>dif){//se intenta devolver mas de la cantidad disponible para devolución
 					navigator.notification.alert('Se intenta devolver una cantidad mayor que el disponible',null,'Error Indicando Cantidad','Aceptar');						 					return false;				 
 				 }
-				 alert('pasa depues del if');
+				 //alert('pasa depues del if');
 				 actualizatempdev(linea,cantidad,observa)
 				 mostrarhistfac(window.localStorage.getItem("factura"));
 				 mostrarartdev();

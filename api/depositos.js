@@ -5,14 +5,16 @@ function listarecibos(){
     	 		 alert("Error poblar recibos para deposito: "+err.code+err.message);
          		});		
 	function poblarfac(tx){  
+				alert('entra poblarfac');
 			var sql='SELECT a.recibo,a.mondoc,b.nombre FROM ENCOBROS a ';		
 				sql+=' left outer join CLIENTES b on b.clave=a.cliente WHERE a.cliente="'+cliente+'" ORDER BY a.recibo';
+				alert(sql);
 				tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select recibos: "+err.code+err.message);
          		});    	
 	}
 	function listo(tx,results){ 
-			
+			  alert('entra de depositos');
 		      $("#gridrecibosdep").empty();				  
 			  var html = "";			 
 			  var montot=0;			  		      
@@ -26,13 +28,13 @@ function listarecibos(){
 			  $.each(results.rows,function(index){				  
 				  var row = results.rows.item(index); 				     			     
 				     //descuento=(row['precio']/100)*row['descuento'];
-					 montot+=Number(mondoc);
+					 montot+=Number(row['mondoc']);
 					 
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
                    	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
 			        html+='     <label for="D'+row['recibo']+'" >&nbsp</label>';  
-            		html+='     <input type="checkbox" id="D'+row['recibo']+'" name="'+row['recibo']+'" class="clasedep"  />';
+            		html+='     <input type="checkbox" id="D'+row['recibo']+'" name="'+row['recibo']+'" value="'+row['mondoc']+'" class="clasedep"  />';
                    	html+='		</div>';	
 		            html+='   </div>';
             		html+='</div>';            

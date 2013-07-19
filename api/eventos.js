@@ -11,7 +11,9 @@ $(document).ready(function() {
 	window.localStorage.clear();
 	window.localStorage.setItem("saldo",0);
 	window.localStorage.setItem("consepedido","S04000375");
+	window.localStorage.setItem("consefactura","F04000375");
 	window.localStorage.setItem("consedev","D04000375");
+	window.localStorage.setItem("conserec","R04000375");
 	window.localStorage.setItem("ruta","S04");
 	window.localStorage.setItem("bodega","K01");
 	document.addEventListener("backbutton", function(){
@@ -239,6 +241,21 @@ $("#bimprimirp").tap(function() {
     navigator.notification.confirm('¿Confirma generar pedido?',     // mensaje (message)
     onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
     'Generar Pedido',            // titulo (title)
+        'SI,NO'       // botones (buttonLabels)
+    );
+				  //$.mobile.changePage($("#datoscli"));	  			  				  
+});
+$("#bimprimirf").tap(function() { 
+                 //var clavecli = $(this).attr("id");
+		function onConfirm(button) {
+		if (button==1){
+			imprimirfac($("#fcomentario").val());
+			//mostrarfactura();
+		}//if (button==1){
+	}			 
+    navigator.notification.confirm('¿Confirma generar Factura?',     // mensaje (message)
+    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    'Generar Factura',            // titulo (title)
         'SI,NO'       // botones (buttonLabels)
     );
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
@@ -478,7 +495,7 @@ $("#bimprimirp").tap(function() {
 						alert('despues de llamar a f1');
 					}//if (button==1){
 				}			 
-    	navigator.notification.confirm('¿Desea terminar y guardar la devolución?',     // mensaje (message)
+    	navigator.notification.confirm('¿Deseas terminar y guardar la devolución?',     // mensaje (message)
 	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
     	'Guardar Devolución',            // titulo (title)
         'SI,NO'       // botones (buttonLabels)
@@ -491,7 +508,7 @@ $("#bimprimirp").tap(function() {
 				  $("#labelencpcobros").empty();	
 				  $("#labelencpcobros").append("Facturas pendientes del cliente: "+cliente);				  
 				  eliminatempcob();
-				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro
+				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
 				  listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
 				  guardafechaactual();
 				  			  
@@ -522,7 +539,7 @@ $("#bimprimirp").tap(function() {
 				    //obtiene el articulo pulsado en la lista
     				var factura = window.localStorage.getItem("factura");
 	     			//alert (cantidad);	  
-					insertacobro(factura,cantidad);					
+					insertacobro(factura,cantidad);	//actualiza cantidad a pagar de factura en tabla temporal de fac pend de cobro.Funcion en cobros.js				
     				 //alert('despues de llamada modificarlineap');
 					 //mostrarpedido();
 				  }
@@ -542,8 +559,8 @@ $("#bimprimirp").tap(function() {
     }); 
 	
 	$("#baceptarcob").tap(function() {                   				  
-	            var saldofac=Number(window.localStorage.getItem("saldofac"));
-				var abono=Number(window.localStorage.getItem("abono"));
+	            var saldofac=Number(window.localStorage.getItem("saldofac")); //saldo nuevo de facturas, guardado en funcion listafacturaspend de cobros.js
+				var abono=Number(window.localStorage.getItem("abono")); //cantidad a pagar, guardada en funcion listafacturaspend de cobros.js
 				if (abono==0){
 					 navigator.notification.alert('Debe indicar abono para alguna factura',null,'Cantidad abonada igual a CERO','Aceptar');
 					
@@ -560,7 +577,18 @@ $("#bimprimirp").tap(function() {
 				  
      });
 	 $("#baceptaraplic").tap(function() {                   				  
-	            			  
+	        function onConfirm(button) {
+					if (button==1){	
+					     guardacob();	//prepara datos para guardar las tablas cabecera y detalles de recibos.funcion en cobros.js 				 
+						 window.location.href='#poperaciones';
+			
+					}//if (button==1){
+				}			 
+    	navigator.notification.confirm('¿Deseas terminar y guardar el Cobro?',     // mensaje (message)
+	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    	'Guardar Cobro',            // titulo (title)
+        'ACEPTAR,CANCELAR'       // botones (buttonLabels)
+	    );    			  
 				  
      });
 	 $("#regresardeaplic").tap(function(){
@@ -673,6 +701,8 @@ $("#bimprimirp").tap(function() {
 				  listarecibos();
 				  poblarcuentadep();
 				  guardafechaactual();
+				  $("#numficha").val(""); 
+				  $("#totaldep").val(0); 
   });
   $("#regresardep").tap(function(){
                 function onConfirm(button) {
@@ -687,7 +717,49 @@ $("#bimprimirp").tap(function() {
         'ACEPTAR,CANCELAR'       // botones (buttonLabels)
 	    );
     }); 
-	 
+	$("#bguardadep").tap(function(){
+                function onConfirm(button) {
+					if (button==1){						 						 
+						 if ($("#numficha").val().length==0 || $("#totaldep").val()==0){
+							 navigator.notification.alert('Debe indicar numero de ficha y seleccionar algun recibo',null,'Faltan Datos','Aceptar');
+							 return false;
+							 
+						 }
+						 else{
+							 $('input:checkbox.clasedep').each(function () {
+        		   				if (this.checked) {
+						 		  alert('nombre '+$(this).attr("name")+' valor '+$(this).attr("value"));
+						   		//guardadetdep($(this).attr("name"))				    				   
+						   
+						   //alert($("#"+"c"+$(this).val()).val());
+    		      		 		}
+							});//$('input:checkbox.clasep').each(function () {								 
+							 
+						 }				 
+						 
+						 window.location.href='#page';
+			
+					}//if (button==1){
+				}			  
+    	navigator.notification.confirm('¿Desea terminar el deposito?',     // mensaje (message)
+	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    	'Generar Deposito',            // titulo (title)
+        'SI,NO'       // botones (buttonLabels)
+	    );
+    }); 
+	 $("input:checkbox.clasedep").bind("change",function(event){
+
+		if ($(this).prop("checked")){
+		   alert("checado");
+		   alert($(this).val());
+		   
+	   }
+	   else{
+		   alert("NO checado");
+		   alert($(this).val());
+	   }
+  
+     });	
   },false);//document.addEventListener("deviceready",function(){	
 });//$(document).ready(function() 
 			   

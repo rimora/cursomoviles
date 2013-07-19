@@ -1,132 +1,4 @@
 // consultas
-function mostrarclientes(dia){
- // $('#pclientes').live('pageshow',function(event, ui){
-		//alert('This page was just hidden: '+ ui.prevPage);		
-		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);
-		consultadb().transaction(poblarcli, function(err){
-    	 		 alert("Error select clientes : "+err.code+err.message);
-         		});		
-	function poblarcli(tx){  
-	    
-	    if (dia!="Todos"){
-			var sql='SELECT * FROM CLIENTES WHERE DIA="'+dia+'" ORDER BY nombre  '			
-		}
-		else {
-			var sql='SELECT * FROM CLIENTES ORDER BY nombre'			
-		}
-		tx.executeSql(sql,[],listo,function(err){
-    	 		 alert("Error select clientes por dia: "+err.code+err.message);
-         		});    	
-	}
-	function listo(tx,results){  
-		 $('#listaclientes').empty();        
-		 $.each(results.rows,function(index){           
-			 var row = results.rows.item(index);            
-			 $('#listaclientes').append('<li id="'+row['clave']+'"><a href="#datoscli"><h3>'+row['clave']+'  '+row['nombre']+'</h3></a></li>');        
-		 });    
-		 //alert('antes de refresh de lista');  		 
-		 $('#listaclientes').listview('refresh'); 
-		 //alert('despues de refresh de lista');
- 	}
-
- // });	//$('#pclientes').live('pageshow',function(event, ui){
-	
-}// mostrarclientes
-function mostrarcliente(clavecli){
-//  $('#datoscli').live('pageshow',function(event, ui){
-   	   
-	   //guarda el cliente con el que se harán operaciones
-	   saveidcliente(clavecli);
-       var limite=0;
-	   var saldo=0;
-		$('#notascxc').text("Notas para el cliente " + clavecli);
-		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
-		consultadb().transaction(consulta, errorconsulta);	
-	function consulta(tx) {
-		tx.executeSql('SELECT * FROM CLIENTES  WHERE clave="'+clavecli+'"',[],exito,errorconsulta);
-		tx.executeSql('SELECT * FROM PENCOBRO WHERE cliente="'+clavecli+'"',[],poblarfac,errorconsulta);    	
-		//alert('entro a la consulta de datos de un cliente');
-		}
-	
-		function exito(tx,results){         
-	   		var row = results.rows.item(0);            
-	   		/*
-			$('#nomcli').text("Clave: "+row['clave']+" Nombre: "+row['nombre']);
-	   	    $('#clacli').text();
-		    $('#direccion').text("Dirección: "+row['direccion']);
-  	   		$('#telefono').text("Telefono: "+row['telefono']);
-	   		$('#tipo').text("Estado: Credito "+row['tipo']);
-  	   		$('#diascredito').text("Dias de Crédito: "+row['diasc']);
-	   		$('#limitecredito').text("Límite de Crédito: "+row['lcredito']);
-	   		$('#saldo').text("Saldo: "+row['saldo']);
-			limite=Number(row['lcredito']);*/
-			$('#nomcli').text("Clave: "+row['clave']+" Nombre: "+row['nombre']);  	   		    
-			$('#direccion').text("Dirección: "+row['direccion']+" Telefono: "+row['telefono']);  	   		
-	   		$('#tipo').text("Estado: Credito "+row['tipo']+" Dias de Crédito: "+row['diasc']);
-	   		$('#limitecredito').text("Límite de Crédito: "+row['lcredito']+" Saldo: "+row['saldo']);
-			limite=Number(row['lcredito']);			
-			saldo=Number(row['saldo']);
-			window.localStorage.setItem("limite",Number(row['lcredito']));
-			window.localStorage.setItem("saldo",Number(row['saldo']));
-		}
-		function poblarfac(tx,results){ 
-		      $("#gridfaccli").empty();			  
-			  var html = "";			  
-			  var saldot=0;
-			  var montot=0;
-			  var vencida="";
-			  
-			  html += '<div class="ui-block-a"><div class="ui-bar ui-bar-a"><strong>Tipo</strong> Tipo</div></div>';
-			  html += '<div class="ui-block-b"><div class="ui-bar ui-bar-a"><strong>Documento</strong></div></div>';
-			  html += '<div class="ui-block-c"><div class="ui-bar ui-bar-a"><strong>Vencimiento</strong></div> </div>';
-			  html += '<div class="ui-block-d"><div class="ui-bar ui-bar-a"><strong>Saldo</strong></div></div>';
-			  html += '<div class="ui-block-e"><div class="ui-bar ui-bar-a"><strong>Monto</strong></div></div>';
-			  $.each(results.rows,function(index){
-				  var row = results.rows.item(index); 				     
-				     if (row['tipo']=="1"){
-						 tipo="FAC"
-					 }
-					 else  {
-						 tipo="OTRO" 
-					 }
-					 if (row['vencida']=="S"){
-						 vencida="S"
-						 
-					 }
-					 saldot+=Number(row['saldo']);
-					 montot+=Number(row['monto']);
-					 html += "<div class=ui-block-a><strong>" +row['tipo']+"</strong> </div>";
-					 html += "<div class=ui-block-b><strong>"+row['documento']+"</strong> </div>";
-                     html += "<div class=ui-block-c><strong>"+row['fechaven']+"</strong> </div>";
-					 html += "<div class=ui-block-d><strong>"+row['saldo']+"</strong> </div>";
-                     html += "<div class=ui-block-e><strong>"+row['monto']+"</strong> </div>";
-                  	 
-			  });
-					$("#gridfaccli").append(html); 
-					$("#saldocli").val(saldot.toFixed(2)); 
-					$("#montocli").val(montot.toFixed(2)); 					
-					if (vencida=="S") {
-						navigator.notification.alert('El cliente tiene facturas vencidas, no podrá realizar ventas',null,'Saldo Vencido','Aceptar');					
-						$("#bventa").addClass('ui-disabled');
-
-						
-					}
-					else if (saldo>limite){						
-						navigator.notification.alert('Cliente con limite de credito excedido, no podrá realizar ventas',null,'Limite de Crédito Excedido','Aceptar');					
-						$("#bventa").addClass('ui-disabled');
-					}					
-					else {			
-						$("#bventa").removeClass('ui-disabled'); 
-					}
-
-	   }
- 		
-	function errorconsulta(err) {
-    	alert("Error SQL al poblar cliente: "+err.code+err.message);
-	}
-//  });	
-
-  }//mostrarcliente
 
 function llamadascxc(){	
   alert ('depositos');
@@ -522,7 +394,7 @@ function modificalineaf(articulo,cantidad){
 						   	 }
 						   	 else{
 								 if (cantpedido>0){//existe en pedido, agrega la diferencia
-								    alert('existe en pedido');
+								    //alert('existe en pedido');
 									 modificatemppedido(articulo,cantpedido+difexis);//la funcion modificatemppedido inserta directo el valor, por eso la suma
 								 }
 								 else
@@ -607,13 +479,13 @@ var fechayhora=fechaact+" "+hora;
 var longitud=consecutivo.length;
 var inicial=consecutivo.substr(0,3);
 var numpedido= consecutivo.substr(3,(longitud-3));
- alert(numpedido); 
+ //alert(numpedido); 
 var incremetarp=Number(numpedido)+1;
- alert(incremetarp); 
+ //alert(incremetarp); 
 var pedido=inicial+pad(incremetarp,6);
- alert(pedido); 
+ //alert(pedido); 
    function pad(n, length){
-	   alert('entra a funcion'+n); 
+	   //alert('entra a funcion'+n); 
   	 n = n.toString();
    	 while(n.length < length) n = "0" + n;
   	 return n;
@@ -636,9 +508,9 @@ var pedido=inicial+pad(incremetarp,6);
 			 sumtotlinea+=sumtotlinea+totlinea;//suma del total de linea sin descuento y sin iva
 			 summontodesc+=summontodesc+montodesc;//suma del total de linea sin descuento y sin iva
 			 sumivalinea+=sumivalinea+ivalinea;//suma del total de linea sin descuento y sin iva
-			 alert('antes de llamar a funcion guardated');
+			 //alert('antes de llamar a funcion guardated');
 			 guardadetpedido(pedido,articulo,precio,pordesc,totlinea,montodesc,precio,cantidad);
-			alert('despues de llamar a funcion guardated');
+			//alert('despues de llamar a funcion guardated');
 			 
 			 
 			/* 
@@ -647,18 +519,18 @@ var pedido=inicial+pad(incremetarp,6);
 
 			 */			 			 
 		 	});
-			alert('antes de llamar a funcion guardaenc');
+			//alert('antes de llamar a funcion guardaenc');
 		  	 guardaencpedido(pedido,ruta,window.localStorage.getItem("clave"),fechayhora,fechaact,sumivalinea,(sumtotlinea+sumivalinea),sumtotlinea,summontodesc,obs,30,"K01");
-				alert('despues de llamar a funcion guardated');
+				//alert('despues de llamar a funcion guardated');
 		  }//if (results.rows.length>0){		  
  	}//function listo(tx,results){ 
 	function consultatemp(tx){  
-	             alert('ENTRA A CONSultatepm'); 
+	             //alert('ENTRA A CONSultatepm'); 
 				var sql='SELECT a.articulo,a.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as preciocdesc,';
 				sql+='b.descuento,b.precio ';	
 				sql+='FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo ';
 				sql+='WHERE  a.cliente="'+window.localStorage.getItem("clave")+'"  ';
-			    alert(sql);
+			    //alert(sql);
 								
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error al preparar pedido : "+articulo+err.code+err.message);
@@ -670,6 +542,82 @@ var pedido=inicial+pad(incremetarp,6);
 				
 }//function imprimirped
 
+function imprimirfac(obs){	
+var cabinsertada=false;
+var sumtotlinea=0;
+var summontodesc=0;
+var sumivalinea=0;
+var consecutivo=window.localStorage.getItem("consefactura");
+var ruta=window.localStorage.getItem("ruta");
+var fecha = new Date();
+var fechaact=fecha.getFullYear()+"/"+(fecha.getMonth()+1)+"/"+fecha.getDate();
+var hora=fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+var fechayhora=fechaact+" "+hora;
+//+"\nMilisegundo: "+fecha.getMilliseconds());
+var longitud=consecutivo.length;
+var inicial=consecutivo.substr(0,3);
+var numpedido= consecutivo.substr(3,(longitud-3));
+ //alert(numpedido); 
+var incremetarp=Number(numpedido)+1;
+// alert(incremetarp); 
+var pedido=inicial+pad(incremetarp,6);
+// alert(pedido); 
+   function pad(n, length){
+	   //alert('entra a funcion'+n); 
+  	 n = n.toString();
+   	 while(n.length < length) n = "0" + n;
+  	 return n;
+   }
+	function listo(tx,results){ 	      
+	      if (results.rows.length>0){		
+		  	 $.each(results.rows,function(index){           			 
+			 var row = results.rows.item(index);    
+			 var precio=row['precio'];//precio sin descuento y sin iva			 
+			 var pordesc=row['descuento'];//porcentaje de descuento que se aplica 
+			 var totlinea=Number(row['cantidad'])*Number(row['precio']);//total de linea sin descuento y sin iva
+			 var montodesc=(Number(totlinea)/100)*Number(row['descuento']); 
+			 var lineacdes=totlinea-montodesc;//importe de linea con descuento
+			 var ivalinea=lineacdes*(row['impuesto']/100);			 
+			 var preciocdesc=row['preciocdesc'];	//precio con descuento sin iva		 
+			 var preciociva=preciocdesc*(1+(row['impuesto']/100));			 
+			 var cantidad=row['cantidad'];
+			 var articulo=row['articulo'];
 
+			 sumtotlinea+=sumtotlinea+totlinea;//suma del total de linea sin descuento y sin iva
+			 summontodesc+=summontodesc+montodesc;//suma del total de linea sin descuento y sin iva
+			 sumivalinea+=sumivalinea+ivalinea;//suma del total de linea sin descuento y sin iva
+			 //alert('antes de llamar a funcion guardated');
+			 guardadetfactura(pedido,articulo,precio,pordesc,totlinea,montodesc,precio,cantidad);
+			//alert('despues de llamar a funcion guardated');
+			 
+			 
+			/* 
+			 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, NUM_PED,COD_ZON,DOC_PRO,COD_CLT,TIP_DOC,HOR_FIN,FEC_PED,FEC_DES,MON_IMP_VT,MON_CIV,MON_SIV,MON_DSC,OBS_PED,ESTADO,COD_CND,COD_BOD)'); 
+         tx.executeSql('CREATE TABLE IF NOT EXISTS DETPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, NUM_PED,COD_ART,MON_PRC_MN,POR_DSC_AP,MON_TOT,MON_DSC,MON_PRC_MX,CNT_MAX)'); 
+
+			 */			 			 
+		 	});
+			//alert('antes de llamar a funcion guardaenc');
+		  	 guardaencfactura(pedido,ruta,window.localStorage.getItem("clave"),fechayhora,fechaact,sumivalinea,(sumtotlinea+sumivalinea),sumtotlinea,summontodesc,obs,30,"K01");
+				//alert('despues de llamar a funcion guardated');
+		  }//if (results.rows.length>0){		  
+ 	}//function listo(tx,results){ 
+	function consultatemp(tx){  
+	             //alert('ENTRA A CONSultatepm'); 
+				var sql='SELECT a.articulo,a.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as preciocdesc,';
+				sql+='b.descuento,b.precio ';	
+				sql+='FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo ';
+				sql+='WHERE  a.cliente="'+window.localStorage.getItem("clave")+'"  ';
+			    //alert(sql);
+								
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error al preparar pedido : "+articulo+err.code+err.message);
+         		});    									
+	}
+	consultadb().transaction(consultatemp, function(err){
+    	 			 alert("Error select tabla temporal PEDIDO para guardarlo: "+err.code+err.message);
+         		});		
+				
+}//function imprimirfac
 
 

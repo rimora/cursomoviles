@@ -1,7 +1,7 @@
 // crear e insertar en tablas
 function consultadb()
 {
-	var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);			
+	var db = window.openDatabase("ana", "5.0", "ana", 1000000);			
 	return db;	
 }
 
@@ -34,6 +34,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 tx.executeSql('DROP TABLE IF EXISTS ENCDEV');//
 		 tx.executeSql('DROP TABLE IF EXISTS DETDEV');//
 		 tx.executeSql('DROP TABLE IF EXISTS ENCOBROS');		 
+		 tx.executeSql('DROP TABLE IF EXISTS DETCOBROS');		 
 
 		 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCHISFAC (id INTEGER PRIMARY KEY AUTOINCREMENT, factura,monto,cliente,pedido,fecha)');  
@@ -56,6 +57,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS ENCDEV (id INTEGER PRIMARY KEY AUTOINCREMENT, num_dev,cod_zon,cod_clt,hor_ini,hor_fin,fec_dev,obs_dev,num_itm,est_dev,doc_pro,mon_siv,mon_dsc,por_dsc_ap,mon_imp_vt,mon_imp_cs,cod_bod,impreso,num_ref)'); 
          tx.executeSql('CREATE TABLE IF NOT EXISTS DETDEV  (id INTEGER PRIMARY KEY AUTOINCREMENT, num_dev,cod_zon,cod_art,ind_dev,mon_tot,mon_prc_mx,mon_prc_mn,cnt_max,obs_dev,mon_dsc,por_dsc_ap)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCOBROS (id INTEGER PRIMARY KEY AUTOINCREMENT, cliente,tipo,ruta,recibo,doc_pro,fec_pro,hor_ini,hor_fin,impreso,estado,monche,monefe,mondoc)'); 
+		  tx.executeSql('CREATE TABLE IF NOT EXISTS DETCOBROS (id INTEGER PRIMARY KEY AUTOINCREMENT, cliente,tipo,tipoaso,ruta,recibo,docafectado,doc_pro,fec_pro,estado,monto,saldo_doc)'); 
 		 }		 
 		 
 		 
@@ -200,14 +202,14 @@ function modificatempfactura(articulo,cantidad){
           },alert("Artículo modificado en factura"));
 				
     	function insertadet(tx) {		
-		alert('entra a modificar detallefactura cantidad: '+cantidad);		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 		if (Number(cantidad)>0){
 			tx.executeSql('UPDATE TEMFACTURA SET CANTIDAD=cantidad+'+cantidad+' WHERE ARTICULO="'+articulo+'" and cliente="'+window.localStorage.getItem("clave")+'"');        
 			tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+cantidad+' WHERE articulo="'+articulo+'" and bodega="K01"');
 		}
 		else{
 			cantidad=Number(cantidad)*-1
-			alert('cantidad menor a cero');
+			//alert('cantidad menor a cero');
 			tx.executeSql('UPDATE TEMFACTURA SET CANTIDAD=cantidad-'+cantidad+' WHERE ARTICULO="'+articulo+'" and cliente="'+window.localStorage.getItem("clave")+'"');        
 			tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia+'+cantidad+' WHERE articulo="'+articulo+'" and bodega="K01"');	
 		}
@@ -228,10 +230,14 @@ function limpiartemp(){
 	
 }//function limpiartemp
 function guardaencpedido(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal,descuento,obs,cond,bodega){
-	   alert (pedido+ruta+cliente+hora+fecha+impuesto+total+subtotal+descuento+obs+cond+bodega);
+	   //alert (pedido+ruta+cliente+hora+fecha+impuesto+total+subtotal+descuento+obs+cond+bodega);
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar en pedido: "+err.code+err.message);
-          },alert("Pedido Guardado"));
+          },function(){
+			mostrarpedido();  
+			  
+			  
+		  });
 				
     	function insertadet(tx) {		
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
@@ -243,7 +249,7 @@ function guardaencpedido(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal,
 	
 }//function guardaencpedido
 function guardadetpedido(pedido,articulo,precio,pordescuento,totalinea,descuento,precio,cantidad){
-	   alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
+	   //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar en detallepedido: "+err.code+err.message);
           },alert("Detalle Pedido Guardado"));
@@ -255,6 +261,39 @@ function guardadetpedido(pedido,articulo,precio,pordescuento,totalinea,descuento
 		}
 	
 }//function guardadetpedido
+function guardaencfactura(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal,descuento,obs,cond,bodega){
+	   //alert (pedido+ruta+cliente+hora+fecha+impuesto+total+subtotal+descuento+obs+cond+bodega);
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al insertar en factura: "+err.code+err.message);
+          },function(){
+			  
+			mostrarfactura();  
+			  
+			  
+		  });
+				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+		
+			tx.executeSql('INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES("'+pedido+'","'+ruta+'","'+cliente+'","S","'+hora+'","'+fecha+'","'+fecha+'",'+impuesto+','+total+','+subtotal+','+descuento+',"'+obs+'","S",'+cond+',"'+bodega+'")'); 
+			limpiartemppedido()
+			
+		}
+	
+}//function guardaencfactura
+function guardadetfactura(pedido,articulo,precio,pordescuento,totalinea,descuento,precio,cantidad){
+	   //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al insertar en detallefactura: "+err.code+err.message);
+          },alert("Detalle Factura Guardado"));
+				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+		
+			tx.executeSql('INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordescuento+','+totalinea+','+descuento+','+precio+','+cantidad+')'); 
+		}
+	
+}//function guardadetfactura
 
 function limpiartemppedido(){
 	   //limpia tablas temporales que tienen articulos en pedido y/o factura
@@ -293,7 +332,7 @@ function actsaldocliente(importe){
 	
 }//function limpiartemppedido
 function actualizatempdev(linea,cantidad,observa){
-	   alert('actualiza tempdev'+cantidad+' '+linea);
+	   //alert('actualiza tempdev'+cantidad+' '+linea);
 	    consultadb().transaction(insertadet,function(err){
     	  alert("Error al modificar renglon temdevolucion: "+err.code+err.message);
           });
@@ -321,13 +360,13 @@ function eliminatempdev(){
           });
 				
     	function insertadet(tx) {		
-		alert('entra a eliminar tempdev');
+		//alert('entra a eliminar tempdev');
 		   tx.executeSql('DELETE FROM TEMDEV ');		
 		}
 	
 }//function eliminatempdev
 function guardaencdev(devolucion,ruta,cliente,horaini,horafin,fecha,obs,renglones,subtotal,impuesto,bodega,factura){
-	  alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
+	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar encabezado devolucion: "+err.code+err.message);
           },alert("Devolución Guardada"));
@@ -348,17 +387,17 @@ function guardaencdev(devolucion,ruta,cliente,horaini,horafin,fecha,obs,renglone
 	
 }//function guardaencdev
 function guardadetdev(devolucion,ruta,articulo,totalinea,precio,cantidad,obs,descuento,pordescuento,factura,linea){
-	  alert(devolucion+ruta+articulo+' '+totalinea+' '+precio+' '+cantidad+' '+obs+' '+descuento+' '+pordescuento);
+	  //alert(devolucion+ruta+articulo+' '+totalinea+' '+precio+' '+cantidad+' '+obs+' '+descuento+' '+pordescuento);
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar en DETDEV: "+err.code+err.message);
           },alert("Detalle Devolucion Guardado"));
 				
     	function insertadet(tx) {		
-		alert('entra a insertadet');				
+		//alert('entra a insertadet');				
 			tx.executeSql('INSERT INTO DETDEV (num_dev,cod_zon,cod_art,ind_dev,mon_tot,mon_prc_mx,mon_prc_mn,cnt_max,obs_dev,mon_dsc,por_dsc_ap) VALUES("'+devolucion+'","'+ruta+'","'+articulo+'","B",'+totalinea+','+precio+','+precio+','+cantidad+',"'+obs+'",'+descuento+','+pordescuento+')'); 
-			alert('despues de insertadet');				
+			//alert('despues de insertadet');				
 			tx.executeSql('UPDATE DETHISFAC SET devuelto=devuelto+'+cantidad+' where linea='+linea+' and factura="'+factura+'"');		
-			alert('despues de actualizar dethisfac');				
+			//alert('despues de actualizar dethisfac');				
 			
 		}
 //mon_tot:total de la linea sin iva,ni descuento (precio*cantidad)
@@ -381,7 +420,7 @@ function actexis(articulo,cantidad){
 			}
 			else{
 			cantidad=Number(cantidad)*-1
-			alert('cantidad menor a cero');			      
+			//alert('cantidad menor a cero');			      
 			tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+cantidad+' WHERE articulo="'+articulo+'" and bodega="'+window.localStorage.getItem("bodega")+'"');	
 			}
 		}	
@@ -389,7 +428,7 @@ function actexis(articulo,cantidad){
 function insertatempcob(factura){
 	   //alert('inserttafactura'+cantidad);
 	    consultadb().transaction(insertadet,function(err){
-    	  alert("Error al insertar renglon temdevolucion: "+err.code+err.message);
+    	  alert("Error al insertar renglon temcobros: "+err.code+err.message);
           });
 				
     	function insertadet(tx) {		
@@ -398,7 +437,7 @@ function insertatempcob(factura){
 	
 }//function insertatempcob(factura)
 function actualizatempcob(factura,cantidad){
-	   alert('actualiza tempcob'+factura+' '+cantidad);
+	   //alert('actualiza tempcob'+factura+' '+cantidad);
 	    consultadb().transaction(insertadet,function(err){
     	  alert("Error al modificar renglon TEMCOBROS: "+err.code+err.message);
           });
@@ -415,13 +454,13 @@ function eliminatempcob(){
           });
 				
     	function insertadet(tx) {		
-		alert('entra a eliminar temcobros');
+		//alert('entra a eliminar temcobros');
 		   tx.executeSql('DELETE FROM TEMCOBROS ');		
 		}
 	
 }//function eliminatempcob()
 function insertarcheque(nche,ncta,banco,monto){
-	   alert('inserta cheque');
+	   //alert('inserta cheque');
 	   var cliente=window.localStorage.getItem("clave");
 	   var ruta=window.localStorage.getItem("ruta");
 	   var fecha=window.localStorage.getItem("fecha");
@@ -432,7 +471,7 @@ function insertarcheque(nche,ncta,banco,monto){
     	function insertadet(tx) {
 			var sql='INSERT INTO CHEQUES (codbanco,cliente,ruta,fecha,monto,numcheque,cuenta,recibo,tipo) VALUES("'+banco+'","'+cliente+'","'+ruta+'", ';		
 				sql+='"'+fecha+'",'+monto+',"'+nche+'","'+ncta+'","99999",5)';		
-				alert(sql);
+				//alert(sql);
 		   tx.executeSql(sql);		
 		}
 	
@@ -444,7 +483,7 @@ function eliminacheque(id){
           });
 				
     	function insertadet(tx) {		
-		alert('entra a eliminar cheque');
+		//alert('entra a eliminar cheque');
 		   tx.executeSql('DELETE FROM CHEQUES where id='+id);		
 		}
 	
@@ -456,13 +495,58 @@ function eliminachequexrecibo(){
           });
 				
     	function insertadet(tx) {		
-		alert('entra a eliminar cheque');
+		//alert('entra a eliminar cheque');
 		   tx.executeSql('DELETE FROM CHEQUES where recibo="99999"');		
 		}
 	
 }//function eliminacheque
 
+function guardaenccob(cliente,tipo,ruta,recibo,horaini,horafin,estado,monche,monefe,totalrecibo){
+	  //alert(cliente+','+tipo+','+ruta+','+recibo+','+horaini+','+horafin+','+estado+','+monche+','+monefe+','+totalrecibo);
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al insertar encabezado de cobro: "+err.code+err.message);
+          },function(){
+			actsaldo(totalrecibo*-1);  
+			 
+			 	consultadb().transaction(actcheque,function(err){
+		    	  alert("Error al actualizar recibo en cheques: "+err.code+err.message); });				
+    			function actcheque(tx) {		
+					//alert('entra a modificar recibo de cheque: '+recibo);				
+					tx.executeSql('UPDATE CHEQUES SET recibo="'+recibo+'" where recibo="99999" and cliente="'+cliente+'"');							
+				}  
+		  });
+				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);				
+			tx.executeSql('INSERT INTO ENCOBROS (cliente,tipo,ruta,recibo,hor_ini,hor_fin,impreso,estado,monche,monefe,mondoc) VALUES("'+cliente+'","'+tipo+'","'+ruta+'","'+recibo+'","'+horaini+'","'+horafin+'","N","'+estado+'",'+monche+','+monefe+','+totalrecibo+')'); 
+		}
+	
+}//function guardaenccob
+function guardadetcob(cliente,tipo,tipoaso,ruta,recibo,factura,estado,monto,saldo_doc){
+	  //alert(cliente+' '+tipo+' '+tipoaso+' '+ruta+' '+recibo+' '+factura+' '+estado+' '+monto+' '+saldo_doc);
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al insertar en DETCOBROS: "+err.code+err.message);
+          },function(){ //actualiza el saldo en las facturas pendientes de cobro de la tabla PENCOBRO
+			   //alert('entra aqui');
+			   
+			 consultadb().transaction(actsaldofac,function(err){
+		    	  alert("Error al actualizar saldo de factura: "+err.code+err.message); });
+				
+    			function actsaldofac(tx) {		
+					//alert('entra a modificar saldo de factura: '+saldo_doc);				
+					tx.executeSql('UPDATE PENCOBRO SET saldo='+saldo_doc+' where documento="'+factura+'"');		
+				}  			  
+		  });
+				
+    	function insertadet(tx) {		
+		//alert('entra a insertadet');				
+			tx.executeSql('INSERT INTO DETCOBROS (cliente,tipo,tipoaso,ruta,recibo,docafectado,estado,monto,saldo_doc) VALUES("'+cliente+'","'+tipo+'","'+tipoaso+'","'+ruta+'","'+recibo+'","'+factura+'","'+estado+'",'+monto+','+saldo_doc+')'); 
+			//alert('despues de insertadet');				
+			/*tx.executeSql('UPDATE DETHISFAC SET devuelto=devuelto+'+cantidad+' where linea='+linea+' and factura="'+factura+'"');		
+			alert('despues de actualizar dethisfac');				*/	
+		}
 
+}//function guardadetcob
 function f1_1(){
 	  alert('entra a funcion f1_1');
 	consultadb().transaction(insertadet,function(err){
