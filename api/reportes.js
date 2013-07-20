@@ -1,12 +1,16 @@
-// depositos
-function listarecibos(){
+// Reportes
+function repvencob(){
 	var cliente=window.localStorage.getItem("clave");
 		consultadb().transaction(poblarfac, function(err){
     	 		 alert("Error poblar recibos para deposito: "+err.code+err.message);
          		});		
 	function poblarfac(tx){  				
-			var sql='SELECT a.recibo,a.mondoc,b.nombre FROM ENCOBROS a ';		
+			var sql='SELECT a.tip_doc,a.mondoc,b.nombre FROM ENCPEDIDO a ';		
 				sql+=' left outer join CLIENTES b on b.clave=a.cliente WHERE a.depositado is null ORDER BY a.recibo';
+				/*
+				
+				  tx.executeSql('CREATE TABLE IF NOT EXISTS ENCPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, num_ped,cod_zon,doc_pro,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod)'); 
+         tx.executeSql('CREATE TABLE IF NOT EXISTS DETPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max)'); */
 				//alert(sql);
 				tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select recibos: "+err.code+err.message);
