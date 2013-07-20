@@ -120,7 +120,7 @@ function armacatalogo(){
 			 }			 
 			 html+='<li id='+row['articulo']+'>';
 	         html+='<a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> '+row['descripcion']+'</h3>';
-			 html+='Clasificación:'+row['clas']+' AcciónT:'+row['accion']+'<br/>Precio:'+precio.toFixed(2)+' Existencia:'+existencia+' ALG:'+existenciaalg+'</p></a></li>';
+			 html+='Clasificación:'+row['clas']+' AcciónT:'+row['accion']+'<br/>Precio:'+precio.toFixed(2)+'    A bordo:'+existencia+'   ALG:'+existenciaalg+'</p></a></li>';
 			 			 
 			 $('#lcatalogo').append(html);        	
 			 //alert('despues de lcatalogo.append armacatalogo');        

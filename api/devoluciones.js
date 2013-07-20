@@ -22,7 +22,7 @@ function listafacturas(){
 			 var row = results.rows.item(index); 
 			 var html="";               			 
 			 html+='<li id="'+row['factura']+'">';
-	         html+='<a href="#pdethistfac"><h5> Factura: '+row['factura']+'</h5>';
+	         html+='<a href="#pdethistfac"><h5> Documento: '+row['factura']+'</h5>';
 			 html+='Total:  '+row['monto']+'    Pedido:   '+row['pedido']+'    Fecha:   '+row['fecha']+'</a></li>';
 			 //alert('antes del append de listfac '+html);
 			 $('#listahistfac').append(html);  			
