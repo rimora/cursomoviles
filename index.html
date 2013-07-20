@@ -225,30 +225,64 @@
 		<h1>Nuevo Prospecto</h1>
 	</div>
 	<div data-role="content">
-        <div data-role="fieldcontain">
-			<label for="prosnombre">Nombre</label>
-			<input type="text" id="prosnombre"  />
-            <label for="prosrfc">RFC</label>
-			<input type="text" id="prosrfc"  />
-            <label for="proscalle">Calle</label>
-			<input type="text" id="proscalle"  />
-            <label for="prosnumero">Numero</label>
-			<input type="text" id="prosnumero"  />
-            <label for="proscol">Colonia</label>
-			<input type="text" id="proscol"  />
-            <label for="prosedo">Estado</label>
-			<input type="text" id="prosedo"  />
-            <label for="prosmun">Municipio</label>
-			<input type="text" id="prosmun"  />
-            <label for="prosnotas">Notas</label>
-			<input type="text" id="prosnotas"  />            
-		</div>
+        
+        <ul data-role="listview" data-inset="true" data-dividertheme="a">
+   		 <li data-role="list-divider">Datos de Prospecto</li>
+    	 <li><input type="text" id="prosnombre" placeholder="*Nombre" /></li>         
+		 <li><input type="text" id="proscalle" placeholder="*Calle" /></li>         
+		 <li><input type="text" id="prosentre" placeholder="*Entre Calles" /></li>         
+		 <li><input type="text" id="prosnumero" placeholder="*Numero" /></li>         
+		 <li><input type="number" id="prostel" placeholder="*Telefono Fijo" /></li>         
+		 <li><input type="number" id="proscel" placeholder="*Celular" /></li>         
+		 <li><input type="text" id="proscol"  placeholder="*Colonia" /></li>         
+		 <li><input type="text" id="prosedo" placeholder="*Estado" /></li>         
+         <li><input type="text" id="prosmun" placeholder="*Municipio" /></li>                  
+         <li><input type="text" id="prosloc" placeholder="Localidad" /></li>         
+         <li><input type="text" id="prosnotas"  placeholder="Notas" /></li>         />            
+            <!--<label for="prosrfc">RFC</label>
+			<input type="text" id="prosrfc"  />-->
+            <li><a href="#" id="fotopros">Tomar Foto (Obligatorio)</a></li>
+		</ul>
     </div>
 	<div data-role="footer">        
 			<a class="ui-btn-right" id="regresarnuevopros" data-role="button" data-rel="back"
         data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
-        <a class="ui-btn-right" id="guardapros" data-role="button" data-rel="back"
-        data-theme="b" data-icon="check" data-iconpos="left" >Guardar</a>
+        <a class="ui-btn-right" id="bguardapros" data-role="button" 
+        data-theme="b" data-icon="plus" data-iconpos="left" >Guardar</a>
+ 	</div>
+</div>
+<!-- P A G I N A  NUEVO CLIENTE-->
+<div data-role="page" id="pnuevocli">
+	<div data-role="header">
+		<h1>Nuevo Cliente</h1>
+	</div>
+	<div data-role="content">
+        
+        <ul data-role="listview" data-inset="true" data-dividertheme="a">
+   		 <li data-role="list-divider">Datos de Cliente</li>
+    	 <li><input type="text" id="clinombre" placeholder="*Nombre" /></li>         
+         <li><input type="text" id="cliife" placeholder="IFE" /></li>         
+		 <li><input type="text" id="clicalle" placeholder="*Calle" /></li>         
+		 <li><input type="text" id="clientre" placeholder="*Entre Calles" /></li>         
+		 <li><input type="text" id="clinumero" placeholder="*Numero" /></li>         
+		 <li><input type="number" id="clitel" placeholder="*Telefono Fijo" /></li>         
+		 <li><input type="number" id="clicel" placeholder="*Celular" /></li>         
+		 <li><input type="text" id="clicol"  placeholder="*Colonia" /></li>         
+		 <li><input type="text" id="cliedo" placeholder="*Estado" /></li>         
+         <li><input type="text" id="climun" placeholder="*Municipio" /></li>                  
+         <li><input type="text" id="cliloc" placeholder="Localidad" /></li>         
+         <li><input type="text" id="clinotas"  placeholder="Notas" /></li>         />            
+            <!--<label for="prosrfc">RFC</label>
+			<input type="text" id="prosrfc"  />-->
+            <li><a href="#" id="fotoife">Foto IFE(Opcional)</a></li>
+            <li><a href="#" id="fotoneg">Foto Negocio(Obligatorio)</a></li>
+		</ul>
+    </div>
+	<div data-role="footer">        
+			<a class="ui-btn-right" id="regresarnuevocli" data-role="button" data-rel="back"
+        data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
+        <a class="ui-btn-right" id="bguardacli" data-role="button" 
+        data-theme="b" data-icon="plus" data-iconpos="left" >Guardar</a>
  	</div>
 </div>
 <!-- P A G I N A  D A T O S-->

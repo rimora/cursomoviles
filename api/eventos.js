@@ -364,13 +364,69 @@ $("#bimprimirf").tap(function() {
 					modificalineaf(articulo,cantidad);
 				  }
     });
-	$("#guardapros").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-				  
-				 alert('Prospecto Guardado');
-				  $.mobile.changePage($("#pclientes"));	  			  				  
-				  
+	$("#fotopros").tap(function() { 
+                tomarfotopros();  
      });	
+	$("#bguardapros").tap(function() { 
+                 var nom =  $("#prosnombre").val();
+				 var cal =  $("#proscalle").val();
+				 var ent=  $("#prosentre").val();
+				 var num =  $("#prosnumero").val();
+				 var tel =  $("#prostel").val();
+				 var cel =  $("#proscel").val();
+				 var col =  $("#proscol").val();
+				 var edo =  $("#prosedo").val();
+				 var mun =  $("#prosmun").val();
+				 var loc =  $("#prosloc").val();
+				 var nota =  $("#prosnotas").val();
+				 var foto=$('#fotopros').attr('rel');			 
+				 
+				if (nom.length==0 || cal.length==0 || ent.length==0 || num.length==0 || tel.length==0 || cel.length==0 || col.length==0 || edo.length==0 || mun.length==0 || foto== undefined || foto =='' ){
+					
+				navigator.notification.alert('Faltan datos Obligatorios *',null,'Faltan Datos','Aceptar');					
+					
+				}else
+				{
+				  navigator.notification.alert('Prospecto Guardado',null,'Datos Guardados','Aceptar');					
+				  $.mobile.changePage($("#pclientes"));	  			  				  
+				}
+				 
+				  
+     });
+	 $("#fotoife").tap(function() { 
+                tomarfotoife();  
+     });	
+	 $("#fotoneg").tap(function() { 
+                tomarfotoneg();  
+     });
+	$("#bguardacli").tap(function() { 
+                 var nom =  $("#clinombre").val();
+				 var ife =  $("#cliife").val();
+				 var cal =  $("#clicalle").val();
+				 var ent=  $("#clientre").val();
+				 var num =  $("#clinumero").val();
+				 var tel =  $("#clitel").val();
+				 var cel =  $("#clicel").val();
+				 var col =  $("#clicol").val();
+				 var edo =  $("#cliedo").val();
+				 var mun =  $("#climun").val();
+				 var loc =  $("#cliloc").val();
+				 var nota =  $("#clinotas").val();
+				 //var fotoife=$('#fotoife').attr('rel');			 
+				 var fotoneg=$('#fotoneg').attr('rel');			 
+				 
+				if (nom.length==0 || ife.length==0 || cal.length==0 || ent.length==0 || num.length==0 || tel.length==0 || cel.length==0 || col.length==0 || edo.length==0 || mun.length==0 || fotoneg== undefined || fotoneg =='' ){
+					
+				navigator.notification.alert('Faltan datos Obligatorios *',null,'Faltan Datos','Aceptar');					
+					
+				}else
+				{
+				  navigator.notification.alert('Cliente Guardado',null,'Datos Guardados','Aceptar');					
+				  $.mobile.changePage($("#pclientes"));	  			  				  
+				}
+				 
+				  
+     });		
 	 $("#bgenerav").tap(function() { //boton aceptar del catalogo
                  //var clavecli = $(this).attr("id");
 				 //muestra el pedido o factura armados				 
