@@ -365,6 +365,7 @@ $("#bimprimirf").tap(function() {
 				  }
     });
 	$("#fotopros").tap(function() { 
+				$('#fotopros').empty();
                 tomarfotopros();  
      });	
 	$("#bguardapros").tap(function() { 
@@ -394,9 +395,11 @@ $("#bimprimirf").tap(function() {
 				  
      });
 	 $("#fotoife").tap(function() { 
+	 			$("#fotoife").empty();
                 tomarfotoife();  
      });	
 	 $("#fotoneg").tap(function() { 
+	 			$("#fotoneg").empty();
                 tomarfotoneg();  
      });
 	$("#bguardacli").tap(function() { 
@@ -577,6 +580,8 @@ $("#bimprimirf").tap(function() {
 				  window.location.href='#pcobros';
 				  $("#labelencpcobros").empty();	
 				  $("#labelencpcobros").append("Facturas pendientes del cliente: "+cliente);				  
+				  $("#labellimcred").empty();	
+				  $("#labellimcred").append("Limite de Credito: "+window.localStorage.getItem("limite"));	
 				  eliminatempcob();
 				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
 				  listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
@@ -707,22 +712,22 @@ $("#bimprimirf").tap(function() {
 		  	window.location.href='#pcheque';
 			poblarcuenta();	         
 			$("#numcheque").val("");
-			$("#numcuenta").val("");  
+			//$("#numcuenta").val("");  
 			$("#monto").val(0); 
 			poblarcheques();
 				  
      }); 
 	 $("#bagregacheque").tap(function() {                   				  
 	        var nche=$("#numcheque").val();  			  
-			var ncta=$("#numcuenta").val();  			  
+			//var ncta=$("#numcuenta").val();  			  
 			var banco=$("#menucuentab").val();
 			var monto=$("#monto").val();
 		    var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
 			 //alert(monto);
 			 //alert(pendiente);
 
-			if (nche=="" || ncta=="" || banco=="Banco" || monto==0){
-				navigator.notification.alert('Debe indicar numero de cheque, de cuenta,seleccionar banco y monto válidos',null,'Faltan Datos','Aceptar');				 	
+			if (nche=="" || banco=="Banco" || monto==0){
+				navigator.notification.alert('Debe indicar numero de cheque,seleccionar banco y monto válidos',null,'Faltan Datos','Aceptar');				 	
 				$("#monto").focus();			
 				return false;
 			}
@@ -732,10 +737,10 @@ $("#bimprimirf").tap(function() {
 				$("#monto").val(0); 
 			}			
 			else{
-				insertarcheque(nche,ncta,banco,monto);			
+				insertarcheque(nche,"0",banco,monto);			
 				$("select#menucuentab").val("Banco").selectmenu("refresh"); 
 				$("#numcheque").val("");
-				$("#numcuenta").val("");  
+				//$("#numcuenta").val("");  
 				$("#monto").val(0); 
 				poblarcheques();
 			}

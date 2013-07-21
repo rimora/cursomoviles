@@ -40,7 +40,14 @@ function listafacturaspend(cliente){
 						abonot+=abonado;
 					 //importe=precio*row['cantidad'];
 					 //total+=Number(importe);					 
-					html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-e">'+row['documento']+'</div></div>';   		               		html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div> ';
+					if (row['vencida']=='S') {
+						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-e">'+row['documento']+'</div></div>';
+					}
+					else
+					{
+						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-b">'+row['documento']+'</div></div>';
+					}
+					html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div> ';
 					html+='<div class="ui-block-c" style="width:130px"><div class="ui-bar ui-bar-b">'+row['fechaven']+'</div></div>';                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+saldo.toFixed(2)+'</div></div>';
 					html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="FFFFFF">'+abonado.toFixed(2)+'</font></a></div></div>';
 					

@@ -39,9 +39,7 @@
     </div>
     <div data-role="content" style="background-color: #FF6">
     
-    
-    
-    
+            
   	<center><img src="imagenes/portrait.png" alt="mee"  /></center>
     	    
     
@@ -60,7 +58,7 @@
 	</div>
 	<div data-role="content">	
 		<ul data-role="listview" data-inset="true" data-theme="c">     
-            <a href="#" id ="clientes" data-mini="true" data-role="button" data-theme="e" data-icon="sardel-clientes" data-iconpos="left"> Clientes</a>           
+            <a href="#" id ="clientes"  data-role="button" data-theme="e" data-icon="sardel-clientes" data-iconpos="left"> Clientes</a>           
             <li data-role="list-divider">  </li>              
             <a href="#" id ="bdepositos"  data-role="button"> Depositos</a>
             <li data-role="list-divider">  </li>              
@@ -226,21 +224,32 @@
 	<div data-role="header">
 		<h1>Nuevo Prospecto</h1>
 	</div>
-	<div data-role="content">
-        
-        <ul data-role="listview" data-inset="true" data-dividertheme="a">
-   		 <li data-role="list-divider">Datos de Prospecto</li>
-    	 <li><input type="text" id="prosnombre" placeholder="*Nombre" /></li>         
-		 <li><input type="text" id="proscalle" placeholder="*Calle" /></li>         
-		 <li><input type="text" id="prosentre" placeholder="*Entre Calles" /></li>         
-		 <li><input type="text" id="prosnumero" placeholder="*Numero" /></li>         
-		 <li><input type="number" id="prostel" placeholder="*Telefono Fijo" /></li>         
-		 <li><input type="number" id="proscel" placeholder="*Celular" /></li>         
-		 <li><input type="text" id="proscol"  placeholder="*Colonia" /></li>         
-		 <li><input type="text" id="prosedo" placeholder="*Estado" /></li>         
-         <li><input type="text" id="prosmun" placeholder="*Municipio" /></li>                  
-         <li><input type="text" id="prosloc" placeholder="Localidad" /></li>         
-         <li><input type="text" id="prosnotas"  placeholder="Notas" /></li>         />            
+	<div data-role="content">        
+    	 <div data-role="fieldcontain" >
+	           <label for="prosnombre">*Nombre:</label> 
+    	       <input type="text" id="prosnombre" placeholder="*Nombre" data-mini="true"/>
+               <label for="proscalle">*Calle:</label> 
+			   <input type="text" id="proscalle" placeholder="*Calle" />
+               <label for="prosentre">*Entre Calles:</label> 
+	           <input type="text" id="prosentre" placeholder="*Entre Calles" />
+               <label for="prosnumero">*Numero:</label> 
+		       <input type="text" id="prosnumero" placeholder="*Numero" />         
+               <label for="prostel">*Tel. Fijo:</label> 
+               <input type="number" id="prostel" placeholder="*Telefono Fijo" />
+               <label for="proscel">*Celular:</label> 
+		       <input type="number" id="proscel" placeholder="*Celular" />         
+               <label for="proscol">*Colonia</label> 
+		       <input type="text" id="proscol"  placeholder="*Colonia" />
+               <label for="prosedo">*Estado</label> 
+		       <input type="text" id="prosedo" placeholder="*Estado" />
+               <label for="prosmun">*Municipio</label> 
+               <input type="text" id="prosmun" placeholder="*Municipio" />
+               <label for="prosloc">Localidad</label> 
+               <input type="text" id="prosloc" placeholder="Localidad" />
+               <label for="prosnotas">Notas</label> 
+               <input type="text" id="prosnotas"  placeholder="Notas" />
+          </div>
+         <ul data-role="listview" data-inset="true" data-dividertheme="a">
             <!--<label for="prosrfc">RFC</label>
 			<input type="text" id="prosrfc"  />-->
             <li><a href="#" id="fotopros">Tomar Foto (Obligatorio)</a></li>
@@ -260,22 +269,34 @@
 	</div>
 	<div data-role="content">
         
-        <ul data-role="listview" data-inset="true" data-dividertheme="a">
-   		 <li data-role="list-divider">Datos de Cliente</li>
-    	 <li><input type="text" id="clinombre" placeholder="*Nombre" /></li>         
-         <li><input type="text" id="cliife" placeholder="IFE" /></li>         
-		 <li><input type="text" id="clicalle" placeholder="*Calle" /></li>         
-		 <li><input type="text" id="clientre" placeholder="*Entre Calles" /></li>         
-		 <li><input type="text" id="clinumero" placeholder="*Numero" /></li>         
-		 <li><input type="number" id="clitel" placeholder="*Telefono Fijo" /></li>         
-		 <li><input type="number" id="clicel" placeholder="*Celular" /></li>         
-		 <li><input type="text" id="clicol"  placeholder="*Colonia" /></li>         
-		 <li><input type="text" id="cliedo" placeholder="*Estado" /></li>         
-         <li><input type="text" id="climun" placeholder="*Municipio" /></li>                  
-         <li><input type="text" id="cliloc" placeholder="Localidad" /></li>         
-         <li><input type="text" id="clinotas"  placeholder="Notas" /></li>         />            
+        
+     	 <label for="clinombre">*Nombre:</label> 
+    	 <input type="text" id="clinombre" placeholder="*Nombre" />
+         <label for="cliife">*IFE:</label> 
+         <input type="text" id="cliife" placeholder="IFE" />         
+         <label for="clicalle">*Calle:</label> 
+		 <input type="text" id="clicalle" placeholder="*Calle" />
+         <label for="clientre">*Entre Calles:</label> 
+		 <input type="text" id="clientre" placeholder="*Entre Calles" />
+         <label for="clinumero">*Numero:</label> 
+		 <input type="text" id="clinumero" placeholder="*Numero" />         
+         <label for="clitel">*Tel Fijo:</label> 
+		 <input type="number" id="clitel" placeholder="*Telefono Fijo" />
+         <label for="clicel">*Celular:</label> 
+		 <input type="number" id="clicel" placeholder="*Celular" />        
+         <label for="clicol">*Colonia:</label> 
+		 <input type="text" id="clicol"  placeholder="*Colonia" />
+         <label for="cliedo">*Estado:</label> 
+		 <input type="text" id="cliedo" placeholder="*Estado" />
+         <label for="climun">*Municipo:</label> 
+         <input type="text" id="climun" placeholder="*Municipio" />
+         <label for="cliloc">Localidad:</label> 
+         <input type="text" id="cliloc" placeholder="Localidad" />
+         <label for="clinotas">Notas:</label> 
+         <input type="text" id="clinotas"  placeholder="Notas" />
             <!--<label for="prosrfc">RFC</label>
 			<input type="text" id="prosrfc"  />-->
+        <ul data-role="listview" data-inset="true" data-dividertheme="a">
             <li><a href="#" id="fotoife">Foto IFE(Opcional)</a></li>
             <li><a href="#" id="fotoneg">Foto Negocio(Obligatorio)</a></li>
 		</ul>
@@ -724,6 +745,7 @@
       </div>  
 	</div>
 	<div data-role="content">		        
+                <center><label style="width:18%;font-size:20px; color: #00F" id="labellimcred" ></label></center>
                 <div class="ui-grid-d" id="gridfacpendientes">
 				
 				</div><!-- /grid-d -->                
@@ -792,12 +814,13 @@
 	        </div>	
             <div data-role="fieldcontain">			
     			<label for="numcheque">Numero de Cheque:</label>
-				<input type="number" id="numcheque" style="width:15%">			
+				<input name="" type="text" id="numcheque" style="width:15%" maxlength="4">			
 			</div>
-			<div data-role="fieldcontain">
+			<!--
+            <div data-role="fieldcontain">
 				<label for="numcuenta">Numero de Cuenta:</label>
 				<input type="number" id="numcuenta" style="width:15%">						    
-			</div> 
+			</div> -->
             <div data-role="fieldcontain"	
 				<label for="monto">Monto:</label>
 				<input type="number" id="monto" style="width:10%">						    
