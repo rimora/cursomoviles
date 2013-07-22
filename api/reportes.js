@@ -134,7 +134,7 @@ function repcierrecobro(){
 					
 					 totalcob+=cobrado;
 	
-					html+='<div class="ui-block-a" style="width:300px" ><div class="ui-bar ui-bar-e"  >row['nombre']</div></div>';
+					html+='<div class="ui-block-a" style="width:300px" ><div class="ui-bar ui-bar-e"  >'+row['nombre']+'</div></div>';
                     html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+row['recibo']+'</div></div>';
 					html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b">'+cobrado.toFixed(2)+'</div></div>';
 					

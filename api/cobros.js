@@ -7,7 +7,7 @@ function listafacturaspend(cliente){
     	 		 alert("Error poblar facturas para cobro: "+err.code+err.message);
          		});		
 	function poblarfac(tx){  
-			var sql='SELECT a.documento,a.saldo,a.monto,a.fechaven,b.abonado FROM PENCOBRO a ';		
+			var sql='SELECT a.documento,a.saldo,a.monto,a.fechaven,b.abonado,a.vencida FROM PENCOBRO a ';		
 				sql+=' left outer join TEMCOBROS b on b.factura=a.documento WHERE a.cliente="'+cliente+'" ORDER BY fechaven'
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select facturas pendientes de cobro: "+err.code+err.message);
