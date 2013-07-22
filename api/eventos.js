@@ -856,7 +856,13 @@ $("#bimprimirf").tap(function() {
 		   $("#totaldep").val(Number(total)-Number(importe));
 	   }
   
-     });	
+     });
+	 //**********R E P O R T E S	 *************	
+	 $("#reporte1").tap(function() {                   				  				  
+				  window.location.href='#prepcobven';
+				  repvencob();								  
+  });
+	 
   },false);//document.addEventListener("deviceready",function(){	
 });//$(document).ready(function() 
 			   
