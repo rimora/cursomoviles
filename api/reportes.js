@@ -201,6 +201,8 @@ function repinventario(){
 		 });         
 		 			 
 		 $('#lrepinv').listview('refresh'); 
+		 $("#rpiezas").val(cantidad);
+		 $("#rlineas").val(lineas);
 		 //alert('despues de lcatalogo listview armacatalogo');        
  	}
 
