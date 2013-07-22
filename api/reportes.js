@@ -7,10 +7,10 @@ alert('funcion repvencob');
          		});		
 	function poblarfac(tx){  				
 			var sql='SELECT a.clave,a.nombre,b.estado,sum(b.mon_civ-b.mon_dsc) as vendido,sum(c.mondoc) as cobrado FROM CLIENTES a ';		
-				sql+=' left outer join ENCPEDIDO b on b.cliente=a.clave ';
+				sql+=' left outer join ENCPEDIDO b on b.cod_clt=a.clave ';
 				sql+=' left outer join ENCOBROS c on c.cliente=a.clave';
 				sql+=' group by a.clave,a.nombre,b.estado';
-				sql+=' having sum(b.mon_civ-b.mon_dsc)>0 or sum(c.mondoc)>0 ';
+				//sql+=' having sum(b.mon_civ-b.mon_dsc)>0 or sum(c.mondoc)>0 ';
 
 				alert(sql);
 				tx.executeSql(sql,[],listo,function(err){
@@ -103,7 +103,7 @@ function repcierrecobro(){
     	 		 alert("Error al obtener información para reporte: "+err.code+err.message);
          		});		
 	function poblarfac(tx){  				
-			var sql='SELECT a.clave,b.nombre,a.recibo,a.mondoc as cobrado FROM ENCOBROS a ';		
+			var sql='SELECT a.cliente,b.nombre,a.recibo,a.mondoc as cobrado FROM ENCOBROS a ';		
 				sql+=' inner join CLIENTES b on b.clave=a.cliente ';
 				
 
@@ -158,7 +158,7 @@ function repinventario(){
 	        //alert('entra al poblarcat armacatalogo');        	   
 			var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,';
 			sql+='a.precio';
-			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
+			sql+=' FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
 			sql+=' order by a.descripcion';
 			//alert('despues del sql armacatalogo');        
 			
