@@ -861,7 +861,11 @@ $("#bimprimirf").tap(function() {
 	 $("#reporte1").tap(function() {                   				  				  
 				  window.location.href='#prepcobven';
 				  repvencob();								  
-  });
+	  });
+	 $("#reporte2").tap(function() {                   				  				  
+				  window.location.href='#prepcierrecob';
+				  repcierrecobro();								  
+	  });
 	 
   },false);//document.addEventListener("deviceready",function(){	
 });//$(document).ready(function() 

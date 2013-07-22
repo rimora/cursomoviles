@@ -63,10 +63,13 @@
             <a href="#" id ="bdepositos"  data-role="button"> Depositos</a>
             <li data-role="list-divider">  </li>              
             <a href="#pdatos" id ="datos"  data-role="button"> Datos</a> 
-            <li data-role="list-divider"><h3>REPORTES</h3></li> 
-            <li>
-            	<ul><li id="reporte1">Reporte de Monto Cobrado y Vendido</li></ul>
-                
+            <li><h3>REPORTES</h3>
+            	<ul><li id="reporte1">Reporte de Monto Cobrado y Vendido</li>
+	                <li id="reporte2">Reporte de Cierre de Cobro</li>
+                    <li id="reporte3">Reporte de Visitas</li>
+                    <li id="reporte4">Reporte de Inventario</li>                    
+                </ul>
+             </li>   
                 
                 
                 
@@ -897,7 +900,7 @@
 		<h3 style="text-align:center">Monto Cobrado y Vendido</h3>            
 	</div>
 	<div data-role="content">	          
-            <div class=ui-grid-a id="gridrepven">         
+            <div class=ui-grid-d id="gridrepven">         
 		    	   
    			</div>
 			<div data-role="fieldcontain">	
@@ -917,6 +920,30 @@
          <a href="#page" class="ui-btn-right" id="regresarrep1" data-role="button" 
          data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
         <a href="#" class="ui-btn-right" id="bimprep1" data-role="button" 
+         data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>        
+        
+	</div>
+</div>
+<!--PAGINA REPORTE CIERRE DE COBRO-->
+<div data-role="page" id="prepcierrecob">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h3 style="text-align:center">Cierre de Cobro</h3>            
+	</div>
+	<div data-role="content">	          
+            <div class=ui-grid-b id="gridrepcierre">         
+		    	   
+   			</div>
+			<div data-role="fieldcontain">					
+                <label for="rmontocob" style="font-size:18px">Total Cobrado:</label>
+				<input name="" type="number" id="rmontocob" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+
+            </div>
+	</div>
+            
+	<div data-role="footer" data-position="fixed">       
+         <a href="#page" class="ui-btn-right" id="regresarrep2" data-role="button" 
+         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
+        <a href="#" class="ui-btn-right" id="bimprep2" data-role="button" 
          data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>        
         
 	</div>
