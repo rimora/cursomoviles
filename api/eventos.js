@@ -858,7 +858,8 @@ $("#bimprimirf").tap(function() {
   
      });
 	 //**********R E P O R T E S	 *************	
-	 $("#reporte1").tap(function() {                   				  				  
+	 $("#reporte1").tap(function() {     
+	               navigator.notification.alert('entra tap reporte1',null,'pruebas','Aceptar');             				  				  
 				  window.location.href='#prepcobven';
 				  repvencob();								  
 	  });
@@ -866,7 +867,10 @@ $("#bimprimirf").tap(function() {
 				  window.location.href='#prepcierrecob';
 				  repcierrecobro();								  
 	  });
-	 
+	 $("#reporte3").tap(function() {                   				  				  
+				  window.location.href='#prepinventario';
+				  repinventario();								  
+	  });
   },false);//document.addEventListener("deviceready",function(){	
 });//$(document).ready(function() 
 			   

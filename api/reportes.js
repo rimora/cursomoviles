@@ -1,11 +1,7 @@
 // Reportes
 function repvencob(){
-	var totalv=0;
-	var totalpre=0;
-	var totalfac=0;
-	var totalcob=0;
 	
-
+alert('funcion repvencob');
 		consultadb().transaction(poblarfac, function(err){
     	 		 alert("Error al obtener información para reporte: "+err.code+err.message);
          		});		
@@ -21,7 +17,12 @@ function repvencob(){
     	 		 alert("Error select recibos: "+err.code+err.message);
          		});    	
 	}
-	function listo(tx,results){ 			  
+	function listo(tx,results){ 
+	           var totalv=0;
+			   var totalpre=0;
+			   var totalfac=0;
+			   var totalcob=0;
+				  
 		      $("#gridrepven").empty();	
               $("#rtotalv").val(0);
 			  $("#rpreventa").val(0);
@@ -68,7 +69,7 @@ function repvencob(){
 					 totalfac+=facturado;
 					 totalcob+=cobrado;
 	
-					html+='<div class="ui-block-a" style="width:300px"><div class="ui-bar ui-bar-e">row['nombre']</div></div>';
+					html+='<div class="ui-block-a" style="width:300px"><div class="ui-bar ui-bar-e">'+row['nombre']+'</div></div>';
                     html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+cobrado.toFixed(2)+'</div></div>';
                     html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b">'+vendido.toFixed(2)+'</div></div>';
                     html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+preventa.toFixed(2)+'</div></div>';
@@ -149,3 +150,60 @@ function repcierrecobro(){
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
 }// repcierrecobro
+function repinventario(){
+		consultadb().transaction(poblarcat, function(err){
+    	 		 alert("Error select Articulos para reporte : "+err.code+err.message);
+         		});		
+	function poblarcat(tx){  
+	        //alert('entra al poblarcat armacatalogo');        	   
+			var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,';
+			sql+='a.precio';
+			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
+			sql+=' order by a.descripcion';
+			//alert('despues del sql armacatalogo');        
+			
+			
+		    tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error select catalogo: "+sql+err.code+err.message);
+         	});    	
+	}
+	function listo(tx,results){  
+		 $('#lrepinv').empty();
+		 var cantidad=0;
+		 var lineas=0;        
+		 //alert('entra a listo de armacatalogo');
+		 $.each(results.rows,function(index){   
+		   //  alert('entra al each armacatalogo');        
+			 var row = results.rows.item(index);         
+			 //alert('despues del var row armacatalogo');           
+			 var html="";	
+			 //var precio=row['precio']*(1+(row['impuesto']/100));
+			 var precio=Number(row['precio']);
+			 if   (row['ebodega']==null)       
+			 {
+				var existencia=0; 				
+				//alert('existencia es null'+existencia); 
+			 }
+			 else 
+			 {
+				 var existencia=row['ebodega']; 
+				 
+			 }
+			 lineas+=1;
+			 cantidad+=Number(existencia);
+				 
+			 html+='<li id=R'+row['articulo']+'>';
+	         html+='<h3> '+row['descripcion']+'</h3>';
+			 html+='Clasificación:'+row['clas']+' AcciónT:'+row['accion']+'<br/>Precio:'+precio.toFixed(2)+'    A bordo:'+existencia+'   </p></li>';
+			 			 
+			 $('#lrepinv').append(html);        	
+			 //alert('despues de lcatalogo.append armacatalogo');        
+		 });         
+		 			 
+		 $('#lrepinv').listview('refresh'); 
+		 //alert('despues de lcatalogo listview armacatalogo');        
+ 	}
+
+ // });	//$('#pclientes').live('pageshow',function(event, ui){
+	
+}//repinventario
