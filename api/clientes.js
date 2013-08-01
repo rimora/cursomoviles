@@ -22,13 +22,13 @@ function mostrarclientes(dia){
 		 $('#listaclientes').empty();        
 		 $.each(results.rows,function(index){           
 			 var row = results.rows.item(index);            
-			 $('#listaclientes').append('<li id="'+row['clave']+'"><a href="#datoscli"><h3>'+row['clave']+'  '+row['nombre']+'</h3></a></li>');        
+			 $('#listaclientes').append('<li id="'+row['clave']+'"><a href="#" data-theme="b"><h3>'+row['clave']+'  '+row['nombre']+'</h3></a></li>');        
 		 });    
 		 //alert('antes de refresh de lista');  		 
-		 $('#listaclientes').listview('refresh'); 
+		 
 		 //alert('despues de refresh de lista');
  	}
-
+	$('#listaclientes').listview('refresh'); 
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
 }// mostrarclientes
@@ -63,24 +63,22 @@ function mostrarcliente(clavecli){
 			$('#nomcli').text("Clave: "+row['clave']+" Nombre: "+row['nombre']);  	   		    
 			$('#direccion').text("Dirección: "+row['direccion']+" Telefono: "+row['telefono']);  	   		
 	   		$('#tipo').text("Estado: Credito "+row['tipo']+" Dias de Crédito: "+row['diasc']);
-	   		$('#limitecredito').text("Límite de Crédito: "+row['lcredito']+" Saldo: "+row['saldo']);
+	   		//$('#limitecredito').text("Límite de Crédito: "+row['lcredito']+" Saldo: "+row['saldo']);			
 			limite=Number(row['lcredito']);			
 			saldo=Number(row['saldo']);
+			disponible=limite-saldo;
+			$('#limitecli').val(limite.toFixed(2));
+			$('#ocupadocli').val(saldo.toFixed(2));
+			$('#dispcli').val(disponible.toFixed(2));
 			window.localStorage.setItem("limite",Number(row['lcredito']));
 			window.localStorage.setItem("saldo",Number(row['saldo']));
 		}
-		function poblarfac(tx,results){ 
-		      $("#gridfaccli").empty();			  
+		function poblarfac(tx,results){ 		      
 			  var html = "";			  
 			  var saldot=0;
 			  var montot=0;
 			  var vencida="";
-			  
-			  html += '<div class="ui-block-a"><div class="ui-bar ui-bar-a"><strong>Tipo</strong> Tipo</div></div>';
-			  html += '<div class="ui-block-b"><div class="ui-bar ui-bar-a"><strong>Documento</strong></div></div>';
-			  html += '<div class="ui-block-c"><div class="ui-bar ui-bar-a"><strong>Vencimiento</strong></div> </div>';
-			  html += '<div class="ui-block-d"><div class="ui-bar ui-bar-a"><strong>Saldo</strong></div></div>';
-			  html += '<div class="ui-block-e"><div class="ui-bar ui-bar-a"><strong>Monto</strong></div></div>';
+			  var tipo="";			  
 			  $.each(results.rows,function(index){
 				  var row = results.rows.item(index); 				     
 				     if (row['tipo']=="1"){
@@ -94,17 +92,9 @@ function mostrarcliente(clavecli){
 						 
 					 }
 					 saldot+=Number(row['saldo']);
-					 montot+=Number(row['monto']);
-					 html += "<div class=ui-block-a><strong>" +row['tipo']+"</strong> </div>";
-					 html += "<div class=ui-block-b><strong>"+row['documento']+"</strong> </div>";
-                     html += "<div class=ui-block-c><strong>"+row['fechaven']+"</strong> </div>";
-					 html += "<div class=ui-block-d><strong>"+row['saldo']+"</strong> </div>";
-                     html += "<div class=ui-block-e><strong>"+row['monto']+"</strong> </div>";
-                  	 
+					 montot+=Number(row['monto']);                  	 
 			  });
-					$("#gridfaccli").append(html); 
-					$("#saldocli").val(saldot.toFixed(2)); 
-					$("#montocli").val(montot.toFixed(2)); 					
+					
 					if (vencida=="S") {
 						navigator.notification.alert('El cliente tiene facturas vencidas, no podrá realizar ventas',null,'Saldo Vencido','Aceptar');					
 						$("#bventa").addClass('ui-disabled');

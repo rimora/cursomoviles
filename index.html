@@ -4,16 +4,14 @@
 <meta charset="utf-8">
 <title>Venta en RUTA</title>
 <link href="jquery-mobile/jquery.mobile-1.0.min.css" rel="stylesheet" type="text/css"/>
-<style type="text/css">
-			html { height: 100% }
-			body { height: 100%; margin: 0px; padding: 0px }
-			#map_canvas { height: 100% }
-		</style>
+<link rel="stylesheet" href="css/index.css" />
+<!--<link rel="stylesheet" href="css/interfaz.css" />-->
+
+
 <script src="phonegap.js"></script>
 <script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
 <script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
 <script src="api/eventos.js" type="text/javascript"></script>
-<script src="api/nuevoreporte.js" type="text/javascript"></script>
 <script src="api/consultas.js" type="text/javascript"></script>
 <script src="api/afectarbd.js" type="text/javascript"></script>
 <script src="api/almacenamiento.js" type="text/javascript"></script>
@@ -24,11 +22,81 @@
 <script src="api/depositos.js" type="text/javascript"></script>
 <script src="api/reportes.js" type="text/javascript"></script>
 <script src="api/clientes.js" type="text/javascript"></script>
+<script src="api/configuraciones.js" type="text/javascript"></script>
+<script src="api/visitas.js" type="text/javascript"></script>
 <script src="api/geolocalizacion.js" type="text/javascript"></script>
+<script src="api/geolocation.js" type="text/javascript"></script>
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
 
 <body> 
-
+<div data-role="page" id="pcobros">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<center><label style="width:18%;font-size:20px" id="labelencpcobros" ></label></center>
+        <div data-role="navbar">  
+        <a href="#" id ="bcopiarsaldo" data-role="button" data-theme="a" 	>Copiar Saldo a Pagar</a>
+        <a href="#" id ="bpagarimp" data-role="button" data-theme="a" 	>Pagar por Importe</a>
+        <a href="#" id ="blimpiar" data-role="button" data-theme="a" 	>Limpiar Abono</a>
+       	 <div class=ui-grid-c id="gridencabcobros">
+         <!--
+	    	<div class=ui-block-a style="width:100px">Saldo Total:</div>
+            <div class=ui-block-b style="width:100px"><label style="width:18%;font-size:20px; color:#F00">1,000000.00</label></div>
+            <div class=ui-block-c style="width:70px">A Pagar:</div>
+            <div class=ui-block-d style="width:100px"><label style="width:18%;font-size:20px; color:#F00">1,000000.00</label></div>
+            -->
+	    </div>
+      	</div>  
+	</div>
+   
+	<div data-role="content"  >		        
+      <center><label style="width:18%;font-size:20px; color: #00F" id="labellimcred" ></label></center>
+                
+                <div class="ui-grid-d" id="gridfacpendientes" style="float: left; position: absolute; left: 10px; top: 50px; width: 572px; height: auto">
+					<div class="ui-block-a" style="width:110px" ><div class="ui-bar ui-bar-a">Documento</div></div>
+              		<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-a">Ven.</div></div>
+		            <div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-a">Dias V.</div></div>
+        		    <div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-a">Importe</div></div>
+		            <div class="ui-block-e"  >
+                    	<div class="ui-grid-a"  style="margin-top:0px;width:190px">
+                        		<div class="ui-block-a" style="width:90px">
+                                	<div class="ui-bar ui-bar-a">Saldo</div></div>                   
+                        		<div class="ui-block-b" style="width:100px">
+                                	<div class="ui-bar ui-bar-a">A pagar</div></div>  
+                        </div>                    
+                    
+                    </div>
+                    
+				</div>
+      	<!-- /grid-d --> 
+                
+                <div id="divnumcobros" style="position: absolute; left: 742px; top: 87px; width: 224px; height: auto">
+      <label for="importecobro" style="position: absolute; left: 7px; top: -23px; font-weight: bold">Importe:</label>
+      <input type="text" id="importecobro" style="width: 76px; float: left; position: absolute; right: 10px; top: -31px" maxlength="9" readonly>
+      <div class="ui-grid-b">
+        <div class="ui-block-a"><a href="#" id ="b1" data-role="button" data-theme="b" class="tecladonuma" >1</a></div>
+        <div class="ui-block-b"><a href="#" id ="b2"  data-role="button" data-theme="b" class="tecladonumb">2</a></div>
+        <div class="ui-block-c"><a href="#" id ="b3"  data-role="button" data-theme="b" class="tecladonumc">3</a></div>
+        <div class="ui-block-a"><a href="#" id ="b4" data-role="button" data-theme="b" class="tecladonuma">4</a></div>
+        <div class="ui-block-b"><a href="#" id ="b5" data-role="button" data-theme="b" class="tecladonumb">5</a></div>
+        <div class="ui-block-c"><a href="#" id ="b6" data-role="button" data-theme="b" class="tecladonumc">6</a></div>
+        <div class="ui-block-a"><a href="#" id ="b7" data-role="button" data-theme="b" class="tecladonuma">7</a></div>
+        <div class="ui-block-b"><a href="#" id ="b8" data-role="button" data-theme="b" class="tecladonumb">8</a></div>
+        <div class="ui-block-c"><a href="#" id ="b9" data-role="button" data-theme="b" class="tecladonumc">9</a></div>
+        <div class="ui-block-a"><a href="#" id ="bborrar" data-role="button" data-theme="b" class="tecladonuma"><</a></div>
+        <div class="ui-block-b"><a href="#" id ="b0" data-role="button" data-theme="b" class="tecladonumb">0</a></div>
+        <div class="ui-block-c"><a href="#" id ="bvacio" data-role="button" data-theme="b" class="tecladonumc">&nbsp </a></div>
+      </div>
+      <a href="#" id="baceptarimp" data-role="button" data-theme="b" class="ui-icon-sardel-aceptar" style="float:left" ></a>   
+      <a href="#" id="bcancelarimp" data-role="button" data-theme="b" class="ui-icon-sardel-cancelar" style="float:left; left:40px"> </a>   
+      </div><!-- div apdiv1-->
+                           
+    </div>      
+	<div data-role="footer" data-position="fixed">       
+        <a href="#" class="ui-btn-right" id="regresardecob" data-role="button" 
+            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
+         <a class="ui-btn-left"  href="#" id="baceptarcob" data-role="button" data-theme="b"
+        data-icon="plus" data-iconpos="left">Aceptar</a>    
+	</div>
+</div>
 
 
 <!--  USUARIO Y PASSWORD   -->
@@ -38,7 +106,20 @@
            
     </div>
     <div data-role="content" style="background-color: #FF6">
-    
+     <div class="api-div" id="api-geolocation">
+				<h2>Geolocation</h2>
+				<blockquote>
+  					<p>The <code>geolocation</code> object provides access to the device's GPS sensor.</p>
+				</blockquote>
+				<h4 class="help"><b>Toggle</b> to stop/start
+				geolocation watch. <br/><b>Get Current</b> for one-time geolocation reading.</h4>
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div data-role="button" id="b1">Toggle</div></div>
+					<div class="ui-block-b"><div data-role="button" id="b2">Get Current</div></div>
+				</div>
+   				<div id="cur_position"></div>
+   				<img id="map"/>								
+			</div>
             
   	<center><img src="imagenes/portrait.png" alt="mee"  /></center>
     	    
@@ -54,119 +135,157 @@
 <!--  MENU PRINCIPAL   -->
 <div data-role="page" id="page">
 	<div data-role="header" data-theme="b" data-position="fixed">
-		<h1>Menu Principal</h1>
+		<h3>Menu principal</h3>
 	</div>
 	<div data-role="content">	
-		<ul data-role="listview" data-inset="true" data-theme="c">     
-            <a href="#" id ="clientes"  data-role="button" data-theme="e" data-icon="sardel-clientes" data-iconpos="left"> Clientes</a>           
-            <li data-role="list-divider">  </li>              
-            <a href="#" id ="bdepositos"  data-role="button"> Depositos</a>
-            <li data-role="list-divider">  </li>              
-            <a href="#pdatos" id ="datos"  data-role="button"> Datos</a> 
-            <li><center><h3>Reportes</h3></center>
-            	<ul><li id="reporte1">Reporte de Monto Cobrado y Vendido</li>
-	                <li id="reporte2">Reporte de Cierre de Cobro</li>
-                    <li id="reporte3">Reporte de Inventario</li>
-                    <li id="reporte4">Reporte de Visitas</li>                    
-                </ul>
-             </li>   
-                
-                
-                
+		
+            <a href="#" id ="bclientes"  data-role="button" data-theme="e" style="left: 20px; position: relative; width: 150px"><img src="jquery-mobile/images/clientes.png"/></a>
+            <a href="#" id ="bdepositos"  data-role="button" data-theme="c" style="left: 70px; position: relative; width: 150px"><img src="jquery-mobile/images/depositos128.png"/></a>
+             <a href="#" id ="breportes"  data-role="button" data-theme="c" style="left: 120px; position: relative; width: 150px"><img src="jquery-mobile/images/reportes128.png"/></a>
+             <a href="#pdatos" id ="bdatos"  data-role="button" data-theme="c" style="left: 170px; position: relative; width: 150px"><img src="jquery-mobile/images/datos128.png"/></a>
+            
+            
+            
+            
+            	<div data-role="collapsible" data-theme="b" data-content-theme="e" id="agrupareportes">
+	     		  <h3>
+                    <center><b>Reportes</b></center>
+	              </h3>
+       				<ul data-role="listview">
+                    	<li id="reporte1">Reporte de Monto Cobrado y Vendido</li>
+		                <li id="reporte2">Reporte de Cierre de Cobro</li>
+	                    <li id="reporte3">Reporte de Inventario</li>
+        	            <li id="reporte4">Reporte de Visitas</li>                    
+                    </ul>
+       		   </div>  
+          
+      
             <!--  PRUEBAS
             <li data-role="list-divider">  </li>              
             <a href="#pprueba" id ="bprueba"  data-role="button">Pruebas</a> 		
             <a href="#ppruebas2" id ="bpruebas"  data-role="button">pruebas2</a> 		
             <a href="#plocalizacion" id ="blocali"  data-role="button">Localizacion</a> 		
             -->
-          </ul>	
-        <img border="0"  alt="hola"	src="imagenes/ajustador.png">
+         
+       <!-- <img border="0"  alt="hola"	src="imagenes/ajustador.png">  -->
 	</div>
     
     
 </div>
 <!--  P A G I N A  C L I E N T E S   -->
 <div data-role="page" id="pclientes">
-	<div data-role="header">
-		<h1>Catálogo de clientes</h1>
+	<div data-role="header" data-theme="b" >
+		<h3>Catálogo de clientes</h3>
     </div>
-    <div data-role="content">
-        <div data-role="fieldcontain" data-theme="c">
-            <label for="menu"><b>Día:</b></label>
-            <select name="Dia" id="menu" data-theme="b" class="diasruta">
-                <option value="Lunes">
-                    Lunes
-                </option>
-                <option value="Martes">
-                    Martes
-                </option>
-                <option value="Miercoles">
-                    Miercoles
-                </option>
-                <option value="Jueves">
-                    Jueves
-                </option>
-                <option value="Viernes">
-                    Viernes
-                </option>
-                <option value="Todos">
-                    Todos
-                </option>
-            </select>
-        </div>	
-        <!--   <div id="ordencli" data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-type="vertical">
-                <input name="ordencli" id="checkcli" type="checkbox" data-theme="c">
-                <label for="checkcli">
-                    Orden Alfabético
-                </label>
-            </fieldset>
-        </div>-->
-        <ul data-role="listview" data-inset="true" id="listaclientes" data-filter="true" data-filter-placeholder="Escribe Nombre" class="claselistac">        	
-        			
-        </ul>
-         
-
-    </div>
-	<div data-role="footer">        
-
-         <a href="#page" class="ui-btn-right" id="regresarcli" data-role="button" 
-            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>        
-        <a class="ui-btn-left"  href="#pnuevopros" id="nuevopros" data-role="button" data-theme="b"
-        data-icon="plus" data-iconpos="left">Nuevo Prospecto</a>     
-        <a class="ui-btn-left"  href="#pnuevocli" id="nuevocli" data-role="button" data-theme="b"
-        data-icon="plus" data-iconpos="left">Nuevo Cliente</a>     
-	</div>
-</div>
-
-
-<!-- P A G I N A  MUESTRA DATOS DEL CLIENTE-->
-
-<div data-role="page" id="datoscli">
-	<div data-role="header">
-		<h1><b>Cliente</b></h1> 
-	</div>
-	<div data-role="content">		
-        <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupadatoscli">
+    <div data-role="content" style="background-color: #FFF" >
+            <div style="width: 300px; float:left ">
+                <div data-role="fieldcontain" data-theme="b" style="width:300px">
+                <label for="menu"><b>Día:</b></label>
+                <select name="Dia" id="menu" data-theme="b" class="diasruta">
+                    <option value="Lunes">
+                        Lunes
+                    </option>
+                    <option value="Martes">
+                        Martes
+                    </option>
+                    <option value="Miercoles">
+                        Miercoles
+                    </option>
+                    <option value="Jueves">
+                        Jueves
+                    </option>
+                    <option value="Viernes">
+                        Viernes
+                    </option>
+                    <option value="Todos">
+                        Todos
+                    </option>
+                </select>
+                </div>	
+            
+            	<ul data-role="listview" data-inset="true" id="listaclientes" data-filter="true" data-filter-placeholder="Escribe Nombre" class="claselistac">        	
+        		<li>hola</li>
+           
+          
+   	   		   </ul>
+            </div>
+            <div style="width: 400px; float:left;  margin-left:20px  ">   
+           		<div data-role="fieldcontain" data-theme="b" > 
+		        <label for="limitecli" style="font-weight:bold; font-size:16px">Limite de Credito:</label>
+                <input type="number" id="limitecli" readonly style="width:20%;font-size:16px; color:#F00;left: 450px;" > 
+   				<label for="ocupadocli" style="font-weight:bold; font-size:16px; margin-top:10px;">Ocupado:</label>
+                <input type="number" id="ocupadocli" readonly style="width:20%;font-size:16px; margin-left:-16px;  color:#F00" > 
+                <center><label for="dispcli" style="font-weight:bold; margin-top:10px; font-size:16px">Disponible: </label>
+                <input type="number" id="dispcli" readonly style="width:20%;font-size:16px; color:#F00"> </center>
+        </div>  
+     			<div data-role="collapsible" data-theme="b" data-content-theme="e" id="agrupadatoscli">
 	       <h3>
                     <b>Datos del cliente</b>
            </h3>
            <h5 id="nomcli">Nombre</h5>     
 	       <h5 id="direccion">Dirección</h5>
 	       <h5 id="tipo">Tipo</h5>       
-   	       <h5 id="limitecredito">Límite de Crédito</h5> 
+   	      <!-- <h5 id="limitecredito">Límite de Crédito</h5> 
+ 			
+    	   <h5 id="diascredito">Días de Crédito</h5>       
+       	   <h5 id="telefono">Telefono</h5>  
+           <h5 id="clacli">Clave</h5>           	   
+           <h5 id="saldo">Saldo</h5> --> 			
+        </div>   
+       			<div data-role="collapsible" data-theme="b" data-content-theme="e" id="agrupacomentario">
+            
+                <h3>
+                    <b>Notas de Cuentas por Cobrar</b>
+                </h3>
+                <textarea cols="8" rows="50" name="textarea" id="notascxc" readonly></textarea>
+            
+        </div>   
+         	
+            
+            </div>
+  </div> 
+ 
+	<div data-role="footer" data-position="fixed">        
+
+         <a href="#page" class="ui-btn-right" id="regresarcli" data-role="button" 
+            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>        
+        <a class="ui-btn-left"  href="#pnuevopros" id="nuevopros" data-role="button" data-theme="b"
+        data-icon="plus" data-iconpos="left">Nuevo Prospecto</a>     
+        <a class="ui-btn-left"  href="#pnuevocli" id="nuevocli" data-role="button" data-theme="b"
+        data-icon="plus" data-iconpos="left">Nuevo Cliente</a> 
+         <a class="ui-btn-left"  href="#pcobros" id="bvisita" data-role="button" data-theme="b"
+        data-icon="star" data-iconpos="left">Visita</a>     
+	</div>
+</div>
+
+
+<!-- P A G I N A  MUESTRA DATOS DEL CLIENTE-->
+
+<div data-role="page" id="datoscliIII">
+	<div data-role="header" data-theme="b" >
+		<h1><b>Cliente</b></h1> 
+	</div>
+	<div data-role="content">		
+        <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupadatoscliii">
+	       <h3>
+                    <b>Datos del cliente</b>
+           </h3>
+           <h5 id="nomclii">Nombre</h5>     
+	       <h5 id="direccioni">Dirección</h5>
+	       <h5 id="tipoi">Tipo</h5>       
+   	       <h5 id="limitecreditoi">Límite de Crédito</h5> 
  			<!--
     	   <h5 id="diascredito">Días de Crédito</h5>       
        	   <h5 id="telefono">Telefono</h5>  
            <h5 id="clacli">Clave</h5>           	   
            <h5 id="saldo">Saldo</h5> --> 			
         </div>   
-       <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupacomentario">
+       <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupacomentarioiii">
             
                 <h3>
                     <b>Notas de Cuentas por Cobrar</b>
                 </h3>
-                <textarea cols="8" rows="50" name="textarea" id="notascxc" readonly></textarea>
+                <textarea cols="8" rows="50" name="textarea" id="notascxci" readonly></textarea>
             
         </div>    
         <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupafac">
@@ -189,10 +308,7 @@
                      <div class="ui-block-e"><strong>Monto</strong> El texto que se ecriba aquí se amoldará a la otra mitad de pagina.</div>
                      --> 
 				</div><!-- /grid-d --> 
-                <label> Saldo </label>
-                <input type="number" id="saldocli" readonly style="width:15%;font-size:16px; color:#F00" > 
-                <label> Monto </label>
-                <input type="number" id="montocli" readonly style="width:15%;font-size:16px; color:#F00"> 
+                
 				
 				
         </div>     
@@ -200,7 +316,7 @@
        
     </div>
     
-	<div data-role="footer">       
+	<div data-role="footer" data-position="fixed">       
         <a href="#pclientes" class="ui-btn-right" id="regresarcliselect" data-role="button" 
             data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
          <a class="ui-btn-left"  href="#pcobros" id="bvisita" data-role="button" data-theme="b"
@@ -208,28 +324,26 @@
 	</div>
 </div>
 <!-- P A G I N A  MENU DE  OPERACIONES -->
-<div data-role="page" id="poperaciones">
-	<div data-role="header">
-		<h1>Operaciones del Cliente</h1>
+<div data-role="page" id="poperaciones" style="background-color: #FFF">
+	<div data-role="header" data-theme="b">
+		<h3>Operaciones del Cliente</h3>
 	</div>
 	<div data-role="content">
-       <ul data-role="listview" data-inset="true" data-theme="b">     
-        
-            <a href="#pventas" id ="bventa" data-mini="true" data-role="button" data-theme="e" data-icon="sardel-clientes" data-iconpos="left"> Ventas</a>        
-        
-            <a href="#" id ="bcobros" data-role="button"> Cobros</a>
-        
-          <a href="#" id ="bdevoluciones" data-role="button"> Devoluciones</a>
-		</ul>	
+        <center><a href="#pventas" id ="bventa"  data-role="button" data-theme="e" style="width: 150px"><img style="margin-left:-14px" src="jquery-mobile/images/ventas128.png"/></a></center>
+             <center><a href="#" id ="bcobros"  data-role="button" data-theme="c" style="width: 150px"><img style="margin-left:-14px" src="jquery-mobile/images/cobrar128.png"/></a></center>
+             <center> <a href="#" id ="bdevoluciones"  data-role="button" data-theme="c" style="width: 150px"><img style="margin-left:-14px" src="jquery-mobile/images/devoluciones128.png"/></a></center>
+           
+              
+      
     </div>
-	<div data-role="footer">        			
-         <a href="#datoscli" class="ui-btn-right" id="regresardatoscli" data-role="button" 
+	<div data-role="footer" data-position="fixed">        			
+         <a href="#" class="ui-btn-right" id="regresarop" data-role="button" 
             data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
  	</div>
 </div>
 <!-- P A G I N A  NUEVO PROSPECTO-->
 <div data-role="page" id="pnuevopros">
-	<div data-role="header">
+	<div data-role="header" data-theme="b">
 		<h1>Nuevo Prospecto</h1>
 	</div>
 	<div data-role="content">        
@@ -260,10 +374,10 @@
          <ul data-role="listview" data-inset="true" data-dividertheme="a">
             <!--<label for="prosrfc">RFC</label>
 			<input type="text" id="prosrfc"  />-->
-            <li><a href="#" id="fotopros">Tomar Foto (Obligatorio)</a></li>
+            <li><a href="#" id="fotopros" data-theme="b">Tomar Foto (Obligatorio)</a></li>
 		</ul>
     </div>
-	<div data-role="footer">        
+	<div data-role="footer" data-position="fixed">        
 			<a class="ui-btn-right" id="regresarnuevopros" data-role="button" data-rel="back"
         data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
         <a class="ui-btn-right" id="bguardapros" data-role="button" 
@@ -272,8 +386,8 @@
 </div>
 <!-- P A G I N A  NUEVO CLIENTE-->
 <div data-role="page" id="pnuevocli">
-	<div data-role="header">
-		<h1>Nuevo Cliente</h1>
+	<div data-role="header" data-theme="b">
+		<h3>Nuevo Cliente</h3>
 	</div>
 	<div data-role="content">
         
@@ -309,7 +423,7 @@
             <li><a href="#" id="fotoneg">Foto Negocio(Obligatorio)</a></li>
 		</ul>
     </div>
-	<div data-role="footer">        
+	<div data-role="footer" data-position="fixed">        
 			<a class="ui-btn-right" id="regresarnuevocli" data-role="button" data-rel="back"
         data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
         <a class="ui-btn-right" id="bguardacli" data-role="button" 
@@ -335,54 +449,16 @@
 </div>
 <!-- P A G I N A  CATALOGO-->
 <div data-role="page" id="pcatalogo">
-	<div data-role="header">
+	<div data-role="header" data-theme="b">
 		<h3>Catálogo</h3>
 	</div>
 	<div data-role="content">
-    	<ul id="lcatalogo" data-role="listview" data-inset="true"    class="catalogo" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?">			        
+    	<ul id="lcatalogo" data-role="listview" data-inset="true"    class="catalogo" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?" data-theme="e">			        
         <!--
-          <li id="ADE-04">
-	        <a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> ADEROGYL 15 SOL. C/5 AMP</h3>
-			<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$100.00 Existencia:10 ALG:20</p></a></li>
-          <li id="AGU-10">
-            <a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3>AGUA OXIGENADA CON 100 ML.</h3>
-            <p>Detalle del producto... <br/>Clasificación: Oferta <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-          <li id="AMO-19"><a href=""><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AMOXIL SUSP. 500 MG. C/75 ML.</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-            <li id="AMO-06"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AMOXIBRON CAPS 500MG C/12</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-            <li id="AZA-02"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AZANTAC JRBE 150MG C/200ML</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-            <li id="BRO-05"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>BROGAL T INF JRBE 150MG C/120ML</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:55 ALG:50</p></a></li>			  
-            <li id="CEF-12"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>CEFTRIAXONA IM INYT 1G/3.5ML C/1 (AMSA)</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:80 ALG:50</p></a></li>			  
-            <li id="CAR-01"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>CARDISPAN INYT 1G/5ML C/5</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-            <li id="BIE-01"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>BIENESTAR CHOCOLATE PLVO C/450G</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:20 ALG:50</p></a></li>			  
-            <li id="CEP-03"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>CEPACOL MIEL PAST 1.45MG C/20</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:14 ALG:50</p></a></li>			  
-            <li id="DIC-01"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>DICLOFENACO GRAG 100MG C/20 (APOT)</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:15 ALG:50</p></a></li>			  
-            <li id="DIC-12"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>DICLOFENACO INYT 75MG/3ML C/2 (AMSA)</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:20 ALG:50</p></a></li>			  
-            <li id="DOL-15"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>DOLO BEDOYECTA TABS 100MG C/30</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:8 ALG:50</p></a></li>			  
-            <li id="FER-04"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>FERRO  4 GRAG 300MG C/30</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:5 ALG:50</p></a></li>			  
-            <li id="IDR-01"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>IDRIDEX JRBE 10MG C/60ML</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:10 ALG:50</p></a></li>			  
-            
              -->
-            
-            
-            
-            
-            
         </ul>    
     </div>    
-    <div data-role="footer" >
+    <div data-role="footer" data-position="fixed">
         <a href="#pventas" id ="bgenerav"  data-role="button" data-theme="b">Aceptar</a> 
     </div>
     
@@ -390,8 +466,8 @@
 
 <!--P A G I N A    V  E N T A S -->
 <div data-role="page" id="pventas">
-	<div data-role="header">
-		<h3>VENTA</h3>
+	<div data-role="header" data-theme="b">
+		<h3>Preventa y Venta a Bordo</h3>
 	</div>
 	<div data-role="content">
     	<div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupapedido">
@@ -444,7 +520,7 @@
           <a href="" id ="bimprimirf"  data-role="button" data-theme="b"  data-inline="true">Imprimir</a>               
         </div>    
     </div>    
-    <div data-role="footer" >
+    <div data-role="footer" data-position="fixed" >
         <a href="#poperaciones" id ="regresarop"  data-role="button" data-icon="back" data-theme="b">Regresa</a> 		
         <a href="#" id ="bcatalogo"  data-role="button" data-icon="star" data-theme="b">Catálogo</a> 		
         <a href="#pclientes" id ="birclientes"  data-role="button" data-icon="gear" data-theme="b">Clientes</a> 		
@@ -452,75 +528,9 @@
     
 </div>
 
-
-
-
-
-
-<!-- P A G I N A  REPORTES-->
-<div data-role="page" id="preportes">
-	<div data-role="header">
-		<h3>Catálogo</h3>
-	</div>
-	<div data-role="content">
-       <audio controls>
-       		<source src="http://www.w3schools.com/html/horse.mp3" type="audio/mpeg" />
-       
-       </audio>
-    
-    
-    	<ul id="mylistview" data-role="listview" data-inset="true"    class="catalogo" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?">			          <li id="ADE-04">
-	        <a href="#pcantidad"><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> ADEROGYL 15 SOL. C/5 AMP</h3>
-			<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$100.00 Existencia:10 ALG:20</p></a></li>
-          <li id="AGU-10">
-            <a href="#pcantidad"><img src="imagenes/sardel.jpg" width="100" height="100"/><h3>AGUA OXIGENADA CON 100 ML.</h3>
-            <p>Detalle del producto... <br/>Clasificación: Oferta <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-          <li id="AMO-19"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AMOXIL SUSP. 500 MG. C/75 ML.</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-            <li id="AMO-06"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AMOXIBRON CAPS 500MG C/12</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-            <li id="AZA-02"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>AZANTAC JRBE 150MG C/200ML</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-            <li id="BRO-05"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>BROGAL T INF JRBE 150MG C/120ML</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:55 ALG:50</p></a></li>			  
-            <li id="CEF-12"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>CEFTRIAXONA IM INYT 1G/3.5ML C/1 (AMSA)</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:80 ALG:50</p></a></li>			  
-            <li id="CAR-01"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>CARDISPAN INYT 1G/5ML C/5</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:30 ALG:50</p></a></li>			  
-            <li id="BIE-01"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>BIENESTAR CHOCOLATE PLVO C/450G</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:20 ALG:50</p></a></li>			  
-            <li id="CEP-03"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>CEPACOL MIEL PAST 1.45MG C/20</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:14 ALG:50</p></a></li>			  
-            <li id="DIC-01"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>DICLOFENACO GRAG 100MG C/20 (APOT)</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:15 ALG:50</p></a></li>			  
-            <li id="DIC-12"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>DICLOFENACO INYT 75MG/3ML C/2 (AMSA)</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:20 ALG:50</p></a></li>			  
-            <li id="DOL-15"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>DOLO BEDOYECTA TABS 100MG C/30</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:8 ALG:50</p></a></li>			  
-            <li id="FER-04"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>FERRO  4 GRAG 300MG C/30</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:5 ALG:50</p></a></li>			  
-            <li id="IDR-01"><a href="#pcantidad"><img src="imagenes/sardel.jpg"  width="100" height="100"/><h3>IDRIDEX JRBE 10MG C/60ML</h3>
-          	<p>Detalle del producto... <br/>Clasificación: Catalogo <br/>Precio:$80.00 Existencia:10 ALG:50</p></a></li>			  
-            
-            
-            
-            	
-            
-            
-            
-        </ul>    
-    </div>    
-    <div data-role="footer" >
-        <a class="ui-btn-right" id="regresarcli" data-role="button" data-rel="back"
-        data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
-         <a class="ui-btn-right" id="probarfunciones" data-role="button" 
-        data-theme="b" data-icon="back" data-iconpos="left" >probarfunc</a>
-    </div>
-    
-</div>
 <!-- P A G I N A  DIALOGO-->
 <div data-role="dialog" id="pcantidad">
-    <div data-role="header">
+    <div data-role="header" data-theme="b">
         <h1>Indica Cantidad</h1>
     </div>
     <div data-role="content">
@@ -533,7 +543,7 @@
 </div>
 <!-- P A G I N A  DIALOGO MODIFICAR PEDIDO-->
 <div data-role="dialog" id="pmodcantidadp">
-    <div data-role="header">
+    <div data-role="header" data-theme="b">
         <h1>Indica Cantidad</h1>
     </div>
     <div data-role="content">
@@ -546,7 +556,7 @@
 </div>
 <!-- P A G I N A  DIALOGO MODIFICAR FACTURA-->
 <div data-role="dialog" id="pmodcantidadf">
-    <div data-role="header">
+    <div data-role="header" data-theme="b">
         <h1>Indica Cantidad</h1>
     </div>
     <div data-role="content">
@@ -556,6 +566,361 @@
         <a href="#" data-role="button" data-rel="back" id="botonmodcantidadf">Aceptar</a>
 	</div>
     </div>
+</div>
+
+ <!--LOCALIZACION-->
+ <div data-role="page" id="plocalizacion">
+	<div data-role="header">
+		<h1>localizacion</h1>
+    </div>
+    <div data-role="content">
+       <div id="map_canvas" style="width:100%; height:100%"></div>
+
+    </div>
+	<div data-role="footer">        
+       <a href="#" data-role="button" id="binicializar">Aceptar</a>
+            
+           
+	</div>
+</div>
+<!--PAGINA HISTORICO FACTURAS DEL CLIENTE-->
+<div data-role="page" id="phistfac">
+	<div data-role="header" data-theme="b">
+		<h3>Facturas del cliente</h3>
+	</div>
+	<div data-role="content">
+    	<ul id="listahistfac" data-role="listview" data-inset="true"  data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que Factura buscas?">			        
+            
+        </ul>    
+    </div>    
+    <div data-role="footer" data-position="fixed">
+        <a href="#poperaciones" id ="bregresamenu"  data-role="button" data-theme="b">Regresar</a> 
+    </div>
+    
+</div>
+<!--PAGINA DETALLE HISTORICO FACTURAS DE CLIENTE -->
+<div data-role="page" id="pdethistfac">
+	<div data-role="header" data-theme="b">
+		<h3><b>Detales de Factura</b></h3> 
+	</div>
+	<div data-role="content">		        
+                <div class="ui-grid-d" id="griddethistfac">
+				
+				</div><!-- /grid-d --> 
+                <h1><b>ARTICULOS DEVUELTOS</b></h1> 
+               <div class="ui-grid-b" id="gridartdev">				
+               </div><!-- /grid-a --> 
+               <div data-role="fieldcontain">		
+			        <label for="obsgendev" style="font-size:16px; color:#F00" >Observaciones Generales:</label>
+			        <textarea  style="width:30%"  name="obsgendev" id="obsgendev"></textarea>         
+			   </div>
+    </div>
+    
+	<div data-role="footer" data-position="fixed">       
+        <a href="#" class="ui-btn-right" id="regresardedev" data-role="button" 
+            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
+         <a class="ui-btn-left"  href="#" id="bguardadev" data-role="button" data-theme="b"
+        data-icon="plus" data-iconpos="left">Guardar e Imprimir</a>    
+	</div>
+</div>
+<!-- P A G I N A  DIALOGO CANTIDAD A DEVOLVER-->
+<div data-role="dialog" id="pcantidaddev">
+    <div data-role="header" data-theme="b">
+        <h1 id="encdialogodev">Indica Cantidad a Devolver</h1>
+    </div>
+    <div data-role="content">
+       <div data-role="fieldcontain">
+		<label for="cantidaddev">Cantidad:</label>
+		<input type="number" data-type="range" name="cantidaddev" id="cantidaddev" value="0" min="0" max="100" data-theme="a" data-track-theme="b" />
+        <label for="obsrendev">Observaciones:</label>
+        <textarea cols="3"  name="obsrendev" id="obsrendev"></textarea> 
+        <a href="#" data-role="button" data-rel="back" id="bcantidaddev">Aceptar</a>
+		</div>
+    </div>
+</div>
+<!--PAGINA FACTURAS PENDIENTES DE COBRO -->
+<div data-role="page" id="pcobros">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<center><label style="width:18%;font-size:20px" id="labelencpcobros" ></label></center>
+        <div data-role="navbar">  
+       	 <div class=ui-grid-c id="gridencabcobros">
+         <!--
+	    	<div class=ui-block-a style="width:100px">Saldo Total:</div>
+            <div class=ui-block-b style="width:100px"><label style="width:18%;font-size:20px; color:#F00">1,000000.00</label></div>
+            <div class=ui-block-c style="width:70px">A Pagar:</div>
+            <div class=ui-block-d style="width:100px"><label style="width:18%;font-size:20px; color:#F00">1,000000.00</label></div>
+            -->
+	    </div>
+      </div>  
+	</div>
+	<div data-role="content">		        
+                <center><label style="width:18%;font-size:20px; color: #00F" id="labellimcred" ></label></center>
+                <div class="ui-grid-d" id="gridfacpendientes">
+				
+				</div><!-- /grid-d -->                
+    </div>    
+	<div data-role="footer" data-position="fixed">       
+        <a href="#" class="ui-btn-right" id="regresardecob" data-role="button" 
+            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
+         <a class="ui-btn-left"  href="#" id="baceptarcob" data-role="button" data-theme="b"
+        data-icon="plus" data-iconpos="left">Aceptar</a>    
+	</div>
+</div>
+<!-- P A G I N A  DIALOGO CANTIDAD A COBRAR-->
+<div data-role="dialog" id="pimportecob">
+    <div data-role="header" data-theme="b">
+        <h1 id="encdialogocob">Indica Importe a Pagar</h1>
+    </div>
+    <div data-role="content">
+       <div data-role="fieldcontain">
+		<label for="cantidadcob">Importe:</label>
+		<input type="number" data-type="range" name="cantidadcob" id="cantidadcob" value="0" min="0" max="100000" data-theme="a" data-track-theme="b" />
+        <!--<label for="obsrendev">Observaciones:</label>
+        <textarea cols="3"  name="obsrendev" id="obsrendev"></textarea> -->
+        <a href="#" data-role="button" data-rel="back" id="bcantidadcob">Aceptar</a>
+		</div>
+    </div>
+</div>
+<!--PAGINA APLICACION DE COBRO -->
+<div data-role="page" id="paplicobros">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h3 style="text-align:center">Aplicación de Pago</h3>      
+	</div>
+	<div data-role="content">		        
+            <div class=ui-grid-a id="gridaplicobros">         
+		    	
+    		</div> 
+            <div class=ui-grid-a id="gridaplicobros2">         
+		    	
+    		</div>   
+            <div data-role="fieldcontain">			
+    			<label for="efectivo">Efectivo</label>
+				<input type="number" id="efectivo" style="width:18%">			
+			</div>
+			<div data-role="fieldcontain">	
+				<label for="cheque">Cheque</label>
+				 <input type="number" id="cheque" readonly style="width:18%">			
+			    <a href="" data-role="button" data-icon="plus" data-iconpos="top"  data-inline="true" data-theme="b" id="bcheque"></a>
+			</div> 
+    </div>    
+	<div data-role="footer" data-position="fixed">       
+        <a href="#" class="ui-btn-right" id="regresardeaplic" data-role="button" 
+            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
+         <a class="ui-btn-left"  href="#" id="baceptaraplic" data-role="button" data-theme="b"
+        data-icon="plus" data-iconpos="left">Guardar e Imprimir</a>    
+	</div>
+</div>
+<!--PAGINA CHEQUES -->
+<div data-role="page" id="pcheque">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h3>Registro de Cheques</h3>      
+	</div>
+	<div data-role="content">	
+            <div data-role="fieldcontain" data-theme="c">           		
+		            <select name="menucuentab" id="menucuentab" data-theme="b" >
+		                  
+		            </select>
+	        </div>	
+            <div data-role="fieldcontain">			
+    			<label for="numcheque">Numero de Cheque:</label>
+				<input name="" type="text" id="numcheque" style="width:15%" maxlength="4">			
+			</div>
+			<!--
+            <div data-role="fieldcontain">
+				<label for="numcuenta">Numero de Cuenta:</label>
+				<input type="number" id="numcuenta" style="width:15%">						    
+			</div> -->
+            <div data-role="fieldcontain"	
+				<label for="monto">Monto:</label>
+				<input type="number" id="monto" style="width:10%">						    
+			</div>  
+            <div data-role="fieldcontain">	
+				<label for="totalcheques">Total Cheques:</label>
+				<input type="number" id="totalcheques" readonly style="width:10%">						    
+			</div> 
+            <div data-role="fieldcontain">
+				<label for="spendiente">Saldo Pendiente:</label>
+				<input type="number" id="spendiente" readonly style="width:10%">					    
+			</div> 
+            <a href="" data-role="button" data-icon="plus" data-theme="b" id="bagregacheque" data-inline="true">Agregar Cheque</a>
+             <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupacheques">
+             <h3>Cheques Ingresados</h3>
+            	 <div class=ui-grid-a id="gridcheques">         
+		    	   
+    			</div> 
+            	<a href="" id ="beliminarche"  data-role="button" data-theme="b"  data-inline="true">Eliminar</a>   
+        	</div>   
+    </div>    
+	<div data-role="footer" data-position="fixed">       
+        <a href="#paplicobros" class="ui-btn-right" id="salirdecheque" data-role="button" 
+         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>        
+	</div>
+</div>
+<!--PAGINA DEPOSITOS -->
+<div data-role="page" id="pdepositos">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h3 style="text-align:center">Registro de Depositos</h3>  
+          <div data-role="navbar">
+        
+    		<div data-role="fieldcontain">	
+				<label for="numficha" style="font-size:18px">Núm. Ficha:</label>
+				<input name="" type="number" id="numficha" style="width:20%;color:#F00; font-weight:bold">	
+                <label for="totaldep" style="font-size:18px">Total:</label>
+				<input name="" type="number" id="totaldep" style="width:20%; color:#F00; font-weight:bold"" readonly >						    
+		   </div> 
+           
+    
+   		 </div>     
+	</div>
+	<div data-role="content">	          
+            <div data-role="fieldcontain" data-theme="b">           		
+		            <select name="menucuentad" id="menucuentad" data-theme="b" >
+		                  
+		            </select>
+	        </div>	
+            <div class=ui-grid-a id="gridrecibosdep">         
+		    	   
+   			</div>
+            <div data-role="fieldcontain" data-theme="b">           		
+	            <label for="obsdep">Observaciones:</label>
+    	   		<textarea cols="3"  name="obsdep" id="obsdep"></textarea> 
+            </div>    
+           
+    </div>    
+	<div data-role="footer" data-position="fixed">       
+         <a href="#" class="ui-btn-right" id="regresardep" data-role="button" 
+         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
+        <a href="#" class="ui-btn-right" id="bguardadep" data-role="button" 
+         data-theme="b" data-icon="plus" data-iconpos="left" >Guardar</a>        
+        
+	</div>
+</div>
+<!--PAGINA REPORTE MONTO COBRADO Y VENDIDO -->
+<div data-role="page" id="prepcobven">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h3 style="text-align:center">Monto Cobrado y Vendido</h3>            
+	</div>
+	<div data-role="content">	          
+            <div class=ui-grid-d id="gridrepven">         
+		    	   
+   			</div>
+			<div data-role="fieldcontain">	
+				<label for="rtotalv" style="font-size:18px">Total Vendido:</label>
+				<input name="" type="text" id="rtotalv" style="width:15%;color:#F00; font-weight:bold">	
+                <label for="rpreventa" style="font-size:18px">Preventa:</label>
+				<input name="" type="number" id="rpreventa" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+                <label for="rfacturado" style="font-size:18px">Facturado:</label>
+				<input name="" type="number" id="rfacturado" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+                <label for="rtotalc" style="font-size:18px">Total Cobrado:</label>
+				<input name="" type="number" id="rtotalc" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+
+            </div>
+	</div>
+            
+	<div data-role="footer" data-position="fixed">       
+         <a href="#page" class="ui-btn-right" id="regresarrep1" data-role="button" 
+         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
+        <a href="#" class="ui-btn-right" id="bimprep1" data-role="button" 
+         data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>        
+        
+	</div>
+</div>
+<!--PAGINA REPORTE CIERRE DE COBRO-->
+<div data-role="page" id="prepcierrecob">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h3 style="text-align:center">Cierre de Cobro</h3>            
+	</div>
+	<div data-role="content">	          
+            <div class=ui-grid-b id="gridrepcierre">         
+		    	   
+   			</div>
+			<div data-role="fieldcontain">					
+                <label for="rmontocob" style="font-size:18px">Total Cobrado:</label>
+				<input name="" type="number" id="rmontocob" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+
+            </div>
+	</div>
+            
+	<div data-role="footer" data-position="fixed">       
+         <a href="#page" class="ui-btn-right" id="regresarrep2" data-role="button" 
+         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
+        <a href="#" class="ui-btn-right" id="bimprep2" data-role="button" 
+         data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>        
+        
+	</div>
+</div>
+<!-- P A G I N A  REPORTE DE INVENTARIO-->
+<div data-role="page" id="prepinventario">
+	<div data-role="header" data-theme="b">
+		<h3>Reporte de Inventario</h3>
+	</div>
+	<div data-role="content">
+    	<ul id="lrepinv" data-role="listview" data-inset="true" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?">			        
+       
+        </ul>    
+        <div data-role="fieldcontain">	
+				<label for="rpiezas" style="font-size:18px">Total de Articulos(piezas):</label>
+				<input name="" type="number" id="rpiezas" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+                <label for="rlineas" style="font-size:18px">Total de Líneas:</label>
+				<input name="" type="number" id="rlineas" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+
+          </div>
+    </div>    
+    <div data-role="footer" data-position="fixed">
+         <a href="#page" class="ui-btn-right" id="regresarrep3" data-role="button" 
+         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
+        <a href="#" class="ui-btn-right" id="bimprep3" data-role="button" 
+         data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>  
+    </div>
+    
+</div>
+<!-- P A G I N A  REPORTE DE VISITAS-->
+<div data-role="page" id="prepvisitas">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h3 style="text-align:center">Reporte de Visitas</h3>            
+	</div>
+	<div data-role="content">	          
+            <div class=ui-grid-d id="gridrepvisitas">         
+		    	   
+   			</div>
+			
+	</div>
+            
+	<div data-role="footer" data-position="fixed">       
+         <a href="#page" class="ui-btn-right" id="regresarrep4" data-role="button" 
+         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
+        <a href="#" class="ui-btn-right" id="bimprep4" data-role="button" 
+         data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>        
+        
+	</div>
+</div>
+<!-- P A G I N A  REGISTRO DE VISITA-->
+<div data-role="page" id="pvisita">
+	<div data-role="header" data-theme="b">
+		<h3>Registro de Visita</h3>
+	</div>
+	<div data-role="content">
+    	<div data-role="fieldcontain" data-theme="b">           		
+		            <select name="menurazonv" id="menurazonv" data-theme="b" >
+		                  
+		            </select>
+        </div>	    	
+        <div data-role="fieldcontain">	
+				<label for="visitaini" style="font-size:18px" >Inicio de visita:</label>
+				<input name="" type="text" id="visitaini" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+                <label for="visitafin" style="font-size:18px">Fin de visita:</label>
+				<input name="" type="text" id="visitafin" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
+                <label for="obsvisita">Observaciones:</label>
+		        <textarea cols="3"  name="obsvisita" id="obsvisita"></textarea> 
+          </div>
+    </div>    
+    <div data-role="footer" data-position="fixed">
+         <a href="#poperaciones" class="ui-btn-right" id="regresarvisita" data-role="button" 
+         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
+         <a href="#" class="ui-btn-right" id="bguardavisita" data-role="button" 
+         data-theme="b" data-icon="plus" data-iconpos="left" >Guardar</a>  
+    </div>
+    
 </div>
 
 <!-- P A G I N A  PRUEBA-->
@@ -667,311 +1032,71 @@
         <a href="#" data-role="button"  id="botoncantidad">Aceptar</a>
  	</div>
 </div>
- <!--LOCALIZACION-->
- <div data-role="page" id="plocalizacion">
+<div data-role="page" id="pppp">
 	<div data-role="header">
-		<h1>localizacion</h1>
-    </div>
-    <div data-role="content">
-       <div id="map_canvas" style="width:100%; height:100%"></div>
-
-    </div>
-	<div data-role="footer">        
-       <a href="#" data-role="button" id="binicializar">Aceptar</a>
-            
-           
-	</div>
-</div>
-<!--PAGINA HISTORICO FACTURAS DEL CLIENTE-->
-<div data-role="page" id="phistfac">
-	<div data-role="header">
-		<h3>FACTURAS DEL CLIENTE</h3>
+		<h3>Catálogo</h3>
 	</div>
 	<div data-role="content">
-    	<ul id="listahistfac" data-role="listview" data-inset="true"  data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que Factura buscas?">			        
-            
-        </ul>    
+       <audio controls>
+       		<source src="http://www.w3schools.com/html/horse.mp3" type="audio/mpeg" />
+       
+       </audio>
+    
+     
     </div>    
     <div data-role="footer" >
-        <a href="#poperaciones" id ="bregresamenu"  data-role="button" data-theme="b">Regresar</a> 
+        <a class="ui-btn-right"  data-role="button" data-rel="back"
+        data-theme="b" data-icon="back" data-iconpos="left" data-direction="reverse">Regresar</a>
+         <a class="ui-btn-right" id="probarfunciones" data-role="button" 
+        data-theme="b" data-icon="back" data-iconpos="left" >probarfunc</a>
     </div>
     
 </div>
-<!--PAGINA DETALLE HISTORICO FACTURAS DE CLIENTE -->
-<div data-role="page" id="pdethistfac">
-	<div data-role="header">
-		<h1><b>DETALLETES DE FACTURA</b></h1> 
-	</div>
-	<div data-role="content">		        
-                <div class="ui-grid-d" id="griddethistfac">
-				
-				</div><!-- /grid-d --> 
-                <h1><b>ARTICULOS DEVUELTOS</b></h1> 
-               <div class="ui-grid-b" id="gridartdev">				
-               </div><!-- /grid-a --> 
-               <div data-role="fieldcontain">		
-			        <label for="obsgendev" style="font-size:16px; color:#F00" >Observaciones Generales:</label>
-			        <textarea  style="width:30%"  name="obsgendev" id="obsgendev"></textarea>         
-			   </div>
-    </div>
-    
-	<div data-role="footer">       
-        <a href="#" class="ui-btn-right" id="regresardedev" data-role="button" 
-            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
-         <a class="ui-btn-left"  href="#" id="bguardadev" data-role="button" data-theme="b"
-        data-icon="plus" data-iconpos="left">Guardar e Imprimir</a>    
-	</div>
-</div>
-<!-- P A G I N A  DIALOGO CANTIDAD A DEVOLVER-->
-<div data-role="dialog" id="pcantidaddev">
-    <div data-role="header">
-        <h1 id="encdialogodev">Indica Cantidad a Devolver</h1>
-    </div>
-    <div data-role="content">
-       <div data-role="fieldcontain">
-		<label for="cantidaddev">Cantidad:</label>
-		<input type="number" data-type="range" name="cantidaddev" id="cantidaddev" value="0" min="0" max="100" data-theme="a" data-track-theme="b" />
-        <label for="obsrendev">Observaciones:</label>
-        <textarea cols="3"  name="obsrendev" id="obsrendev"></textarea> 
-        <a href="#" data-role="button" data-rel="back" id="bcantidaddev">Aceptar</a>
-		</div>
-    </div>
-</div>
-<!--PAGINA FACTURAS PENDIENTES DE COBRO -->
-<div data-role="page" id="pcobros">
-	<div data-role="header" data-position="fixed">
-		<label style="width:18%;font-size:20px; color:#F00; text-align:center" id="labelencpcobros" ></label>
-        <div data-role="navbar">  
-       	 <div class=ui-grid-c id="gridencabcobros">
-         <!--
-	    	<div class=ui-block-a style="width:100px">Saldo Total:</div>
-            <div class=ui-block-b style="width:100px"><label style="width:18%;font-size:20px; color:#F00">1,000000.00</label></div>
-            <div class=ui-block-c style="width:70px">A Pagar:</div>
-            <div class=ui-block-d style="width:100px"><label style="width:18%;font-size:20px; color:#F00">1,000000.00</label></div>
-            -->
-	    </div>
-      </div>  
-	</div>
-	<div data-role="content">		        
-                <center><label style="width:18%;font-size:20px; color: #00F" id="labellimcred" ></label></center>
-                <div class="ui-grid-d" id="gridfacpendientes">
-				
-				</div><!-- /grid-d -->                
-    </div>    
-	<div data-role="footer" data-position="fixed">       
-        <a href="#" class="ui-btn-right" id="regresardecob" data-role="button" 
-            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
-         <a class="ui-btn-left"  href="#" id="baceptarcob" data-role="button" data-theme="b"
-        data-icon="plus" data-iconpos="left">Aceptar</a>    
-	</div>
-</div>
-<!-- P A G I N A  DIALOGO CANTIDAD A COBRAR-->
-<div data-role="dialog" id="pimportecob">
-    <div data-role="header">
-        <h1 id="encdialogocob">Indica Importe a Pagar</h1>
-    </div>
-    <div data-role="content">
-       <div data-role="fieldcontain">
-		<label for="cantidadcob">Importe:</label>
-		<input type="number" data-type="range" name="cantidadcob" id="cantidadcob" value="0" min="0" max="100000" data-theme="a" data-track-theme="b" />
-        <!--<label for="obsrendev">Observaciones:</label>
-        <textarea cols="3"  name="obsrendev" id="obsrendev"></textarea> -->
-        <a href="#" data-role="button" data-rel="back" id="bcantidadcob">Aceptar</a>
-		</div>
-    </div>
-</div>
-<!--PAGINA APLICACION DE COBRO -->
-<div data-role="page" id="paplicobros">
-	<div data-role="header" data-position="fixed">
-		<h3 style="text-align:center">Aplicación de Pago</h3>      
-	</div>
-	<div data-role="content">		        
-            <div class=ui-grid-a id="gridaplicobros">         
-		    	
-    		</div> 
-            <div class=ui-grid-a id="gridaplicobros2">         
-		    	
-    		</div>   
-            <div data-role="fieldcontain">			
-    			<label for="efectivo">Efectivo</label>
-				<input type="number" id="efectivo" style="width:18%">			
-			</div>
-			<div data-role="fieldcontain">	
-				<label for="cheque">Cheque</label>
-				 <input type="number" id="cheque" readonly style="width:18%">			
-			    <a href="" data-role="button" data-icon="plus" data-iconpos="top"  data-inline="true" data-theme="b" id="bcheque"></a>
-			</div> 
-    </div>    
-	<div data-role="footer" data-position="fixed">       
-        <a href="#" class="ui-btn-right" id="regresardeaplic" data-role="button" 
-            data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
-         <a class="ui-btn-left"  href="#" id="baceptaraplic" data-role="button" data-theme="b"
-        data-icon="plus" data-iconpos="left">Guardar e Imprimir</a>    
-	</div>
-</div>
-<!--PAGINA CHEQUES -->
-<div data-role="page" id="pcheque">
-	<div data-role="header" data-position="fixed">
-		<h3 style="text-align:center"REGISTRO DE CHEQUES</h3>      
-	</div>
-	<div data-role="content">	
-            <div data-role="fieldcontain" data-theme="c">           		
-		            <select name="menucuentab" id="menucuentab" data-theme="b" >
-		                  
-		            </select>
-	        </div>	
-            <div data-role="fieldcontain">			
-    			<label for="numcheque">Numero de Cheque:</label>
-				<input name="" type="text" id="numcheque" style="width:15%" maxlength="4">			
-			</div>
-			<!--
-            <div data-role="fieldcontain">
-				<label for="numcuenta">Numero de Cuenta:</label>
-				<input type="number" id="numcuenta" style="width:15%">						    
-			</div> -->
-            <div data-role="fieldcontain"	
-				<label for="monto">Monto:</label>
-				<input type="number" id="monto" style="width:10%">						    
-			</div>  
-            <div data-role="fieldcontain">	
-				<label for="totalcheques">Total Cheques:</label>
-				<input type="number" id="totalcheques" readonly style="width:10%">						    
-			</div> 
-            <div data-role="fieldcontain">
-				<label for="spendiente">Saldo Pendiente:</label>
-				<input type="number" id="spendiente" readonly style="width:10%">					    
-			</div> 
-            <a href="" data-role="button" data-icon="plus" data-theme="b" id="bagregacheque" data-inline="true">Agregar Cheque</a>
-             <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupacheques">
-             <h3>Cheques Ingresados</h3>
-            	 <div class=ui-grid-a id="gridcheques">         
-		    	   
-    			</div> 
-            	<a href="" id ="beliminarche"  data-role="button" data-theme="b"  data-inline="true">Eliminar</a>   
-        	</div>   
-    </div>    
-	<div data-role="footer" data-position="fixed">       
-        <a href="#paplicobros" class="ui-btn-right" id="salirdecheque" data-role="button" 
-         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>        
-	</div>
-</div>
-<!--PAGINA DEPOSITOS -->
-<div data-role="page" id="pdepositos">
-	<div data-role="header" data-position="fixed" data-theme="b">
-		<h3 style="text-align:center">REALIZA DEPOSITO</h3>  
-          <div data-role="navbar">
-        
-    		<div data-role="fieldcontain">	
-				<label for="numficha" style="font-size:18px">Núm. Ficha:</label>
-				<input name="" type="number" id="numficha" style="width:20%;color:#F00; font-weight:bold">	
-                <label for="totaldep" style="font-size:18px">Total:</label>
-				<input name="" type="number" id="totaldep" style="width:20%; color:#F00; font-weight:bold"" readonly >						    
-		   </div> 
+<div data-role="page" id="primera"> 	
+	<div data-role="header" data-theme="b" >    
+    	<h1 style="font-size:20px">SARDEL MEDICAL</h1>
            
-    
-   		 </div>     
-	</div>
-	<div data-role="content">	          
-            <div data-role="fieldcontain" data-theme="b">           		
-		            <select name="menucuentad" id="menucuentad" data-theme="b" >
-		                  
-		            </select>
-	        </div>	
-            <div class=ui-grid-a id="gridrecibosdep">         
-		    	   
-   			</div>
-            <div data-role="fieldcontain" data-theme="b">           		
-	            <label for="obsdep">Observaciones:</label>
-    	   		<textarea cols="3"  name="obsdep" id="obsdep"></textarea> 
-            </div>    
-           
-    </div>    
-	<div data-role="footer" data-position="fixed">       
-         <a href="#" class="ui-btn-right" id="regresardep" data-role="button" 
-         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
-        <a href="#" class="ui-btn-right" id="bguardadep" data-role="button" 
-         data-theme="b" data-icon="plus" data-iconpos="left" >Guardar</a>        
-        
-	</div>
-</div>
-<!--PAGINA REPORTE MONTO COBRADO Y VENDIDO -->
-<div data-role="page" id="prepcobven">
-	<div data-role="header" data-position="fixed" data-theme="b">
-		<h3 style="text-align:center">Monto Cobrado y Vendido</h3>            
-	</div>
-	<div data-role="content">	          
-            <div class=ui-grid-d id="gridrepven">         
-		    	   
-   			</div>
-			<div data-role="fieldcontain">	
-				<label for="rtotalv" style="font-size:18px">Total Vendido:</label>
-				<input name="" type="text" id="rtotalv" style="width:15%;color:#F00; font-weight:bold">	
-                <label for="rpreventa" style="font-size:18px">Preventa:</label>
-				<input name="" type="number" id="rpreventa" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
-                <label for="rfacturado" style="font-size:18px">Facturado:</label>
-				<input name="" type="number" id="rfacturado" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
-                <label for="rtotalc" style="font-size:18px">Total Cobrado:</label>
-				<input name="" type="number" id="rtotalc" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
-
-            </div>
-	</div>
-            
-	<div data-role="footer" data-position="fixed">       
-         <a href="#page" class="ui-btn-right" id="regresarrep1" data-role="button" 
-         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
-        <a href="#" class="ui-btn-right" id="bimprep1" data-role="button" 
-         data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>        
-        
-	</div>
-</div>
-<!--PAGINA REPORTE CIERRE DE COBRO-->
-<div data-role="page" id="prepcierrecob">
-	<div data-role="header" data-position="fixed" data-theme="b">
-		<h3 style="text-align:center">Cierre de Cobro</h3>            
-	</div>
-	<div data-role="content">	          
-            <div class=ui-grid-b id="gridrepcierre">         
-		    	   
-   			</div>
-			<div data-role="fieldcontain">					
-                <label for="rmontocob" style="font-size:18px">Total Cobrado:</label>
-				<input name="" type="number" id="rmontocob" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
-
-            </div>
-	</div>
-            
-	<div data-role="footer" data-position="fixed">       
-         <a href="#page" class="ui-btn-right" id="regresarrep2" data-role="button" 
-         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
-        <a href="#" class="ui-btn-right" id="bimprep2" data-role="button" 
-         data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>        
-        
-	</div>
-</div>
-<!-- P A G I N A  REPORTE DE INVENTARIO-->
-<div data-role="page" id="prepinventario">
-	<div data-role="header">
-		<h3>Reporte de Inventario</h3>
-	</div>
-	<div data-role="content">
-    	<ul id="lrepinv" data-role="listview" data-inset="true" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?">			        
-       
-        </ul>    
-        <div data-role="fieldcontain">	
-				<label for="rpiezas" style="font-size:18px">Total de Articulos(piezas):</label>
-				<input name="" type="number" id="rpiezas" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
-                <label for="rlineas" style="font-size:18px">Total de Líneas:</label>
-				<input name="" type="number" id="rlineas" style="width:18%; color:#F00; font-weight:bold"" readonly >						    
-
-          </div>
-    </div>    
+    </div>
+    <div data-role="content" style="background-color: #FF6">
+    	<div id="apDiv2">
+           <div class="ui-grid-d">
+              <div class="ui-block-a" style="width:70px;height:20px" >           
+              <div class="ui-bar ui-bar-a">Elim.</div></div>;           
+              <div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-a">Articulo</div></div>
+              <div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-a">Descrip.</div></div>
+              <div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-a">Cantidad</div></div>
+              <div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-a">Precio</div></div>
+	       </div>
+        </div>
+     <div id="apDiv1" style=" position:relative; left: 318px; top: 0px">
+      <input type="number" style="width:5%; float:left; position:relative; right:50px; top:50px">
+      <div class="ui-grid-b">
+        <div class="ui-block-a"><a href="#" id ="b1" data-role="button" data-theme="b" class="tecladonuma" >1</a></div>
+        <div class="ui-block-b"><a href="#" id ="b2"  data-role="button" data-theme="b" class="tecladonumb">2</a></div>
+        <div class="ui-block-c"><a href="#" id ="b3"  data-role="button" data-theme="b" class="tecladonumc">3</a></div>
+        <div class="ui-block-a"><a href="#" id ="b4" data-role="button" data-theme="b" class="tecladonuma">4</a></div>
+        <div class="ui-block-b"><a href="#" id ="b5" data-role="button" data-theme="b" class="tecladonumb">5</a></div>
+        <div class="ui-block-c"><a href="#" id ="b6" data-role="button" data-theme="b" class="tecladonumc">6</a></div>
+        <div class="ui-block-a"><a href="#" id ="b7" data-role="button" data-theme="b" class="tecladonuma">7</a></div>
+        <div class="ui-block-b"><a href="#" id ="b8" data-role="button" data-theme="b" class="tecladonumb">8</a></div>
+        <div class="ui-block-c"><a href="#" id ="b9" data-role="button" data-theme="b" class="tecladonumc">9</a></div>
+        <div class="ui-block-a"><a href="#" id ="bborrar" data-role="button" data-theme="b" class="tecladonuma"><</a></div>
+        <div class="ui-block-b"><a href="#" id ="b0" data-role="button" data-theme="b" class="tecladonumb">0</a></div>
+        <div class="ui-block-c"><a href="#" id ="bvacio" data-role="button" data-theme="b" class="tecladonumc">&nbsp </a></div>
+      </div>
+      
+      </div>
+      
+     </div>
+     
+   
     <div data-role="footer" data-position="fixed">
-         <a href="#page" class="ui-btn-right" id="regresarrep3" data-role="button" 
-         data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
-        <a href="#" class="ui-btn-right" id="bimprep3" data-role="button" 
-         data-theme="b" data-icon="plus" data-iconpos="left" >Imprimir</a>  
+     <a href="#" id ="bb" data-role="button" data-theme="b" style="width:40px">Regresar </a>
     </div>
     
+
+
 </div>
+
 </body>
 </html>

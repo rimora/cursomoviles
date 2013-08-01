@@ -29,6 +29,8 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 tx.executeSql('DROP TABLE IF EXISTS ENCPEDIDO');//
 		 tx.executeSql('DROP TABLE IF EXISTS DETPEDIDO');//
 		 tx.executeSql('DROP TABLE IF EXISTS PARAMETROS');//		 
+		 tx.executeSql('DROP TABLE IF EXISTS RAZONVISITA');//		 
+		 tx.executeSql('DROP TABLE IF EXISTS VISITA');//		 
 		 tx.executeSql('DROP TABLE IF EXISTS ENCHISFAC');//
 		 tx.executeSql('DROP TABLE IF EXISTS DETHISFAC');//
 		 tx.executeSql('DROP TABLE IF EXISTS ENCDEV');//
@@ -42,7 +44,9 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCHISFAC (id INTEGER PRIMARY KEY AUTOINCREMENT, factura,monto,cliente,pedido,fecha)');  
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS DETHISFAC (id INTEGER PRIMARY KEY AUTOINCREMENT, factura,articulo,linea,cantidad,devuelto,precio,totlinea)');  
-		 tx.executeSql('CREATE TABLE IF NOT EXISTS PARAMETROS (id INTEGER PRIMARY KEY AUTOINCREMENT, COD_ZON,NUM_PED,NUM_REC,NUM_DEV,NUM_FAC)'); 
+		 tx.executeSql('CREATE TABLE IF NOT EXISTS PARAMETROS (id INTEGER PRIMARY KEY AUTOINCREMENT, cod_zon,num_ped,num_rec,num_dev,num_fac)'); 
+		 tx.executeSql('CREATE TABLE IF NOT EXISTS RAZONVISITA (id INTEGER PRIMARY KEY AUTOINCREMENT, cod_rzn,des_rzn)'); 
+		 tx.executeSql('CREATE TABLE IF NOT EXISTS VISITA (id INTEGER PRIMARY KEY AUTOINCREMENT,cliente,doc_pro,fecha_plan,fin,inicio,notas,razon,ruta,tipo)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS CUENTASB (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT NOT NULL,descripcion)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS CUENTASDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT NOT NULL,cuenta,descripcion)'); 
          tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL,direccion TEXT NOT NULL,telefono TEXT NOT NULL,tipo TEXT NOT NULL,diasc TEXT NOT NULL,lcredito,saldo )'); 
@@ -81,7 +85,11 @@ function insertar(){
           }, navigator.notification.alert('Datos insertados',null,'Insertar Datos','Aceptar'));
 				
     	function insertarcli(tx) {	
-		tx.executeSql('INSERT INTO PARAMETROS (COD_ZON,NUM_PED,NUM_REC,NUM_DEV,NUM_FAC) VALUES ("S04","S13000216","R13000656","D13000001","F13000646")'); 	
+		tx.executeSql('INSERT INTO PARAMETROS (cod_zon,num_ped,num_rec,num_dev,num_fac) VALUES ("S04","S04000216","R04000656","D04000001","F04000646")'); 	
+		tx.executeSql('INSERT INTO RAZONVISITA (cod_rzn,des_rzn) VALUES ("R1","Ventas")'); 
+		tx.executeSql('INSERT INTO RAZONVISITA (cod_rzn,des_rzn) VALUES ("R2","Cobros")'); 
+		tx.executeSql('INSERT INTO RAZONVISITA (cod_rzn,des_rzn) VALUES ("R3","Local Cerrado")'); 
+		tx.executeSql('INSERT INTO RAZONVISITA (cod_rzn,des_rzn) VALUES ("R4","No esta comprado")'); 
         tx.executeSql('INSERT INTO CUENTASB (codigo,descripcion) VALUES("ND","NO DEFINIDA")'); 
 		tx.executeSql('INSERT INTO CUENTASB (codigo,descripcion) VALUES("BANCOMER","BBVA BANCOMER")'); 
 		tx.executeSql('INSERT INTO CUENTASB (codigo,descripcion) VALUES("BANAMEX","Banamex")'); 
@@ -239,7 +247,9 @@ function guardaencpedido(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal,
     	  alert("Error al insertar en pedido: "+err.code+err.message);
           },function(){
 			mostrarpedido();  
-			  
+			obtenerconse();	
+			window.localStorage.setItem("sioperacion","S");		  
+			navigator.notification.alert('Pedido Guardado',null,'Preventa','Aceptar');					  
 			  
 		  });
 				
@@ -247,6 +257,7 @@ function guardaencpedido(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal,
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 		
 			tx.executeSql('INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES("'+pedido+'","'+ruta+'","'+cliente+'","S","'+hora+'","'+fecha+'","'+fecha+'",'+impuesto+','+total+','+subtotal+','+descuento+',"'+obs+'","1",'+cond+',"'+bodega+'")'); 
+			tx.executeSql('UPDATE PARAMETROS SET num_ped="'+pedido+'"');		
 			limpiartemppedido()
 			
 		}
@@ -271,8 +282,11 @@ function guardaencfactura(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal
     	  alert("Error al insertar en factura: "+err.code+err.message);
           },function(){
 			  
-			mostrarfactura();  
-			  
+			mostrarfactura();  			 
+            obtenerconse();	
+			window.localStorage.setItem("sioperacion","S");		  
+			navigator.notification.alert('Documento Guardado',null,'Venta a Bordo','Aceptar');					
+			
 			  
 		  });
 				
@@ -280,7 +294,8 @@ function guardaencfactura(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 		
 			tx.executeSql('INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES("'+pedido+'","'+ruta+'","'+cliente+'","S","'+hora+'","'+fecha+'","'+fecha+'",'+impuesto+','+total+','+subtotal+','+descuento+',"'+obs+'","F",'+cond+',"'+bodega+'")'); 
-			limpiartemppedido()
+			tx.executeSql('UPDATE PARAMETROS SET num_fac="'+pedido+'"');		
+			limpiartemppedido();
 			
 		}
 	
@@ -373,12 +388,17 @@ function guardaencdev(devolucion,ruta,cliente,horaini,horafin,fecha,obs,renglone
 	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar encabezado devolucion: "+err.code+err.message);
-          },alert("Devolución Guardada"));
+          },function(){
+			   obtenerconse();			  
+			   window.localStorage.setItem("sioperacion","S");
+			   navigator.notification.alert('Devolución Guardada',null,'Devolución','Aceptar');					
+			});
 				
     	function insertadet(tx) {		
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 		
 			tx.executeSql('INSERT INTO ENCDEV (num_dev,cod_zon,cod_clt,hor_ini,hor_fin,fec_dev,obs_dev,num_itm,est_dev,mon_siv,mon_dsc,por_dsc_ap,mon_imp_vt,mon_imp_cs,cod_bod,impreso,num_ref) VALUES("'+devolucion+'","'+ruta+'","'+cliente+'","'+horaini+'","'+horafin+'","'+fecha+'","'+obs+'",'+renglones+',"A",'+subtotal+',0,0,'+impuesto+',0,"'+bodega+'","N","'+factura+'")'); 
+   			tx.executeSql('UPDATE PARAMETROS SET num_dev="'+devolucion+'"');		
 //hor_ini:fecha y hora en que inicia la devolución
 //hor_fin:fecha y hora en que guarda la devolución
 //fec_dev: solo fecha de devolución
@@ -517,7 +537,10 @@ function guardaenccob(cliente,tipo,ruta,recibo,horaini,horafin,estado,monche,mon
     			function actcheque(tx) {		
 					//alert('entra a modificar recibo de cheque: '+recibo);				
 					tx.executeSql('UPDATE CHEQUES SET recibo="'+recibo+'" where recibo="99999" and cliente="'+cliente+'"');							
+					tx.executeSql('UPDATE PARAMETROS SET num_rec="'+recibo+'"');		
 				}  
+				obtenerconse();
+				window.localStorage.setItem("sioperacion","S");
 		  });
 				
     	function insertadet(tx) {		
@@ -583,6 +606,7 @@ function guardaencdep(codigo,cuenta,deposito,fecha,monto,obs){
     	function insertadet(tx) {		
 		//alert('entra a insertadet');				
 			tx.executeSql('INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+deposito+'","'+fecha+'",'+monto+',"'+obs+'")'); 
+			
 			//alert('despues de insertadet');				
 
 							/*	 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo,cuenta,deposito,doc_pro,fec_dep,mon_dep,obs)'); 
@@ -591,9 +615,18 @@ function guardaencdep(codigo,cuenta,deposito,fecha,monto,obs){
 		}
 
 }//function guardaencdep
+function guardavisita(cliente,visitaini,visitafin,visitaini,notas,razon,ruta){
+	  //alert(cliente+' '+tipo+' '+tipoaso+' '+ruta+' '+recibo+' '+factura+' '+estado+' '+monto+' '+saldo_doc);
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al insertar en VISITA: "+err.code+err.message);
+          });
+				
+    	function insertadet(tx) {		
+		//alert('entra a insertadet');				
+			tx.executeSql('INSERT INTO VISITA (cliente,fecha_plan,fin,inicio,notas,razon,ruta) VALUES("'+cliente+'","'+visitaini+'","'+visitafin+'","'+visitaini+'","'+notas+'","'+razon+'","'+ruta+'")'); 
+		}
 
-
-
+}//function guardavisita
 
 function f1_1(){
 	  alert('entra a funcion f1_1');

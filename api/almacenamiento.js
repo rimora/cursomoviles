@@ -30,6 +30,13 @@ var fechaactual=fechaact+" "+hora;
 window.localStorage.setItem("fechahora",fechaactual);
 window.localStorage.setItem("fecha",fechaact);
 }
+function iniciavisita(){
+var fecha = new Date();
+var fechaact=fecha.getFullYear()+"/"+(fecha.getMonth()+1)+"/"+fecha.getDate();
+var hora=fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+var fechaactual=fechaact+" "+hora;	
+window.localStorage.setItem("visitaini",fechaactual);
+}
 function guardasaldofac(saldo){
 	window.localStorage.setItem("saldofac",saldo);
 }

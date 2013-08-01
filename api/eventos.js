@@ -8,12 +8,10 @@ $(document).ready(function() {
 		
 	
 	});*/	
+	 $('#apDiv1').hide(); 
 	window.localStorage.clear();
-	window.localStorage.setItem("saldo",0);
-	window.localStorage.setItem("consepedido","S04000375");
-	window.localStorage.setItem("consefactura","F04000375");
-	window.localStorage.setItem("consedev","D04000375");
-	window.localStorage.setItem("conserec","R04000375");
+	//obtenerconse();//funcion que almacena localmente los consecutivos de documentos actuales.funcion en configuraciones.js
+	window.localStorage.setItem("saldo",0);	
 	window.localStorage.setItem("ruta","S04");
 	window.localStorage.setItem("bodega","K01");
 	document.addEventListener("backbutton", function(){
@@ -37,22 +35,25 @@ $(document).ready(function() {
                  //var clavecli = $(this).attr("id");
 				  //alert ("llama a iniciar");
 				  iniciar();
+				  
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
                });
      $("#envia").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				  //alert (oID);
 				  insertar();
+				  obtenerconse();//funcion que almacena localmente los consecutivos de documentos actuales.funcion en configuraciones.js
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
                });			   
 			  
-	$("#clientes").tap(function() { 
+	$("#bclientes").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				 //botón clientes, genera lista con los clientes del día lunes
 				  //alert ('llama a mostrar clientes');
 				  window.location.href='#pclientes';				                    
 				  mostrarclientes("Lunes");
-				  $("select#menu").val("Lunes").selectmenu("refresh");   
+				  //$("select#menu").val("Lunes").selectmenu("refresh");   
+				  $("select#menu").val("Lunes");   
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
                });
   /*  $("#bguardacli").tap(function() { 
@@ -66,7 +67,22 @@ $(document).ready(function() {
 				var telefono = $("#telnuevocli").val()	  					
 				guardacliente(nombre,empresa,rfc,direccion,colonia,estado,municipio,telefono);
 				 
-               });*/			   
+               });*/
+			   
+	//*****PAGINA DATOS DEL CLIENTE *******
+   $("#bvisita").tap(function() {    //inicia visita               				  
+				  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
+				  window.location.href='#pcobros';
+				  $("#labelencpcobros").empty();	
+				  $("#labelencpcobros").append("Facturas pendientes del cliente: "+cliente);				  
+				  eliminatempcob();
+				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
+				  listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
+				  guardafechaactual();
+				  iniciavisita();//guarda registro de fecha y hora de visita.funcion en almacenamiento.js
+				  			  
+				   
+     });			   			   
     $("#menu").bind("change",function(event,ui){
 		//alert($("#menu").val());
 	    mostrarclientes($("#menu").val());	
@@ -78,6 +94,7 @@ $(document).ready(function() {
                   var clavecli = $(this).attr("id");
 				  //alert (clavecli);
 				  mostrarcliente(clavecli);
+				 // window.location.href='#datoscli';
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
     });
 	 
@@ -139,6 +156,58 @@ $(document).ready(function() {
 			$("#gridprueba").append(html);  
 
 		});
+//****PAGINA DE OPERACIONES ******
+		 $("#regresarop").tap(function() {                   				  				  
+				  var operaciones=window.localStorage.getItem("sioperacion");//devuelve S si realizó alguna operacion de venta, cobro, devolucion.
+				  if (operaciones=='S'){
+					  window.location.href='#pvisita';					  
+					  configuravisita();
+				  }
+				  else{
+					  navigator.notification.confirm('¿Deseas Registrar la Visita?',onConfirm,'Registrar Visita','SI,NO');// botones 
+					  function onConfirm(button) {
+						if (button==1){			
+							window.location.href='#pvisita';					  
+							configuravisita();
+        		  		 }
+						 else{
+							 window.location.href='#pclientes';					  
+							 return false;
+						 }
+					  }//if (button==1){
+				  }		  
+					 
+     	});//$("#regresarop").tap(function()		
+//****PAGINA DE REGISTRO VISITA******
+		 $("#bguardavisita").tap(function() {                   				  				  	
+			var razon=$("#menurazonv").val();	
+			var notas=$("#obsvisita").val();				
+			var cliente=window.localStorage.getItem("clave");//recuperamos la clave del cliente
+			var ruta=window.localStorage.getItem("ruta");//recuperamos la clave del cliente
+			var visitaini=$("#visitaini").val();	
+			var visitafin=$("#visitafin").val();	
+			alert(razon);
+			if (razon=='Razon') {
+				navigator.notification.alert('Debe indicar razon de visita',null,'Error al guardar visita','Aceptar');					
+			}else{
+				navigator.notification.confirm('¿Deseas Registrar la Visita?',onConfirm,'Registrar Visita','SI,NO');// botones 
+					  function onConfirm(button) {
+						if (button==1){			
+							guardavisita(cliente,visitaini,visitafin,visitaini,notas,razon,ruta);
+							window.location.href='#pclientes';					  
+
+        		  		 }
+						 else{							 
+							 return false;
+						 }
+					  
+				  	 }		  
+			
+			
+			
+			 }
+     	});//$("#bguardavisita").tap(function() {                   				  				  	
+//****************************			
 $("a.clasep").live('click',function(){//al modificar linea de pedido
                   var articulo = $(this).attr("name");
 				  //alert (articulo);
@@ -560,19 +629,7 @@ $("#bimprimirf").tap(function() {
         'SI,NO'       // botones (buttonLabels)
 	    );
     });  	
-  //*****VISITA*******
-   $("#bvisita").tap(function() {                   				  
-				  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
-				  window.location.href='#pcobros';
-				  $("#labelencpcobros").empty();	
-				  $("#labelencpcobros").append("Facturas pendientes del cliente: "+cliente);				  
-				  eliminatempcob();
-				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
-				  listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
-				  guardafechaactual();
-				  			  
-				   
-     });	
+  
 	
  //*****C O B R O S *****	 
 	  $("#bcobros").tap(function() {                   				  
@@ -589,6 +646,15 @@ $("#bimprimirf").tap(function() {
 				  			  
 				   
      });
+	  $("#bpagarimp").tap(function() {  //indicar importe para distribuir entre facturas                                                 
+          $('#divnumcobros').show(); //muestra el teclado numerico con el input                        
+       });
+	    $("#blimpiar").tap(function() { //limpiar la columna "A pagar" del grid que muestra las facturas pendientes de cobro                                                  
+          $('#divnumcobros').hide();//oculta el teclado numerico con el input                         
+       });
+	   $("#bcopiarsaldo").tap(function() { //limpiar la columna "A pagar" del grid que muestra las facturas pendientes de cobro                                                  
+          $('#divnumcobros').hide();//oculta el teclado numerico con el input                         
+       });
 	 $("a.clasecob").live('click',function(){//para indicar importe a pagar de la factura
                   var factura = $(this).attr("name");//el nombre tiene el numero de documento en la tabla PENCOBRO
 				 /* var id = $(this).attr("id");
@@ -871,6 +937,38 @@ $("#bimprimirf").tap(function() {
 				  window.location.href='#prepinventario';
 				  repinventario();								  
 	  });
+	   $("#reporte4").tap(function() {                   				  				  
+				  window.location.href='#prepvisitas';
+				  repvisitas();								  
+	  });
+	   $("#b11").tap(function() {
+	       navigator.notification.alert('entra tap reporte1',null,'pruebas','Aceptar');  
+           toggleWatchPosition();                             
+       });
+       $("#b22").tap(function() {                                                   
+           getCurrentPosition();                          
+       }); 
+	   //**********TECLADO NUMERICO	 *************	
+	   $("#bcancelarimp").tap(function() {                                                   
+           $('#divnumcobros').hide(); 
+       }); 
+	   $("#bcancelarimp").tap(function() {                                                   
+           $('#divnumcobros').hide(); 
+       }); 
+	   $("#b1").tap(function() {  
+	    var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'1');                         
+       });
+	   $("#b2").tap(function() {                                                   
+          var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'2');                         
+       });
+	   $("#b3").tap(function() {                                                   
+          var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'3');                         
+       });
+	  
+	   
   },false);//document.addEventListener("deviceready",function(){	
 });//$(document).ready(function() 
 			   
