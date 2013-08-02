@@ -7,7 +7,7 @@ function listafacturaspend(cliente){
     	 		 alert("Error poblar facturas para cobro: "+err.code+err.message);
          		});		
 	function poblarfac(tx){  
-			var sql='SELECT a.documento,a.saldo,a.monto,a.fechaven,b.abonado,a.vencida FROM PENCOBRO a ';		
+			var sql='SELECT a.documento,a.saldo,a.monto,a.fechaven,b.abonado,a.vencida,a.diasv FROM PENCOBRO a ';		
 				sql+=' left outer join TEMCOBROS b on b.factura=a.documento WHERE a.cliente="'+cliente+'" ORDER BY fechaven'
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select facturas pendientes de cobro: "+err.code+err.message);
@@ -17,18 +17,26 @@ function listafacturaspend(cliente){
 		 $("#gridfacpendientes").empty();	
 		 $("#gridencabcobros").empty();	
 			  //$("#tpedido").attr("value",0.0); 					  
-			  var html = "";			  
-			  var html2 = "";			  
-			  var saldot=0;
-			  var abonot=0;			  
-		      var resta=0;	    	  
-			  //agrega encabezado de grid
-			  //agrega encabezado de grid
-			  html+=' <div class="ui-block-a" style="width:110px" ><div class="ui-bar ui-bar-a">Documento</div></div> ';           
-              html+=' <div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-a">Importe Total</div></div>';
-              html+=' <div class="ui-block-c" style="width:130px"><div class="ui-bar ui-bar-a">Venc</div></div>';
-              html+=' <div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-a">Saldo</div></div>';
-              html+=' <div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-a">A pagar</div></div>';
+			 var html = "";			  
+			 var html2 = "";			  
+			 var saldot=0;
+			 var abonot=0;			  
+		     var resta=0;
+			 var limite=Number(window.localStorage.getItem("limite"));		    	  
+			 var disponible=0;
+			 //agrega encabezado de grid
+			  html+='<div class="ui-block-a" style="width:110px" ><div class="ui-bar ui-bar-a">Documento</div></div>';
+              html+='<div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-a">Vencimiento</div></div>';
+		      html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-a">Dias V.</div></div>';
+        	  html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-a">Importe</div></div>';
+		      html+='<div class="ui-block-e"  >';
+              html+='<div class="ui-grid-a"  style="margin-top:0px;width:190px">';
+              html+='<div class="ui-block-a" style="width:90px">';
+              html+='<div class="ui-bar ui-bar-a">Saldo</div></div>';
+              html+='<div class="ui-block-b" style="width:100px">';
+              html+='<div class="ui-bar ui-bar-a">A pagar</div></div>';
+              html+='</div>';                    
+              html+='</div>';			  
 			  $.each(results.rows,function(index){				  
 				  var row = results.rows.item(index); 				     			     
 				     //descuento=(row['precio']/100)*row['descuento'];
@@ -37,30 +45,40 @@ function listafacturaspend(cliente){
 						var monto= Number(row['monto']);												 						
 						var saldo= Number(row['saldo']);												 						
 						saldot+=Number(saldo);
-						abonot+=abonado;
+						abonot+=abonado;						
 					 //importe=precio*row['cantidad'];
 					 //total+=Number(importe);					 
 					if (row['vencida']=='S') {
-						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-e">'+row['documento']+'</div></div>';
+						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-e"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="FFFFFF">'+row['documento']+'</font></a></div></div>';
 					}
 					else
 					{
-						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-b">'+row['documento']+'</div></div>';
+						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-b"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="FFFFFF">'+row['documento']+'</font></a></div></div>';
 					}
-					html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div> ';
-					html+='<div class="ui-block-c" style="width:130px"><div class="ui-bar ui-bar-b">'+row['fechaven']+'</div></div>';                    html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+saldo.toFixed(2)+'</div></div>';
-					html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="FFFFFF">'+abonado.toFixed(2)+'</font></a></div></div>';
 					
-                    
-	                
-					
-                  	 
+					 html+='<div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-b">'+row['fechaven']+'</div></div>';
+		      html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b">'+row['diasv']+'</div></div>';
+        	  html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div>';
+		      html+='<div class="ui-block-e"  >';
+              html+='<div class="ui-grid-a"  style="margin-top:0px;width:190px">';
+              html+='<div class="ui-block-a" style="width:90px">';
+              html+='<div class="ui-bar ui-bar-b">'+saldo.toFixed(2)+'</div></div>';
+              html+='<div class="ui-block-b" style="width:100px">';
+             // html+='<div class="ui-bar ui-bar-b"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="FFFFFF">'+abonado.toFixed(2)+'</font></a></div></div>';
+			  html+='<div class="ui-bar ui-bar-b">'+abonado.toFixed(2)+'</div></div>';
+              html+='</div>';                    
+              html+='</div>';	                  	 
 			  });//.each
 			         resta=saldot-abonot;
-		    	html2+='<div class=ui-block-a style="width:100px">Saldo Total:</div>';
-	            html2+='<div class=ui-block-b style="width:200px"><label style="width:18%;font-size:20px; color:#F00">'+resta.toFixed(2)+'</label></div>';
-            	html2+='<div class=ui-block-c style="width:70px">A Pagar:</div>';
-            	html2+='<div class=ui-block-d style="width:100px"><label style="width:18%;font-size:20px; color:#F00">'+abonot.toFixed(2)+'</label></div>';
+					 disponible=Number(limite)-Number(resta);
+					 html2+='<div class=ui-block-a style="width:170px; font-size:18px;font-weight:bold">Limite de Credito:</div>';
+           	 html2+='<div class=ui-block-b style="width:100px"><label style="width:18%;font-size:18px; color:#F00;font-weight:bold">'+limite.toFixed(2)+'</label></div>';
+             html2+='<div class=ui-block-c style="width:100px; font-size:18px;font-weight:bold">Disponible:</div>';
+             html2+='<div class=ui-block-d style="width:100px"><label style="width:18%;font-size:18px; color:#F00;font-weight:bold">'+disponible.toFixed(2)+'</label></div>';
+	         html2+='<div class=ui-block-a style="width:170px; font-size:18px;font-weight:bold">Saldo Total:</div>';
+             html2+='<div class=ui-block-b style="width:100px"><label style="width:18%;font-size:18px; color:#F00;font-weight:bold">'+resta.toFixed(2)+'</label></div>';
+             html2+='<div class=ui-block-c style="width:100px; font-size:18px;font-weight:bold">A Pagar:</div>';
+             html2+='<div class=ui-block-d style="width:100px"><label style="width:18%;font-size:18px; color:#F00;font-weight:bold">'+abonot.toFixed(2)+'</label></div>';		    	
 				$("#gridfacpendientes").append(html); 
 				$("#gridencabcobros").append(html2); 
 				guardasaldofac(saldot);
@@ -75,16 +93,24 @@ function listafacturaspend(cliente){
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
 }// listafacturaspend(cliente)
-function copiatemcobros(cliente){	//llamada de eventos.js
+function copiatemcobros(cliente,copiar){	//llamada de eventos.js
+//el parametro copiar indica si el usuario selecciono el boton de copiar la columna saldo a la columna a pagar
+//
+
 	function listo(tx,results){
 		   $.each(results.rows,function(index){           
-			 var row = results.rows.item(index); 
-			 insertatempcob(row['documento']); //funcion de afectarbd.js
+			 var row = results.rows.item(index); 			 
+			 if (copiar=='S'){
+			 insertatempcob(row['documento'],row['saldo'],row['saldo']); //funcion de afectarbd.js
+			 }
+			 else{
+				 insertatempcob(row['documento'],0,row['saldo']); //funcion de afectarbd.js				 
+			 }
 		 });    		 	      
  	}//function listo(tx,results){ 
 	function consultatemp(tx){   	       
 				//alert('articulo de MODIFICAR temPEDIDO '+articulo);
-				 var sql='SELECT a.documento ';
+				 var sql='SELECT a.documento,a.saldo ';
 	   			 sql+='FROM PENCOBRO a ';	
 				 sql+='where a.cliente="'+cliente+'"';	
 		
@@ -95,20 +121,35 @@ function copiatemcobros(cliente){	//llamada de eventos.js
 	}
 	consultadb().transaction(consultatemp, function(err){
     	 			 alert("Error select copiar a tabla temporal TEMCOBROS: "+err.code+err.message);
-         		});		
+         		},function(){
+					listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado
+					});		
 				
 }//function copiatemcobros()
 function mostrardcob(factura){	
+	var html="";
+	
+	$("#divencnum").empty();
+	html='<label style="font-weight: bold">Indicar Abono a Factura:'+factura+'</label><br>';
+    html+=' <a href="#" id ="bcopiarsaldofac" data-role="button" data-theme="b">Copiar Saldo a Pagar</a>';
+	$("#divencnum").append(html); 	
+	$("#divencnum").show();
+
 	function listo(tx,results){ 	      
 	      if (results.rows.length>0){			
 			 	var row = results.rows.item(0); 
-			    $("#cantidadcob").val(row['abonado']);				
-				$("#encdialogocob").val('Indica Cantidad a Pagar: '+row['factura']);
+				if (row['abonado']==0){
+					$("#importecobro").val(row['saldo']);
+				}
+				else{
+					$("#importecobro").val(row['abonado']);
+					
+				}
 		  }//if (results.rows.length>0){		  
  	}//function listo(tx,results){ 
 	function consultatemp(tx){   	       
 				//alert('articulo de MODIFICAR temPEDIDO '+articulo);
-				 var sql='SELECT a.factura,a.abonado ';
+				 var sql='SELECT a.factura,a.abonado,a.saldo ';
 	   			 sql+='FROM TEMCOBROS a ';	
 				 sql+='where a.factura="'+factura+'"';	
 		
@@ -298,7 +339,7 @@ var monefe=Number(window.localStorage.getItem("efectivo"));
 var monche=Number(window.localStorage.getItem("cheque"));
 var cliente=window.localStorage.getItem("clave");
 var consecutivo=window.localStorage.getItem("conserec");
-alert(consecutivo);
+//alert(consecutivo);
 var ruta=window.localStorage.getItem("ruta");
 var horaini=window.localStorage.getItem("fechahora");//fecha y hora actual guardada cuando inicio la devolución de la factura.
 guardafechaactual();//guarda en memoria la fecha con hora, actuales
@@ -354,6 +395,53 @@ var recibo=inicial+pad(incrementarec,6);
          		});		
 				
 }//function guardacob
+function pagarximp(cliente,cantidad){	
+	var html="";
+	var disponible=0;
+	 function listo(tx,results){ 	      	       
+			  $.each(results.rows,function(index){				  
+				var row = results.rows.item(index);
+			    var saldo=Number(row['saldo']);
+				var factura=Number(row['documento']);
+			 //if (row['cantidad']>0){
+			 	//preparadetalletemp(row['articulo'],row['cantidad']);																
+ 			 	if (cantidad>=saldo){//
+				   actualizatempcob(factura,saldo); //funcion de afectarbd.js
+				   cantidad=cantidad-saldo;
+				   alert('cantidad de pagarximp '+cantidad);
+				 			 
+				 }
+				 else
+				 {
+                   actualizatempcob(factura,cantidad); //funcion de afectarbd.js
+				   cantidad=0;
+					 
+				 }
+				 
+				 
+				 //alert('pasa depues del if');
+				 
+				
+		  });//.each	  
+ 	}//function listo(tx,results){ 
+	function consultatemp(tx){   	       
+				//alert('articulo de MODIFICAR temPEDIDO '+articulo);
+				var sql='SELECT a.documento,a.saldo,a.monto,a.fechaven,b.abonado,a.vencida,a.diasv FROM PENCOBRO a ';		
+				sql+=' left outer join TEMCOBROS b on b.factura=a.documento WHERE a.cliente="'+cliente+'" ORDER BY fechaven'
+		
+								
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error consultar PENCOBRO : "+articulo+err.code+err.message);
+         		});    									
+	}
+	consultadb().transaction(consultatemp, function(err){
+    	 			 alert("Error select tabla PENCOBRO: "+err.code+err.message);
+         		}, function(){
+					
+				listafacturaspend(cliente);	
+					
+				});	
+}//function pagarximp
 
 
 

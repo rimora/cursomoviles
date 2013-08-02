@@ -8,7 +8,7 @@ $(document).ready(function() {
 		
 	
 	});*/	
-	 $('#apDiv1').hide(); 
+	 //$('#divnumcobros').hide(); 
 	window.localStorage.clear();
 	//obtenerconse();//funcion que almacena localmente los consecutivos de documentos actuales.funcion en configuraciones.js
 	window.localStorage.setItem("saldo",0);	
@@ -73,13 +73,16 @@ $(document).ready(function() {
    $("#bvisita").tap(function() {    //inicia visita               				  
 				  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
 				  window.location.href='#pcobros';
+				  $("#divencnum").hide();
+				  $("#divnumcobros").hide();
 				  $("#labelencpcobros").empty();	
-				  $("#labelencpcobros").append("Facturas pendientes del cliente: "+cliente);				  
+				  $("#labelencpcobros").append("Cobrar Facturas pendientes del cliente: "+cliente);				  				 				  
 				  eliminatempcob();
 				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
-				  listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
+				  //listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
 				  guardafechaactual();
-				  iniciavisita();//guarda registro de fecha y hora de visita.funcion en almacenamiento.js
+				  iniciavisita();//guarda registro de fecha y hora de visita.funcion en almacenamiento.js			  
+				  
 				  			  
 				   
      });			   			   
@@ -635,36 +638,64 @@ $("#bimprimirf").tap(function() {
 	  $("#bcobros").tap(function() {                   				  
 				  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
 				  window.location.href='#pcobros';
+				  $("#divencnum").hide();
 				  $("#labelencpcobros").empty();	
-				  $("#labelencpcobros").append("Facturas pendientes del cliente: "+cliente);				  
-				  $("#labellimcred").empty();	
-				  $("#labellimcred").append("Limite de Credito: "+window.localStorage.getItem("limite"));	
+				  $("#labelencpcobros").append("Cobrar Facturas pendientes del cliente: "+cliente);				  				 				  
 				  eliminatempcob();
 				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
-				  listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
+				  //listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
 				  guardafechaactual();
 				  			  
 				   
      });
 	  $("#bpagarimp").tap(function() {  //indicar importe para distribuir entre facturas                                                 
-          $('#divnumcobros').show(); //muestra el teclado numerico con el input                        
+		  $('#divnumcobros').show(); //muestra el teclado numerico con el input                        
+		  $("#divencnum").empty();
+		  var html='<label style="font-weight: bold">Distribuir Importe en Facturas</label>';    
+		  $("#divencnum").append(html); 	
+          $('#importecobro').val('');
+          $("#divencnum").show();
+		  window.localStorage.setItem("tipo","I");
+		  
+		  
        });
-	    $("#blimpiar").tap(function() { //limpiar la columna "A pagar" del grid que muestra las facturas pendientes de cobro                                                  
+	    $("#blimpiar").tap(function() { //limpiar la columna "A pagar" del grid que muestra las facturas pendientes de cobro
+		  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente                                                   
           $('#divnumcobros').hide();//oculta el teclado numerico con el input                         
+		   eliminatempcob();
+		   copiatemcobros(cliente);
+		   //listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado	
+		   $('#divnumcobros').hide(); 
+		   $("#divencnum").hide();
        });
-	   $("#bcopiarsaldo").tap(function() { //limpiar la columna "A pagar" del grid que muestra las facturas pendientes de cobro                                                  
-          $('#divnumcobros').hide();//oculta el teclado numerico con el input                         
+	   $("#bcopiarsaldo").tap(function() { //limpiar la columna "A pagar" del grid que muestra las facturas pendientes de cobro
+	       var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
+	       $('#divnumcobros').hide();//oculta el teclado numerico con el input
+		   $("#divencnum").hide(); 
+		   eliminatempcob();
+	       copiatemcobros(cliente,'S');//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
+		   
+		   	
        });
+	   $("#bcopiarsaldofac").tap(function() { //copiar el saldo de la fac seleccionada a la columna de A pagar
+	   alert('holA');
+	       var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 		   
+		   var factura=window.localStorage.getItem("factura");//Obtiene clave del cliente 		   
+	       copiarsaldoapagar(factura);
+		   listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado	
+       });
+	   
+	   
 	 $("a.clasecob").live('click',function(){//para indicar importe a pagar de la factura
                   var factura = $(this).attr("name");//el nombre tiene el numero de documento en la tabla PENCOBRO
 				 /* var id = $(this).attr("id");
 				  var longitud=id.length;
 				  var posicion = id.indexOf('*'); 
 				  var cantidad=Number(id.substring(posicion+1));*/				 
-				 window.location.href='#pimportecob';//muestra dialogo para indicar cantidad a modificar y observaciones.
-				 mostrardcob(factura);//muestra dialogo de cobro
+				 //window.location.href='#pimportecob';//muestra dialogo para indicar cantidad a modificar y observaciones.
+				 $('#divnumcobros').show();
+				 mostrardcob(factura);//muestra dialogo de cobro				
 				 guardafactura(factura);//almacena localmente el numero de factura
-				 
 				
     });
 	$("#bcantidadcob").tap(function(){//boton aceptar del cuadro de dialogo
@@ -949,11 +980,44 @@ $("#bimprimirf").tap(function() {
            getCurrentPosition();                          
        }); 
 	   //**********TECLADO NUMERICO	 *************	
-	   $("#bcancelarimp").tap(function() {                                                   
+	   $("#baceptarimp").tap(function() {                                                   
+	       var tipo=window.localStorage.getItem("tipo");
+		   
+		   var cantidad=Number($('#importecobro').val());				 				 
+				  alert (cantidad);
+				  if (cantidad.length==0){
+					   navigator.notification.alert('Debe indicar cantidad valida',null,'Error Indicando Cantidad','Aceptar');					
+					  
+				  }
+				  else
+				  {
+					  if (tipo=='I'){
+						  if (cantidad==0 || cantidad.length==0){//
+							navigator.notification.alert('Cantidad a pagar debe ser mayor a cero ',null,'Error Indicando Cantidad','Aceptar');						 					
+							return false;				 
+				 			}
+						  var cliente= window.localStorage.getItem("clave");
+						  pagarximp(cliente,cantidad);
+			   			  window.localStorage.setItem("tipo",'O')
+						  
+					   }
+		   			 else{
+				    
+    				var factura = window.localStorage.getItem("factura");
+	     			//alert (cantidad);	  
+					insertacobro(factura,cantidad);	//actualiza cantidad a pagar de factura en tabla temporal de fac pend de cobro.Funcion en cobros.js				
+					
+    				 //alert('despues de llamada modificarlineap');
+					 //mostrarpedido();
+					 }
+				  }
            $('#divnumcobros').hide(); 
+		   $("#divencnum").hide(); 
+		   
        }); 
 	   $("#bcancelarimp").tap(function() {                                                   
            $('#divnumcobros').hide(); 
+		   $("#divencnum").hide(); 
        }); 
 	   $("#b1").tap(function() {  
 	    var importe=$('#importecobro').val();	                                                    
@@ -967,8 +1031,44 @@ $("#bimprimirf").tap(function() {
           var importe=$('#importecobro').val();	                                                    
           $('#importecobro').val(importe+'3');                         
        });
-	  
-	   
+	    $("#b4").tap(function() {  
+	    var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'4');                         
+       });
+	   $("#b5").tap(function() {                                                   
+          var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'5');                         
+       });
+	   $("#b6").tap(function() {                                                   
+          var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'6');                         
+       });
+	     $("#b7").tap(function() {  
+	    var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'7');                         
+       });
+	   $("#b8").tap(function() {                                                   
+          var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'8');                         
+       });
+	   $("#b9").tap(function() {                                                   
+          var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'9');                         
+       });
+	     $("#b0").tap(function() {  
+	    var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'0');                         
+       });
+	   $("#bpunto").tap(function() {                                                   
+          var importe=$('#importecobro').val();	                                                    
+          $('#importecobro').val(importe+'.');                         
+       });
+	    $("#blimpiarinput").tap(function() {                                                                                                                
+          $('#importecobro').val('');                         
+       });
+
+
+
   },false);//document.addEventListener("deviceready",function(){	
 });//$(document).ready(function() 
 			   

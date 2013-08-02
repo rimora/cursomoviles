@@ -22,7 +22,7 @@ function mostrarclientes(dia){
 		 $('#listaclientes').empty();        
 		 $.each(results.rows,function(index){           
 			 var row = results.rows.item(index);            
-			 $('#listaclientes').append('<li id="'+row['clave']+'"><a href="#" data-theme="b"><h3>'+row['clave']+'  '+row['nombre']+'</h3></a></li>');        
+			 $('#listaclientes').append('<li id="'+row['clave']+'"><a href="#">'+row['clave']+'  '+row['nombre']+'</a></li>');        
 		 });    
 		 //alert('antes de refresh de lista');  		 
 		 
