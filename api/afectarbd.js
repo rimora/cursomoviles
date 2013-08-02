@@ -471,17 +471,7 @@ function actualizatempcob(factura,cantidad){
 		}
 	
 }//function actualizatempcob(factura,cantidad)
-function copiarsaldoapagar(factura){
-	   //alert('actualiza tempcob'+factura+' '+cantidad);
-	    consultadb().transaction(insertadet,function(err){
-    	  alert("Error al modificar renglon TEMCOBROS: "+err.code+err.message);
-          });
-				
-    	function insertadet(tx) {		
-		tx.executeSql('UPDATE TEMCOBROS SET abonado=saldo where factura="'+factura+'"');		
-		}
-	
-}//function  copiarsaldoapagar
+
 function eliminatempcob(){
 	   //alert('inserttafactura'+cantidad);
 	    consultadb().transaction(insertadet,function(err){

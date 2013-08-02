@@ -676,16 +676,7 @@ $("#bimprimirf").tap(function() {
 	       copiatemcobros(cliente,'S');//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
 		   
 		   	
-       });
-	   $("#bcopiarsaldofac").tap(function() { //copiar el saldo de la fac seleccionada a la columna de A pagar
-	   alert('holA');
-	       var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 		   
-		   var factura=window.localStorage.getItem("factura");//Obtiene clave del cliente 		   
-	       copiarsaldoapagar(factura);
-		   listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado	
-       });
-	   
-	   
+       });	   
 	 $("a.clasecob").live('click',function(){//para indicar importe a pagar de la factura
                   var factura = $(this).attr("name");//el nombre tiene el numero de documento en la tabla PENCOBRO
 				 /* var id = $(this).attr("id");

@@ -1,6 +1,6 @@
 // cobros
 function listafacturaspend(cliente){
-	alert('entra a listafacturaspend');
+	alert('entra a listafacturaspend '+cliente);
 	 // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);
@@ -31,11 +31,13 @@ function listafacturaspend(cliente){
 		      html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-a">Dias V.</div></div>';
         	  html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-a">Importe</div></div>';
 		      html+='<div class="ui-block-e"  >';
-              html+='<div class="ui-grid-a"  style="margin-top:0px;width:190px">';
+              html+='<div class="ui-grid-b"  style="margin-top:0px;width:280px">';
               html+='<div class="ui-block-a" style="width:90px">';
               html+='<div class="ui-bar ui-bar-a">Saldo</div></div>';
               html+='<div class="ui-block-b" style="width:100px">';
               html+='<div class="ui-bar ui-bar-a">A pagar</div></div>';
+			  html+='<div class="ui-block-c" style="width:90px">';
+              html+='<div class="ui-bar ui-bar-a">Notas</div></div>';
               html+='</div>';                    
               html+='</div>';			  
 			  $.each(results.rows,function(index){				  
@@ -61,12 +63,14 @@ function listafacturaspend(cliente){
 		      html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b">'+row['diasv']+'</div></div>';
         	  html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div>';
 		      html+='<div class="ui-block-e"  >';
-              html+='<div class="ui-grid-a"  style="margin-top:0px;width:190px">';
+              html+='<div class="ui-grid-b"  style="margin-top:0px;width:190px">';
               html+='<div class="ui-block-a" style="width:90px">';
               html+='<div class="ui-bar ui-bar-b">'+saldo.toFixed(2)+'</div></div>';
               html+='<div class="ui-block-b" style="width:100px">';
              // html+='<div class="ui-bar ui-bar-b"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="FFFFFF">'+abonado.toFixed(2)+'</font></a></div></div>';
 			  html+='<div class="ui-bar ui-bar-b">'+abonado.toFixed(2)+'</div></div>';
+			  html+='<div class="ui-block-c" style="width:90px">';
+			  html+='<div class="ui-bar ui-bar-b"><a href="#" class="clasenotcob" name="'+row['documento']+'"><font color="FFFFFF">Notas</font></div></div>';
               html+='</div>';                    
               html+='</div>';	                  	 
 			  });//.each
@@ -133,9 +137,7 @@ function mostrardcob(factura){
 	$("#divencnum").empty();
 	html='<label style="font-weight: bold">Indicar Abono a Factura:'+factura+'</label><br>';
     //html+=' <a href="#" id ="bcopiarsaldofac" data-role="button" data-theme="b">Copiar Saldo a Pagar</a>';
-	$("#divencnum").append(html);
-	html=' <a href="#" id ="bcopiarsaldofac" data-role="button" data-theme="b">Copiar Saldo a Pagar</a>';
-	$("#divencnum").append(html);	 	
+	$("#divencnum").append(html);	
 	$("#divencnum").show();
 
 	function listo(tx,results){ 	      
@@ -405,7 +407,7 @@ function pagarximp(cliente,cantidad){
 			  $.each(results.rows,function(index){				  
 				var row = results.rows.item(index);
 			    var saldo=Number(row['saldo']);
-				var factura=Number(row['documento']);
+				var factura=row['documento'];
 			 //if (row['cantidad']>0){
 			 	//preparadetalletemp(row['articulo'],row['cantidad']);																
  			 	if (cantidad>=saldo){//
