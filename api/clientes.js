@@ -25,10 +25,10 @@ function mostrarclientes(dia){
 			 $('#listaclientes').append('<li id="'+row['clave']+'"><a href="#">'+row['clave']+'  '+row['nombre']+'</a></li>');        
 		 });    
 		 //alert('antes de refresh de lista');  		 
-		 
+		 $('#listaclientes').listview('refresh'); 
 		 //alert('despues de refresh de lista');
  	}
-	$('#listaclientes').listview('refresh'); 
+	
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
 }// mostrarclientes

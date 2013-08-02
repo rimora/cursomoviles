@@ -1,6 +1,7 @@
 // cobros
 function listafacturaspend(cliente){
- // $('#pclientes').live('pageshow',function(event, ui){
+	alert('entra a listafacturaspend');
+	 // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);
 		consultadb().transaction(poblarfac, function(err){
@@ -131,8 +132,10 @@ function mostrardcob(factura){
 	
 	$("#divencnum").empty();
 	html='<label style="font-weight: bold">Indicar Abono a Factura:'+factura+'</label><br>';
-    html+=' <a href="#" id ="bcopiarsaldofac" data-role="button" data-theme="b">Copiar Saldo a Pagar</a>';
-	$("#divencnum").append(html); 	
+    //html+=' <a href="#" id ="bcopiarsaldofac" data-role="button" data-theme="b">Copiar Saldo a Pagar</a>';
+	$("#divencnum").append(html);
+	html=' <a href="#" id ="bcopiarsaldofac" data-role="button" data-theme="b">Copiar Saldo a Pagar</a>';
+	$("#divencnum").append(html);	 	
 	$("#divencnum").show();
 
 	function listo(tx,results){ 	      
@@ -413,6 +416,7 @@ function pagarximp(cliente,cantidad){
 				 }
 				 else
 				 {
+				   alert('cantidad menor a saldo '+cantidad);	 
                    actualizatempcob(factura,cantidad); //funcion de afectarbd.js
 				   cantidad=0;
 					 

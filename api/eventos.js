@@ -992,7 +992,7 @@ $("#bimprimirf").tap(function() {
 				  else
 				  {
 					  if (tipo=='I'){
-						  if (cantidad==0 || cantidad.length==0){//
+						  if (cantidad==0 || cantidad.length==0 || isNaN(cantidad)){//
 							navigator.notification.alert('Cantidad a pagar debe ser mayor a cero ',null,'Error Indicando Cantidad','Aceptar');						 					
 							return false;				 
 				 			}

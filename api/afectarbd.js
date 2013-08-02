@@ -461,7 +461,7 @@ function insertatempcob(factura,abono,saldo){
 	
 }//function insertatempcob(factura)
 function actualizatempcob(factura,cantidad){
-	   //alert('actualiza tempcob'+factura+' '+cantidad);
+	   alert('actualiza tempcob'+factura+' '+cantidad);
 	    consultadb().transaction(insertadet,function(err){
     	  alert("Error al modificar renglon TEMCOBROS: "+err.code+err.message);
           });
