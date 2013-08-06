@@ -40,6 +40,8 @@ function mostrarcliente(clavecli){
        var limite=0;
 	   var saldo=0;
 		$('#notascxc').text("Notas para el cliente " + clavecli);
+		$('#clienteselec').empty();
+		$('#clienteselec').append("Cliente Seleccionado:" + clavecli);
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {

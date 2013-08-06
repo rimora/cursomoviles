@@ -9,6 +9,7 @@ $(document).ready(function() {
 	
 	});*/	
 	 //$('#divnumcobros').hide(); 
+	 var longitud=0;
 	window.localStorage.clear();
 	//obtenerconse();//funcion que almacena localmente los consecutivos de documentos actuales.funcion en configuraciones.js
 	window.localStorage.setItem("saldo",0);	
@@ -639,6 +640,7 @@ $("#bimprimirf").tap(function() {
 				  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
 				  window.location.href='#pcobros';
 				  $("#divencnum").hide();
+				  $('#divnumcobros').hide();
 				  $("#labelencpcobros").empty();	
 				  $("#labelencpcobros").append("Cobrar Facturas pendientes del cliente: "+cliente);				  				 				  
 				  eliminatempcob();
@@ -656,7 +658,7 @@ $("#bimprimirf").tap(function() {
           $('#importecobro').val('');
           $("#divencnum").show();
 		  window.localStorage.setItem("tipo","I");
-		  
+		  longitud=8;
 		  
        });
 	    $("#blimpiar").tap(function() { //limpiar la columna "A pagar" del grid que muestra las facturas pendientes de cobro
@@ -664,8 +666,7 @@ $("#bimprimirf").tap(function() {
           $('#divnumcobros').hide();//oculta el teclado numerico con el input                         
 		   eliminatempcob();
 		   copiatemcobros(cliente);
-		   //listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado	
-		   $('#divnumcobros').hide(); 
+		   //listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado			    
 		   $("#divencnum").hide();
        });
 	   $("#bcopiarsaldo").tap(function() { //limpiar la columna "A pagar" del grid que muestra las facturas pendientes de cobro
@@ -685,8 +686,21 @@ $("#bimprimirf").tap(function() {
 				  var cantidad=Number(id.substring(posicion+1));*/				 
 				 //window.location.href='#pimportecob';//muestra dialogo para indicar cantidad a modificar y observaciones.
 				 $('#divnumcobros').show();
+				 longitud=8;
 				 mostrardcob(factura);//muestra dialogo de cobro				
 				 guardafactura(factura);//almacena localmente el numero de factura
+				
+    });
+	$("a.clasenotcob").live('click',function(){//para mostrar las notas de la factura seleccionada
+                  var factura = $(this).attr("name");//el nombre tiene el numero de documento en la tabla PENCOBRO
+				 /* var id = $(this).attr("id");
+				  var longitud=id.length;
+				  var posicion = id.indexOf('*'); 
+				  var cantidad=Number(id.substring(posicion+1));*/				 
+				 //window.location.href='#pimportecob';//muestra dialogo para indicar cantidad a modificar y observaciones.
+				 $('#divnumcobros').hide();
+				 mostrarnotascob(factura);//muestra dialogo de cobro				
+				 
 				
     });
 	$("#bcantidadcob").tap(function(){//boton aceptar del cuadro de dialogo
@@ -733,11 +747,47 @@ $("#bimprimirf").tap(function() {
 					guardaefectivo(0);//inicia valor de cobrado en efectivo
 					guardacheque(0);//inicia valor de cobrado en cheque				 	  					
 				  	aplicacionpago(saldofac,abono);//muestra grid con datos de lo abonado y saldo pendiente de facturas 
+					$('#divencaplic').show();
+					$('#divcheques').hide();
+					$('#divnumaplicob').hide();					
 					eliminachequexrecibo();//elimina los cheques temporales.
 					
 				 }
 				  
 				  
+     });
+	 $("#befectivo").tap(function() {//boton para cobrar con efectivo.                   				  
+	 			$('#divnumaplicob').show();
+				$('#importeapli').val('');
+				$('#divcheques').hide();
+				$('#etinum').empty();
+				$('#etinum').append('Importe:');					
+				window.localStorage.setItem("tipocob","E");
+     });
+	 $("#bcheque").tap(function() {//boton para cobrar con cheque
+				poblarcuenta();	         				
+				$('#divcheques').show();				
+				//window.location.href='#pcheque';								
+				//$("#numcuenta").val("");  				 
+				poblarcheques();				
+     });
+	 $("#bnumche").tap(function() {//boton para cobrar con efectivo.                   				  	 															
+				$('#divnumaplicob').show();
+				$('#etinum').empty();
+				$('#etinum').append('Numero:');		
+				$('#importeapli').val('');		
+				window.localStorage.setItem("tipocob","N");
+				longitud=4;
+				//$("#numcuenta").val("");  				 
+     });
+	 $("#bmontoche").tap(function() {//boton para cobrar con efectivo.                   				  	 															
+				$('#divnumaplicob').show();
+				$('#etinum').empty();
+				$('#etinum').append('Importe:');	
+				$('#importeapli').val('');			
+				window.localStorage.setItem("tipocob","C");
+				longitud=8;
+				//$("#numcuenta").val("");  				 
      });
 	 $("#baceptaraplic").tap(function() {                   				  
 	        function onConfirm(button) {
@@ -796,15 +846,7 @@ $("#bimprimirf").tap(function() {
 	     } 
 	   
     });
-	$("#bcheque").tap(function() {                   			
-		  	window.location.href='#pcheque';
-			poblarcuenta();	         
-			$("#numcheque").val("");
-			//$("#numcuenta").val("");  
-			$("#monto").val(0); 
-			poblarcheques();
-				  
-     }); 
+	
 	 $("#bagregacheque").tap(function() {                   				  
 	        var nche=$("#numcheque").val();  			  
 			//var ncta=$("#numcuenta").val();  			  
@@ -963,19 +1005,19 @@ $("#bimprimirf").tap(function() {
 				  window.location.href='#prepvisitas';
 				  repvisitas();								  
 	  });
-	   $("#b11").tap(function() {
+	   $("#botro").tap(function() {
 	       navigator.notification.alert('entra tap reporte1',null,'pruebas','Aceptar');  
            toggleWatchPosition();                             
        });
-       $("#b22").tap(function() {                                                   
+       $("#b2otro").tap(function() {                                                   
            getCurrentPosition();                          
        }); 
-	   //**********TECLADO NUMERICO	 *************	
+	   //**********TECLADO NUMERICO	USADO EN COBROS *************	
 	   $("#baceptarimp").tap(function() {                                                   
 	       var tipo=window.localStorage.getItem("tipo");
 		   
 		   var cantidad=Number($('#importecobro').val());				 				 
-				  alert (cantidad);
+				  //alert (cantidad);
 				  if (cantidad.length==0){
 					   navigator.notification.alert('Debe indicar cantidad valida',null,'Error Indicando Cantidad','Aceptar');					
 					  
@@ -1056,6 +1098,129 @@ $("#bimprimirf").tap(function() {
        });
 	    $("#blimpiarinput").tap(function() {                                                                                                                
           $('#importecobro').val('');                         
+       });
+	   //**********TECLADO NUMERICO	USADO EN APLICACION DE COBROS *************	
+	   $("#bacepapli").tap(function() {                                                   
+	       var tipocob=window.localStorage.getItem("tipocob");
+           var monto = parseInt($("#importeapli").val()); 
+		   if (isNaN(monto)) { 
+        //entonces (no es numero) 
+        	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
+			 return false;
+	       }
+		  if (tipocob=='E'){  //efectivo
+		   
+	     //intento convertir a entero. 
+    	 //si era un entero no le afecta, si no lo era lo intenta convertir 
+	    		 		 
+		 var pendiente1=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
+		 var pendiente=pendiente1+Number(window.localStorage.getItem("efectivo"));//aumentamos el efectivo que tenga guardado, es decir, 
+		 //si es modificación del importe, se anula para tomar este nuevo importe y actualizar el abono pendiente de distribuir en efectivo y cheque.
+		 //alert(montoefe);
+		 //alert(pendiente);	    
+			if (monto>pendiente || monto<0){
+				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');				
+				$("#importeapli").val(0);
+				return false;
+			}
+			else{
+        	guardaefectivo(monto); 			
+			actgridsaldo();
+			$('#divnumaplicob').hide(); 		    
+			}	    
+		}//tipocob
+		else if (tipocob=='N'){
+			window.localStorage.setItem("numche",$("#importeapli").val());
+			$('#divnumaplicob').hide();
+			
+			
+		}
+		else if (tipocob=='C'){
+			var nche=window.localStorage.getItem("numche"); 			  			
+			var banco=$("#menucuentab").val();			
+		    var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
+			 //alert(monto);
+			 //alert(pendiente);
+
+			if (nche=="" || banco=="Banco" || monto==0){
+				navigator.notification.alert('Debe indicar numero de cheque,seleccionar banco y monto válidos',null,'Faltan Datos','Aceptar');				 								
+				return false;
+			}
+			if (monto>pendiente || monto<0){
+				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');				
+				$("#importeapli").val(''); 
+			}			
+			else{
+				insertarcheque(nche,"0",banco,monto);			
+				$("select#menucuentab").val("Banco").selectmenu("refresh"); 
+				window.localStorage.setItem('numche',''); 
+				//$("#numcuenta").val("");  				
+				$('#divnumaplicob').hide();
+				poblarcheques();
+				actgridsaldo();
+			}
+			
+			
+			
+		}
+		  
+		   
+       }); 
+	   $("#bcanapli").tap(function() {                                                   
+          $('#divnumaplicob').hide(); 		   
+       }); 
+	   $("#b11").tap(function() { 	     
+	    var importe=$('#importeapli').val();	                                                    
+		   if (importe.length<=longitud){ 
+          $('#importeapli').val(importe+'1');                         
+		   }
+       });
+	   $("#b22").tap(function() {                                                   
+          var importe=$('#importeapli').val();	                                                    
+		  if (importe.length<=longitud){ 
+          $('#importeapli').val(importe+'2');                         
+		  }
+       });
+	   $("#b33").tap(function() {                                                   
+          var importe=$('#importeapli').val();	                                                    
+		  if (importe.length<=longitud){ 
+          $('#importeapli').val(importe+'3');                         
+		  }
+       });
+	    $("#b44").tap(function() {  
+	    var importe=$('#importeapli').val();	                                                    
+          $('#importeapli').val(importe+'4');                         
+       });
+	   $("#b55").tap(function() {                                                   
+          var importe=$('#importeapli').val();	                                                    
+          $('#importeapli').val(importe+'5');                         
+       });
+	   $("#b66").tap(function() {                                                   
+          var importe=$('#importeapli').val();	                                                    
+          $('#importeapli').val(importe+'6');                         
+       });
+	     $("#b77").tap(function() {  
+	    var importe=$('#importeapli').val();	                                                    
+          $('#importeapli').val(importe+'7');                         
+       });
+	   $("#b88").tap(function() {                                                   
+          var importe=$('#importecobro').val();	                                                    
+          $('#iimporteapli').val(importe+'8');                         
+       });
+	   $("#b99").tap(function() {                                                   
+          var importe=$('#importeapli').val();	                                                    
+          $('#importeapli').val(importe+'9');                         
+       });
+	     $("#b00").tap(function() {  
+	    var importe=$('#importeapli').val();	                                                    
+          $('#importeapli').val(importe+'0');                         
+       });
+	   $("#bpunto2").tap(function() {                                                   
+          var importe=$('#importeapli').val();	                                                    
+          $('#importeapli').val(importe+'.');                         
+       });
+	    $("#blimpiarapli").tap(function() {                                                                                                                
+          $('#importeapli').val('');                         
        });
 
 

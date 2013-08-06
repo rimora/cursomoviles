@@ -39,6 +39,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 tx.executeSql('DROP TABLE IF EXISTS DETCOBROS');	
 		 tx.executeSql('DROP TABLE IF EXISTS ENCDEP');		 
 		 tx.executeSql('DROP TABLE IF EXISTS DETDEP');		 
+		 tx.executeSql('DROP TABLE IF EXISTS NOTASCOB');		 
 	 
 
 		 
@@ -67,6 +68,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS DETCOBROS (id INTEGER PRIMARY KEY AUTOINCREMENT, cliente,tipo,tipoaso,ruta,recibo,docafectado,doc_pro,fec_pro,estado,monto,saldo_doc)'); 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS ENCDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo,cuenta,deposito,doc_pro,fec_dep,mon_dep,obs)'); 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS DETDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, monche,monefe,deposito,recibo,obs)'); 
+		  tx.executeSql('CREATE TABLE IF NOT EXISTS NOTASCOB (id INTEGER PRIMARY KEY AUTOINCREMENT, factura,nota)'); 
 		 }		 
 		 
 		 
@@ -107,13 +109,34 @@ function insertar(){
         tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia DOS", "1030","Martes","Dirección del cliente  DOS","2281545130","C","30",10000.00,5000.00)'); 
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia TRES", "1040","Miercoles","Dirección del cliente","2281545130","C","30",3000.00,10000.00)');        
         tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia CUATRO", "1050","Jueves","Dirección del cliente  CUATRO","2281545130","C","30",5000.00,8000.00)'); 		
-		 tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ("1","00041534","1020",437.55,437.55,"08/05/2013","08/06/2013","S",54)');  		       
-		 tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041535","1020",888.55,1000.55,"15/05/2013","15/06/2013","S",31)');  
-		 tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041537","1020",998.55,1000.55,"15/05/2013","15/06/2013","S",31)');        
-		 tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041536","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
-		  tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041540","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
-		   tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041538","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
-		    tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041539","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
+		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ("1","00041534","1020",437.55,437.55,"08/05/2013","08/06/2013","S",54)');  		       
+		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041535","1020",888.55,1000.55,"15/05/2013","15/06/2013","S",31)');  
+		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041537","1020",998.55,1000.55,"15/05/2013","15/06/2013","S",31)');        
+		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041536","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
+		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041540","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
+		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041538","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
+		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041539","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza1")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza2")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza3")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza4")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza5")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza6")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza7")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza8")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza9")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza10")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza1")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza2")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza3")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza4")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza5")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza6")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza7")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza8")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza9")');        
+		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041535","notas de cobranza10")'); 
+		
  		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento) VALUES ("ADE-04","ADEROGYL 15 SOL. C/5 AMP","OFERTA","ANTIDEA",16,100,30)'); 		  //cod_cl=clasificacion_2 de articulo (CLIE,CATA,OFER), cod_fam=clasificacion_1 de articulo (RESU)
 		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento) VALUES ("AGU-10","AGUA OXIGENADA CON 100 ML.","CATA","ANTIGRIPAL",0,50,30)'); 
 		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento) VALUES ("AMO-19","AMOXIL SUSP. 500 MG. C/75 ML.","OFERTA","ANTIDEA",16,40,30)'); 
@@ -450,7 +473,7 @@ function actexis(articulo,cantidad){
 		}	
 }//function  actexis
 function insertatempcob(factura,abono,saldo){
-	  navigator.notification.alert('entra insertatempcob '+factura+' '+abono+' '+saldo,null,'','Aceptar');	
+	 // navigator.notification.alert('entra insertatempcob '+factura+' '+abono+' '+saldo,null,'','Aceptar');	
 	    consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar renglon temcobros: "+err.code+err.message);
           });
@@ -461,7 +484,7 @@ function insertatempcob(factura,abono,saldo){
 	
 }//function insertatempcob(factura)
 function actualizatempcob(factura,cantidad){
-	   alert('actualiza tempcob'+factura+' '+cantidad);
+	   //alert('actualiza tempcob'+factura+' '+cantidad);
 	    consultadb().transaction(insertadet,function(err){
     	  alert("Error al modificar renglon TEMCOBROS: "+err.code+err.message);
           });

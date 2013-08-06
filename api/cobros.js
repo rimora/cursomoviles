@@ -1,6 +1,6 @@
 // cobros
 function listafacturaspend(cliente){
-	alert('entra a listafacturaspend '+cliente);
+	//alert('entra a listafacturaspend '+cliente);
 	 // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);
@@ -63,7 +63,7 @@ function listafacturaspend(cliente){
 		      html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b">'+row['diasv']+'</div></div>';
         	  html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div>';
 		      html+='<div class="ui-block-e"  >';
-              html+='<div class="ui-grid-b"  style="margin-top:0px;width:190px">';
+              html+='<div class="ui-grid-b"  style="margin-top:0px;width:280px">';
               html+='<div class="ui-block-a" style="width:90px">';
               html+='<div class="ui-bar ui-bar-b">'+saldo.toFixed(2)+'</div></div>';
               html+='<div class="ui-block-b" style="width:100px">';
@@ -135,7 +135,8 @@ function mostrardcob(factura){
 	var html="";
 	
 	$("#divencnum").empty();
-	html='<label style="font-weight: bold">Indicar Abono a Factura:'+factura+'</label><br>';
+	html='<label style="font-weight: bold;font-size:18px">Indicar Abono a Factura:</label><br>';
+	html+='</center><label style="font-weight: bold; font-size:40px">'+factura+'</label></center>';
     //html+=' <a href="#" id ="bcopiarsaldofac" data-role="button" data-theme="b">Copiar Saldo a Pagar</a>';
 	$("#divencnum").append(html);	
 	$("#divencnum").show();
@@ -209,13 +210,14 @@ function aplicacionpago(saldofac,abono){
 	var html2="";
 	$("#gridaplicobros").empty();	
 	$("#gridaplicobros2").empty();	
-	html+='         <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Saldo Total:</div></div>';
-    html+='	        <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e" style="font-size:16px; color:#F00">'+saldofac.toFixed(2)+'</div></div>';
-	html+='    		<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Total a Pagar:</div></div>';
-	html+='         <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e">'+abono.toFixed(2)+'</div></div>';
+		
+	html+='         <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">Saldo Total:</div></div>';
+    html+='	        <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">'+saldofac.toFixed(2)+'</div></div>';
+	html+='    		<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">Total a Pagar:</div></div>';
+	html+='         <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">'+abono.toFixed(2)+'</div></div>';
     html+='    	    <br><br';           
-    html2+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Saldo Pendiente:</div></div>';
-    html2+='        <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e" style="font-size:16px; color:#F00">'+pendiente.toFixed(2)+'</div></div>';
+    html2+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">Saldo Pendiente:</div></div>';
+    html2+='        <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';
 	
 	$("#gridaplicobros").append(html); 	
 	$("#gridaplicobros2").append(html2); 
@@ -225,11 +227,17 @@ function aplicacionpago(saldofac,abono){
 }//function aplicacionpago()
 function actgridsaldo(){	
 	var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
+	var montoche=window.localStorage.getItem("cheque");
+	var montoefe=window.localStorage.getItem("efectivo");
 	//alert('pendiente '+pendiente);
 	var html="";
 	$("#gridaplicobros2").empty();
-    html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b">Saldo Pendiente:</div></div>';
-    html+='     <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-e" style="font-size:16px; color:#F00">'+pendiente.toFixed(2)+'</div></div>';
+    html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Saldo Pendiente:</div></div>';
+    html+='     <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-e" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';
+	html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Efectivo:</div></div>';
+    html+='     <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-e" style="font-size:18px;font-weight:bold">'+montoefe.toFixed(2)+'</div></div>';
+	html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Cheque:</div></div>';
+    html+='     <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-e" style="font-size:18px;font-weight:bold">'+montoche.toFixed(2)+'</div></div>';
 	$("#gridaplicobros2").append(html); 	
 				
 }//function actgridsaldo()
@@ -256,8 +264,8 @@ function poblarcuenta(){
         		    html+='    </option>';
 			  });//.each
 				$("#menucuentab").append(html); 
-				//$("select#menucuentab").val("Banco").selectmenu("refresh");
-				$("select#menucuentab").val("Banco");
+				$("select#menucuentab").val("Banco").selectmenu("refresh");
+				
  	}
 
  // });	//$('#pclientes').live('pageshow',function(event, ui){
@@ -303,15 +311,12 @@ function poblarcheques(){
                   	 
 			  });//.each
 			} 
-			  		guardacheque(montot);
-					var pendiente=saldopendiente();
+			  		guardacheque(montot);					
 					//alert('pendiente '+pendiente);					
 					//alert('montot '+montot);					
 					$("#gridcheques").append(html); 
-					//$("#tpedido").attr("value",total); 			
-					$("#totalcheques").val(montot.toFixed(2)); 			
-					$("#cheque").val(montot.toFixed(2)); 			
-					$("#spendiente").val(pendiente.toFixed(2)); 
+					//$("#tpedido").attr("value",total); 													
+					
 					
 					//alert('total'+total);					 
 			
@@ -413,12 +418,12 @@ function pagarximp(cliente,cantidad){
  			 	if (cantidad>=saldo){//
 				   actualizatempcob(factura,saldo); //funcion de afectarbd.js
 				   cantidad=cantidad-saldo;
-				   alert('cantidad de pagarximp '+cantidad);
+				   //alert('cantidad de pagarximp '+cantidad);
 				 			 
 				 }
 				 else
 				 {
-				   alert('cantidad menor a saldo '+cantidad);	 
+				   //alert('cantidad menor a saldo '+cantidad);	 
                    actualizatempcob(factura,cantidad); //funcion de afectarbd.js
 				   cantidad=0;
 					 
@@ -448,7 +453,39 @@ function pagarximp(cliente,cantidad){
 					
 				});	
 }//function pagarximp
+function mostrarnotascob(factura){	
+	var html="";
+	
+	$("#divencnum").empty();
+	html='<label style="font-weight: bold">Notas para factura:'+factura+'</label><br>';
+	html+='<textarea cols="20" rows="30">';
 
+	function listo(tx,results){ 	      
+	        $.each(results.rows,function(index){			
+			 	var row = results.rows.item(0); 
+				
+				html+=row['nota']+'\n';
+		    });//.each
+			html+='</textarea>';   
+			$("#divencnum").append(html);	
+			$("#divencnum").show();	  		  
+ 	}//function listo(tx,results){ 
+	function consultatemp(tx){   	       
+				//alert('articulo de MODIFICAR temPEDIDO '+articulo);
+				 var sql='SELECT a.nota ';
+	   			 sql+='FROM NOTASCOB a ';	
+				 sql+='where a.factura="'+factura+'"';	
+		
+								
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error consultar notas NOTASCOB : "+factura+err.code+err.message);
+         		});    									
+	}
+	consultadb().transaction(consultatemp, function(err){
+    	 			 alert("Error select tabla NOTAS NOTASCOB: "+err.code+err.message);
+         		});		
+				
+}//function mostrarnotascob(factura)
 
 
 
