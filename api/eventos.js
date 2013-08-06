@@ -766,7 +766,8 @@ $("#bimprimirf").tap(function() {
      });
 	 $("#bcheque").tap(function() {//boton para cobrar con cheque
 				poblarcuenta();	         				
-				$('#divcheques').show();				
+				$('#divcheques').show();
+				('#divnumaplicob').show();				
 				//window.location.href='#pcheque';								
 				//$("#numcuenta").val("");  				 
 				poblarcheques();				
@@ -1103,6 +1104,7 @@ $("#bimprimirf").tap(function() {
 	   $("#bacepapli").tap(function() {                                                   
 	       var tipocob=window.localStorage.getItem("tipocob");
            var monto = parseInt($("#importeapli").val()); 
+		   alert(tipocob);
 		   if (isNaN(monto)) { 
         //entonces (no es numero) 
         	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
@@ -1116,14 +1118,15 @@ $("#bimprimirf").tap(function() {
 		 var pendiente1=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
 		 var pendiente=pendiente1+Number(window.localStorage.getItem("efectivo"));//aumentamos el efectivo que tenga guardado, es decir, 
 		 //si es modificación del importe, se anula para tomar este nuevo importe y actualizar el abono pendiente de distribuir en efectivo y cheque.
-		 //alert(montoefe);
-		 //alert(pendiente);	    
+		 alert(monto);
+		 alert(pendiente);	    
 			if (monto>pendiente || monto<0){
 				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');				
-				$("#importeapli").val(0);
+				$("#importeapli").val('0');
 				return false;
 			}
 			else{
+		    alert(monto);		
         	guardaefectivo(monto); 			
 			actgridsaldo();
 			$('#divnumaplicob').hide(); 		    
@@ -1171,19 +1174,19 @@ $("#bimprimirf").tap(function() {
        }); 
 	   $("#b11").tap(function() { 	     
 	    var importe=$('#importeapli').val();	                                                    
-		   if (importe.length<=longitud){ 
+		   if (importe.length<longitud){ 
           $('#importeapli').val(importe+'1');                         
 		   }
        });
 	   $("#b22").tap(function() {                                                   
           var importe=$('#importeapli').val();	                                                    
-		  if (importe.length<=longitud){ 
+		  if (importe.length<longitud){ 
           $('#importeapli').val(importe+'2');                         
 		  }
        });
 	   $("#b33").tap(function() {                                                   
           var importe=$('#importeapli').val();	                                                    
-		  if (importe.length<=longitud){ 
+		  if (importe.length<longitud){ 
           $('#importeapli').val(importe+'3');                         
 		  }
        });

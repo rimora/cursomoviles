@@ -212,12 +212,15 @@ function aplicacionpago(saldofac,abono){
 	$("#gridaplicobros2").empty();	
 		
 	html+='         <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">Saldo Total:</div></div>';
-    html+='	        <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">'+saldofac.toFixed(2)+'</div></div>';
-	html+='    		<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">Total a Pagar:</div></div>';
+		html+='    		<div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">Total a Pagar:</div></div>';
+    html+='	        <div class=ui-block-a style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">'+saldofac.toFixed(2)+'</div></div>';
 	html+='         <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">'+abono.toFixed(2)+'</div></div>';
-    html+='    	    <br><br';           
     html2+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">Saldo Pendiente:</div></div>';
-    html2+='        <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';
+	html2+='	    <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Efectivo:</div></div>';
+	html2+='	    <div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Cheque:</div></div>';
+    html2+='        <div class=ui-block-a style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';
+	html2+='        <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">0.00</div></div>';
+	html2+='        <div class=ui-block-c style="width:100px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">0.00</div></div>';
 	
 	$("#gridaplicobros").append(html); 	
 	$("#gridaplicobros2").append(html2); 
@@ -233,11 +236,13 @@ function actgridsaldo(){
 	var html="";
 	$("#gridaplicobros2").empty();
     html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Saldo Pendiente:</div></div>';
-    html+='     <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-e" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';
-	html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Efectivo:</div></div>';
+	html+='	    <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Efectivo:</div></div>';
+	html+='	    <div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Cheque:</div></div>';
+    html+='     <div class=ui-block-a style="width:100px"><div class="ui-bar ui-bar-e" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';
+	
     html+='     <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-e" style="font-size:18px;font-weight:bold">'+montoefe.toFixed(2)+'</div></div>';
-	html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:22px;font-weight:bold">Cheque:</div></div>';
-    html+='     <div class=ui-block-b style="width:100px"><div class="ui-bar ui-bar-e" style="font-size:18px;font-weight:bold">'+montoche.toFixed(2)+'</div></div>';
+	
+    html+='     <div class=ui-block-c style="width:100px"><div class="ui-bar ui-bar-e" style="font-size:18px;font-weight:bold">'+montoche.toFixed(2)+'</div></div>';
 	$("#gridaplicobros2").append(html); 	
 				
 }//function actgridsaldo()
