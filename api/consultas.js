@@ -251,8 +251,8 @@ function sugerido(){
 					   }
 					   
 				 }// for (var i = 0, long = artsug.length; i < long; i++) {   					 
-				 mostrarpedido();
-                 mostrarfactura(); 
+				 //mostrarpedido();
+                 //mostrarfactura(); 
 				});		
 				
 }//function sugerido

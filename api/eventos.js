@@ -214,7 +214,9 @@ $(document).ready(function() {
 //**********VENTAS************	
 $("#bpreventa").tap(function(){
  				  window.localStorage.setItem("tipov","P");//TIPO DE VENTA= PREVENTA (P) o FACTURA (F)
-				  $('#divventas').show();				  
+				  $('#divventas').show();
+				  $('#divnumventas').hide();				  
+				  $('#divtotalesv').show();
 				  mostrarpedido();
 				  
 });
@@ -507,19 +509,21 @@ $("#bimprimirf").tap(function() {
                  //var clavecli = $(this).attr("id");
 				 //muestra el pedido o factura armados				 
 				  mostrarpedido();
-				  mostrarfactura();
+				  //mostrarfactura();
 				  
      });	
 	 $("#bventa").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				 //limpia los grid
-				 $("#divventas").hide();
-                  $("#gridpedido").empty();
-				  $("#gridfactura").empty();
+				 $("#divnumventas").hide();
+				 $("#divventas").hide(); 
+				 $('#divtotalesv').hide();                 
 				  //limpiartemp();
 				  validasug();//valida si tiene facturas o pedidos pendientes de imprimir para insertar o no pedido sugerido en caso de tenerlo
-				  mostrarpedido();
-				  mostrarfactura();
+				  gridvaloresven(); //poblar grid con valores totales de preventa + a bordo
+				  
+				 // mostrarpedido();
+				 // mostrarfactura();
 				  
      });	
 	 $("#bcatalogo").tap(function(){

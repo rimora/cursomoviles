@@ -14,7 +14,7 @@ function mostrarpedido(){
 		function exito(tx,results){ 
 			
 		      $("#gridpedido").empty();	
-			  $("#tpedido").attr("value",0.0); 					  
+			  $("#tpedido").attr("value",0.00); 					  
 			  var html = "";
 			  var tipo="";
 			  var saldot=0;
@@ -27,22 +27,25 @@ function mostrarpedido(){
 			  var preciop=0;
 			  //agrega encabezado de grid
 			  html+=' <div class="ui-block-a" style="width:70px;height:20px" > ';            
-              html+=' <div class="ui-bar ui-bar-a">Elim.</div></div> ';           
+              html+=' <div class="ui-bar ui-bar-a"><a href="#" id="beliminarp">Elim.</a></div></div> ';           
               html+=' <div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
               html+=' <div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-a">Descrip.</div></div>';
               html+=' <div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-a">Cantidad</div></div>';			  
-		      html+='<div class="ui-block-e">';
-              html+='<div class="ui-grid-d"  style="margin-top:0px;width:420px">';
+		      html+='<div class="ui-block-e">';			  
+              html+='<div class="ui-grid-b"  style="margin-top:0px;width:260px">';
+			  /*
 			  html+='<div class="ui-block-a" style="width:70px">';
-              html+='<div class="ui-bar ui-bar-a">IVA</div></div>';
-			  html+='<div class="ui-block-b" style="width:80px">';
-              html+='<div class="ui-bar ui-bar-a">Descto</div></div>';
-              html+='<div class="ui-block-c" style="width:90px">';
+              html+='<div class="ui-bar ui-bar-a">IVA</div></div>';*/
+			  html+='<div class="ui-block-a" style="width:80px">';
+              html+='<div class="ui-bar ui-bar-b">Descto</div></div>';
+              /*
+			  html+='<div class="ui-block-c" style="width:90px">';			  
               html+='<div class="ui-bar ui-bar-a">Precio P</div></div>';
-              html+='<div class="ui-block-d" style="width:90px">';
-              html+='<div class="ui-bar ui-bar-a">Precio U.</div></div>';
-			  html+='<div class="ui-block-e" style="width:90px">';
-              html+='<div class="ui-bar ui-bar-a">Parcial</div></div>';
+			  */
+              html+='<div class="ui-block-b" style="width:90px">';
+              html+='<div class="ui-bar ui-bar-b">Precio U.</div></div>';
+			  html+='<div class="ui-block-c" style="width:90px">';
+              html+='<div class="ui-bar ui-bar-b">Parcial</div></div>';
               html+='</div>';                    
               html+='</div>';	
 			  
@@ -69,16 +72,17 @@ function mostrarpedido(){
 	                
 
                   	 html+='<div class="ui-block-e">';
-              html+='<div class="ui-grid-d"  style="margin-top:0px;width:420px">';
+              html+='<div class="ui-grid-b"  style="margin-top:0px;width:260px">';
+                  /*
 			  html+='<div class="ui-block-a" style="width:70px">';
-              html+='<div class="ui-bar ui-bar-a">'+iva.toFixed(2)+'</div></div>';
-			  html+='<div class="ui-block-b" style="width:80px">';
+              html+='<div class="ui-bar ui-bar-a">'+iva.toFixed(2)+'</div></div>';*/
+			  html+='<div class="ui-block-a" style="width:80px">';
               html+='<div class="ui-bar ui-bar-a">'+descuento.toFixed(2)+'</div></div>';
-              html+='<div class="ui-block-c" style="width:90px">';
-              html+='<div class="ui-bar ui-bar-a">'+preciop.toFixed(2)+'</div></div>';
-              html+='<div class="ui-block-d" style="width:90px">';
+              /*html+='<div class="ui-block-c" style="width:90px">';
+              html+='<div class="ui-bar ui-bar-a">'+preciop.toFixed(2)+'</div></div>';*/
+              html+='<div class="ui-block-b" style="width:90px">';
               html+='<div class="ui-bar ui-bar-a">'+precio.toFixed(2)+'</div></div>';
-			  html+='<div class="ui-block-e" style="width:90px">';
+			  html+='<div class="ui-block-c" style="width:90px">';
               html+='<div class="ui-bar ui-bar-a">'+parcial.toFixed(2)+'</div></div>';
               html+='</div>';                    
               html+='</div>';	
