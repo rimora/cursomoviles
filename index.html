@@ -379,18 +379,53 @@
 </div>
 <!-- P A G I N A  CATALOGO-->
 <div data-role="page" id="pcatalogo">
-	<div data-role="header" data-theme="b">
-		<h3>Catálogo</h3>
+	<div data-role="header" data-theme="b" data-position="fixed">
+		<h5>Catálogo</h5>
 	</div>
 	<div data-role="content">
-    	<ul id="lcatalogo" data-role="listview" data-inset="true"    class="catalogo" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?" data-theme="e">			        
+    <div id="divcatalogo" style="width: 600px">
+    	<ul id="lcatalogo" data-role="listview" data-inset="true"    class="catalogo" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?" data-theme="b">			        
+                 <li><a href="">Descripción del artículo
+			 Clasificación:Catalogo AcciónT:Antidearreico <br/> Lab:SANOFI,SAL:Loperamida,Precio:100.00 A bordo:40 ALG:10 </a></li>			
         <!--
              -->
         </ul>    
     </div>    
+    </div>
+     	<div class="ui-grid-d" id="gridtotales" style="position:absolute;left: 620px; top: 50px; text-align:right">
+              <div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-a">Lim.Cred.</div></div>
+              <div class="ui-block-b" style="width:80px"><div class="ui-bar ui-bar-a">Disp.</div></div>
+		      <div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a">Subtotal</div></div>
+        	  <div class="ui-block-d" style="width:70px"><div class="ui-bar ui-bar-a">IVA</div></div>
+              <div class="ui-block-e" style="width:80px"><div class="ui-bar ui-bar-a">Total</div></div>
+
+        </div><!--class="ui-grid-d"-->
+         <div id="divnumcat" style="position: absolute; left: 620px; top: 200px; width: 224px; height: auto">
+	          <label id="etiart" style="position: absolute; left: 7px; top: -50px; font-weight: bold">Articulo:</label>
+     	      <label for="cantcat"  style="position: absolute; left: 7px; top: -23px; font-weight: bold">Cant.:</label>
+		      <input type="text" id="cantcat"  readonly style="width: 76px; float: left; position: absolute; right:60px; top:-31px" maxlength="7" >
+		      <a href="#" id ="blimpiarcant" data-role="button" data-theme="b"  class="ui-icon-sardel-limpiar" style="position: absolute; float: left; left: 165px; top: -40px "></a>
+              <div class="ui-grid-b">
+                <div class="ui-block-a"><a href="#" id ="b111" data-role="button" data-theme="b" class="tecladonuma" >1</a></div>
+                <div class="ui-block-b"><a href="#" id ="b222"  data-role="button" data-theme="b" class="tecladonumb">2</a></div>
+                <div class="ui-block-c"><a href="#" id ="b333"  data-role="button" data-theme="b" class="tecladonumc">3</a></div>
+                <div class="ui-block-a"><a href="#" id ="b444" data-role="button" data-theme="b" class="tecladonuma">4</a></div>
+                <div class="ui-block-b"><a href="#" id ="b555" data-role="button" data-theme="b" class="tecladonumb">5</a></div>
+                <div class="ui-block-c"><a href="#" id ="b666" data-role="button" data-theme="b" class="tecladonumc">6</a></div>
+                <div class="ui-block-a"><a href="#" id ="b777" data-role="button" data-theme="b" class="tecladonuma">7</a></div>
+                <div class="ui-block-b"><a href="#" id ="b888" data-role="button" data-theme="b" class="tecladonumb">8</a></div>
+                <div class="ui-block-c"><a href="#" id ="b999" data-role="button" data-theme="b" class="tecladonumc">9</a></div>
+                <div class="ui-block-a"><a href="#" id ="bborrar3" data-role="button" data-theme="b" class="tecladonuma"><</a></div>
+                <div class="ui-block-b"><a href="#" id ="b000" data-role="button" data-theme="b" class="tecladonumb">0</a></div>
+                <div class="ui-block-c"><a href="#" id ="bpunto3" data-role="button" data-theme="b" class="tecladonumc">.</a></div>
+              </div>
+      			<a href="#" id="bacepcat" data-role="button" data-theme="b" class="ui-icon-sardel-aceptar" style="float:left" ></a>   
+      			<a href="#" id="bcancat" data-role="button" data-theme="b" class="ui-icon-sardel-cancelar" style="float:left; left:40px"> </a>   
+     		 </div><!-- divnumcat-->
     <div data-role="footer" data-position="fixed">
         <a href="#pventas" id ="bgenerav"  data-role="button" data-theme="b">Aceptar</a> 
     </div>
+    
     
 </div>
 
@@ -398,9 +433,17 @@
 <div data-role="page" id="pventas">
 	<div data-role="header" data-theme="b">
 		<h5>Preventa y Venta a Bordo</h5>
+        <div data-role="navbar">  
+        <ul>
+        <li><a href="#" id ="bcatalogo"  data-role="button" data-theme="e">Catálogo</a></li> 		
+        <li><a href="#" id ="bpreventa" data-role="button" data-theme="e" 	>Preventa</a></li>
+        <li><a href="#" id ="babordo" data-role="button" data-theme="e" 	>A Bordo</a></li>
+        </ul>
+      	</div>  
 	</div>
 	<div data-role="content">
-        <div class="ui-grid-d" id="gridtotales" >
+    <label style="font-weight:bold; font-size:18px">Datos Totales:</label>
+        <div class="ui-grid-d" id="gridtotalesv" >
               <div class="ui-block-a" style="width:110px" ><div class="ui-bar ui-bar-a">Lim. Cred.</div></div>
               <div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-a">Disponible</div></div>
 		      <div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-a">Subtotal</div></div>
@@ -408,60 +451,56 @@
               <div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-a">Total</div></div>
 		               
         </div><!--class="ui-grid-d"-->
-    	<div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupapedido" style="position: absolute; top:140px; width: 380px; height: auto">
-            
-                <h3>
-                    <b style="font-size:18px; font-weight:bold">Preventa</b>
-                </h3>
+        <br /><br />
+        <center><label id="etiventa" style="font-weight:bold; font-size:18px">Detalle de Preventa</label> </center>
+        <div id="divventas" style="position: absolute; top: 200px">
+        		 
                  <div class="ui-grid-d" id="gridpedido" >
           		             
           		 </div><!--class="ui-grid-d"-->
-          <div data-role="fieldcontain">
-          <label for="tpedido">Total</label> 
-          <input type="number" id="tpedido" style="width:8%" step="0.01"> 
-          </div>
-          <div data-role="fieldcontain">
-                    <label for="pcomentario">Comentarios:</label>
-					<textarea name="pcomentario" id="pcomentario">	</textarea>
-          </div><!--<div data-role="fieldcontain">-->
-                
-                
-          <a href="" id ="beliminarp"  data-role="button" data-theme="b"  data-inline="true">Eliminar</a>   
-          <!--
-          <a href="" id ="bmodificarp"  data-role="button" data-theme="b"  data-inline="true">Modificar</a>   
-          -->
-          <a href="" id ="bimprimirp"  data-role="button" data-theme="b"  data-inline="true">Imprimir</a>   
-          
-        </div> <!--data-role="collapsible" -->   
-        <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupafactura" style="position: absolute; left: 410px; top:140px; width: 390px; height: auto">
+                 
+        </div><!--divventas-->
+        <div id="divtotalesv" style="position:absolute; left:700px; top: 140px">
+        		 <div data-role="fieldcontain" >
+			          <label for="tpedido" style="font-weight:bold">Total:</label> 
+         		      <input type="number" id="tpedido" style="width:40%; top: -10px; left: 50px; position:absolute" readonly> 
+                      <a href="" id ="bimprimirp"  data-role="button" data-theme="b"  data-inline="true" style="left: 90px;top:-20px">Imprimir</a> <br />
+                    <label for="pcomentario" style="font-weight:bold">Comentarios:</label>
+					<textarea name="pcomentario" id="pcomentario"  style="top: 40px; left: 110px; position:absolute; width:150px" >	</textarea>
+          		  </div>
+        
+        
+        </div>
+        <div id="divnumventas" style="position: absolute; left: 700px; top: 300px; width: 224px; height: auto">
+	          <label id="etiartv" style="position: absolute; left: 7px; top: -50px; font-weight: bold">Articulo:</label>
+     	      <label for="cantv"  style="position: absolute; left: 7px; top: -23px; font-weight: bold">Cant.:</label>
+		      <input type="text" id="cantv"  readonly style="width: 76px; float: left; position: absolute; right:60px; top:-31px" maxlength="7" >
+		      <a href="#" id ="blimpiarcantv" data-role="button" data-theme="b"  class="ui-icon-sardel-limpiar" style="position: absolute; float: left; left: 165px; top: -40px "></a>
+              <div class="ui-grid-b">
+                <div class="ui-block-a"><a href="#" id ="b1111" data-role="button" data-theme="b" class="tecladonuma" >1</a></div>
+                <div class="ui-block-b"><a href="#" id ="b2222"  data-role="button" data-theme="b" class="tecladonumb">2</a></div>
+                <div class="ui-block-c"><a href="#" id ="b3333"  data-role="button" data-theme="b" class="tecladonumc">3</a></div>
+                <div class="ui-block-a"><a href="#" id ="b4444" data-role="button" data-theme="b" class="tecladonuma">4</a></div>
+                <div class="ui-block-b"><a href="#" id ="b5555" data-role="button" data-theme="b" class="tecladonumb">5</a></div>
+                <div class="ui-block-c"><a href="#" id ="b6666" data-role="button" data-theme="b" class="tecladonumc">6</a></div>
+                <div class="ui-block-a"><a href="#" id ="b7777" data-role="button" data-theme="b" class="tecladonuma">7</a></div>
+                <div class="ui-block-b"><a href="#" id ="b8888" data-role="button" data-theme="b" class="tecladonumb">8</a></div>
+                <div class="ui-block-c"><a href="#" id ="b9999" data-role="button" data-theme="b" class="tecladonumc">9</a></div>
+                <div class="ui-block-a"><a href="#" id ="bborrar4" data-role="button" data-theme="b" class="tecladonuma"><</a></div>
+                <div class="ui-block-b"><a href="#" id ="b0000" data-role="button" data-theme="b" class="tecladonumb">0</a></div>
+                <div class="ui-block-c"><a href="#" id ="bpunto4" data-role="button" data-theme="b" class="tecladonumc">.</a></div>
+              </div>
+      			<a href="#" id="bacepven" data-role="button" data-theme="b" class="ui-icon-sardel-aceptar" style="float:left" ></a>   
+      			<a href="#" id="bcanven" data-role="button" data-theme="b" class="ui-icon-sardel-cancelar" style="float:left; left:40px"> </a>   
+     		 </div>
+        
+        
+    	 
             
-                <h3>
-                    <b style="font-size:18px; font-weight:bold">Venta a Bordo</b>
-                </h3>
-                <div class="ui-grid-d" id="gridfactura" >
-                       
-          		</div><!--class="ui-grid-d"-->
-                <div data-role="fieldcontain">
-          			<label for="tfactura">Total</label>
-		            <input type="number" id="tfactura" style="width:8%" step="0.01"> 
-        	    </div><!--<div data-role="fieldcontain">-->
-                <div data-role="fieldcontain">
-                    <label for="fcomentario">Comentarios:</label>
-					<textarea name="fcomentario" id="fcomentario">	</textarea>
-        	    </div><!--<div data-role="fieldcontain">-->
-                
-                
-                
-                
-          <a href="" id ="beliminarf"  data-role="button" data-theme="b"  data-inline="true">Eliminar</a>   
-          <!--<a href="" id ="bmodificarf"  data-role="button" data-theme="b"  data-inline="true">Modificar</a>   -->
-          <a href="" id ="bimprimirf"  data-role="button" data-theme="b"  data-inline="true">Imprimir</a>               
-        </div>    
-    </div>        
+    </div>   
+    
     <div data-role="footer" data-position="fixed" >
         <a href="#poperaciones" id ="regresarop"  data-role="button" data-icon="back" data-theme="b">Regresa</a> 		
-        <a href="#" id ="bcatalogo"  data-role="button" data-icon="star" data-theme="b">Catálogo</a> 		
-        <a href="#pclientes" id ="birclientes"  data-role="button" data-icon="gear" data-theme="b">Clientes</a> 		
     </div>
     
 </div>
@@ -670,20 +709,25 @@
 		<h5>Aplicación de Pago</h5>      
 	</div>
 	<div data-role="content">		        
-    		<div class=ui-grid-a id="gridaplicobros" style="text-align:right; float:left">         
-		    	
+    		<div class=ui-grid-a id="gridaplicobros" style="text-align:right; float:left; position:absolute; top:40px">         
+		    	  <div class="ui-block-a" style="width:170px" ><div class="ui-bar ui-bar-a">Documento</div></div>
+              <div class="ui-block-b" style="width:170px"><div class="ui-bar ui-bar-a">Vencimiento</div></div>
+		      
     		</div> 
-            <div class=ui-grid-b id="gridaplicobros2" style="text-align:right; float:left">         
-		    
+            <div class=ui-grid-b id="gridaplicobros2" style="text-align:right; float:left; position:absolute; top:40px; left:355px">         
+		    <div class="ui-block-a" style="width:110px" ><div class="ui-bar ui-bar-a">Documento</div></div>
+              <div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-a">Vencimiento</div></div>
+              <div class="ui-block-c" style="width:120px"><div class="ui-bar ui-bar-a">Vencimiento</div></div>
+		      
     		</div> 
-            <div id="divencaplic" style="position: absolute; left: 10px; top: 100px; width: 200px; height: auto">  
-            <label style="width:18%;font-size:18px; color: #00F;font-weight:bold">Indica el tipo de cobro:</label>            
+            <div id="divencaplic" style="position: absolute; left: 10px; top: 130px; width: 200px; height: auto">  
+            <label style="width:18%;font-size:18px; color: #00F;font-weight:bold">Cobrar en:</label>            
             
-            <a href="#" id ="befectivo" data-role="button" data-theme="b" style="position: absolute; left: 5px; top: 20px; width:80px">Efectivo</a>
-            <a href="#" id ="bcheque" data-role="button" data-theme="b" style="position: absolute; left: 5px; top: 80px; width:80px">Cheque</a>
+            <a href="#" id ="bcheque" data-role="button" data-theme="b" style="position: absolute; left: 5px; top: 20px; width:80px">Cheque</a>
+            <a href="#" id ="befectivo" data-role="button" data-theme="b" style="position: absolute; left: 5px; top: 80px; width:80px">Efectivo</a>
             
             </div><!--div encabezado de aplic-->
-            <div id="divnumaplicob" style="position: absolute; left: 250px; top: 250px; width: 224px; height: auto">
+            <div id="divnumaplicob" style="position: absolute; left: 150px; top: 260px; width: 224px; height: auto">
      	      <label for="importeapli" id="etinum" style="position: absolute; left: 7px; top: -23px; font-weight: bold">Importe:</label>
 		      <input type="text" id="importeapli"  readonly style="width: 76px; float: left; position: absolute; right:60px; top:-31px" maxlength="7" >
 		      <a href="#" id ="blimpiarapli" data-role="button" data-theme="b"  class="ui-icon-sardel-limpiar" style="position: absolute; float: left; left: 165px; top: -40px "></a>
@@ -704,16 +748,16 @@
       			<a href="#" id="bacepapli" data-role="button" data-theme="b" class="ui-icon-sardel-aceptar" style="float:left" ></a>   
       			<a href="#" id="bcanapli" data-role="button" data-theme="b" class="ui-icon-sardel-cancelar" style="float:left; left:40px"> </a>   
      		 </div><!-- divnumaplicob-->
-           	 <div id="divcheques" style="position: absolute; left: 250px; top: 100px; width: 400px; height: auto">
+           	 <div id="divcheques" style="position: absolute; left: 150px; top: 110px; width: auto; height: auto">
              	 <div data-role="fieldcontain" data-theme="c" style="width:400px">           		
 		            <select name="menucuentab" id="menucuentab" data-theme="b" >		                  
 		            </select>
 	             </div>	
                  <div data-role="fieldcontain">			          			
-			    	<a href="#" id="bnumche" data-role="button" data-theme="b" style="position: absolute; left:0px; top:-30px" >Num. Cheque</a>                       
-                    <a href="#" id="bmontoche" data-role="button" data-theme="b" data-ajax="false" style="position: absolute; width:120px; left:125px; top:-30px">Importe</a>                       
+			    	<a href="#" id="bnumche" data-role="button" data-theme="b" style="position: absolute; left:0px; top:-25px" >Num. Cheque</a>                       
+                    <a href="#" id="bmontoche" data-role="button" data-theme="b" data-ajax="false" style="position: absolute; width:120px; left:125px; top:-25px">Importe</a>                       
                  </div>  
-                 <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupacheques" style="position: absolute; left: 250px; top:15px; width: 450px; height: auto">
+                 <div data-role="collapsible" data-theme="b" data-content-theme="c" id="agrupacheques" style="position: absolute; left: 260px; top:15px; width:600px; height: auto">
              		<h3>Cheques Ingresados</h3>
             	 	<div class=ui-grid-a id="gridcheques">         
 		    	   

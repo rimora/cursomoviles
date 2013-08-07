@@ -29,15 +29,16 @@ function preparadetalletemp(articulo,cantidad,existencia){
 		   }
 	   }
 }//function insertatemppedido
-function existeenpedido(articulo){
-	var existe=false;	
+function existeenpedido(articulo,des){
+	var existe=false;
 	function listo(tx,results){ 	
 	         //alert('entra a funcion listo de existeenpedido');         	          
 	     	 if (results.rows.length>0){
-				//alert('existe en pedido');  
+				//alert('existe en pedido');  				
 				existe=true;  				
 				//alert('prueba de existe '+existe);  				
 			  }
+			 
 			 
  	}
 	function existep(tx){  	
@@ -62,7 +63,12 @@ function existeenpedido(articulo){
 					else
 					{
 						guardaarticulo(articulo);//almacena localmente la clave de articulo 					 
-						window.location.href='#pcantidad';
+						$('#etiart').empty();
+						$('#etiart').append('Articulo: '+articulo+' '+des)
+						//window.location.href='#pcantidad';
+						$('#cantcat').val('1');						
+						$('#divnumcat').show();
+						
 					}
 				});		
 
@@ -80,7 +86,8 @@ function armacatalogo(){
 	function poblarcat(tx){  
 	        //alert('entra al poblarcat armacatalogo');        	   
 			var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,c.existencia as ealg,';
-			sql+='(a.precio-((a.precio/100)*a.descuento)) as precio ';
+			//sql+='(a.precio-((a.precio/100)*a.descuento)) as precio,a.laboratorio,a.sal ';
+			sql+='a.precio,a.laboratorio,a.sal ';
 			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
 			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" order by a.descripcion';
 			//alert('despues del sql armacatalogo');        
@@ -98,7 +105,9 @@ function armacatalogo(){
 			 var row = results.rows.item(index);         
 			 //alert('despues del var row armacatalogo');           
 			 var html="";	
-			 var precio=row['precio']*(1+(row['impuesto']/100));
+			 //var precio=row['precio']*(1+(row['impuesto']/100));
+			 var precio=row['precio'];
+
 			 if   (row['ebodega']==null)       
 			 {
 				var existencia=0; 				
@@ -117,10 +126,12 @@ function armacatalogo(){
 			 else 
 			 {
 				 var existenciaalg=row['ealg']; 
-			 }			 
-			 html+='<li id='+row['articulo']+'>';
-	         html+='<a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> '+row['descripcion']+'</h3>';
-			 html+='Clasificación:'+row['clas']+' AcciónT:'+row['accion']+'<br/>Precio:'+precio.toFixed(2)+'    A bordo:'+existencia+'   ALG:'+existenciaalg+'</p></a></li>';
+			 }	
+			 alert(row['descripcion']);		 
+			 html+='<li id='+row['articulo']+' title='+row['descripcion']+'>';
+	        // html+='<a href=""><img src="imagenes/sardel.jpg" width="100" height="100"/><h3> '+row['descripcion']+'</h3>';
+			 html+='<a href=""><h3>'+row['descripcion']+'</h3>';
+			 html+='Clas.:'+row['clas']+', AcciónT:'+row['accion']+'<br/> Lab:'+row['laboratorio']+',SAL:'+row['sal']+',Precio:'+precio.toFixed(2)+', A bordo:'+existencia+'   ALG:'+existenciaalg+'</a></li>';
 			 			 
 			 $('#lcatalogo').append(html);        	
 			 //alert('despues de lcatalogo.append armacatalogo');        

@@ -211,10 +211,24 @@ $(document).ready(function() {
 			
 			 }
      	});//$("#bguardavisita").tap(function() {                   				  				  	
-//****************************			
+//**********VENTAS************	
+$("#bpreventa").tap(function(){
+ 				  window.localStorage.setItem("tipov","P");//TIPO DE VENTA= PREVENTA (P) o FACTURA (F)
+				  $('#divventas').show();				  
+				  mostrarpedido();
+				  
+});
+$("#babordo").tap(function(){
+ 				  window.localStorage.setItem("tipov","F");//TIPO DE VENTA= PREVENTA (P) o FACTURA (F)				 
+				  $('#divventas').show();
+				  mostrarfactura();
+				  
+});
+	 	
 $("a.clasep").live('click',function(){//al modificar linea de pedido
                   var articulo = $(this).attr("name");
 				  //alert (articulo);
+				  $('#divnumventas').show();
 				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
     });
 $("a.clasef").live('click',function(){//al modificar linea de factura
@@ -385,25 +399,11 @@ $("#bimprimirf").tap(function() {
 	});
 	$("#lcatalogo li").live('click',function(){
                   var articulo = $(this).attr("id");
-				 // alert (articulo);
-				 existeenpedido(articulo);
-    });
-	$("#botoncantidad").tap(function(){
-                 //var cantidad=$('#scantidad').attr('Val');
-				 var cantidad=$('#scantidad').val();
-				  //alert (cantidad);
-				  if (cantidad<=0){
-					  navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
-					  
-				  }
-				  else
-				  {
-				    //obtiene el articulo pulsado en la lista
-    				var articulo = window.localStorage.getItem("articulo");
-	     			//alert (articulo);	  
-					 insertalinea(articulo,cantidad);
-				  }
-    });
+				  var des = $(this).attr("title");
+				  
+				  alert (des);
+				 existeenpedido(articulo,des);
+    });	
 	$("#botonmodcantidadp").tap(function(){
                  //var cantidad=$('#scantidad').attr('Val');
 				 var cantidad=Number($('#modcantidadp').val());
@@ -513,6 +513,7 @@ $("#bimprimirf").tap(function() {
 	 $("#bventa").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				 //limpia los grid
+				 $("#divventas").hide();
                   $("#gridpedido").empty();
 				  $("#gridfactura").empty();
 				  //limpiartemp();
@@ -526,7 +527,8 @@ $("#bimprimirf").tap(function() {
 				 //limpia los grid				  
                   armacatalogo();
 				  window.location.href='#pcatalogo';
-				  
+				  $('#divnumcat').hide();
+				  gridvalorescat();
 				  
      });
 	 $("#binicializar").click(function(){
@@ -764,10 +766,11 @@ $("#bimprimirf").tap(function() {
 				$('#etinum').append('Importe:');					
 				window.localStorage.setItem("tipocob","E");
      });
-	 $("#bcheque").tap(function() {//boton para cobrar con cheque
-				poblarcuenta();	         				
+	 $("#bcheque").tap(function() {//boton para cobrar con cheque	 			
+				  poblarcuenta();	         				
 				$('#divcheques').show();
-				('#divnumaplicob').show();				
+				$('#divnumaplicob').show();
+				$('#importeapli').val('');		
 				//window.location.href='#pcheque';								
 				//$("#numcuenta").val("");  				 
 				poblarcheques();				
@@ -842,7 +845,7 @@ $("#bimprimirf").tap(function() {
 			}
 			else{
         	guardaefectivo(montoefe); 			
-			actgridsaldo();
+			
 			}
 	     } 
 	   
@@ -899,7 +902,7 @@ $("#bimprimirf").tap(function() {
 				  
   }); 
   $("#salirdecheque").tap(function(){
-    	actgridsaldo();
+    	
   }); 
 //**********D E P O S I T O S	 *************
  $("#bdepositos").tap(function() {                   				  				  
@@ -1103,7 +1106,7 @@ $("#bimprimirf").tap(function() {
 	   //**********TECLADO NUMERICO	USADO EN APLICACION DE COBROS *************	
 	   $("#bacepapli").tap(function() {                                                   
 	       var tipocob=window.localStorage.getItem("tipocob");
-           var monto = parseInt($("#importeapli").val()); 
+           var monto = parseFloat($("#importeapli").val()); 
 		   alert(tipocob);
 		   if (isNaN(monto)) { 
         //entonces (no es numero) 
@@ -1117,18 +1120,18 @@ $("#bimprimirf").tap(function() {
 	    		 		 
 		 var pendiente1=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
 		 var pendiente=pendiente1+Number(window.localStorage.getItem("efectivo"));//aumentamos el efectivo que tenga guardado, es decir, 
-		 //si es modificación del importe, se anula para tomar este nuevo importe y actualizar el abono pendiente de distribuir en efectivo y cheque.
-		 alert(monto);
-		 alert(pendiente);	    
+		 //si es modificación del importe, se anula para tomar este nuevo importe y actualizar el abono pendiente de distribuir en efectivo y cheque.		    
 			if (monto>pendiente || monto<0){
 				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');				
-				$("#importeapli").val('0');
+				$("#importeapli").val('');
 				return false;
 			}
 			else{
-		    alert(monto);		
-        	guardaefectivo(monto); 			
-			actgridsaldo();
+		    alert(monto);	
+        	guardaefectivo(monto); 	
+			alert('despues de guardar efectivo');
+			otro();
+			alert('despues de grid');
 			$('#divnumaplicob').hide(); 		    
 			}	    
 		}//tipocob
@@ -1160,7 +1163,7 @@ $("#bimprimirf").tap(function() {
 				//$("#numcuenta").val("");  				
 				$('#divnumaplicob').hide();
 				poblarcheques();
-				actgridsaldo();
+				otro();
 			}
 			
 			
@@ -1207,8 +1210,8 @@ $("#bimprimirf").tap(function() {
           $('#importeapli').val(importe+'7');                         
        });
 	   $("#b88").tap(function() {                                                   
-          var importe=$('#importecobro').val();	                                                    
-          $('#iimporteapli').val(importe+'8');                         
+          var importe=$('#importeapli').val();	                                                    
+          $('#importeapli').val(importe+'8');                         
        });
 	   $("#b99").tap(function() {                                                   
           var importe=$('#importeapli').val();	                                                    
@@ -1225,7 +1228,85 @@ $("#bimprimirf").tap(function() {
 	    $("#blimpiarapli").tap(function() {                                                                                                                
           $('#importeapli').val('');                         
        });
-
+ //**********TECLADO NUMERICO	USADO EN CATALOGO *************	
+	   $("#bacepcat").tap(function() {                                                   	       
+           var cantidad = parseInt($("#cantcat").val()); 		  
+		   var articulo = window.localStorage.getItem("articulo");
+		   if (isNaN(cantidad)) { 
+        //entonces (no es numero) 
+        	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
+			 return false;
+	       }
+			if (cantidad<=0){
+				navigator.notification.alert('La cantidad indicada debe ser mayor a cero',null,'Cantidad inválida','Aceptar');				
+				$("#cantcat").val('');
+				return false;
+			}
+			else{			
+            insertalinea(articulo,cantidad);			    
+			//actualizar grid de importes
+			gridvalorescat();	
+			$('#divnumcat').hide(); 		    
+			}	    
+		  
+		   
+       }); 
+	   $("#bcanapli").tap(function() {                                                   
+          $('#divnumcat').hide(); 		   
+       }); 
+	   $("#b111").tap(function() { 	     
+	    var importe=$('#cantcat').val();	                                                    
+		   if (importe.length<longitud){ 
+          $('#cantcat').val(importe+'1');                         
+		   }
+       });
+	   $("#b222").tap(function() {                                                   
+          var importe=$('#cantcat').val();	                                                    
+		  if (importe.length<longitud){ 
+          $('#cantcat').val(importe+'2');                         
+		  }
+       });
+	   $("#b333").tap(function() {                                                   
+          var importe=$('#cantcat').val();	                                                    
+		  if (importe.length<longitud){ 
+          $('#cantcat').val(importe+'3');                         
+		  }
+       });
+	    $("#b444").tap(function() {  
+	    var importe=$('#cantcat').val();	                                                    
+          $('#cantcat').val(importe+'4');                         
+       });
+	   $("#b555").tap(function() {                                                   
+          var importe=$('#cantcat').val();	                                                    
+          $('#cantcat').val(importe+'5');                         
+       });
+	   $("#b666").tap(function() {                                                   
+          var importe=$('#cantcat').val();	                                                    
+          $('#cantcat').val(importe+'6');                         
+       });
+	     $("#b777").tap(function() {  
+	    var importe=$('#cantcat').val();	                                                    
+          $('#cantcat').val(importe+'7');                         
+       });
+	   $("#b888").tap(function() {                                                   
+          var importe=$('#cantcat').val();	                                                    
+          $('#cantcat').val(importe+'8');                         
+       });
+	   $("#b999").tap(function() {                                                   
+          var importe=$('#cantcat').val();	                                                    
+          $('#cantcat').val(importe+'9');                         
+       });
+	     $("#b000").tap(function() {  
+	    var importe=$('#cantcat').val();	                                                    
+          $('#cantcat').val(importe+'0');                         
+       });
+	   $("#bpunto3").tap(function() {                                                   
+          var importe=$('#cantcat').val();	                                                    
+          $('#cantcat').val(importe+'.');                         
+       });
+	    $("#blimpiarcant").tap(function() {                                                                                                                
+          $('#cantcat').val('');                         
+       });
 
 
   },false);//document.addEventListener("deviceready",function(){	
