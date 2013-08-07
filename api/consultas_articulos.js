@@ -62,6 +62,7 @@ alert('entra');
         	  html+='<div class="ui-block-d" style="width:70px"><div class="ui-bar ui-bar-b">'+iva.toFixed(2)+'</div></div>';
               html+='<div class="ui-block-e" style="width:80px"><div class="ui-bar ui-bar-b">'+total.toFixed(2)+'</div></div>';
 		$("#gridtotales").append(html); 	  
+		$("#gridtotales").trigger('refresh');
 	
 		
 		

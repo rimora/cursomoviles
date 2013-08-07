@@ -37,15 +37,15 @@ function mostrarpedido(){
 			  html+='<div class="ui-block-a" style="width:70px">';
               html+='<div class="ui-bar ui-bar-a">IVA</div></div>';*/
 			  html+='<div class="ui-block-a" style="width:80px">';
-              html+='<div class="ui-bar ui-bar-b">Descto</div></div>';
+              html+='<div class="ui-bar ui-bar-a">Descto</div></div>';
               /*
 			  html+='<div class="ui-block-c" style="width:90px">';			  
               html+='<div class="ui-bar ui-bar-a">Precio P</div></div>';
 			  */
               html+='<div class="ui-block-b" style="width:90px">';
-              html+='<div class="ui-bar ui-bar-b">Precio U.</div></div>';
+              html+='<div class="ui-bar ui-bar-a">Precio U</div></div>';
 			  html+='<div class="ui-block-c" style="width:90px">';
-              html+='<div class="ui-bar ui-bar-b">Parcial</div></div>';
+              html+='<div class="ui-bar ui-bar-a">Parcial</div></div>';
               html+='</div>';                    
               html+='</div>';	
 			  
@@ -68,7 +68,7 @@ function mostrarpedido(){
             		html+='</div>';            
                     html+='<div class="ui-block-b" style="width:110px"><div class="ui-bar ui-bar-b">'+row['articulo']+'</div></div>';
                     html+='<div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
-                    html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-b"><a href="#pmodcantidadp" class="clasep" name="'+row['articulo']+'" id="P'+row['articulo']+'*'+row['cantidad']+'" ><font color="FFFFFF">'+row['cantidad']+'</font></a></div></div>';
+                    html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-b"><a href="#" class="clasep" name="'+row['articulo']+'" id="'+row['articulo']+' '+row['descripcion']+'" ><font color="FFFFFF"></font></a></div></div>';
 	                
 
                   	 html+='<div class="ui-block-e">';
@@ -77,13 +77,13 @@ function mostrarpedido(){
 			  html+='<div class="ui-block-a" style="width:70px">';
               html+='<div class="ui-bar ui-bar-a">'+iva.toFixed(2)+'</div></div>';*/
 			  html+='<div class="ui-block-a" style="width:80px">';
-              html+='<div class="ui-bar ui-bar-a">'+descuento.toFixed(2)+'</div></div>';
+              html+='<div class="ui-bar ui-bar-b">'+descuento.toFixed(2)+'</div></div>';
               /*html+='<div class="ui-block-c" style="width:90px">';
               html+='<div class="ui-bar ui-bar-a">'+preciop.toFixed(2)+'</div></div>';*/
               html+='<div class="ui-block-b" style="width:90px">';
-              html+='<div class="ui-bar ui-bar-a">'+precio.toFixed(2)+'</div></div>';
+              html+='<div class="ui-bar ui-bar-b">'+precio.toFixed(2)+'</div></div>';
 			  html+='<div class="ui-block-c" style="width:90px">';
-              html+='<div class="ui-bar ui-bar-a">'+parcial.toFixed(2)+'</div></div>';
+              html+='<div class="ui-bar ui-bar-b">'+parcial.toFixed(2)+'</div></div>';
               html+='</div>';                    
               html+='</div>';	
 			  });//.each
@@ -188,7 +188,8 @@ alert('entra');
 		      html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b">'+subtotal.toFixed(2)+'</div></div>';
         	  html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+iva.toFixed(2)+'</div></div>';
               html+='<div class="ui-block-e" style="width:90px"><div class="ui-bar ui-bar-b">'+total.toFixed(2)+'</div></div>';
-		$("#gridtotalesv").append(html); 	  
+		$("#gridtotalesv").append(html); 
+		$("#gridtotalesv").trigger('refresh');
 	
 		
 		

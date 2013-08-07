@@ -223,12 +223,18 @@ $("#bpreventa").tap(function(){
 $("#babordo").tap(function(){
  				  window.localStorage.setItem("tipov","F");//TIPO DE VENTA= PREVENTA (P) o FACTURA (F)				 
 				  $('#divventas').show();
+				  $('#divnumventas').hide();				  
+				  $('#divtotalesv').show();
 				  mostrarfactura();
 				  
 });
 	 	
 $("a.clasep").live('click',function(){//al modificar linea de pedido
                   var articulo = $(this).attr("name");
+				  var desc=$(this).attr("id");
+				  $('#etiartv').empty();
+				  $('#etiartv').append(desc);
+				  
 				  //alert (articulo);
 				  $('#divnumventas').show();
 				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
@@ -270,15 +276,23 @@ $("a.clasef").live('click',function(){//al modificar linea de factura
 		}
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
 });*/
-$("#beliminarp").tap(function() { 
+$("#beliminarp").live('click',function(){//al eliminar linea de pedido
                  //var clavecli = $(this).attr("id");				 
+				 var tipov=window.localStorage.getItem("tipov");
 	function onConfirm(button) {
 		if (button==1){			
 			$('input:checkbox.clasep').each(function () {
            		if (this.checked) {
              	  //alert($(this).attr("name"));
 				  //alert($(this).attr("value"));
-				   eliminalinea($(this).attr("name"),$(this).attr("value"),"P")				    
+				  
+				  if (tipov=='P'){
+					eliminalinea($(this).attr("name"),$(this).attr("value"),"P")				    
+				  }
+				  else{
+					  eliminalinea($(this).attr("name"),$(this).attr("value"),"F")				    
+				  }
+				   
 			   //alert($("#"+"c"+$(this).val()).val());
           		 }
 				 else{
@@ -321,10 +335,18 @@ $("#beliminarf").tap(function() {
 });
 $("#bimprimirp").tap(function() { 
                  //var clavecli = $(this).attr("id");
+				  var tipov=window.localStorage.getItem("tipov");
 		function onConfirm(button) {
 		if (button==1){
-			imprimirped($("#pcomentario").val());
-			mostrarpedido();
+			if (tipov=='P'){
+					imprimirped($("#pcomentario").val());
+					mostrarpedido();
+				  }
+				  else{
+					  imprimirfac($("#pcomentario").val());
+				  }
+			
+			
 		}//if (button==1){
 	}			 
     navigator.notification.confirm('¿Confirma generar pedido?',     // mensaje (message)
@@ -508,7 +530,15 @@ $("#bimprimirf").tap(function() {
 	 $("#bgenerav").tap(function() { //boton aceptar del catalogo
                  //var clavecli = $(this).attr("id");
 				 //muestra el pedido o factura armados				 
-				  mostrarpedido();
+				  var tipov=window.localStorage.getItem("tipov");
+				  if (tipov=='P'){
+					mostrarpedido();  
+				  }
+				  else{
+					  mostrarfactura();  					  
+				  }
+				 $("#divnumventas").hide();
+				  
 				  //mostrarfactura();
 				  
      });	
@@ -1309,6 +1339,86 @@ $("#bimprimirf").tap(function() {
           $('#cantcat').val(importe+'.');                         
        });
 	    $("#blimpiarcant").tap(function() {                                                                                                                
+          $('#cantcat').val('');                         
+       });
+//**********TECLADO NUMERICO	USADO EN VENTAS *************	
+	   $("#bacepven").tap(function() {                                                   	       
+           var cantidad = parseInt($("#cantv").val()); 		  
+		   var articulo = window.localStorage.getItem("articulo");
+		   var tipov= window.localStorage.getItem("tipov");
+		   
+				  //alert (cantidad);
+				  if (cantidad<=0){
+					   navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
+					  return false;
+				  }
+				  else
+				  {
+				    if (tipov=='P'){					
+					 modificalineap(articulo,cantidad);
+					}
+					else{
+						modificalineaf(articulo,cantidad);
+					}
+					$('#divnumventas').hide(); 		    
+					 //alert('despues de llamada modificarlineap');
+					 //mostrarpedido();
+				  }
+       }); 
+	   $("#bcanven").tap(function() {                                                   
+          $('#divnumventas').hide(); 		   
+       }); 
+	   $("#b1111").tap(function() { 	     
+	    var importe=$('#cantv').val();	                                                    
+		   if (importe.length<longitud){ 
+          $('#cantv').val(importe+'1');                         
+		   }
+       });
+	   $("#b2222").tap(function() {                                                   
+          var importe=$('#cantv').val();	                                                    
+		  if (importe.length<longitud){ 
+          $('#cantv').val(importe+'2');                         
+		  }
+       });
+	   $("#b3333").tap(function() {                                                   
+          var importe=$('#cantv').val();	                                                    
+		  if (importe.length<longitud){ 
+          $('#cantv').val(importe+'3');                         
+		  }
+       });
+	    $("#b4444").tap(function() {  
+	    var importe=$('#cantv').val();	                                                    
+          $('#cantv').val(importe+'4');                         
+       });
+	   $("#b5555").tap(function() {                                                   
+          var importe=$('#cantv').val();	                                                    
+          $('#cantv').val(importe+'5');                         
+       });
+	   $("#b6666").tap(function() {                                                   
+          var importe=$('#cantv').val();	                                                    
+          $('#cantv').val(importe+'6');                         
+       });
+	     $("#b7777").tap(function() {  
+	    var importe=$('#cantv').val();	                                                    
+          $('#cantv').val(importe+'7');                         
+       });
+	   $("#b8888").tap(function() {                                                   
+          var importe=$('#cantv').val();	                                                    
+          $('#cantv').val(importe+'8');                         
+       });
+	   $("#b9999").tap(function() {                                                   
+          var importe=$('#cantv').val();	                                                    
+          $('#cantv').val(importe+'9');                         
+       });
+	     $("#b0000").tap(function() {  
+	    var importe=$('#cantv').val();	                                                    
+          $('#cantv').val(importe+'0');                         
+       });
+	   $("#bpunto4").tap(function() {                                                   
+          var importe=$('#cantv').val();	                                                    
+          $('#cantv').val(importe+'.');                         
+       });
+	    $("#blimpiarcantv").tap(function() {                                                                                                                
           $('#cantcat').val('');                         
        });
 
