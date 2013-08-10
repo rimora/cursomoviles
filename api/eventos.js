@@ -513,7 +513,7 @@ $("#bimprimirf").tap(function() {
                  var cliente=window.localStorage.getItem("clave");
 				 //limpia los grid
 				 $("#divnumventas").hide();
-				 $("#divventas").show();                 
+				 $("#divventas").hide();                 
 				 $('#divtotalesv').show();                 
 				  //limpiartemp();
 				  validasug(cliente);//valida si tiene facturas o pedidos pendientes de imprimir para insertar o no pedido sugerido en caso de tenerlo

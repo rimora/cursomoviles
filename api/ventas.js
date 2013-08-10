@@ -230,7 +230,7 @@ function mostrarpedido(cliente){
                         html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
                         html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+existencia+'</div></div>';
                         html+='<div class="ui-block-e" style="width:100px">';
-							html+='<div class="ui-grid-a">';
+							html+='<div class="ui-grid-a" style="margin-top:0px">';
 								html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+abordo+'</div></div>';
 	                           html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+preventa+'</div></div>';
 							html+='</div></div>';   
