@@ -167,7 +167,7 @@ function mostrarpedido(cliente){
               html+='<div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
 		      html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a">PP</div></div>';
               html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">DV</div></div>';
-              html+='<div class="ui-block-e" style="width:310px">';
+              html+='<div class="ui-block-e" style="width:410px">';
               html+='<div class="ui-grid-d">';
 						html+='<div class="ui-block-a" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">PV</div></div>';
                         html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">Cant</div></div>';
