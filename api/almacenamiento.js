@@ -43,8 +43,7 @@ function guardasaldofac(saldo){
 function guardaabono(abono){
 	window.localStorage.setItem("abono",abono);
 }
-function guardaefectivo(efectivo){
-	alert('entra en guardaefectivo');
+function guardaefectivo(efectivo){	
 	window.localStorage.setItem("efectivo",efectivo);
 }
 function guardacheque(cheque){

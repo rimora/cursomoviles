@@ -105,10 +105,10 @@ function insertar(){
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ADE-04",0,2,0,100,140)')		
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","AGU-10",1,5,0,50,175)')		
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","AMO-19",2,6,0,38,168)')		
-		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia UNO", "1020","Lunes","Dirección del cliente","2281545130","C","30",10000.00,9000.00)');      
-        tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia DOS", "1030","Martes","Dirección del cliente  DOS","2281545130","C","30",10000.00,5000.00)'); 
-		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia TRES", "1040","Miercoles","Dirección del cliente","2281545130","C","30",3000.00,10000.00)');        
-        tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia CUATRO", "1050","Jueves","Dirección del cliente  CUATRO","2281545130","C","30",5000.00,8000.00)'); 		
+		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia UNO", "1020","Lunes","Dirección del cliente","2281545130","C","30",10000.00,2324.65)');      
+        tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia DOS", "1030","Martes","Dirección del cliente  DOS","2281545130","C","30",30000.00,20000.00)'); 
+		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia TRES", "1040","Miercoles","Dirección del cliente","2281545130","C","30",3000.00,0.00)');        
+        tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia CUATRO", "1050","Jueves","Dirección del cliente  CUATRO","2281545130","C","30",5000.00,0.00)'); 		
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ("1","00041534","1020",437.55,437.55,"08/05/2013","08/06/2013","S",54)');  		       
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041535","1020",888.55,1000.55,"15/05/2013","15/06/2013","S",31)');  
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041537","1020",998.55,1000.55,"15/05/2013","15/06/2013","S",31)');        
@@ -151,7 +151,11 @@ function insertar(){
 		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1020","ACE-01",5)'); 
 		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1020","ACE-02",5)'); 
 		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1020","ACF-01",5)'); 
-		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1030","ACL-01",5)'); 
+		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1030","ACL-02",5)');
+		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1030","ACA-01",5)'); 
+		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1030","ACE-01",30)'); 
+		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1030","ACE-02",45)'); 
+		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1030","ACF-01",5)');  
 		 
 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("ACA-01","ACANOL TABS 2MG C/12","CATALOGO","ANTIDIARREICO",0,85.77,55,"SANOFI AVENTIS","LOPERAMIDA","101")'); 
 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("ACE-01","ACTE HIGADO BACALAO PERL C/30","CATALOGO","SUPLEMENTO ALIMENTICIO CON VITAMINAS",0,59.8,75,"SARDEL","ACEITE DE BACALAO","101")'); 
@@ -164,6 +168,22 @@ tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,p
 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("ADR-01","ADRIBEL SOLU 150MG C/120ML","CATALOGO","MUCOLITICO - BRONCODILATADOR",0,53.9,66,"BRULUART","AMBROXOL-SALBUTAMOL","ND")'); 
 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AER-01","AEROFLUX SOLU  150MG C/120ML","PRODUCTO DE BAJA","MUCOLITICO - BRONCODILATADOR",0,245,50,"SANFER S.A. DE C.V.","AMBROXOL-SALBUTAMOL","210")'); 
 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AFL-01","AFLUSIL SUSP 2G C/120ML","PRUEBA","ANTIINFLAMATORIO - ANALGESICO     - ANTIPIRETICO",0,66,68,"LOEFFLER","IBUPROFENO","307")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("ALB-01","ALBENDAZOL SUSP 20MG C/20ML (APOT)","CLIENTE ESPECIFICO","ANTIHELMINTICO",0,36,70,"APOTEX","ALBENDAZOL","107")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("ALC-01","ALCACHOFA CAPS C/60","CATALOGO","SUPLEMENTO ALIMENTICIO",0,185,75,"SARDEL","ALCACHOFA","101")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("ALI-01","ALIVIN PLUS ADTO INYT 300,000U/3ML C/1","CATALOGO","ANTIBACTERIANO - ANALGESICO -ANTIPIRETICO - EXPECTORANTE",0,54.03,54,"VALEANT","BENCILPENICILINA-VIT C-PIRAZOLONA-GUAYAC","201")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("ALI-02","ALIVIN PLUS INF INYT 200,000U/2ML C/1","CATALOGO","ANTIBACTERIANO - ANALGESICO -ANTIPIRETICO - EXPECTORANTE",0,46.95,54,"VALEANT","BENCILPENICILINA-VIT C-PIRAZOLONA-GUAYAC","202")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("ALO-01","ALOPURINOL TABS 300MG C/20 (APOT)","CLIENTE ESPECIFICO","ANTIGOTOSO",0,177,85,"APOTEX","ALOPURINOL","101")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AMB-01","AMBROXOL G.I. GTS. C/30 ML. (APOT)","CLIENTE ESPECIFICO","MUCOLITICO",0,98,75,"APOTEX","AMBROXOL","101")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AMB-02","AMBROXOL SOLU 15MG C/120ML (APOT)","CATALOGO","MUCOLITICO",0,90,75,"APOTEX","AMBROXOL","107")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AMB-04","AMBROXOL SOLU 300MG C/120ML (FARM)","CATALOGO","MUCOLITICO",0,39,78,"FARMACOS CONTINENTALES","AMBROXOL","ND")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AMC-02","AMCEF INYT 1GR IM 3.5 ML","OPORTUNIDAD","ANTIBACTERIANO",0,350,94,"AMSA","CEFTRIAXONA","401")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AME-01","AMEBYL SUSP 125MG C/120ML","CATALOGO","AMEBICIDA - GIARDICIDA - TRICOMONICIDA - ANTIBACTERIANO",0,114,66,"OFFENBACH","METRONIDAZOL-DIYODOHIDROXIQUINOLEINA","107")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AME-02","AMEBYL TABS 400MG C/20","CATALOGO","AMEBICIDA - GIARDICIDA - TRICOMONICIDA - ANTIBACTERIANO",0,216,66,"OFFENBACH","METRONIDAZOL-DIYODOHIDROXIQUINOLEINA","101")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AMI-01","AMIKACINA INYT 500MG/2ML C/1 (AMSA)","CATALOGO","ANTIBACTERIANO",0,90,88,"AMSA","AMIKACINA","101")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AMI-03","AMIKACINA INYT 100MG/2ML C/1 (AMSA)","CATALOGO","ANTIBACTERIANO",0,45,85,"AMSA","AMIKACINA","ND")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AMK-01","AMK INYT 100MG/2ML C/1","CATALOGO","ANTIBACTERIANO",0,49.84,82,"PISA","AMIKACINA","ND")'); 
+tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi) VALUES ("AMK-02","AMK INYT 500MG/2ML C/1","CATALOGO","ANTIBACTERIANO",0,151.54,88,"PISA","AMIKACINA","201")'); 
 
 
 		}
@@ -180,18 +200,7 @@ function guardacliente(nombre,empresa,rfc,direccion,colonia,estado,municipio,tel
 		}
 	
 }//function guardacliente(
-function insertatemppedido(articulo,cantidad){
-	   
-	consultadb().transaction(insertadet,function(err){
-    	  alert("Error al insertar renglon: "+err.code+err.message);
-          },alert("Artículo insertado en pedido"));
-				
-    	function insertadet(tx) {		
-		//alert('entra a insert de detallepedido');
-		tx.executeSql('INSERT INTO TEMPEDIDO (articulo,cantidad,cliente) VALUES ("'+articulo+'",'+cantidad+',"'+window.localStorage.getItem("clave")+'")');        
-		}
-	
-}//function insertatemppedido
+
 function insertatempfactura(articulo,cantidad){
 	   //alert('inserttafactura'+cantidad);
 	    consultadb().transaction(insertadet,function(err){
@@ -221,7 +230,7 @@ function eliminatempfactura(articulo,cantidad){
 	   
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al eliminar renglon de tempfactura: "+err.code+err.message);
-          },alert("Artículo eliminado en tempfac"));
+          });
 				
     	function insertadet(tx) {		
 		//alert('entra a delete de detallefactura');
@@ -233,7 +242,7 @@ function eliminatempfactura(articulo,cantidad){
 function modificatemppedido(articulo,cantidad){
 	   
 	consultadb().transaction(insertadet,function(err){
-    	  alert("Error al modifica renglon: "+err.code+err.message);
+    	  alert("Error al modificar renglon: "+err.code+err.message);
           },alert("Artículo modificado en pedido"));
 				
     	function insertadet(tx) {		
