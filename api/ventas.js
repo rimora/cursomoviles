@@ -167,7 +167,7 @@ function mostrarpedido(cliente){
               html+='<div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
 		      html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a">PP</div></div>';
               html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">DV</div></div>';
-              html+='<div class="ui-block-e" style="width:410px">';
+              html+='<div class="ui-block-e" style="width:360px">';
               html+='<div class="ui-grid-d">';
 						html+='<div class="ui-block-a" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">PV</div></div>';
                         html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">Cant</div></div>';
@@ -175,7 +175,7 @@ function mostrarpedido(cliente){
                         html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">Exi</div></div>';
                         html+='<div class="ui-block-e" style="width:100px">';
 							html+='<div class="ui-grid-a">';
-								html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">A B</div></div>';
+								html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">AB</div></div>';
 	                           html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">Pre</div></div>';
 							html+='</div></div>';   
                  	html+='</div>';
@@ -195,6 +195,7 @@ function mostrarpedido(cliente){
 					 total+=Number(parcial);
 					 dif=existencia-cantidad;
 					 alert(row['existencia']);
+					 alert(existencia);
 					 if (existencia==0){
 						 preventa=cantidad;						 
 					 }
@@ -221,11 +222,11 @@ function mostrarpedido(cliente){
             		html+='</div>';   
               html+='<div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-a">'+row['descripcion']+'</div></div>';
 		      html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a">'+preciop.toFixed(2)+'</div></div>';
-              html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+descuento.toFixed(2)+'</div></div>';
-              html+='<div class="ui-block-e" style="width:310px">';
+              html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+descuento+'</div></div>';
+              html+='<div class="ui-block-e" style="width:360px">';
               html+='<div class="ui-grid-d">';
 						html+='<div class="ui-block-a" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">'+precio.toFixed(2)+'</div></div>';
-                        html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">C<a href="#" class="clasep" name="'+row['articulo']+'" id="'+row['articulo']+' '+row['descripcion']+'" ><font color="FFFFFF"></font>'+row['cantidad']+'</a></div></div>';
+                        html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right"><a href="#" class="clasep" name="'+row['articulo']+'" id="'+row['articulo']+' '+row['descripcion']+'" ><font color="FFFFFF"></font>'+cantidad+'</a></div></div>';
                         html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
                         html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+existencia+'</div></div>';
                         html+='<div class="ui-block-e" style="width:100px">';
