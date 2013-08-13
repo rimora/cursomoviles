@@ -214,18 +214,7 @@ function insertatempfactura(articulo,cantidad){
 		}
 	
 }//function insertatempfactura
-function eliminatemppedido(articulo){
-	   
-	consultadb().transaction(insertadet,function(err){
-    	  alert("Error al eliminar renglon: "+err.code+err.message);
-          });
-				
-    	function insertadet(tx) {		
-		//alert('entra a delete de detallepedido');
-		tx.executeSql('DELETE FROM TEMPEDIDO WHERE ARTICULO="'+articulo+'" and cliente="'+window.localStorage.getItem("clave")+'"');        
-		}
-	
-}//function eliminatemppedido
+
 function eliminatempfactura(articulo,cantidad){
 	   
 	consultadb().transaction(insertadet,function(err){
@@ -239,19 +228,6 @@ function eliminatempfactura(articulo,cantidad){
 		}
 	
 }//function eliminatempfactura
-function modificatemppedido(articulo,cantidad){
-	   
-	consultadb().transaction(insertadet,function(err){
-    	  alert("Error al modificar renglon: "+err.code+err.message);
-          },alert("Artículo modificado en pedido"));
-				
-    	function insertadet(tx) {		
-		//alert('entra a modificar detallepedido');
-		
-		tx.executeSql('UPDATE TEMPEDIDO SET CANTIDAD='+cantidad+' WHERE ARTICULO="'+articulo+'" and cliente="'+window.localStorage.getItem("clave")+'"');        
-		}
-	
-}//function modificatemppedido
 function modificatempfactura(articulo,cantidad){
 	   
 	consultadb().transaction(insertadet,function(err){

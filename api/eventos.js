@@ -295,29 +295,20 @@ $(document).ready(function() {
 			 }
      	});//$("#bguardavisita").tap(function() {                   				  				  	
 //**********VENTAS************	
-$("#bpreventa").tap(function(){
- 				  window.localStorage.setItem("tipov","P");//TIPO DE VENTA= PREVENTA (P) o FACTURA (F)
-				  $('#divventas').show();
-				  $('#divnumventas').hide();				  
-				  $('#divtotalesv').show();
-				  $('#etiventa').empty();
-				  $('#etiventa').append('Detalle de Preventa');
-				  gridvaloresven();
-				  mostrarpedido();
+$("#bventa").tap(function() {		 	 
+                 var cliente=window.localStorage.getItem("clave");
+				 //limpia los grid
+				 $("#divnumventas").hide();
+				 $('#divtotalesv').hide();  
+				 $("#divventas").show();                 
+				                
+				  //limpiartemp();
+				  validasug(cliente);//valida si tiene facturas o pedidos pendientes de imprimir para insertar o no pedido sugerido en caso de tenerlo
+			 	  // mostrarpedido();
+				  // mostrarfactura();
 				  
-});
-$("#babordo").tap(function(){
- 				  window.localStorage.setItem("tipov","F");//TIPO DE VENTA= PREVENTA (P) o FACTURA (F)				 
-				  $('#divventas').show();
-				  $('#divnumventas').hide();				  
-				  $('#divtotalesv').show();
-				  $('#etiventa').empty();
-				  $('#etiventa').append('Detalle de Venta a Bordo');
-				  gridvaloresven();
-				  mostrarfactura();
-				  
-});
-	 	
+});	
+
 $("a.clasep").live('click',function(){//al modificar linea de pedido
                   var articulo = $(this).attr("name");
 				  var desc=$(this).attr("id");
@@ -325,22 +316,12 @@ $("a.clasep").live('click',function(){//al modificar linea de pedido
 				  $('#etiartv').append(desc);
 				  
 				  //alert (articulo);
+				   $('#cantv').val('');
 				  $('#divnumventas').show();
 				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
     });
-$("a.clasef").live('click',function(){//al modificar linea de factura
-                  var articulo = $(this).attr("name");
-				 /* var id = $(this).attr("id");
-				  var longitud=id.length;
-				  var posicion = id.indexOf('*'); 
-				  var cantidad=Number(id.substring(posicion+1));*/
-				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
-				
-    });
-
 $("#beliminarp").live('click',function(){//al eliminar linea de pedido
-                 //var clavecli = $(this).attr("id");				 
-				 var tipov=window.localStorage.getItem("tipov");
+                 var cliente=window.localStorage.getItem("clave");
 	function onConfirm(button) {
 		if (button==1){			
 			$('input:checkbox.clasep').each(function () {
@@ -348,17 +329,9 @@ $("#beliminarp").live('click',function(){//al eliminar linea de pedido
              	  //alert($(this).attr("name"));
 				  //alert($(this).attr("value"));
 				  
-				  if (tipov=='P'){
-					 // alert($(this).attr("name")+', '+$(this).attr("value"));
-					eliminalinea($(this).attr("name"),$(this).attr("value"),"P")				    
-					
-				  }
-				  else{
-					  eliminalinea($(this).attr("name"),$(this).attr("value"),"F")				    
-					 
-					  
-				  }
-				   
+				 
+					eliminatemppedido($(this).attr("name"),cliente)				    
+				  
 			   //alert($("#"+"c"+$(this).val()).val());
           		 }
 				 else{
@@ -366,46 +339,14 @@ $("#beliminarp").live('click',function(){//al eliminar linea de pedido
 					//alert($(this).attr("name"));
 				  	//alert($(this).attr("value"));
 				 }
-			});//$('input:checkbox.clasep').each(function () {	
-					
-					gridvaloresven();
-					if (tipov=='P'){
-					 // alert($(this).attr("name")+', '+$(this).attr("value"));
-					mostrarpedido();				    
-				  }
-				  else{
-					mostrarfactura();
-				  }
-				$("#pventas").trigger('refresh');
-			
-			//mostrarpedido();
+			});//$('input:checkbox.clasep').each(function () {						
+					mostrarpedido();				    			
+
 		}//if (button==1){
 	}			 
     navigator.notification.confirm('¿Estas seguro de eliminar los registros seleccionados?',     // mensaje (message)
     onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
     'Eliminar del pedido',            // titulo (title)
-        'SI,NO'       // botones (buttonLabels)
-    );
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-});
-$("#beliminarf").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-		function onConfirm(button) {
-		if (button==1){
-			$('input:checkbox.clasef').each(function () {
-           		if (this.checked) {
-				   //alert('nombre '+$(this).attr("name")+' valor '+$(this).attr("value"));
-				   eliminalinea($(this).attr("name"),Number($(this).attr("value")),"F")				    
-				   
-			   //alert($("#"+"c"+$(this).val()).val());
-          		 }
-			});//$('input:checkbox.clasep').each(function () {	
-			
-		}//if (button==1){
-	}			 
-    navigator.notification.confirm('¿Estas seguro de eliminar los registros seleccionados?',     // mensaje (message)
-    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
-    'Eliminar de factura',            // titulo (title)
         'SI,NO'       // botones (buttonLabels)
     );
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
@@ -436,31 +377,12 @@ $("#bimprimirp").tap(function() {
     );
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
 });
-$("#bimprimirf").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-		function onConfirm(button) {
-		if (button==1){
-			imprimirfac($("#fcomentario").val());
-			//mostrarfactura();
-		}//if (button==1){
-	}			 
-    navigator.notification.confirm('¿Confirma generar Factura?',     // mensaje (message)
-    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
-    'Generar Factura',            // titulo (title)
-        'SI,NO'       // botones (buttonLabels)
-    );
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-});
-
-	
-	$("#lcatalogo li").live('click',function(){
+$("#lcatalogo li").live('click',function(){
                   var articulo = $(this).attr("id");
 				  var des = $(this).attr("title");
-				  
-				  
-				 existeenpedido(articulo,des);
-    });	
-	$("#botonmodcantidadp").tap(function(){
+				  existeenpedido(articulo,des);
+});	
+$("#botonmodcantidadp").tap(function(){
                  //var cantidad=$('#scantidad').attr('Val');
 				 var cantidad=Number($('#modcantidadp').val());
 				  //alert (cantidad);
@@ -477,24 +399,8 @@ $("#bimprimirf").tap(function() {
 					 //alert('despues de llamada modificarlineap');
 					 //mostrarpedido();
 				  }
-    });
-	$("#botonmodcantidadf").tap(function(){
-                 //var cantidad=$('#scantidad').attr('Val');
-				 var cantidad=$('#modcantidadf').val();
-				  //alert (cantidad);
-				 
-				  if (cantidad<=0){
-					   navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
-					  
-				  }
-				  else
-				  {				    
-					var articulo = window.localStorage.getItem("articulo");					
-					modificalineaf(articulo,cantidad);
-				  }
-    });
-	
-	 $("#bgenerav").tap(function() { //boton aceptar del catalogo
+});
+$("#bgenerav").tap(function() { //boton aceptar del catalogo
                  //var clavecli = $(this).attr("id");
 				 //muestra el pedido o factura armados				 
 				  var tipov=window.localStorage.getItem("tipov");
@@ -508,22 +414,8 @@ $("#bimprimirf").tap(function() {
 				  gridvaloresven()
 				  //mostrarfactura();
 				  
-     });	
-	 $("#bventa").tap(function() {		 	 
-                 var cliente=window.localStorage.getItem("clave");
-				 //limpia los grid
-				 $("#divnumventas").hide();
-				 $("#divventas").show();                 
-				 $('#divtotalesv').hide();                 
-				  //limpiartemp();
-				  validasug(cliente);//valida si tiene facturas o pedidos pendientes de imprimir para insertar o no pedido sugerido en caso de tenerlo
-				  
-				  
-				 // mostrarpedido();
-				 // mostrarfactura();
-				  
-     });	
-	 $("#bcatalogo").tap(function(){
+});	
+$("#bcatalogo").tap(function(){
                  //var clavecli = $(this).attr("id");
 				 //limpia los grid				  
                   armacatalogo();
@@ -531,13 +423,13 @@ $("#bimprimirf").tap(function() {
 				  $('#divnumcat').hide();
 				  gridvalorescat();
 				  
-     });
-	 $("#binicializar").click(function(){
+});
+$("#binicializar").click(function(){
                  //var clavecli = $(this).attr("id");
 				 //limpia los grid
                   pruebalocalizacion();
 				  
-     });
+});
 	 //*****D E V O L U C I O N E S *****
 	 $("#bdevoluciones").tap(function() {                   
 				  //limpiartemp();
@@ -1314,27 +1206,23 @@ $("#bimprimirf").tap(function() {
 	   $("#bacepven").tap(function() {                                                   	       
            var cantidad = parseInt($("#cantv").val()); 		  
 		   var articulo = window.localStorage.getItem("articulo");
-		   var tipov= window.localStorage.getItem("tipov");
-		   
+		   var cliente = window.localStorage.getItem("clave");
 				  //alert (cantidad);
+				   if (isNaN(cantidad)) { 
+       					 //entonces (no es numero) 
+        	 			navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
+						return false;
+			       }
 				  if (cantidad<=0){
 					   navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
 					  return false;
 				  }
 				  else
 				  {
-				    if (tipov=='P'){					
-					 modificalineap(articulo,cantidad);
-					 gridvaloresven();
-					}
-					else{
-						modificalineaf(articulo,cantidad);
-						gridvaloresven();
-					}
-					$('#divnumventas').hide(); 	
-						    
-					 //alert('despues de llamada modificarlineap');
-					 //mostrarpedido();
+					    modificatemppedido(articulo,cantidad,cliente);
+						$('#divnumventas').hide(); 	
+						mostrarpedido(cliente);
+						
 				  }
        }); 
 	   $("#bcanven").tap(function() {                                                   

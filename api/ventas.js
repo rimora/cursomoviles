@@ -131,11 +131,35 @@ function insertatemppedido(articulo,cantidad,cliente){
 		}
 	
 }//function insertatemppedido
-function mostrarpedido(cliente){
-	//muestra en un collapsible los renglones temporales de pedido, agregandolos en un grid
-	//el usuario podrá eliminar los renglones que se selecciones por medio de checkbox
-//  $('#datoscli').live('pageshow',function(event, ui){   	   
+function modificatemppedido(articulo,cantidad,cliente){
+	   
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al modificar renglon: "+err.code+err.message);
+          },alert("Artículo modificado"));
+				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallepedido');
+		
+		tx.executeSql('UPDATE TEMPEDIDO SET CANTIDAD='+cantidad+' WHERE ARTICULO="'+articulo+'" and cliente="'+cliente+'"');        
+		}
+	
+}//function modificatemppedido
+function eliminatemppedido(articulo,cliente){
+	   
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al eliminar renglon: "+err.code+err.message);
+          });				
+    	function insertadet(tx) {		
+		//alert('entra a delete de detallepedido');
+		tx.executeSql('DELETE FROM TEMPEDIDO WHERE ARTICULO="'+articulo+'" and cliente="'+cliente+'"');        
+		}
+	
+}//function eliminatemppedido
 
+function mostrarpedido(cliente){
+ var limite=Number(window.localStorage.getItem("limite"));
+ var saldo=Number(window.localStorage.getItem("saldo"));
+ var disp=limite-saldo;
 		var bodega='K01';
 		base.transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
@@ -146,25 +170,15 @@ function mostrarpedido(cliente){
 		function exito(tx,results){ 
 			
 		      $("#gridpedido").empty();				  
+			  $("#divtotales").empty();				  
 			  var html = "";
 			  var tipo="";
-			  var saldot=0;
-			  var montot=0;			  
-		      var precio=0;
-	    	  var total=0;      			  
-			  var iva=0;
-			  var descuento=0;
-			  var parcial=0;
-			  var preciop=0;
-			  var preciocdesc=0;
-			  var existencia=0;
-			  var abordo=0;
-			  var preventa=0;
-			  var dif=0;
-			  var cantidad=0;
+			  var saldot=0; var montot=0; var precio=0; var total=0; var iva=0; var descuento=0; var parcial=0; var preciop=0; var preciocdesc=0;
+			  var existencia=0; var abordo=0; var preventa=0; var dif=0; var cantidad=0; var arttotal=0; var pietotal=0; var artpre=0; var piepre=0;
+			  var artabordo=0; var pieabordo=0; var totalpre=0; var totalabordo=0;
 			  //agrega encabezado de grid			  			  
-          	  html+='<div class="ui-block-a" style="width:70px" ><div class="ui-bar ui-bar-a">Elim.</div></div>';
-              html+='<div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
+          	  html+='<div class="ui-block-a" style="width:60px; margin-left:-10px" ><div class="ui-bar ui-bar-a">Elim.</div></div>';
+              html+='<div class="ui-block-b" style="width:300px; margin-left:-10px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
 		      html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a">PP</div></div>';
               html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">DV</div></div>';
               html+='<div class="ui-block-e" style="width:360px">';
@@ -174,7 +188,7 @@ function mostrarpedido(cliente){
                         html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">Importe</div></div>';
                         html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">Exi</div></div>';
                         html+='<div class="ui-block-e" style="width:100px">';
-							html+='<div class="ui-grid-a">';
+							html+='<div class="ui-grid-a" style="margin-top:0px">';
 								html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">AB</div></div>';
 	                           html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">Pre</div></div>';
 							html+='</div></div>';   
@@ -183,9 +197,11 @@ function mostrarpedido(cliente){
           		
 			  $.each(results.rows,function(index){				  
 				  var row = results.rows.item(index); 
-				     existencia=Number(row['existencia']);
-					 cantidad=Number(row['cantidad']);
-					 
+				  	 					 
+				     existencia=Number(row['existencia']);					 
+					 cantidad=Number(row['cantidad']);		
+					 pietotal+=cantidad;			 
+					 arttotal+=1;			 					 
 				     preciocdesc=Number(row['precio'])-((Number(row['precio'])/100)*Number(row['descuento']));				     			     
 				     descuento=Number(row['descuento']);
 					 iva=Number(row['impuesto']);					 
@@ -193,46 +209,51 @@ function mostrarpedido(cliente){
 				     precio=Number(preciocdesc)*(1+(Number(row['impuesto'])/100));				 
 					 parcial=precio*cantidad;
 					 total+=Number(parcial);
-					 dif=existencia-cantidad;
-					 alert(row['existencia']);
-					 alert(existencia);
+					 dif=existencia-cantidad;					 
 					 if (existencia==0){
-						 preventa=cantidad;						 
+						 preventa=cantidad;	
+						 artpre+=1;	
+						 totalpre+=	Number(parcial);						 
+						 abordo=0;
 					 }
 					 else{
 						 if (dif>=0){
 						 preventa=0;						 
 						 abordo=cantidad;						 						 
+						 artabordo+=1;
+						 totalabordo+=	Number(parcial);						 					 						 
 						 }
 						 else{
 							 preventa=cantidad-existencia;					 
+							 totalpre+=	precio*preventa;						 
+							 artpre+=1;					 
 							 abordo=existencia;						 						 
-							 
+							 totalabordo+=precio*abordo
+							 artabordo+=1;					 
 						 }
 							 
 						 
-					 }
-          	  html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
-           			html+='<div class="ui-bar ui-bar-e"  >';      		 		
-                   	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
-			        html+='     <label for="P'+row['articulo']+'" >&nbsp</label>';  
-            		html+='     <input type="checkbox" id="P'+row['articulo']+'" name="'+row['articulo']+'" value="'+parcial+'" class="clasep"  />';
-                   	html+='		</div>';	
-		            html+='   </div>';
+					 }					 
+					 pieabordo+=abordo;						 
+					 piepre+=preventa;		
+					 
+          	  html+='<div class="ui-block-a" style="width:60px;height:15px; margin-left:-10px">';              
+           			html+='<div class="ui-bar ui-bar-e"  >';      		 		                   				        
+            		html+='<input type="checkbox" name="'+row['articulo']+'" class="clasep" style="position:relative;height:15px">';                   	html+='</div>';
             		html+='</div>';   
-              html+='<div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-a">'+row['descripcion']+'</div></div>';
-		      html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a">'+preciop.toFixed(2)+'</div></div>';
-              html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+descuento+'</div></div>';
+              html+='<div class="ui-block-b" style="width:300px; margin-left:-10px"><div class="ui-bar ui-bar-b" style="padding-left: 0px">'+row['descripcion']+'</div></div>';
+		      html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-b">'+preciop.toFixed(2)+'</div></div>';
+              html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right">'+descuento+'</div></div>';
               html+='<div class="ui-block-e" style="width:360px">';
               html+='<div class="ui-grid-d">';
-						html+='<div class="ui-block-a" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">'+precio.toFixed(2)+'</div></div>';
-                        html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right"><a href="#" class="clasep" name="'+row['articulo']+'" id="'+row['articulo']+' '+row['descripcion']+'" ><font color="FFFFFF"></font>'+cantidad+'</a></div></div>';
-                        html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
-                        html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+existencia+'</div></div>';
+						html+='<div class="ui-block-a" style="width:80px"><div class="ui-bar ui-bar-b" style="text-align:right">'+precio.toFixed(2)+'</div></div>';
+                        html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right"><a href="#" class="clasep" name="'+row['articulo']+'" id="'+row['articulo']+' '+row['descripcion']+'" ><font color="FFFFFF"></font>'+cantidad+'</a></div></div>';
+                        html+='<div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-b" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
+                        html+='<div class="ui-block-d" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right">'+existencia+'</div></div>';
                         html+='<div class="ui-block-e" style="width:100px">';
 							html+='<div class="ui-grid-a" style="margin-top:0px">';
-								html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+abordo+'</div></div>';
-	                           html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">'+preventa+'</div></div>';
+								html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right">'+abordo+'</div></div>';
+	                           html+='<div class="ui-block-b" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right">'+preventa+'</div></div>';
 							html+='</div></div>';   
                  	html+='</div>';
                   html+='</div>';
@@ -241,7 +262,42 @@ function mostrarpedido(cliente){
 			  
 			  
 			  });//.each
-					$("#gridpedido").append(html); 			
+					$("#gridpedido").append(html);	
+					disp=disp-total;				
+					html="";
+					html+='<center><label style="font-weight:bold; font-size:24px">Disponible:</label></center>';
+       			    html+='<center><label style="font-weight:bold; font-size: 36px; color:#00F">'+disp.toFixed(2)+'</label></center>';
+			        html+='<center><label style="font-weight:bold; font-size:24px">Totales Preventa:</label></center>';				
+					html+='<div class="ui-grid-a" id="gridtotalesp" style="text-align:left">';
+	                html+='<div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-a">Piezas</div></div>';
+	                html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+piepre.toFixed(0)+'</div></div>';
+				    html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-a">Articulos</div></div>';
+		            html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+artpre.toFixed(0)+'</div></div>';
+	                html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-a">Total</div></div>';
+	                html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+totalpre.toFixed(2)+'</div></div>';
+					html+='</div>';
+					html+='<center><label style="font-weight:bold; font-size:24px">Totales A Bordo:</label></center>';
+			        html+='<div class="ui-grid-a" id="gridtotalesf" style="text-align:left">';
+		            html+='<div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-a">Piezas</div></div>';
+                    html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+pieabordo.toFixed(0)+'</div></div>';
+		            html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-a">Articulos</div></div>';
+                    html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+artabordo.toFixed(0)+'</div></div>';
+                    html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-a">Total</div></div>';
+	                html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+totalabordo.toFixed(2)+'</div></div>';
+		            html+='</div>';
+					html+='<center><label style="font-weight:bold; font-size:24px">Total General:</label></center>';
+		            html+='<div class="ui-grid-a"  style="text-align:left">';
+                    html+='<div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-a">Piezas</div></div>';
+                    html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+pietotal.toFixed(0)+'</div></div>';
+		            html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-a">Articulos</div></div>';
+	                html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+arttotal.toFixed(0)+'</div></div>';
+                    html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-a">Total</div></div>';
+                    html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+total.toFixed(2)+'</div></div>';
+			        html+='</div>';
+					$("#divtotales").append(html);	
+
+					
+			
 	   }//function exito
  		
 	function errorconsulta(err) {
@@ -250,3 +306,4 @@ function mostrarpedido(cliente){
 //  });	
 
   }//mostrarpedido
+ 
