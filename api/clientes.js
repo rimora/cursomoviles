@@ -51,6 +51,7 @@ function mostrarcliente(clavecli){
 		}
 	
 		function exito(tx,results){         
+			var html='';
 	   		var row = results.rows.item(0);            
 	   		/*
 			$('#nomcli').text("Clave: "+row['clave']+" Nombre: "+row['nombre']);
@@ -69,9 +70,15 @@ function mostrarcliente(clavecli){
 			limite=Number(row['lcredito']);			
 			saldo=Number(row['saldo']);
 			disponible=limite-saldo;
-			$('#limitecli').val(limite.toFixed(2));
-			$('#ocupadocli').val(saldo.toFixed(2));
-			$('#dispcli').val(disponible.toFixed(2));
+			$('#gridtotalescli').empty();
+			html='<div class="ui-block-a" style="width:120px" ><div class="ui-bar ui-bar-a">Lim. Cred</div></div>';
+            html+='<div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-a" >Ocupado</div></div>';
+            html+='<div class="ui-block-c" style="width:120px"><div class="ui-bar ui-bar-a">Disponible</div></div>';
+            html+='<div class="ui-block-a" style="width:120px"><div class="ui-bar ui-bar-b" >'+limite+'</div></div>';
+            html+='<div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-b">'+saldo+'</div></div>';
+            html+='<div class="ui-block-c" style="width:120px"><div class="ui-bar ui-bar-b" >'+disponible+'</div></div>';			
+			$('#gridtotalescli').append();
+			
 			window.localStorage.setItem("limite",Number(row['lcredito']));
 			window.localStorage.setItem("saldo",Number(row['saldo']));
 		}

@@ -145,48 +145,41 @@
                 </div>	
             
             	<ul data-role="listview" data-inset="true" id="listaclientes" data-filter="true" data-filter-placeholder="Escribe Nombre" class="claselistac" data-theme="b">        	
-        		<li>hola</li>
-           
-          
+        		<li>hola</li>          
    	   		   </ul>
             </div>
-            <div style="width: 400px; float:left;  margin-left:20px  ">   				
-            <label id="clienteselec" style="font-weight:bold; font-size:20px"></label>
-           		<div data-role="fieldcontain" data-theme="b" > 
-		        <label for="limitecli" style="font-weight:bold; font-size:16px">Limite de Credito:</label>
-                <input type="number" id="limitecli" readonly style="width:20%;font-size:16px; color:#F00;left: 450px;" > 
-   				<label for="ocupadocli" style="font-weight:bold; font-size:16px; margin-top:10px;">Ocupado:</label>
-                <input type="number" id="ocupadocli" readonly style="width:20%;font-size:16px; margin-left:-16px;  color:#F00" > 
-                <center><label for="dispcli" style="font-weight:bold; margin-top:10px; font-size:16px">Disponible: </label>
-                <input type="number" id="dispcli" readonly style="width:20%;font-size:16px; color:#F00"> </center>
-        </div>  
-     			<div data-role="collapsible" data-theme="b" data-content-theme="e" id="agrupadatoscli">
-	       <h3>
-                    <b>Datos del cliente</b>
-           </h3>
-           <h5 id="nomcli">Nombre</h5>     
-	       <h5 id="direccion">Dirección</h5>
-	       <h5 id="tipo">Tipo</h5>       
+            <div id="divclientes" style="width: 400px; float:left;  margin-left:20px  ">  
+            	<label id="clienteselec" style="font-weight: bold; font-size: 24px; font-family: 'Comic Sans MS', cursive; color: #00F;">cliente</label>
+                <div class="ui-grid-b" id="gridtotalescli" style="text-align: right">
+                  <div class="ui-block-a" style="width:120px" ><div class="ui-bar ui-bar-a">Lim. Cred</div></div>
+                  <div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-a" >Ocupado</div></div>
+                  <div class="ui-block-c" style="width:120px"><div class="ui-bar ui-bar-a">Disponible</div></div>
+                  <div class="ui-block-a" style="width:120px"><div class="ui-bar ui-bar-b" >20</div></div>
+                  <div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-b">Total</div></div>
+                  <div class="ui-block-c" style="width:120px"><div class="ui-bar ui-bar-b" >10,000.00</div></div>              		               
+            	</div><!--class="ui-grid-a"-->   			
+	            <div data-role="collapsible" data-theme="b" data-content-theme="e" id="agrupadatoscli">
+		       	   <h3><b>Datos del cliente</b></h3>
+		           <h5 id="nomcli">Nombre</h5>     
+	    		   <h5 id="direccion">Dirección</h5>
+			       <h5 id="tipo">Tipo</h5>       
    	      <!-- <h5 id="limitecredito">Límite de Crédito</h5> 
  			
     	   <h5 id="diascredito">Días de Crédito</h5>       
        	   <h5 id="telefono">Telefono</h5>  
            <h5 id="clacli">Clave</h5>           	   
            <h5 id="saldo">Saldo</h5> --> 			
-        </div>   
+       			 </div>   
        			<div data-role="collapsible" data-theme="b" data-content-theme="e" id="agrupacomentario">
             
-                <h3>
-                    <b>Notas de Cuentas por Cobrar</b>
-                </h3>
-                <textarea cols="8" rows="50" name="textarea" id="notascxc" readonly></textarea>
+               		 <h3>
+              		      <b>Notas de Cuentas por Cobrar</b>
+               		 </h3>
+                		<textarea cols="8" rows="50" name="textarea" id="notascxc" readonly></textarea>
             
-        </div>   
-         	
-            
-            </div>
-  </div> 
- 
+        		</div>   
+         	</div>
+    </div>  
 	<div data-role="footer" data-position="fixed">        
 
          <a href="#page" class="ui-btn-right" id="regresarcli" data-role="button" 
@@ -270,9 +263,9 @@
 	<div data-role="header" data-theme="b">
 		<h3>Operaciones del Cliente</h3>
 	</div>
-	<div data-role="content">
-        <center><a href="#pventas" id ="bventa"  data-role="button" data-theme="e" style="width: 150px"><img style="margin-left:-14px" src="jquery-mobile/images/ventas128.png"/></a></center>
+	<div data-role="content">        
              <center><a href="#" id ="bcobros"  data-role="button" data-theme="c" style="width: 150px"><img style="margin-left:-14px" src="jquery-mobile/images/cobrar128.png"/></a></center>
+             <center><a href="#pventas" id ="bventa"  data-role="button" data-theme="e" style="width: 150px"><img style="margin-left:-14px" src="jquery-mobile/images/ventas128.png"/></a></center>
              <center> <a href="#" id ="bdevoluciones"  data-role="button" data-theme="c" style="width: 150px"><img style="margin-left:-14px" src="jquery-mobile/images/devoluciones128.png"/></a></center>
            
               
@@ -395,28 +388,26 @@
 		<h5>Catálogo</h5>
 	</div>
 	<div data-role="content">
-    <div id="divcatalogo" style="width: 600px">
-    	<ul id="lcatalogo" data-role="listview" data-inset="true"    class="catalogo" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?" data-theme="b">			        
-                 <li><a href="">Descripción del artículo
-			 Clasificación:Catalogo AcciónT:Antidearreico <br/> Lab:SANOFI,SAL:Loperamida,Precio:100.00 A bordo:40 ALG:10 </a></li>			
+    <div id="divcatalogo" style="width: 650px">
+    	<ul id="lcatalogo" data-role="listview" data-inset="true" class="catalogo" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que producto buscas?" data-theme="b">			        
+        
         <!--
              -->
         </ul>    
     </div>    
     </div>
-     	<div class="ui-grid-d" id="gridtotales" style="position:absolute;left: 620px; top: 50px; text-align:right">
-              <div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-a">Lim.Cred.</div></div>
-              <div class="ui-block-b" style="width:80px"><div class="ui-bar ui-bar-a">Disp.</div></div>
-		      <div class="ui-block-c" style="width:80px"><div class="ui-bar ui-bar-a">Subtotal</div></div>
-        	  <div class="ui-block-d" style="width:70px"><div class="ui-bar ui-bar-a">IVA</div></div>
-              <div class="ui-block-e" style="width:80px"><div class="ui-bar ui-bar-a">Total</div></div>
+     	<div class="ui-grid-a" id="gridtotales" style="position:absolute;left: 700px; top: 50px; text-align:right">
+              <div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-a">Total</div></div>
+              <div class="ui-block-b" style="width:100px"><div class="ui-bar ui-bar-a">Disponible</div></div>
+              <div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-b">Total</div></div>
+              <div class="ui-block-b" style="width:100px"><div class="ui-bar ui-bar-b">Disponible</div></div>
 
-        </div><!--class="ui-grid-d"-->
-         <div id="divnumcat" style="position: absolute; left: 620px; top: 200px; width: 224px; height: auto">
-	          <label id="etiart" style="position: absolute; left: 7px; top: -50px; font-weight: bold">Articulo:</label>
-     	      <label for="cantcat"  style="position: absolute; left: 7px; top: -23px; font-weight: bold">Cant.:</label>
-		      <input type="text" id="cantcat"  readonly style="width: 76px; float: left; position: absolute; right:60px; top:-31px" maxlength="7" >
-		      <a href="#" id ="blimpiarcant" data-role="button" data-theme="b"  class="ui-icon-sardel-limpiar" style="position: absolute; float: left; left: 165px; top: -40px "></a>
+        </div><!--class="ui-grid-a"-->
+         <div id="divnumcat" style="position: absolute; left: 700px; top: 200px;width: 224px; height: auto">
+              <label id="etiart" style="left: 7px;  font-weight: bold">Articulo:</label><br />
+     	      <label for="cantcat"  style=" position:relative; top:10px;  font-weight: bold; float: left">Cant:</label>
+		      <input type="text" id="cantcat"  readonly style="position:relative; width: 50px; left: 10px; float: left" >
+		      <a href="#" id ="blimpiarcant" data-role="button" data-theme="b"  class="ui-icon-sardel-limpiar" style="left: 165px; top: -10px "></a>
               <div class="ui-grid-b">
                 <div class="ui-block-a"><a href="#" id ="b111" data-role="button" data-theme="b" class="tecladonuma" >1</a></div>
                 <div class="ui-block-b"><a href="#" id ="b222"  data-role="button" data-theme="b" class="tecladonumb">2</a></div>
@@ -436,6 +427,7 @@
      		 </div><!-- divnumcat-->
     <div data-role="footer" data-position="fixed">
         <a href="#pventas" id ="bgenerav"  data-role="button" data-theme="b">Aceptar</a> 
+
     </div>
     
     
@@ -450,8 +442,10 @@
       	</div>  
 	</div>
 	<div data-role="content" style="background-color:#0F0">
-    <div id="divventas" >
-        		 
+    <a href="#" id ="beliminarp" data-role="button" data-theme="e"  class="ui-icon-sardel-eliminar" style="top: 40px; position:absolute" ></a>
+    <a href="#" id ="bcatalogo" data-role="button" data-theme="b"  class="ui-icon-sardel-agregar" style="top: 40px; position:absolute; left:80px"" ></a>    
+    <br /><br />
+    <div id="divventas" >        		 
                  <div class="ui-grid-d" id="gridpedido" >
           		 <div class="ui-block-a" style="width:70px" ><div class="ui-bar ui-bar-a">Elim.</div></div>
                  <div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-b">TIAMINAL B12 TRIVALENTE INYT C/JER 5000MCG/2ML C/3 (SEP 13)</div></div>
@@ -494,7 +488,7 @@
         </div><!--class="ui-grid-a"-->    
     </div>       
         <!--divventas-->        
-        <div id="divnumventas" style="position: absolute; left: 840px; top: 200px; width: 224px; height: auto; background-color: #66CCFF; z-index: 1;">
+        <div id="divnumventas" style="position: absolute; left: 840px; top: 160px; width: 224px; height: auto; background-color: #66CCFF; z-index: 1;">
 	          <label id="etiartv" style="left: 7px;  font-weight: bold">Articulo:</label><br />
      	      <label for="cantv"  style=" position:relative; top:10px;  font-weight: bold; float: left">Cantidad:</label>
 		      <input type="text" id="cantv" readonly  style="position:relative; width: 50px; left: 10px; float: left" >
@@ -529,17 +523,31 @@
     
 </div>
 
-<!-- P A G I N A  DIALOGO-->
-<div data-role="dialog" id="pcantidad">
+<!-- P A G I N A  DIALOGO DE FICHA DE PRODUCTO-->
+<div data-role="dialog" id="pficha">
     <div data-role="header" data-theme="b">
-        <h1>Indica Cantidad</h1>
+        <h1>Ficha de Producto</h1>
     </div>
     <div data-role="content">
-       <div data-role="fieldcontain">
-		<label for="scantidad">Cantidad:</label>
-		<input type="number" data-type="range" name="scantidad" id="scantidad" value="1" min="1" max="100" data-theme="a" data-track-theme="b" />
-        <a href="#" data-role="button" data-rel="back" id="botoncantidad">Aceptar</a>
-	</div>
+    <div id="divficha">
+   		 <center><a href="" style="float:left"> <img src="jquery-mobile/images/medicamento.png"> </a></center><br>
+    	<div class="ui-grid-a" id="gridficha" style="text-align:left">
+              <div class="ui-block-a" style="width:120px" ><div class="ui-bar ui-bar-a">Articulo</div></div>
+              <div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-b">100</div></div>
+		      <div class="ui-block-a" style="width:120px"><div class="ui-bar ui-bar-a">Laboratorio</div></div>
+              <div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-b" >20</div></div>
+              <div class="ui-block-a" style="width:120px"><div class="ui-bar ui-bar-a">SAL</div></div>
+              <div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-b" >10,000.00</div></div>              		               
+              <div class="ui-block-a" style="width:120px"><div class="ui-bar ui-bar-a">P. Activo</div></div>
+              <div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-b" >10,000.00</div></div>              		               
+              <div class="ui-block-a" style="width:120px"><div class="ui-bar ui-bar-a">Clasificacion</div></div>
+              <div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-b" >10,000.00</div></div>              		               
+        </div><!--class="ui-grid-a"-->
+    </div>
+    <br /><br /><br /><br />
+    
+    
+    <a href="#" data-role="button" data-rel="back" id="botonficha" data-theme="b">Salir</a>
     </div>
 </div>
 <!-- P A G I N A  DIALOGO MODIFICAR PEDIDO-->

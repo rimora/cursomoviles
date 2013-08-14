@@ -232,7 +232,7 @@ function otro(){
 alert('entra a otro');
 }
 
-function otros(){	
+function gridtotalescob(){	
 
 	var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
 	var montoche=window.localStorage.getItem("cheque");
