@@ -175,8 +175,9 @@ $(document).ready(function() {
                   var clavecli = $(this).attr("id");
 				  
 				  //alert (clavecli);
-				  mostrarcliente(clavecli);
 				  $('#divclientes').show();				  
+				  mostrarcliente(clavecli);
+				  
 				 // window.location.href='#datoscli';
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
     });
@@ -375,24 +376,6 @@ $("#lcatalogo").delegate('.fichaart','click',function(){//al seleccionar el boto
 				  window.location.href='#pficha';			  
 				  //existeenpedido(articulo,cliente);
 });	
-$("#botonmodcantidadp").tap(function(){
-                 //var cantidad=$('#scantidad').attr('Val');
-				 var cantidad=Number($('#modcantidadp').val());
-				  //alert (cantidad);
-				  if (cantidad<=0){
-					   navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
-					  
-				  }
-				  else
-				  {
-				    //obtiene el articulo pulsado en la lista
-    				var articulo = window.localStorage.getItem("articulo");
-	     			//alert (cantidad);	  
-					 modificalineap(articulo,cantidad);
-					 //alert('despues de llamada modificarlineap');
-					 //mostrarpedido();
-				  }
-});
 $("#bgenerav").tap(function() { //boton aceptar del catalogo
                  //var clavecli = $(this).attr("id");
 				 //muestra el pedido 
@@ -412,12 +395,7 @@ $("#bcatalogo").tap(function(){
 				   $('#divnumcat').hide();
 				  window.location.href='#pcatalogo';
 });
-$("#binicializar").click(function(){
-                 //var clavecli = $(this).attr("id");
-				 //limpia los grid
-                  pruebalocalizacion();
-				  
-});
+
 	 //*****D E V O L U C I O N E S *****
 	 $("#bdevoluciones").tap(function() {                   
 				  //limpiartemp();

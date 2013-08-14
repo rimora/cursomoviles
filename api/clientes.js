@@ -77,7 +77,7 @@ function mostrarcliente(clavecli){
             html+='<div class="ui-block-a" style="width:120px"><div class="ui-bar ui-bar-b" >'+limite+'</div></div>';
             html+='<div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-b">'+saldo+'</div></div>';
             html+='<div class="ui-block-c" style="width:120px"><div class="ui-bar ui-bar-b" >'+disponible+'</div></div>';			
-			$('#gridtotalescli').append();
+			$('#gridtotalescli').append(html);
 			
 			window.localStorage.setItem("limite",Number(row['lcredito']));
 			window.localStorage.setItem("saldo",Number(row['saldo']));

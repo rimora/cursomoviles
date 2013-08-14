@@ -180,7 +180,7 @@ function mostrarpedido(cliente){
           	  html+='<div class="ui-block-b" style="width:60px; margin-left:-10px" ><div class="ui-bar ui-bar-a">Elim</div></div>';
               html+='<div class="ui-block-c" style="width:300px; margin-left:-10px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
 		      html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-a">PP</div></div>';              
-              html+='<div class="ui-block-e" style="width:360px">';
+              html+='<div class="ui-block-e" style="width:410px">';
               html+='<div class="ui-grid-d">';
 					  	html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">DV</div></div>';
 						html+='<div class="ui-block-b" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">PV</div></div>';
@@ -246,7 +246,7 @@ function mostrarpedido(cliente){
               html+='<div class="ui-block-c" style="width:300px; margin-left:-10px"><div class="ui-bar ui-bar-b" style="padding-left: 0px"><a href="#" class="descv" name="'+row['articulo']+'" data-ajax="false" >'+row['descripcion']+'</a></div></div>';
 		      html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-b">'+preciop.toFixed(2)+'</div></div>';
               
-              html+='<div class="ui-block-e" style="width:360px">';
+              html+='<div class="ui-block-e" style="width:410px">';
               html+='<div class="ui-grid-d">';
 		                html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right">'+descuento+'</div></div>';
 						html+='<div class="ui-block-b" style="width:80px"><div class="ui-bar ui-bar-b" style="text-align:right">'+precio.toFixed(2)+'</div></div>';
