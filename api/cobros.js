@@ -240,7 +240,9 @@ alert('entra a gridtotalescob()');
 	var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
 	var montoche=window.localStorage.getItem("cheque");
 	var montoefe=window.localStorage.getItem("efectivo");
-	//alert('pendiente '+pendiente);
+	alert('pendiente '+pendiente);
+	alert('montoche '+montoche);
+	alert('montoefe '+montoefe);
 	var html="";
 	$("#gridaplicobros2").empty();
     html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Saldo Pendiente</div></div>';
@@ -252,7 +254,7 @@ alert('entra a gridtotalescob()');
 	
     html+='     <div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+montoche.toFixed(2)+'</div></div>';
 	$("#gridaplicobros2").append(html); 	
-				
+				alert('despues de apend');
 }//function actgridsaldo()
 function poblarcuenta(){
 		base.transaction(poblarc, function(err){
