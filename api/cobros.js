@@ -207,7 +207,8 @@ function insertacobro(factura,cantidad){ //llamada de eventos.js
 }//function insertacobro
 function aplicacionpago(saldofac,abono){	
 	var pendiente=Number(saldopendiente());//obtiene el saldo pendiente de distribuir en los tipos de cobro
-	//alert('pendiente de aplicacionpago'+pendiente);
+	alert('pendiente de aplicacionpago'+pendiente);
+	
 	var html="";
 	var html2="";
 	$("#gridaplicobros").empty();	
@@ -226,8 +227,8 @@ function aplicacionpago(saldofac,abono){
 	
 	$("#gridaplicobros").append(html); 	
 	$("#gridaplicobros2").append(html2); 
-	$("#efectivo").val(0); 	
-	$("#cheque").val(0);
+	/*$("#efectivo").val(0); 	
+	$("#cheque").val(0);*/
 				
 }//function aplicacionpago()
 function otro(){	
@@ -235,7 +236,7 @@ alert('entra a otro');
 }
 
 function gridtotalescob(){	
-
+alert('entra a gridtotalescob()');
 	var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
 	var montoche=window.localStorage.getItem("cheque");
 	var montoefe=window.localStorage.getItem("efectivo");
@@ -464,11 +465,12 @@ function pagarximp(cliente,cantidad){
 				});	
 }//function pagarximp
 function mostrarnotascob(factura){	
+alert(factura);
 	var html="";
 	
 	$("#divencnum").empty();
 	html='<label style="font-weight: bold">Notas para factura:'+factura+'</label><br>';
-	html+='<textarea cols="20" rows="30">';
+	html+='<textarea cols="30" rows="10">';
 
 	function listo(tx,results){ 	      
 	        $.each(results.rows,function(index){			

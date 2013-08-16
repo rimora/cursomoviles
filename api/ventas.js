@@ -582,9 +582,9 @@ var i=0;
 			 var cantidad=row['cantidad'];
 			 var articulo=row['articulo'];
 
-			 sumtotlinea+=totlinea.toFixed(2);//suma del total de linea sin descuento y sin iva
-			 summontodesc+=montodesc.toFixed(2);//suma del total de linea sin descuento y sin iva
-			 sumivalinea+=ivalinea.toFixed(2);//suma del total de linea sin descuento y sin iva			 
+			 sumtotlinea+=Number(totlinea);//suma del total de linea sin descuento y sin iva
+			 summontodesc+=Number(montodesc);//suma del total de linea sin descuento y sin iva
+			 sumivalinea+=Number(ivalinea);//suma del total de linea sin descuento y sin iva			 
 			 alert(sumtotlinea);
 			 alert(summontodesc);
 			 alert(sumivalinea);			 
@@ -602,7 +602,7 @@ var i=0;
 
 			 */			 			 
 		 	});
-			sumtotal=sumtotlinea+sumivalinea;
+			sumtotal=Number(sumtotlinea)+Number(sumivalinea);
 			 alert(sumtotal);
 			 alert(sumtotlinea);
 			 alert(sumivalinea);			 
@@ -659,6 +659,7 @@ function guardadetpedido(query,total){
 	
 }//function guardadetpedido
 function previolinea(articulo,cantidad){		
+alert(cantidad);
  			if (isNaN(cantidad)) { 
         			//entonces (no es numero) 
         	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
@@ -691,7 +692,8 @@ function previolinea(articulo,cantidad){
 	                 html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+precio.toFixed(0)+'</div></div>';				    
 		             html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+cantidad+'</div></div>';	                
 	                 html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
-					 $("#gridprevart").append(html);							 
+					 $("#gridprevart").append(html);
+					 	alert('despues de agregar html');						 
 			  
 			  });//.each											                
 	   }//function exito

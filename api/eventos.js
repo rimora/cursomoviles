@@ -613,7 +613,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 					$('#divcheques').hide();
 					$('#divnumaplicob').hide();					
 					eliminachequexrecibo();//elimina los cheques temporales.
-					gridtotalescob();
+					//gridtotalescob();
 				 }
 				  
 				  
@@ -683,36 +683,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
         'ACEPTAR,CANCELAR'       // botones (buttonLabels)
 	    );
     });
-	 $("#efectivo").blur(function(){
-          //al salir del input de efectivo     
-	     //intento convertir a entero. 
-    	 //si era un entero no le afecta, si no lo era lo intenta convertir 
-	     var montoefe = parseInt($("#efectivo").val()); 		 		 
-		 var pendiente1=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
-		 var pendiente=pendiente1+Number(window.localStorage.getItem("efectivo"));//aumentamos el efectivo que tenga guardado, es decir, si es modificación del importe, se anula para tomar este nuevo importe y actualizar el abono pendiente de distribuir en efectivo y cheque.
-		 //alert(montoefe);
-		 //alert(pendiente);
-	    //Compruebo si es un valor numérico 
-    	 if (isNaN(montoefe)) { 
-        //entonces (no es numero) 
-        	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');
-			 $("#efectivo").focus();
-			 
-	     }else{ 
-    	    //En caso contrario (Si era un número) devuelvo el valor 
-			if (montoefe>pendiente || montoefe<0){
-				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');
-				$("#efectivo").focus();
-				$("#efectivo").val(0);
-			}
-			else{
-        	guardaefectivo(montoefe); 			
-			
-			}
-	     } 
-	   
-    });
-	
+	 
 	 $("#bagregacheque").tap(function() {                   				  
 	        var nche=$("#numcheque").val();  			  
 			//var ncta=$("#numcuenta").val();  			  
@@ -753,6 +724,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
     		      		 }
 					});//$('input:checkbox.clasep').each(function () {	
 					poblarcheques();
+					gridtotalescob();
 				}//if (button==1){
 			}			 
     	navigator.notification.confirm('¿Estas seguro de eliminar los registros seleccionados?',     // mensaje (message)
@@ -969,7 +941,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 	   $("#bacepapli").tap(function() {                                                   
 	       var tipocob=window.localStorage.getItem("tipocob");
            var monto = parseFloat($("#importeapli").val()); 
-		   alert(tipocob);
+		   
 		   if (isNaN(monto)) { 
         //entonces (no es numero) 
         	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
@@ -990,10 +962,8 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 			}
 			else{
 		    
-        	guardaefectivo(monto); 	
-			
+        	guardaefectivo(monto); 				
 			gridtotalescob();
-			
 			$('#divnumaplicob').hide(); 		    
 			}	    
 		}//tipocob
