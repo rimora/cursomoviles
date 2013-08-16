@@ -471,23 +471,6 @@ function actualizatempcob(factura,cantidad){
 	
 }//function actualizatempcob(factura,cantidad)
 
-function insertarcheque(nche,ncta,banco,monto){
-	   //alert('inserta cheque');
-	   var cliente=window.localStorage.getItem("clave");
-	   var ruta=window.localStorage.getItem("ruta");
-	   var fecha=window.localStorage.getItem("fecha");
-	    consultadb().transaction(insertadet,function(err){
-    	  alert("Error al insertar cheque: "+err.code+err.message);
-          });
-				
-    	function insertadet(tx) {
-			var sql='INSERT INTO CHEQUES (codbanco,cliente,ruta,fecha,monto,numcheque,cuenta,recibo,tipo) VALUES("'+banco+'","'+cliente+'","'+ruta+'", ';		
-				sql+='"'+fecha+'",'+monto+',"'+nche+'","'+ncta+'","99999",5)';		
-				//alert(sql);
-		   tx.executeSql(sql);		
-		}
-	
-}//function insertarcheque(nche,ncta,banco,monto)
 function eliminacheque(id){
 	   //alert('inserttafactura'+cantidad);
 	    consultadb().transaction(insertadet,function(err){

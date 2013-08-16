@@ -289,7 +289,9 @@ function poblarcuenta(){
 }// poblarcuenta()
 function poblarcheques(){	
 //alert('entra poblar cheques ');
- 	base.transaction(consulta, errorconsulta);	
+ 	base.transaction(consulta, errorconsulta,function(){
+	  gridtotalescob();	
+	});	
 	function consulta(tx) {		
 		tx.executeSql('SELECT a.id,a.codbanco,a.monto,a.numcheque,b.descripcion from CHEQUES a left outer join CUENTASB b on b.codigo=a.codbanco where a.recibo="99999"',[],exito,errorconsulta);
 		}
@@ -526,6 +528,25 @@ function insertatempcob(querycob){
 		}
 	
 }//function insertatempcob(factura)
+function insertarcheque(nche,ncta,banco,monto){
+	   //alert('inserta cheque');
+	   var cliente=window.localStorage.getItem("clave");
+	   var ruta=window.localStorage.getItem("ruta");
+	   var fecha=window.localStorage.getItem("fecha");
+	    base.transaction(insertadet,function(err){
+    	  alert("Error al insertar cheque: "+err.code+err.message);
+          },function(){
+			poblarcheques();  
+		  });
+				
+    	function insertadet(tx) {
+			var sql='INSERT INTO CHEQUES (codbanco,cliente,ruta,fecha,monto,numcheque,cuenta,recibo,tipo) VALUES("'+banco+'","'+cliente+'","'+ruta+'", ';		
+				sql+='"'+fecha+'",'+monto+',"'+nche+'","'+ncta+'","99999",5)';		
+				//alert(sql);
+		   tx.executeSql(sql);		
+		}
+	
+}//function insertarcheque(nche,ncta,banco,monto)
 
 
 

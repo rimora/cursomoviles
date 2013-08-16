@@ -177,12 +177,12 @@ function mostrarpedido(cliente){
 			  var artabordo=0; var pieabordo=0; var totalpre=0; var totalabordo=0;
 			  //agrega encabezado de grid			  			  
 			  html+='<div class="ui-block-a" style="width:20px" ><div class="ui-bar ui-bar-a" style="padding-left:0px">T</div></div>';
-          	  html+='<div class="ui-block-b" style="width:60px; margin-left:-10px" ><div class="ui-bar ui-bar-a">Alim</div></div>';
+          	  html+='<div class="ui-block-b" style="width:60px; margin-left:-10px" ><div class="ui-bar ui-bar-a">Elim</div></div>';
               html+='<div class="ui-block-c" style="width:300px; margin-left:-10px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
 		      html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-a">PP</div></div>';              
               html+='<div class="ui-block-e" style="width:410px">';
               html+='<div class="ui-grid-d">';
-					  	html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">DV</div></div>';
+					  	html+='<div class="ui-block-a" style="width:40px"><div class="ui-bar ui-bar-a" style="text-align:right; padding-left:0px">DV</div></div>';
 						html+='<div class="ui-block-b" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">PV</div></div>';
                         html+='<div class="ui-block-c" style="width:50px"><div class="ui-bar ui-bar-a" style="text-align:right">Cant</div></div>';
                         html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-a" style="text-align:right">Importe</div></div>';                        
@@ -248,7 +248,7 @@ function mostrarpedido(cliente){
               
               html+='<div class="ui-block-e" style="width:410px">';
               html+='<div class="ui-grid-d">';
-		                html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right">'+descuento+'</div></div>';
+		                html+='<div class="ui-block-a" style="width:40px"><div class="ui-bar ui-bar-b" style="text-align:right; padding-left:0px">'+descuento+'</div></div>';
 						html+='<div class="ui-block-b" style="width:80px"><div class="ui-bar ui-bar-b" style="text-align:right">'+precio.toFixed(2)+'</div></div>';
                         html+='<div class="ui-block-c" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right"><a href="#" class="clasep" name="'+row['articulo']+'" id="'+row['articulo']+' '+row['descripcion']+'" >'+cantidad+'</a></div></div>';
                         html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-b" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
@@ -659,7 +659,8 @@ function guardadetpedido(query,total){
 	
 }//function guardadetpedido
 function previolinea(articulo,cantidad){		
-alert(cantidad);
+alert(articulo);
+
  			if (isNaN(cantidad)) { 
         			//entonces (no es numero) 
         	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 

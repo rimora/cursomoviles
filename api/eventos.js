@@ -989,13 +989,13 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				$("#importeapli").val(''); 
 			}			
 			else{
-				insertarcheque(nche,"0",banco,monto);			
+				
 				$("select#menucuentab").val("Banco").selectmenu("refresh"); 
 				window.localStorage.setItem('numche',''); 
 				//$("#numcuenta").val("");  				
-				$('#divnumaplicob').hide();
-				poblarcheques();
-				gridtotalescob();
+				$('#divnumaplicob').hide();				
+				insertarcheque(nche,"0",banco,monto);			
+				
 			}
 			
 			
