@@ -237,22 +237,23 @@ alert('entra a otro');
 
 function gridtotalescob(){	
 alert('entra a gridtotalescob()');
-	var pendiente=saldopendiente();//obtiene el saldo pendiente de distribuir en los tipos de cobro
-	var montoche=window.localStorage.getItem("cheque");
-	var montoefe=window.localStorage.getItem("efectivo");
+	var pendiente=Number(saldopendiente());//obtiene el saldo pendiente de distribuir en los tipos de cobro
+	var montoche=Number(window.localStorage.getItem("cheque"));
+	var montoefe=Number(window.localStorage.getItem("efectivo"));
 	alert('pendiente '+pendiente);
 	alert('montoche '+montoche);
 	alert('montoefe '+montoefe);
 	var html="";
 	$("#gridaplicobros2").empty();
-    html+='	    <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Saldo Pendiente</div></div>';
-	html+='	    <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Efectivo</div></div>';
-	html+='	    <div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Cheque</div></div>';
-    html+='     <div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';
-	
-    html+='     <div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+montoefe.toFixed(2)+'</div></div>';
-	
-    html+='     <div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+montoche.toFixed(2)+'</div></div>';
+	alert('despues de empty');
+    html+='<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Saldo Pendiente</div></div>';
+	alert(html);
+	html+='<div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Efectivo</div></div>';
+	html+='<div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Cheque</div></div>';
+    html+='<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';	
+    html+='<div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+montoefe.toFixed(2)+'</div></div>';	
+    html+='<div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+montoche.toFixed(2)+'</div></div>';
+	alert('antes del apend');
 	$("#gridaplicobros2").append(html); 	
 				alert('despues de apend');
 }//function actgridsaldo()
