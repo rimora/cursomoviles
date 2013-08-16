@@ -284,19 +284,7 @@ function guardaencpedido(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal,
 		}
 	
 }//function guardaencpedido
-function guardadetpedido(pedido,articulo,precio,pordescuento,totalinea,descuento,precio,cantidad){
-	   //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
-	consultadb().transaction(insertadet,function(err){
-    	  alert("Error al insertar en detallepedido: "+err.code+err.message);
-          },alert("Detalle Pedido Guardado"));
-				
-    	function insertadet(tx) {		
-		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
-		
-			tx.executeSql('INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordescuento+','+totalinea+','+descuento+','+precio+','+cantidad+')'); 
-		}
-	
-}//function guardadetpedido
+
 function guardaencfactura(pedido,ruta,cliente,hora,fecha,impuesto,total,subtotal,descuento,obs,cond,bodega){
 	   //alert (pedido+ruta+cliente+hora+fecha+impuesto+total+subtotal+descuento+obs+cond+bodega);
 	consultadb().transaction(insertadet,function(err){
@@ -470,17 +458,7 @@ function actexis(articulo,cantidad){
 			}
 		}	
 }//function  actexis
-function insertatempcob(factura,abono,saldo){
-	 // navigator.notification.alert('entra insertatempcob '+factura+' '+abono+' '+saldo,null,'','Aceptar');	
-	    consultadb().transaction(insertadet,function(err){
-    	  alert("Error al insertar renglon temcobros: "+err.code+err.message);
-          });
-				
-    	function insertadet(tx) {		
-		   tx.executeSql('INSERT INTO TEMCOBROS (factura,abonado,saldo) VALUES ("'+factura+'",'+abono+','+saldo+')');		
-		}
-	
-}//function insertatempcob(factura)
+
 function actualizatempcob(factura,cantidad){
 	   //alert('actualiza tempcob'+factura+' '+cantidad);
 	    consultadb().transaction(insertadet,function(err){
@@ -493,18 +471,6 @@ function actualizatempcob(factura,cantidad){
 	
 }//function actualizatempcob(factura,cantidad)
 
-function eliminatempcob(){
-	   //alert('inserttafactura'+cantidad);
-	    consultadb().transaction(insertadet,function(err){
-    	  alert("Error al eliminar temcobros: "+err.code+err.message);
-          });
-				
-    	function insertadet(tx) {		
-		//alert('entra a eliminar temcobros');
-		   tx.executeSql('DELETE FROM TEMCOBROS ');		
-		}
-	
-}//function eliminatempcob()
 function insertarcheque(nche,ncta,banco,monto){
 	   //alert('inserta cheque');
 	   var cliente=window.localStorage.getItem("clave");

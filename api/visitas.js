@@ -1,6 +1,7 @@
 // REGISTRO DE VISITAS
+var base = window.openDatabase("Database", "1.0", "SARDEL", 10000000);	
 function configuravisita(){
-		consultadb().transaction(poblarc, function(err){
+		base.transaction(poblarc, function(err){
     	 		 alert("Error poblar razones de visitas: "+err.code+err.message);
          		});		
 		function poblarc(tx){  

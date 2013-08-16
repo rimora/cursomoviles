@@ -134,7 +134,7 @@ function modificatemppedido(articulo,cantidad,cliente){
 	   
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al modificar renglon: "+err.code+err.message);
-          },alert("Artículo modificado"));
+          });
 				
     	function insertadet(tx) {		
 		//alert('entra a modificar detallepedido');
@@ -176,8 +176,8 @@ function mostrarpedido(cliente){
 			  var existencia=0; var abordo=0; var preventa=0; var dif=0; var cantidad=0; var arttotal=0; var pietotal=0; var artpre=0; var piepre=0;
 			  var artabordo=0; var pieabordo=0; var totalpre=0; var totalabordo=0;
 			  //agrega encabezado de grid			  			  
-			  html+='<div class="ui-block-a" style="width:10px" ><div class="ui-bar ui-bar-a" style="padding-left:0px">T</div></div>';
-          	  html+='<div class="ui-block-b" style="width:60px; margin-left:-10px" ><div class="ui-bar ui-bar-a">Elim</div></div>';
+			  html+='<div class="ui-block-a" style="width:20px" ><div class="ui-bar ui-bar-a" style="padding-left:0px">T</div></div>';
+          	  html+='<div class="ui-block-b" style="width:60px; margin-left:-10px" ><div class="ui-bar ui-bar-a">Alim</div></div>';
               html+='<div class="ui-block-c" style="width:300px; margin-left:-10px"><div class="ui-bar ui-bar-a">Articulo</div></div>';
 		      html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-a">PP</div></div>';              
               html+='<div class="ui-block-e" style="width:410px">';
@@ -237,20 +237,20 @@ function mostrarpedido(cliente){
 					 }					 
 					 pieabordo+=abordo;						 
 					 piepre+=preventa;		
-			  html+='<div class="ui-block-a" style="width:10px"><div class="ui-bar ui-bar-b" style="padding-left:0px">1</div></div>';		 
+			  html+='<div class="ui-block-a" style="width:20px"><div class="ui-bar ui-bar-b" style="padding-left:0px">3</div></div>';		 
           	  html+='<div class="ui-block-b" style="width:60px;height:10px; margin-left:-10px">';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		                   				        
-            		html+='<input type="checkbox" name="'+row['articulo']+'" class="checkv" style="position:relative;height:15px">';
+            		html+='<input type="checkbox" name="'+row['articulo']+'" class="checkv" style="position:relative;height:10px">';
 					html+='</div>';
             		html+='</div>';   
-              html+='<div class="ui-block-c" style="width:300px; margin-left:-10px"><div class="ui-bar ui-bar-b" style="padding-left: 0px"><a href="#" class="descv" name="'+row['articulo']+'" data-ajax="false" >'+row['descripcion']+'</a></div></div>';
+              html+='<div class="ui-block-c" style="width:300px; margin-left:-10px"><div class="ui-bar ui-bar-b" style="padding-left: 0px"><a href="#" class="descv" name="'+row['articulo']+'"  >'+row['descripcion']+'</a></div></div>';
 		      html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-b">'+preciop.toFixed(2)+'</div></div>';
               
               html+='<div class="ui-block-e" style="width:410px">';
               html+='<div class="ui-grid-d">';
 		                html+='<div class="ui-block-a" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right">'+descuento+'</div></div>';
 						html+='<div class="ui-block-b" style="width:80px"><div class="ui-bar ui-bar-b" style="text-align:right">'+precio.toFixed(2)+'</div></div>';
-                        html+='<div class="ui-block-c" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right"><a href="#" class="clasep" name="'+row['articulo']+'" id="'+row['articulo']+' '+row['descripcion']+'" data-ajax="false" >'+cantidad+'</a></div></div>';
+                        html+='<div class="ui-block-c" style="width:50px"><div class="ui-bar ui-bar-b" style="text-align:right"><a href="#" class="clasep" name="'+row['articulo']+'" id="'+row['articulo']+' '+row['descripcion']+'" >'+cantidad+'</a></div></div>';
                         html+='<div class="ui-block-d" style="width:80px"><div class="ui-bar ui-bar-b" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
                         
                         html+='<div class="ui-block-e" style="width:150px">';
@@ -261,7 +261,7 @@ function mostrarpedido(cliente){
 							html+='</div></div>';   
                  	html+='</div>';
                   html+='</div>';
-          		 html+='</div>';
+          	
 			  
 			  
 			  
@@ -299,7 +299,9 @@ function mostrarpedido(cliente){
                     html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+total.toFixed(2)+'</div></div>';
 			        html+='</div>';
 					$("#divtotales").append(html);	
-
+					guardatotalventa(total);
+					guardadispventa(disp);
+					
 					
 			
 	   }//function exito
@@ -310,7 +312,7 @@ function mostrarpedido(cliente){
 //  });	
 
   }//mostrarpedido
- function armacatalogo(){
+ function armacatalogo(criterio){
  // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);		
@@ -319,9 +321,11 @@ function mostrarpedido(cliente){
          		});		
 	function poblarcat(tx){  	        
 			var sql='SELECT a.articulo,a.descripcion,a.descuento,b.existencia as ebodega,c.existencia as ealg,';			
-			sql+='a.precio ';
+			sql+='a.precio,a.clas,a.accion,a.laboratorio,a.sal ';
 			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
-			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" order by a.descripcion';
+			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" where a.articulo LIKE "%'+criterio+'%"';
+			sql+=' or a.descripcion like "%'+criterio+'%" or a.clas like "%'+criterio+'%" or a.accion like "%'+criterio+'%" or a.laboratorio like "%'+criterio+'%" ';
+			sql+=' or a.sal like "%'+criterio+'%" order by a.descripcion';
 			/*
 			var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,c.existencia as ealg,';			
 			sql+='a.precio,a.laboratorio,a.sal ';
@@ -475,6 +479,7 @@ function existeenpedido(articulo,cliente){
 						//window.location.href='#pcantidad';
 						$('#cantcat').val('1');						
 						$('#divnumcat').show();
+						$('#gridprevart').empty();
 						
 					}
 				});		
@@ -514,7 +519,7 @@ function fichaarticulo(articulo){//
 				     precio=Number(preciocdesc)*(1+(Number(row['impuesto'])/100));				 
 					 parcial=precio*cantidad;
 					 total+=Number(parcial);			  */
-					 html+='<a href="" style="float:left"> <img src="jquery-mobile/images/medicamento.png"> </a>';
+					 html+='<center><a href=""><img src="jquery-mobile/images/medicamento.png"/></a></center>';
 				     html+='<div class="ui-grid-a" id="gridficha" style="text-align:left">';
 			  	     html+='<div class="ui-block-a" style="width:120px" ><div class="ui-bar ui-bar-a">Articulo</div></div>';
 		             html+='<div class="ui-block-b" style="width:300px"><div class="ui-bar ui-bar-b">'+row['descripcion']+'</div></div>';
@@ -538,3 +543,162 @@ function fichaarticulo(articulo){//
 //  });	
 
   }//
+function guardarventa(cliente,obs){	
+var cabinsertada=false;
+var sumtotlinea=0; var summontodesc=0; var sumivalinea=0; var sumtotal=0; var bodega=window.localStorage.getItem("bodega");
+var consecutivo=window.localStorage.getItem("consepedido");
+var ruta=window.localStorage.getItem("ruta");
+var fecha = new Date();
+var fechaact=fecha.getFullYear()+"/"+(fecha.getMonth()+1)+"/"+fecha.getDate();
+var hora=fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+var fechayhora=fechaact+" "+hora;
+//+"\nMilisegundo: "+fecha.getMilliseconds());
+var longitud=consecutivo.length; var inicial=consecutivo.substr(0,3); var numpedido= consecutivo.substr(3,(longitud-3));
+ //alert(numpedido); 
+var incremetarp=Number(numpedido)+1;
+ //alert(incremetarp); 
+var pedido=inicial+pad(incremetarp,6);
+ //alert(pedido); 
+var query=[];
+   function pad(n, length){
+	   //alert('entra a funcion'+n); 
+  	 n = n.toString();
+   	 while(n.length < length) n = "0" + n;
+  	 return n;
+   }
+var i=0;
+	function listo(tx,results){ 	      
+	      if (results.rows.length>0){		
+		  	 $.each(results.rows,function(index){           			 
+			 var row = results.rows.item(index);    
+			 var precio=row['precio'];//precio sin descuento y sin iva			 
+			 var pordesc=row['descuento'];//porcentaje de descuento que se aplica 
+			 var totlinea=Number(row['cantidad'])*Number(row['precio']);//total de linea sin descuento y sin iva
+			 var montodesc=(Number(totlinea.toFixed(2))/100)*Number(row['descuento']); 
+			 var lineacdes=totlinea-montodesc;//importe de linea con descuento
+			 var ivalinea=lineacdes*(row['impuesto']/100);			 			 
+			 var preciocdesc=Number(row['precio'])-((Number(row['precio'])/100)*Number(row['descuento']));  
+			 var preciociva=preciocdesc*(1+(row['impuesto']/100));			 
+			 var cantidad=row['cantidad'];
+			 var articulo=row['articulo'];
+
+			 sumtotlinea+=totlinea.toFixed(2);//suma del total de linea sin descuento y sin iva
+			 summontodesc+=montodesc.toFixed(2);//suma del total de linea sin descuento y sin iva
+			 sumivalinea+=ivalinea.toFixed(2);//suma del total de linea sin descuento y sin iva			 
+			 alert(sumtotlinea);
+			 alert(summontodesc);
+			 alert(sumivalinea);			 
+			 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 
+			 i++;
+			 
+			 //guardadetpedido(pedido,articulo,precio,pordesc,totlinea,montodesc,precio,cantidad);
+			
+			//alert('despues de llamar a funcion guardated');
+			 
+			 
+			/* 
+			 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, NUM_PED,COD_ZON,DOC_PRO,COD_CLT,TIP_DOC,HOR_FIN,FEC_PED,FEC_DES,MON_IMP_VT,MON_CIV,MON_SIV,MON_DSC,OBS_PED,ESTADO,COD_CND,COD_BOD)'); 
+         tx.executeSql('CREATE TABLE IF NOT EXISTS DETPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, NUM_PED,COD_ART,MON_PRC_MN,POR_DSC_AP,MON_TOT,MON_DSC,MON_PRC_MX,CNT_MAX)'); 
+
+			 */			 			 
+		 	});
+			sumtotal=sumtotlinea+sumivalinea;
+			 alert(sumtotal);
+			 alert(sumtotlinea);
+			 alert(sumivalinea);			 
+
+			query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+pedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalinea+','+sumtotal+','+sumtotlinea+','+summontodesc+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
+			i++;			
+			query[i]='UPDATE PARAMETROS SET num_fac="'+pedido+'"';		
+			i++;			
+			query[i]='DELETE FROM TEMPEDIDO where cliente="'+cliente+'"';        
+			
+		  	 //guardaencpedido(pedido,ruta,cliente,fechayhora,fechaact,sumivalinea,(sumtotlinea+sumivalinea),sumtotlinea,summontodesc,obs,30,"K01");
+				//alert('despues de llamar a funcion guardated');
+		  }//if (results.rows.length>0){		  
+ 	}//function listo(tx,results){ 
+	function consultatemp(tx){  
+	             //alert('ENTRA A CONSultatepm'); 
+				var sql='SELECT a.articulo,a.cantidad,b.impuesto,b.precio,';
+				sql+='b.descuento ';	
+				sql+='FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo ';
+				sql+='WHERE  a.cliente="'+cliente+'"  ';
+			    //alert(sql);
+								
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error al preparar pedido : "+articulo+err.code+err.message);
+         		});    									
+	}
+	base.transaction(consultatemp, function(err){
+    	 			 alert("Error select tabla temporal PEDIDO para guardarlo: "+err.code+err.message);
+         		},function(){
+								
+					guardadetpedido(query,sumtotal);
+					
+				});		
+				
+}//function guardarventa
+function guardadetpedido(query,total){
+	   //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
+	consultadb().transaction(insertadet,function(err){
+    	  alert("Error al insertar en detallepedido: "+err.code+err.message);
+          },function(){		  
+		  alert('total '+total);
+		   actsaldo(total);//actualiza saldo del cliente, la funcion esta en almacenamiento.js		   		   
+		   window.localStorage.setItem("sioperacion",'S');
+		   navigator.notification.alert('Venta Guardada',null,'Guardar Venta','Aceptar');										 });
+		  				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+			for (var i = 0, long = query.length; i < long; i++) {   									   								
+				alert(query[i]);
+				tx.executeSql(query[i]); 						   
+					   
+			}// for (var i = 0, long = query.length; i < long; i++) 
+		}
+	
+}//function guardadetpedido
+function previolinea(articulo,cantidad){		
+ 			if (isNaN(cantidad)) { 
+        			//entonces (no es numero) 
+        	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
+			 return false;
+	       }
+			if (cantidad<=0){
+				navigator.notification.alert('La cantidad indicada debe ser mayor a cero',null,'Cantidad inválida','Aceptar');				
+				$("#cantcat").val('');
+				return false;
+			}
+
+		base.transaction(consulta, errorconsulta);	
+	function consulta(tx) {		
+		tx.executeSql('SELECT a.articulo,a.descripcion,a.precio,a.descuento,a.impuesto FROM articulo a where a.articulo="'+articulo+'"',[],exito,errorconsulta);
+		}		
+		function exito(tx,results){ 
+			
+		      $("#gridprevart").empty();				  			  
+			  var html = "";
+			  var tipo="";
+			  var precio=0; var iva=0; var descuento=0; var parcial=0; var preciop=0; var preciocdesc=0;			  			  			 	
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 				  	 					 
+				     preciocdesc=Number(row['precio'])-((Number(row['precio'])/100)*Number(row['descuento']));				     			     				     
+				     precio=Number(preciocdesc)*(1+(Number(row['impuesto'])/100));				 
+					 parcial=precio*Number(cantidad);					 
+					 html+='<div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-a">Precio</div></div>';
+					 html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-a">Cantidad</div></div>';
+					 html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-a">Total</div></div>';
+	                 html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+precio.toFixed(0)+'</div></div>';				    
+		             html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+cantidad+'</div></div>';	                
+	                 html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
+					 $("#gridprevart").append(html);							 
+			  
+			  });//.each											                
+	   }//function exito
+ 		
+	function errorconsulta(err) {
+    	alert("Error SQL al llenar previo de articulo: "+err.code+err.message);
+	}
+//  });	
+
+  }//previolinea

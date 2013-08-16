@@ -1,10 +1,11 @@
 // cobros
+var base = window.openDatabase("Database", "1.0", "SARDEL", 10000000);	
 function listafacturaspend(cliente){
 	//alert('entra a listafacturaspend '+cliente);
 	 // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);
-		consultadb().transaction(poblarfac, function(err){
+		base.transaction(poblarfac, function(err){
     	 		 alert("Error poblar facturas para cobro: "+err.code+err.message);
          		});		
 	function poblarfac(tx){  
@@ -101,32 +102,33 @@ function listafacturaspend(cliente){
 function copiatemcobros(cliente,copiar){	//llamada de eventos.js
 //el parametro copiar indica si el usuario selecciono el boton de copiar la columna saldo a la columna a pagar
 //
-
+var querycob=[];
+var i=0;
 	function listo(tx,results){
 		   $.each(results.rows,function(index){           
 			 var row = results.rows.item(index); 			 
 			 if (copiar=='S'){
-			 insertatempcob(row['documento'],row['saldo'],row['saldo']); //funcion de afectarbd.js
+				querycob[i]='INSERT INTO TEMCOBROS (factura,abonado,saldo) VALUES ("'+row['documento']+'",'+row['saldo']+','+row['saldo']+')';			 
 			 }
 			 else{
-				 insertatempcob(row['documento'],0,row['saldo']); //funcion de afectarbd.js				 
+				 querycob[i]='INSERT INTO TEMCOBROS (factura,abonado,saldo) VALUES ("'+row['documento']+'",'+0+','+row['saldo']+')';						 
 			 }
+			 i++;
 		 });    		 	      
  	}//function listo(tx,results){ 
 	function consultatemp(tx){   	       
 				//alert('articulo de MODIFICAR temPEDIDO '+articulo);
 				 var sql='SELECT a.documento,a.saldo ';
 	   			 sql+='FROM PENCOBRO a ';	
-				 sql+='where a.cliente="'+cliente+'"';	
-		
-								
-			tx.executeSql(sql,[],listo,function(err){
+				 sql+='where a.cliente="'+cliente+'"';											
+	   			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error copiar a temporal TEMCOBROS : "+articulo+err.code+err.message);
          		});    									
 	}
-	consultadb().transaction(consultatemp, function(err){
+	base.transaction(consultatemp, function(err){
     	 			 alert("Error select copiar a tabla temporal TEMCOBROS: "+err.code+err.message);
          		},function(){
+					insertatempcob(querycob);
 					listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado
 					});		
 				
@@ -164,7 +166,7 @@ function mostrardcob(factura){
     	 		 alert("Error consultar temporal TEMCOBROS para dialogo: "+articulo+err.code+err.message);
          		});    									
 	}
-	consultadb().transaction(consultatemp, function(err){
+	base.transaction(consultatemp, function(err){
     	 			 alert("Error select tabla temporal TEMCOBROS: "+err.code+err.message);
          		});		
 				
@@ -198,7 +200,7 @@ function insertacobro(factura,cantidad){ //llamada de eventos.js
     	 		 alert("Error consultar PENCOBRO : "+articulo+err.code+err.message);
          		});    									
 	}
-	consultadb().transaction(consultatemp, function(err){
+	base.transaction(consultatemp, function(err){
     	 			 alert("Error select tabla PENCOBRO: "+err.code+err.message);
          		});		
 				
@@ -252,7 +254,7 @@ function gridtotalescob(){
 				
 }//function actgridsaldo()
 function poblarcuenta(){
-		consultadb().transaction(poblarc, function(err){
+		base.transaction(poblarc, function(err){
     	 		 alert("Error poblar cuentasbancarias: "+err.code+err.message);
          		});		
 		function poblarc(tx){  
@@ -283,7 +285,7 @@ function poblarcuenta(){
 }// poblarcuenta()
 function poblarcheques(){	
 //alert('entra poblar cheques ');
- 	consultadb().transaction(consulta, errorconsulta);	
+ 	base.transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
 		tx.executeSql('SELECT a.id,a.codbanco,a.monto,a.numcheque,b.descripcion from CHEQUES a left outer join CUENTASB b on b.codigo=a.codbanco where a.recibo="99999"',[],exito,errorconsulta);
 		}
@@ -453,7 +455,7 @@ function pagarximp(cliente,cantidad){
     	 		 alert("Error consultar PENCOBRO : "+articulo+err.code+err.message);
          		});    									
 	}
-	consultadb().transaction(consultatemp, function(err){
+	base.transaction(consultatemp, function(err){
     	 			 alert("Error select tabla PENCOBRO: "+err.code+err.message);
          		}, function(){
 					
@@ -489,12 +491,36 @@ function mostrarnotascob(factura){
     	 		 alert("Error consultar notas NOTASCOB : "+factura+err.code+err.message);
          		});    									
 	}
-	consultadb().transaction(consultatemp, function(err){
+	base.transaction(consultatemp, function(err){
     	 			 alert("Error select tabla NOTAS NOTASCOB: "+err.code+err.message);
          		});		
 				
 }//function mostrarnotascob(factura)
-
+function eliminatempcob(){
+	   //alert('inserttafactura'+cantidad);
+	    base.transaction(insertadet,function(err){
+    	  alert("Error al eliminar temcobros: "+err.code+err.message);
+          });
+				
+    	function insertadet(tx) {		
+		//alert('entra a eliminar temcobros');
+		   tx.executeSql('DELETE FROM TEMCOBROS ');		
+		}
+	
+}//function eliminatempcob()
+function insertatempcob(querycob){
+	 // navigator.notification.alert('entra insertatempcob '+factura+' '+abono+' '+saldo,null,'','Aceptar');	
+	    base.transaction(insertadet,function(err){
+    	  alert("Error al insertar renglon temcobros: "+err.code+err.message);
+          });
+				
+    	function insertadet(tx) {
+			for (var i=0, long =querycob.length; i<long; i++){				
+				tx.executeSql(querycob[i]); 						   					   
+			}// for (var i = 0, long = query.length; i < long; i++) 
+		}
+	
+}//function insertatempcob(factura)
 
 
 
