@@ -22,8 +22,9 @@ function listafacturas(cliente){
 		 $.each(results.rows,function(index){           
 			 var row = results.rows.item(index); 
 			 var html="";               		
-			 var fecha1 = row['factura'].split("-");	 
-			 var fecha2=fecha1[2]+'/'+fecha1[1]+'/'+fecha1[0];			 
+			 var fecha1 = row['fecha'].split("-");	 
+			 var fecha2=fecha1[2]+'/'+fecha1[1]+'/'+fecha1[0];	
+					 
 			 html+='<li id="'+row['factura']+'">';
 	         html+='<a href="#"><h5> Documento: '+row['factura']+'</h5>';
 			// html+='Total:  '+row['monto']+'    Pedido:   '+row['pedido']+'    Fecha:   '+row['fecha']+'</a></li>';
@@ -204,7 +205,7 @@ var horaini=window.localStorage.getItem("fechahora");//fecha y hora actual guard
 guardafechaactual();//guarda en memoria la fecha con hora, actuales
 var horafin= window.localStorage.getItem("fechahora");//recuperamos la nueva fecha y hora actual
 var fechadev=window.localStorage.getItem("fecha");//recuperamos la fecha actual
-var longitud=consecutivo.length;
+var longitud=consecutivo.length; 
 var inicial=consecutivo.substr(0,3);
 var numdev= consecutivo.substr(3,(longitud-3));
  //alert(numdev); 
