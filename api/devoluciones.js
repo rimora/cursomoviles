@@ -302,7 +302,7 @@ var cantmayor=false;
 			 	//preparadetalletemp(row['articulo'],row['cantidad']);																
 				var dif=Number(row['cantidad'])-Number(row['devuelto']);				
  			 	if (cantidad>dif){//se intenta devolver mas de la cantidad disponible para devolución
-					navigator.notification.alert('Se intenta devolver una cantidad mayor que el disponible',null,'Error Indicando Cantidad','Aceptar');						 					return false;				 
+					navigator.notification.alert('Se intenta devolver una cantidad mayor que el disponible',null,'Error Indicando Cantidad','Aceptar');								 
 					cantmayor=true;
 				 }
 				 //alert('pasa depues del if');
