@@ -111,7 +111,7 @@ function mostrarhistfac(factura){
 						html+='</div></div>';
 			if (Number(row['temdev']>0)){										
          	 html2+='<div class="ui-block-a" style="width:300px"><div class="ui-bar ui-bar-e">'+row['descripcion']+'</div></div>';
-			 html2+='<diiv class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+row['temdev']+'</div></div>';
+			 html2+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+row['temdev']+'</div></div>';
 			 html2+='<div class="ui-block-c" style="width:200px"><div class="ui-bar ui-bar-b">hola</div></div>';
 			}
                   	 
@@ -120,6 +120,7 @@ function mostrarhistfac(factura){
 			  });//.each
 					$("#griddethistfac").append(html); 
 	               html2+='</div>'; 
+				   html2+='<br>'; 				   
 	               html2+='<div data-role="fieldcontain">';		
 			        html2+='<label for="obsgendev" style="font-size:16px; color:#F00" >Observaciones Generales:</label>';
 			        html2+='<textarea  style="width:30%"  name="obsgendev" id="obsgendev"></textarea>';
