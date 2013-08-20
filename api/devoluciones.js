@@ -67,7 +67,7 @@ function mostrarhistfac(factura){
 			     
 			  html2+='<h1><b>ARTICULOS DEVUELTOS</b></h1>';
            	  html2+='<div class="ui-grid-b" id="gridartdev">';
-			  html2+=' <div class="ui-block-a" style="width:300px" ><div class="ui-bar ui-bar-a">Articulo</div></div> ';           
+			  html2+=' <div class="ui-block-a" style="width:300px"><div class="ui-bar ui-bar-a">Articulo</div></div> ';           
               html2+=' <div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-a">Cantidad</div></div>';
 			  html2+=' <div class="ui-block-c" style="width:200px"><div class="ui-bar ui-bar-a">Observaciones</div></div>';
               
@@ -111,8 +111,8 @@ function mostrarhistfac(factura){
 						html+='</div></div>';
 			if (Number(row['temdev']>0)){										
          	 html2+='<div class="ui-block-a" style="width:300px"><div class="ui-bar ui-bar-e">'+row['descripcion']+'</div></div>';
-			 html2+='<diiv class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+row['temdev']+'</div></div>';                  
-			 html2+='<div class="ui-block-c" style="width:200px"><div class="ui-bar ui-bar-b">'+row['obs']+'</div></div>';                  
+			 html2+='<diiv class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+row['temdev']+'</div></div>';
+			 html2+='<div class="ui-block-c" style="width:200px"><div class="ui-bar ui-bar-b">hola</div></div>';
 			}
                   	 
 				  
@@ -290,8 +290,6 @@ var devolucion=inicial+pad(incremetard,6);
 }//function guardadev
 function insertalindev(factura,linea,cantidad,observa){	
 var cantmayor=false;
-alert(linea);
-alert(cantidad);
 
 	function listo(tx,results){ 	      
 	      if (results.rows.length>0){			
@@ -299,11 +297,7 @@ alert(cantidad);
 			    var articulo=row['articulo'];
 			 //if (row['cantidad']>0){
 			 	//preparadetalletemp(row['articulo'],row['cantidad']);																
-				var dif=Number(row['cantidad'])-Number(row['devuelto']);
-				alert ('dif '+dif);
-				alert ('cantidad '+row['cantidad']);
-				alert ('devuelto '+row['devuelto']);
-				alert(dif);
+				var dif=Number(row['cantidad'])-Number(row['devuelto']);				
  			 	if (cantidad>dif){//se intenta devolver mas de la cantidad disponible para devolución
 					navigator.notification.alert('Se intenta devolver una cantidad mayor que el disponible',null,'Error Indicando Cantidad','Aceptar');						 					return false;				 
 					cantmayor=true;
