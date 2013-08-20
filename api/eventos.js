@@ -504,8 +504,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 						// window.location.href='#phistfac';
 						
 						 eliminatempdev();
-						 guardatotaldev(0);
-						 $("#divdevueltos").hide();
+						 guardatotaldev(0);						 
 						 $("#divgriddev").hide();
 			
 					}//if (button==1){
