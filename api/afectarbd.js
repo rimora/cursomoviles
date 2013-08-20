@@ -101,14 +101,19 @@ function insertar(){
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("BSANTAND","92001407761","Santander")'); 
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("ND","110120113112","ERNESTO ARANA")'); 
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("BITAL","04045430485","HSBC")'); 		
-		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046441",241.643,"1020","F06000779","03/07/2013")');  		
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACA-01",0,2,0,85.77,140)')	//55	
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACE-01",1,5,0,59.80,175)')	//75	
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACE-02",2,6,0,59.8,168)')	//75	
-		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046442",346.342,"1020","F06000780","03/07/2013")');  		
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALC-01",0,2,1,185,140)')//75		
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALI-01",1,5,2,54.03,175)')	//54	
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALI-02",2,6,0,46.95,168)')		//54
+		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046441",241.643,"1020","F06000779","2013/08/09")');  		
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACA-01",0,2,0,85.77,77.193)')	//55	
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACE-01",1,5,0,59.80,74.75)')	//75	
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACE-02",2,6,0,59.8,89.70)')	//75	
+		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046442",346.342,"1020","F06000780","2013/08/10")');  		
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALC-01",0,2,1,185,92.50)')//75		
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALI-01",1,5,2,54.03,124.269)')	//54	
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALI-02",2,6,0,46.95,129.582)')		//54
+		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046443",346.342,"1020","F06000781","2013/08/01")');  		
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALC-01",0,2,1,185,92.50)')//75	
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALI-01",1,5,2,54.03,124.269)')	//54	
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALI-02",2,6,0,46.95,129.582)')		//54
+
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia UNO", "1020","Lunes","Dirección del cliente","2281545130","C","30",10000.00,2324.65)');      
         tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia DOS", "1030","Martes","Dirección del cliente  DOS","2281545130","C","30",30000.00,20000.00)'); 
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia TRES", "1040","Miercoles","Dirección del cliente","2281545130","C","30",3000.00,0.00)');        
@@ -374,17 +379,7 @@ function actualizatempdev(linea,cantidad,observa){
 		}
 	
 }//function actualizatempdev
-function insertatempdev2(articulo,linea,cantidad){
-	   //alert('inserttafactura'+cantidad);
-	    consultadb().transaction(insertadet,function(err){
-    	  alert("Error al insertar renglon temdevolucion: "+err.code+err.message);
-          });
-				
-    	function insertadet(tx) {		
-		   tx.executeSql('INSERT INTO TEMDEV (articulo,linea,cantidad,obs) VALUES ("'+articulo+'",'+linea+','+cantidad+',"")');		
-		}
-	
-}//function actualizatempdev
+
 function insertatempdev(articulo,linea){
 	   //alert('inserttafactura'+cantidad);
 	    consultadb().transaction(insertadet,function(err){

@@ -44,7 +44,7 @@ function mostrarhistfac(factura){
 		consultadb().transaction(consulta, errorconsulta);	
 	function consulta(tx) {	
         var sql='SELECT a.factura,a.articulo,a.cantidad,a.devuelto,a.precio,a.totlinea,a.linea, ';
-	    sql+=' b.precio,b.descuento,b.descripcion,c.cantidad as temdev,c.obs FROM DETHISFAC a ';	
+	    sql+=' b.descripcion,c.cantidad as temdev,c.obs FROM DETHISFAC a ';	
 		sql+='left outer join articulo b on b.articulo=a.articulo left outer join TEMDEV c on c.linea=a.linea where a.factura="'+factura+'"';	
 		
 		tx.executeSql(sql ,[],exito,errorconsulta);
@@ -335,7 +335,7 @@ function copiadethistempd(factura,estotal){
 			 var row = results.rows.item(index); 
 			 var disponible=Number(row['cantidad'])-Number(row['devuelto']);			 
 			 if (estotal=='S'){
-				 insertatempdev2(row['articulo'],row['linea'],disponible);
+				 actualizatempdev(row['linea'],disponible,'');
 			 }
 			 else{
 				insertatempdev(row['articulo'],row['linea']);	 
