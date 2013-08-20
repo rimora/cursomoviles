@@ -430,7 +430,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
                   eliminatempdev();
 				  guardafactura(factura);//almacena localmente el numero de factura
 				  copiadethistempd(factura);//copia a tabla temporal los renglones de la factura a devolver
-				  mostrarhistfac(factura);//muestra el grid con los detalles de los artículos de factura
+				 // mostrarhistfac(factura);//muestra el grid con los detalles de los artículos de factura
 				  guardafechaactual();
 				  
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
@@ -439,7 +439,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				  //limpiartemp();	
 				  var factura=window.localStorage.getItem("factura");				  
 				  copiadethistempd(factura,'S');					  
-				  mostrarhistfac(factura);
+				  //mostrarhistfac(factura);
       			  //mostrarartdev();
      });
 	$("a.clasedev").live('click',function(){//al modificar linea de devolución.

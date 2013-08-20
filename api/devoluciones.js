@@ -21,11 +21,13 @@ function listafacturas(cliente){
 		 $('#listahistfac').empty(); 		     
 		 $.each(results.rows,function(index){           
 			 var row = results.rows.item(index); 
-			 var html="";               			 
+			 var html="";               		
+			 var fecha1 = row['factura'].split("-");	 
+			 var fecha2=fecha1[2]+'/'+fecha1[1]+'/'+fecha1[0];			 
 			 html+='<li id="'+row['factura']+'">';
 	         html+='<a href="#"><h5> Documento: '+row['factura']+'</h5>';
 			// html+='Total:  '+row['monto']+'    Pedido:   '+row['pedido']+'    Fecha:   '+row['fecha']+'</a></li>';
-			 html+='Total:  '+row['monto']+' Fecha:   '+row['fecha']+'</a></li>';
+			 html+='Total:  '+row['monto']+' Fecha:   '+fecha2+'</a></li>';
 			 //alert('antes del append de listfac '+html);
 			 $('#listahistfac').append(html);  			
 			 //alert('despues del append de listfac '+html); 
@@ -112,7 +114,7 @@ function mostrarhistfac(factura){
 			if (Number(row['temdev']>0)){										
          	 html2+='<div class="ui-block-a" style="width:300px"><div class="ui-bar ui-bar-e">'+row['descripcion']+'</div></div>';
 			 html2+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+row['temdev']+'</div></div>';
-			 html2+='<div class="ui-block-c" style="width:200px"><div class="ui-bar ui-bar-b">hola</div></div>';
+			 html2+='<div class="ui-block-c" style="width:200px"><div class="ui-bar ui-bar-b">'+row['obs']+'</div></div>';
 			}
                   	 
 				  
@@ -356,7 +358,9 @@ function copiadethistempd(factura,estotal){
 	}
 	base.transaction(consultatemp, function(err){
     	 			 alert("Error select copiar tabla temporal TEMDEV: "+err.code+err.message);
-         		});		
+         		},function(){					
+					mostrarhistfac(factura);						
+				});		
 				
 }//function copiadethistempd
 function mostrarddev(linea){	
