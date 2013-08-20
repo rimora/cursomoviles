@@ -69,7 +69,7 @@ function mostrarhistfac(factura){
            	  html2+='<div class="ui-grid-b" id="gridartdev">';
 			  html2+=' <div class="ui-block-a" style="width:300px" ><div class="ui-bar ui-bar-a">Articulo</div></div> ';           
               html2+=' <div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-a">Cantidad</div></div>';
-			  html2+=' <div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-a">Observaciones</div></div>';
+			  html2+=' <div class="ui-block-c" style="width:200px"><div class="ui-bar ui-bar-a">Observaciones</div></div>';
               
 				  
 				  
@@ -112,7 +112,7 @@ function mostrarhistfac(factura){
 			if (Number(row['temdev']>0)){										
          	 html2+='<div class="ui-block-a" style="width:300px"><div class="ui-bar ui-bar-e">'+row['descripcion']+'</div></div>';
 			 html2+='<diiv class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b">'+row['temdev']+'</div></div>';                  
-			 html2+='<div class="ui-block-c" style="width:300px"><div class="ui-bar ui-bar-b">'+row['obs']+'</div></div>';                  
+			 html2+='<div class="ui-block-c" style="width:200px"><div class="ui-bar ui-bar-b">'+row['obs']+'</div></div>';                  
 			}
                   	 
 				  
@@ -124,7 +124,12 @@ function mostrarhistfac(factura){
 			        html2+='<label for="obsgendev" style="font-size:16px; color:#F00" >Observaciones Generales:</label>';
 			        html2+='<textarea  style="width:30%"  name="obsgendev" id="obsgendev"></textarea>';
 				   html2+='</div>';
-					$("#divdevueltos").append(html2); 
+				   $("#divdevueltos").append(html2); 
+				   $("#gridtotaldev").empty(); 
+				   html2='';
+				   html2+='<div class="ui-block-a" style="width:120px" ><div class="ui-bar ui-bar-a">Total</div></div>';
+                   html2+='<div class="ui-block-b" style="width:120px; text-align:right"><div class="ui-bar ui-bar-b" >'+total.toFixed(2)+'</div></div>';
+				   $("#gridtotaldev").append(html2); 
 					guardatotaldev(total);
 					//$("#tpedido").attr("value",total); 			
 					//$("#tpedido").val(total.toFixed(2)); 			
@@ -323,8 +328,7 @@ alert(cantidad);
          		},function(){
 					if (cantmayor==false){
 					 actualizatempdev(linea,cantidad,observa)
-					 mostrarhistfac(factura);
-					 mostrarartdev();						
+					 mostrarhistfac(factura);					 
 					}
 				});		
 				
