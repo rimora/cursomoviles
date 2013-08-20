@@ -10,7 +10,7 @@ function listafacturaspend(cliente){
          		});		
 	function poblarfac(tx){  
 			var sql='SELECT a.documento,a.saldo,a.monto,a.fechaven,b.abonado,a.vencida,a.diasv FROM PENCOBRO a ';		
-				sql+=' left outer join TEMCOBROS b on b.factura=a.documento WHERE a.cliente="'+cliente+'" ORDER BY fechaven'
+				sql+=' left outer join TEMCOBROS b on b.factura=a.documento WHERE a.cliente="'+cliente+'" and a.saldo>0 ORDER BY fechaven'
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select facturas pendientes de cobro: "+err.code+err.message);
          		});    	
@@ -207,7 +207,7 @@ function insertacobro(factura,cantidad){ //llamada de eventos.js
 }//function insertacobro
 function aplicacionpago(saldofac,abono){	
 	var pendiente=Number(saldopendiente());//obtiene el saldo pendiente de distribuir en los tipos de cobro
-	alert('pendiente de aplicacionpago'+pendiente);
+	//alert('pendiente de aplicacionpago'+pendiente);
 	
 	var html="";
 	var html2="";
@@ -236,26 +236,19 @@ alert('entra a otro');
 }
 
 function gridtotalescob(){	
-alert('entra a gridtotalescob()');
+//alert('entra a gridtotalescob()');
 	var pendiente=Number(saldopendiente());//obtiene el saldo pendiente de distribuir en los tipos de cobro
 	var montoche=Number(window.localStorage.getItem("cheque"));
 	var montoefe=Number(window.localStorage.getItem("efectivo"));
-	alert('pendiente '+pendiente);
-	alert('montoche '+montoche);
-	alert('montoefe '+montoefe);
 	var html="";
-	$("#gridaplicobros2").empty();
-	alert('despues de empty');
+	$("#gridaplicobros2").empty();	
     html+='<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Saldo Pendiente</div></div>';
-	alert(html);
 	html+='<div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Efectivo</div></div>';
 	html+='<div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-a" style="font-size:18px;font-weight:bold">Cheque</div></div>';
     html+='<div class=ui-block-a style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+pendiente.toFixed(2)+'</div></div>';	
     html+='<div class=ui-block-b style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+montoefe.toFixed(2)+'</div></div>';	
     html+='<div class=ui-block-c style="width:170px"><div class="ui-bar ui-bar-b" style="font-size:18px;font-weight:bold">'+montoche.toFixed(2)+'</div></div>';
-	alert('antes del apend');
 	$("#gridaplicobros2").append(html); 	
-				alert('despues de apend');
 }//function actgridsaldo()
 function poblarcuenta(){
 		base.transaction(poblarc, function(err){
@@ -470,12 +463,12 @@ function pagarximp(cliente,cantidad){
 				});	
 }//function pagarximp
 function mostrarnotascob(factura){	
-alert(factura);
+//alert(factura);
 	var html="";
 	
 	$("#divencnum").empty();
 	html='<label style="font-weight: bold">Notas para factura:'+factura+'</label><br>';
-	html+='<textarea cols="30" rows="10">';
+	html+='<textarea cols="30" rows="20">';
 
 	function listo(tx,results){ 	      
 	        $.each(results.rows,function(index){			
@@ -547,6 +540,30 @@ function insertarcheque(nche,ncta,banco,monto){
 		}
 	
 }//function insertarcheque(nche,ncta,banco,monto)
+function consultasivencidas(cliente){
+	var vencida='';
+		base.transaction(poblarfac, function(err){
+    	 		 alert("Error poblar facturas para cobro: "+err.code+err.message);
+         		},function(){guardasivencida(vencida)});		
+	function poblarfac(tx){  
+			var sql='SELECT a.saldo,a.vencida FROM PENCOBRO a ';		
+				sql+=' WHERE a.cliente="'+cliente+'" and a.saldo>0 '
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error select facturas pendientes de cobro: "+err.code+err.message);
+         		});    	
+	}
+	function listo(tx,results){  
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 				     			     
+					if (row['vencida']=='S') {
+					  vencida='S';	
+					}
+			  });//.each
+ 	}
+	
 
+ // });	//$('#pclientes').live('pageshow',function(event, ui){
+	
+}// listafacturaspend(cliente)
 
 

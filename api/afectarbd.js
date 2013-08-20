@@ -101,10 +101,14 @@ function insertar(){
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("BSANTAND","92001407761","Santander")'); 
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("ND","110120113112","ERNESTO ARANA")'); 
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("BITAL","04045430485","HSBC")'); 		
-		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046441",483,"1020","F06000779","03/07/2013")');  		
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ADE-04",0,2,0,100,140)')		
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","AGU-10",1,5,0,50,175)')		
-		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","AMO-19",2,6,0,38,168)')		
+		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046441",241.643,"1020","F06000779","03/07/2013")');  		
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACA-01",0,2,0,85.77,140)')	//55	
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACE-01",1,5,0,59.80,175)')	//75	
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACE-02",2,6,0,59.8,168)')	//75	
+		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046442",346.342,"1020","F06000780","03/07/2013")');  		
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALC-01",0,2,1,185,140)')//75		
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALI-01",1,5,2,54.03,175)')	//54	
+		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046442","ALI-02",2,6,0,46.95,168)')		//54
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia UNO", "1020","Lunes","Dirección del cliente","2281545130","C","30",10000.00,2324.65)');      
         tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia DOS", "1030","Martes","Dirección del cliente  DOS","2281545130","C","30",30000.00,20000.00)'); 
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia TRES", "1040","Miercoles","Dirección del cliente","2281545130","C","30",3000.00,0.00)');        
@@ -370,6 +374,17 @@ function actualizatempdev(linea,cantidad,observa){
 		}
 	
 }//function actualizatempdev
+function insertatempdev2(articulo,linea,cantidad){
+	   //alert('inserttafactura'+cantidad);
+	    consultadb().transaction(insertadet,function(err){
+    	  alert("Error al insertar renglon temdevolucion: "+err.code+err.message);
+          });
+				
+    	function insertadet(tx) {		
+		   tx.executeSql('INSERT INTO TEMDEV (articulo,linea,cantidad,obs) VALUES ("'+articulo+'",'+linea+','+cantidad+',"")');		
+		}
+	
+}//function actualizatempdev
 function insertatempdev(articulo,linea){
 	   //alert('inserttafactura'+cantidad);
 	    consultadb().transaction(insertadet,function(err){
@@ -381,20 +396,27 @@ function insertatempdev(articulo,linea){
 		}
 	
 }//function actualizatempdev
-function eliminatempdev(){
-	   //alert('inserttafactura'+cantidad);
-	    consultadb().transaction(insertadet,function(err){
-    	  alert("Error al eliminar temdevolucion: "+err.code+err.message);
-          });
-				
+function guardaencdev(querydev,total){
+	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
+	     //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
+	base.transaction(insertadet,function(err){
+    	  alert("Error al insertar en detalledev: "+err.code+err.message);
+          },function(){		  
+		 //alert('total '+total);
+		   actsaldo(total*-1);//actualiza saldo del cliente, la funcion esta en almacenamiento.js		   		   
+		   window.localStorage.setItem("sioperacion",'S');
+		   navigator.notification.alert('Devolución Guardada',null,'Guardar Devolución','Aceptar');										 });
+		  				
     	function insertadet(tx) {		
-		//alert('entra a eliminar tempdev');
-		   tx.executeSql('DELETE FROM TEMDEV ');		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+			for (var i = 0, long = querydev.length; i < long; i++) {   									   								
+				//alert(query[i]);
+				tx.executeSql(querydev[i]); 						   
+					   
+			}// for (var i = 0, long = query.length; i < long; i++) 
 		}
 	
-}//function eliminatempdev
-function guardaencdev(devolucion,ruta,cliente,horaini,horafin,fecha,obs,renglones,subtotal,impuesto,bodega,factura){
-	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
+	/*
 	consultadb().transaction(insertadet,function(err){
     	  alert("Error al insertar encabezado devolucion: "+err.code+err.message);
           },function(){
@@ -404,10 +426,10 @@ function guardaencdev(devolucion,ruta,cliente,horaini,horafin,fecha,obs,renglone
 			});
 				
     	function insertadet(tx) {		
-		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+		
 		
 			tx.executeSql('INSERT INTO ENCDEV (num_dev,cod_zon,cod_clt,hor_ini,hor_fin,fec_dev,obs_dev,num_itm,est_dev,mon_siv,mon_dsc,por_dsc_ap,mon_imp_vt,mon_imp_cs,cod_bod,impreso,num_ref) VALUES("'+devolucion+'","'+ruta+'","'+cliente+'","'+horaini+'","'+horafin+'","'+fecha+'","'+obs+'",'+renglones+',"A",'+subtotal+',0,0,'+impuesto+',0,"'+bodega+'","N","'+factura+'")'); 
-   			tx.executeSql('UPDATE PARAMETROS SET num_dev="'+devolucion+'"');		
+   			tx.executeSql('UPDATE PARAMETROS SET num_dev="'+devolucion+'"');		*/
 //hor_ini:fecha y hora en que inicia la devolución
 //hor_fin:fecha y hora en que guarda la devolución
 //fec_dev: solo fecha de devolución
@@ -416,7 +438,7 @@ function guardaencdev(devolucion,ruta,cliente,horaini,horafin,fecha,obs,renglone
 //por_dsc_ap: no aplica, lleva cero
 //mon_imp_vt:suma de iva de los renglones
 //mon_imp_cs: no aplica, lleva cero
-		}
+		//}
 	
 }//function guardaencdev
 function guardadetdev(devolucion,ruta,articulo,totalinea,precio,cantidad,obs,descuento,pordescuento,factura,linea){
@@ -502,7 +524,7 @@ function guardaenccob(cliente,tipo,ruta,recibo,horaini,horafin,estado,monche,mon
     	  alert("Error al insertar encabezado de cobro: "+err.code+err.message);
           },function(){
 			actsaldo(totalrecibo*-1);  
-			 
+			consultasivencidas(cliente); 
 			 	consultadb().transaction(actcheque,function(err){
 		    	  alert("Error al actualizar recibo en cheques: "+err.code+err.message); });				
     			function actcheque(tx) {		

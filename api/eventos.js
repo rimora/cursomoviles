@@ -9,7 +9,7 @@ $(document).ready(function() {
 	
 	});*/	
 	 //$('#divnumcobros').hide(); 
-	 	
+	 var articulo='';	
 	 var longitud=0;
 	window.localStorage.clear();
 	//obtenerconse();//funcion que almacena localmente los consecutivos de documentos actuales.funcion en configuraciones.js
@@ -54,7 +54,7 @@ $(document).ready(function() {
                  //var clavecli = $(this).attr("id");
 				 //botón clientes, genera lista con los clientes del día lunes
 				  //alert ('llama a mostrar clientes');
-				  $("#divclientes").hide();
+				  
 				  window.location.href='#pclientes';				                    
 				  mostrarclientes("Lunes");
 				  //$("select#menu").val("Lunes").selectmenu("refresh");   
@@ -273,22 +273,29 @@ $(document).ready(function() {
 //**********VENTAS************	
 $("#bventa").tap(function() {		 	 
                  var cliente=window.localStorage.getItem("clave");
-				 //limpia los grid
-				 $("#divnumventas").hide();
-				 $('#divtotalesv').hide();  
-				 $("#divventas").show();                 
-				                
-				  //limpiartemp();
-				  validasug(cliente);//valida si tiene facturas o pedidos pendientes de imprimir para insertar o no pedido sugerido en caso de tenerlo
-			 	  // mostrarpedido();
-				  // mostrarfactura();
+				 var vencida=window.localStorage.getItem("vencida");
+             	 var saldo=Number(window.localStorage.getItem("saldo")); 
+        		 var limite=Number(window.localStorage.getItem("limite")); 
+		         var disp=limite-saldo;
+        		 //if (disp<=0 || vencida=='S'){
+					 if (vencida=='S'){
+					navigator.notification.alert('Cliente con Saldo Vencido, realiza abono',null,'Acceso a Ventas','Aceptar');										 
+				 }
+				 else{
+        				 window.location.href='#pventas';			
+		 				 //limpia los grid
+						 $("#divnumventas").hide();
+				         $('#divtotalesv').hide();  
+				         $("#divventas").show();                 
+	                     validasug(cliente);//valida si tiene facturas o pedidos pendientes de imprimir para insertar o no pedido sugerido en caso de tenerlo
+					}    	
 				  
 });	
 
 //$("a.clasep").live('click',function(){//al modificar linea de pedido
 $("#gridpedido").delegate('.clasep','click',function(){//al modificar linea de pedido
 
-                  var articulo = $(this).attr("name");
+                  articulo = $(this).attr("name");
 				  var desc=$(this).attr("id");
 				  $('#etiartv').empty();
 				  $('#etiartv').append(desc);
@@ -300,7 +307,7 @@ $("#gridpedido").delegate('.clasep','click',function(){//al modificar linea de p
 				 guardaarticulo(articulo);//almacena localmente la clave de articulo 	
     });
 $("#gridpedido").delegate('.descv','click',function(){//al dar click en la descripcion de un artículo, debe mostrar la ficha del mismo
-                  var articulo = $(this).attr("name");				  
+                   articulo = $(this).attr("name");				  
 				  fichaarticulo(articulo);
 				  window.location.href='#pficha';	
     });
@@ -351,7 +358,7 @@ $("#bguardav").tap(function() {
 		}			  
 		function onConfirm(button) {
 			if (button==1){
-				guardarventa(cliente,'comentarios');		
+				guardarventa(cliente,'comentarios',total);		
 				window.location.href='#poperaciones';
 			}//if (button==1){
 		}
@@ -359,13 +366,13 @@ $("#bguardav").tap(function() {
 $("#lcatalogo").delegate('.listart','click',function(){//al seleccionar un articulo de la lista
 //$("#lcatalogo li").live('click',function(){
                   var cliente=window.localStorage.getItem("clave");			  
-				  var articulo = $(this).attr("id");				  				  
+				   articulo = $(this).attr("id");				  				  
 				  existeenpedido(articulo,cliente);
 });	
 $("#lcatalogo").delegate('.fichaart','click',function(){//al seleccionar el boton de buscar en la lista del catalogo para mostrar ficha                  
 				  var art= $(this).attr("id");				  
 				  var longitud=art.length;				  
-				  var articulo=art.substr(1,(longitud-1));
+				  articulo=art.substr(1,(longitud-1));
 				  fichaarticulo(articulo);
 				  window.location.href='#pficha';			  
 				  //existeenpedido(articulo,cliente);
@@ -400,25 +407,41 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 	 //*****D E V O L U C I O N E S *****
 	 $("#bdevoluciones").tap(function() {                   
 				  //limpiartemp();
+				  var cliente=window.localStorage.getItem("clave");			                    
 				  window.location.href='#phistfac';
-				  listafacturas();
-				  eliminatempdev();
-				   
-     });	
+				  listafacturas(cliente);	
+				  $("#divgriddev").hide();				  
+				  $('#divnumdev').hide();
+     });		 
 	 $("#listahistfac li").live('click',function(){
-		          //al seleccionar una factura de la lista, muestra los articulos
-                  var factura = $(this).attr("id");
-				  //alert (clavecli);
-				  window.location.href='#pdethistfac';
-				  $("#gridartdev").empty();	
-				  $("#obsgendev").val('');
-				  guardafactura(factura);//almacena localmente el numero de factura	
-				  copiadethistempd();//copia a tabla temporal los renglones de la factura a devolver
+		          //al seleccionar una factura de la lista, muestra los articulos				  
+                  var factura = $(this).attr("id");				  
+				 
+				  /*
+				  var vigenciafac=verificarvigencia(factura);
+				  if (vigenciafac=='0'){// cero significa que la factura tiene antigüedad mayor a 15 dias y por lo tanto, la dev debe ser con cargo al vend.
+					  navigator.notification.alert('La factura supera la antigüedad permitida para devolución, por lo tanto, la devolución será con cargo al vendedor',null,'Factura fuera de política permitida','Aceptar');					
+				  }*/
+					  
+				  
+				  //window.location.href='#pdethistfac';				  				  
+				  $("#divgriddev").show();				  
+				  $('#divnumdev').hide();				  
+                  eliminatempdev();
+				  guardafactura(factura);//almacena localmente el numero de factura
+				  copiadethistempd(factura);//copia a tabla temporal los renglones de la factura a devolver
 				  mostrarhistfac(factura);//muestra el grid con los detalles de los artículos de factura
 				  guardafechaactual();
 				  
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
     });
+	$("#bdevtodo").tap(function() {                   
+				  //limpiartemp();	
+				  var factura=window.localStorage.getItem("factura");				  
+				  copiadethistempd(factura,'S');					  
+				  mostrarhistfac(factura);
+      			  //mostrarartdev();
+     });
 	$("a.clasedev").live('click',function(){//al modificar linea de devolución.
                   var linea = $(this).attr("name");//el nombre tiene el numero de linea que corresponde al articulo en la tabla de DETHISFAC
 				 /* var id = $(this).attr("id");
@@ -426,8 +449,9 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				  var posicion = id.indexOf('*'); 
 				  var cantidad=Number(id.substring(posicion+1));*/
 				 guardaarticulo(linea);//almacena localmente la linea, usando la función que guarda el articulo
-				 window.location.href='#pcantidaddev';//muestra dialogo para indicar cantidad a modificar y observaciones.
+				 // window.location.href='#pcantidaddev';//muestra dialogo para indicar cantidad a modificar y observaciones.
 				 mostrarddev(linea);
+				 $('#divnumdev').show();
 				 
 				
     });
@@ -443,19 +467,17 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				  }
 				  else
 				  {
-				    //obtiene el articulo pulsado en la lista
-    				var linea = window.localStorage.getItem("articulo");
-	     			//alert (cantidad);	  
-					insertalindev(linea,cantidad,observa);					
+				    //obtiene numero de linea, guardado en almacenamiento local con key articulo
+    				
     				 //alert('despues de llamada modificarlineap');
 					 //mostrarpedido();
 				  }
     });
-	$("#regresardedev").tap(function(){
+	$("#bregresadev").tap(function(){
                 function onConfirm(button) {
 					if (button==1){
 						 eliminatempdev();
-						 window.location.href='#phistfac';
+						 window.location.href='#poperaciones';
 			
 					}//if (button==1){
 				}			 
@@ -466,20 +488,29 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 	    );
     }); 
 	$("#bguardadev").tap(function(){
+		var total=Number(window.localStorage.getItem("totaldev"));//
+		if (total>0){		
+			navigator.notification.confirm('¿Desea terminar y guardar la devolución?',onConfirm,'Guardar Devolución','SI,NO');		
+			
+		}
+		else{
+			 navigator.notification.alert('El total de la devolución no es mayor a cero',null,'Guardar Devolución','Aceptar'); 
+			
+		}
                 function onConfirm(button) {
 					if (button==1){
 						 var observagen=$("#obsgendev").val();
 						 guardadev(observagen);//guarda la devolución.						 
-						 window.location.href='#phistfac';
+						// window.location.href='#phistfac';
+						
 						 eliminatempdev();
+						 guardatotaldev(0);
+						 $("#divdevueltos").hide();
+						 $("#divgriddev").hide();
 			
 					}//if (button==1){
 				}			 
-    	navigator.notification.confirm('¿Desea terminar y guardar la devolución?',     // mensaje (message)
-	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
-    	'Guardar Devolución',            // titulo (title)
-        'SI,NO'       // botones (buttonLabels)
-	    );
+    	
     });  
 	 $("#probarfunciones").tap(function(){
                 function onConfirm(button) {
@@ -499,7 +530,9 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 	
  //*****C O B R O S *****	 
 	  $("#bcobros").tap(function() {                   				  
-				  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
+			  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
+			  var saldo=Number(window.localStorage.getItem("saldo"));
+			  if (saldo>0){				  
 				  window.location.href='#pcobros';
 				  $("#divencnum").hide();
 				  $('#divnumcobros').hide();
@@ -509,8 +542,9 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
 				  //listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
 				  guardafechaactual();
-				  			  
-				   
+			  }else{
+					  navigator.notification.alert('No existen facturas con saldo',null,'Cobros','Aceptar'); 
+			  }				   
      });
 	  $("#bpagarimp").tap(function() {  //indicar importe para distribuir entre facturas                                                 
 		  $('#divnumcobros').show(); //muestra el teclado numerico con el input                        
@@ -575,7 +609,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				  }
 				  else
 				  {
-				    //obtiene el articulo pulsado en la lista
+				    //obtiene el numero de factura
     				var factura = window.localStorage.getItem("factura");
 	     			//alert (cantidad);	  
 					insertacobro(factura,cantidad);	//actualiza cantidad a pagar de factura en tabla temporal de fac pend de cobro.Funcion en cobros.js				
@@ -584,17 +618,25 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				  }
     });
 	$("#regresardecob").tap(function(){
-                function onConfirm(button) {
+     	 var vencida=window.localStorage.getItem("vencida"); 
+		 var saldo=Number(window.localStorage.getItem("saldo")); 
+		 var limite=Number(window.localStorage.getItem("limite")); 
+		 var disp=limite-saldo;
+		 //if (disp<0 || vencida=='S'){
+			 if (vencida=='S'){
+			//mensaje,funcion callback,titulo,botones ('ACEPTAR,CANCELAR')
+			navigator.notification.confirm('No realizaras abono y el cliente tiene facturas vencidas, solicita al cliente la firma del ticket de relacion de facturas pendientes',onConfirm,'No hay Cobro','ACEPTAR,CANCELAR');	 			 
+		 }
+		 else{
+			window.location.href='#poperaciones'; 
+			 
+		 }
+         function onConfirm(button) {
 					if (button==1){						 
-						 window.location.href='#poperaciones';
-			
+						 window.location.href='#poperaciones';			
 					}//if (button==1){
 				}			 
-    	navigator.notification.confirm('Se perderán los datos no guardados',     // mensaje (message)
-	    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
-    	'Generar Cobro',            // titulo (title)
-        'ACEPTAR,CANCELAR'       // botones (buttonLabels)
-	    );
+    	
     }); 
 	
 	$("#baceptarcob").tap(function() {                   				  
@@ -723,8 +765,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 						   //alert($("#"+"c"+$(this).val()).val());
     		      		 }
 					});//$('input:checkbox.clasep').each(function () {	
-					poblarcheques();
-					gridtotalescob();
+					poblarcheques();					
 				}//if (button==1){
 			}			 
     	navigator.notification.confirm('¿Estas seguro de eliminar los registros seleccionados?',     // mensaje (message)
@@ -1061,11 +1102,11 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
           $('#importeapli').val('');                         
        });
  //**********TECLADO NUMERICO	USADO EN CATALOGO *************	
- 		var articulo = window.localStorage.getItem("articulo");
+ 	   
 	   $("#bacepcat").tap(function() {                                                   	       
 	   	   var cliente = window.localStorage.getItem("clave");
            var cantidad = parseInt($("#cantcat").val()); 		  
-		   var articulo = window.localStorage.getItem("articulo");
+		   //articulo = window.localStorage.getItem("articulo");
 		   if (isNaN(cantidad)) { 
         //entonces (no es numero) 
         	 navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
@@ -1158,7 +1199,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 //**********TECLADO NUMERICO USADO EN VENTAS *************	
 	   $("#bacepven").tap(function() {                                                   	       
            var cantidad = parseInt($("#cantv").val()); 		  
-		   var articulo = window.localStorage.getItem("articulo");
+		   //articulo = window.localStorage.getItem("articulo");
 		   var cliente = window.localStorage.getItem("clave");
 				  //alert (cantidad);
 				   if (isNaN(cantidad)) { 
@@ -1229,12 +1270,138 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
           $('#cantv').val(importe+'0');                         
        });
 	   $("#bpunto4").tap(function() {                                                   
-          var importe=$('#cantv').val();	                                                    
-          $('#cantv').val(importe+'.');                         
+                                
        });
 	    $("#blimpiarcantv").tap(function() {                                                                                                                
           $('#cantv').val('');                         
        });
+//**********TECLADO NUMERICO USADO EN DEVOLUCIONES *************	
+	   $("#bacepdev").tap(function() {                                                   	       
+           var cantidad = parseInt($("#cantd").val()); 		  
+		   //articulo = window.localStorage.getItem("articulo");
+		   var cliente = window.localStorage.getItem("clave");
+		   var linea = window.localStorage.getItem("articulo");
+		   var factura= window.localStorage.getItem("factura");
+	     			//alert (cantidad);	  
+					
+				  //alert (cantidad);
+				   if (isNaN(cantidad)) { 
+       					 //entonces (no es numero) 
+        	 			navigator.notification.alert('Debe indicar un valor válido',null,'Cantidad inválida','Aceptar');			 
+						return false;
+			       }
+				  if (cantidad<0){
+					   navigator.notification.alert('Debe indicar cantidad MAYOR A CERO',null,'Error Indicando Cantidad','Aceptar');					
+					  return false;
+				  }
+				  else
+				  {
+					    insertalindev(factura,linea,cantidad,'');					
+						$('#divnumdev').hide();						
+						
+						
+				  }
+       }); 
+	   $("#bcandev").tap(function() {                                                   
+          $('#divnumdev').hide(); 		  
+       }); 
+	   $("#b11111").tap(function() { 	     
+	    var importe=$('#cantd').val();	                                                    
+		   //if (importe.length<longitud){ 
+          $('#cantd').val(importe+'1');                         
+		   //}
+       });
+	   $("#b22222").tap(function() {                                                   
+          var importe=$('#cantd').val();	                                                    
+		  //if (importe.length<longitud){ 
+          $('#cantd').val(importe+'2');                         
+		  //}
+       });
+	   $("#b33333").tap(function() {                                                   
+          var importe=$('#cantd').val();	                                                    
+		 // if (importe.length<longitud){ 
+          $('#cantd').val(importe+'3');                         
+		  //}
+       });
+	    $("#b44444").tap(function() {  
+	    var importe=$('#cantd').val();	                                                    
+          $('#cantd').val(importe+'4');                         
+       });
+	   $("#b55555").tap(function() {                                                   
+          var importe=$('#cantd').val();	                                                    
+          $('#cantd').val(importe+'5');                         
+       });
+	   $("#b66666").tap(function() {                                                   
+          var importe=$('#cantd').val();	                                                    
+          $('#cantd').val(importe+'6');                         
+       });
+	     $("#b77777").tap(function() {  
+	    var importe=$('#cantd').val();	                                                    
+          $('#cantd').val(importe+'7');                         
+       });
+	   $("#b88888").tap(function() {                                                   
+          var importe=$('#cantd').val();	                                                    
+          $('#cantd').val(importe+'8');                         
+       });
+	   $("#b99999").tap(function() {                                                   
+          var importe=$('#cantd').val();	                                                    
+          $('#cantd').val(importe+'9');                         
+       });
+	     $("#b00000").tap(function() {  
+	    var importe=$('#cantd').val();	                                                    
+          $('#cantd').val(importe+'0');                         
+       });
+	   $("#bpunto5").tap(function() {                                                   
+                                
+       });
+	    $("#blimpiarcantd").tap(function() {                                                                                                                
+          $('#cantd').val('');                         
+       });
+function formatonum(numero){ 
+        // Variable que contendra el resultado final
+		alert(numero);
+        var resultado = "";
+        
+        // Si el numero empieza por el valor "-" (numero negativo)
+        if(numero[0]=="-")
+        {
+
+            // Cogemos el numero eliminando los posibles puntos que tenga, y sin
+            // el signo negativo
+            nuevoNumero=numero.replace(/\./g,'').substring(1);
+        }else{
+						alert('entra ');
+            // Cogemos el numero eliminando los posibles puntos que tenga
+            nuevoNumero=numero.replace(/\./g,'');
+        }
+        
+        // Si tiene decimales, se los quitamos al numero
+        if(numero.indexOf(".")>=0)
+            nuevoNumero=nuevoNumero.substring(0,nuevoNumero.indexOf("."));
+
+        // Ponemos un punto cada 3 caracteres
+        for (var j, i = nuevoNumero.length - 1, j = 0; i >= 0; i--, j++) 
+            resultado = nuevoNumero.charAt(i) + ((j > 0) && (j % 3 == 0)? ".": "") + resultado; 
+        
+        // Si tiene decimales, se lo añadimos al numero una vez forateado con 
+        // los separadores de miles
+        if(numero.indexOf(".")>=0)
+            resultado+=numero.substring(numero.indexOf("."));
+
+        if(numero[0]=="-")
+        {
+            // Devolvemos el valor añadiendo al inicio el signo negativo
+            return "-"+resultado;
+        }else{
+            return resultado;
+        }
+    }
+	
+$('#pclientes').live('pagebeforeshow',function(event, ui){
+window.localStorage.setItem("clave",'');
+$("#divclientes").hide();
+
+});
 
 
   },false);//document.addEventListener("deviceready",function(){	

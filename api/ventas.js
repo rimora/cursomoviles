@@ -159,6 +159,7 @@ function mostrarpedido(cliente){
  var limite=Number(window.localStorage.getItem("limite"));
  var saldo=Number(window.localStorage.getItem("saldo"));
  var disp=limite-saldo;
+ 
 		var bodega='K01';
 		base.transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
@@ -263,9 +264,10 @@ function mostrarpedido(cliente){
                   html+='</div>';
           	
 			  
-			  
+			
 			  
 			  });//.each
+			
 					$("#gridpedido").append(html);	
 					disp=disp-total;				
 					html="";
@@ -297,11 +299,11 @@ function mostrarpedido(cliente){
 	                html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+arttotal.toFixed(0)+'</div></div>';
                     html+='<div class="ui-block-a" style="width:90px"><div class="ui-bar ui-bar-a">Total</div></div>';
                     html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+total.toFixed(2)+'</div></div>';
-			        html+='</div>';
+			        html+='</div>';					
 					$("#divtotales").append(html);	
 					guardatotalventa(total);
 					guardadispventa(disp);
-					
+
 					
 			
 	   }//function exito
@@ -477,10 +479,9 @@ function existeenpedido(articulo,cliente){
 						$('#etiart').empty();
 						$('#etiart').append(articulo+' '+descripcion)
 						//window.location.href='#pcantidad';
-						$('#cantcat').val('1');						
+						$('#cantcat').val('1');//pone por defecto cantidad 1 en el teclado numerico
+						 previolinea(articulo,1);// visualiza grid con el total del articulo 						
 						$('#divnumcat').show();
-						$('#gridprevart').empty();
-						
 					}
 				});		
 
@@ -543,7 +544,7 @@ function fichaarticulo(articulo){//
 //  });	
 
   }//
-function guardarventa(cliente,obs){	
+function guardarventa(cliente,obs,total){	
 var cabinsertada=false;
 var sumtotlinea=0; var summontodesc=0; var sumivalinea=0; var sumtotal=0; var bodega=window.localStorage.getItem("bodega");
 var consecutivo=window.localStorage.getItem("consepedido");
@@ -583,11 +584,8 @@ var i=0;
 			 var articulo=row['articulo'];
 
 			 sumtotlinea+=Number(totlinea);//suma del total de linea sin descuento y sin iva
-			 summontodesc+=Number(montodesc);//suma del total de linea sin descuento y sin iva
-			 sumivalinea+=Number(ivalinea);//suma del total de linea sin descuento y sin iva			 
-			 alert(sumtotlinea);
-			 alert(summontodesc);
-			 alert(sumivalinea);			 
+			 summontodesc+=Number(montodesc);//suma del monto de descuento de cada linea
+			 sumivalinea+=Number(ivalinea);//suma del total de iva de cada linea
 			 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 
 			 i++;
 			 
@@ -603,11 +601,12 @@ var i=0;
 			 */			 			 
 		 	});
 			sumtotal=Number(sumtotlinea)+Number(sumivalinea);
+			 /*
 			 alert(sumtotal);
 			 alert(sumtotlinea);
-			 alert(sumivalinea);			 
+			 alert(sumivalinea);			 */
 
-			query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+pedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalinea+','+sumtotal+','+sumtotlinea+','+summontodesc+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
+			query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+pedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalinea.toFixed(2)+','+sumtotal.toFixed(2)+','+sumtotlinea.toFixed(2)+','+summontodesc.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
 			i++;			
 			query[i]='UPDATE PARAMETROS SET num_fac="'+pedido+'"';		
 			i++;			
@@ -633,17 +632,17 @@ var i=0;
     	 			 alert("Error select tabla temporal PEDIDO para guardarlo: "+err.code+err.message);
          		},function(){
 								
-					guardadetpedido(query,sumtotal);
+					guardadetpedido(query,total);
 					
 				});		
 				
 }//function guardarventa
 function guardadetpedido(query,total){
 	   //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
-	consultadb().transaction(insertadet,function(err){
+	base.transaction(insertadet,function(err){
     	  alert("Error al insertar en detallepedido: "+err.code+err.message);
           },function(){		  
-		  alert('total '+total);
+		 //alert('total '+total);
 		   actsaldo(total);//actualiza saldo del cliente, la funcion esta en almacenamiento.js		   		   
 		   window.localStorage.setItem("sioperacion",'S');
 		   navigator.notification.alert('Venta Guardada',null,'Guardar Venta','Aceptar');										 });
@@ -651,7 +650,7 @@ function guardadetpedido(query,total){
     	function insertadet(tx) {		
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
-				alert(query[i]);
+				//alert(query[i]);
 				tx.executeSql(query[i]); 						   
 					   
 			}// for (var i = 0, long = query.length; i < long; i++) 
@@ -659,7 +658,7 @@ function guardadetpedido(query,total){
 	
 }//function guardadetpedido
 function previolinea(articulo,cantidad){		
-alert(articulo);
+//alert(articulo);
 
  			if (isNaN(cantidad)) { 
         			//entonces (no es numero) 
@@ -694,7 +693,7 @@ alert(articulo);
 		             html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+cantidad+'</div></div>';	                
 	                 html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b" style="text-align:right">'+parcial.toFixed(2)+'</div></div>';
 					 $("#gridprevart").append(html);
-					 	alert('despues de agregar html');						 
+					 	//alert('despues de agregar html');						 
 			  
 			  });//.each											                
 	   }//function exito
