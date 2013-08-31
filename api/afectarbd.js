@@ -15,6 +15,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		function creartb(tx) {
 			//alert('funcion creartb');	
     	 tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
+		 tx.executeSql('DROP TABLE IF EXISTS RUTA_CLIENTE');
 		 tx.executeSql('DROP TABLE IF EXISTS CUENTASB');
 		 tx.executeSql('DROP TABLE IF EXISTS CUENTASDEP');
 		 tx.executeSql('DROP TABLE IF EXISTS CHEQUES');		 
@@ -42,7 +43,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 tx.executeSql('DROP TABLE IF EXISTS NOTASCOB');		 
 	 
 
-		 
+		 tx.executeSql('CREATE TABLE IF NOT EXISTS RUTA_CLIENTE (id INTEGER PRIMARY KEY AUTOINCREMENT, ruta,cliente,dia,orden)');  
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCHISFAC (id INTEGER PRIMARY KEY AUTOINCREMENT, factura,monto,cliente,pedido,fecha)');  
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS DETHISFAC (id INTEGER PRIMARY KEY AUTOINCREMENT, factura,articulo,linea,cantidad,devuelto,precio,totlinea)');  
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS PARAMETROS (id INTEGER PRIMARY KEY AUTOINCREMENT, cod_zon,num_ped,num_rec,num_dev,num_fac)'); 
@@ -51,7 +52,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS CUENTASB (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT NOT NULL,descripcion)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS CUENTASDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT NOT NULL,cuenta,descripcion)'); 
          tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL,direccion TEXT NOT NULL,telefono TEXT NOT NULL,tipo TEXT NOT NULL,diasc TEXT NOT NULL,lcredito,saldo )'); 
-		 tx.executeSql('CREATE TABLE IF NOT EXISTS PENCOBRO (id INTEGER PRIMARY KEY AUTOINCREMENT, tipo TEXT NOT NULL,documento TEXT NOT NULL,cliente TEXT NOT NULL,saldo,monto,fecha,fechaven,vencida,diasv)'); 
+		 tx.executeSql('CREATE TABLE IF NOT EXISTS PENCOBRO (id INTEGER PRIMARY KEY AUTOINCREMENT, documento TEXT NOT NULL,cliente TEXT NOT NULL,saldo,monto,fecha,fechaven)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS TEMPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, articulo TEXT NOT NULL,cantidad,cliente)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS TEMFACTURA (id INTEGER PRIMARY KEY AUTOINCREMENT, articulo TEXT NOT NULL,cantidad,cliente)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS TEMDEV (id INTEGER PRIMARY KEY AUTOINCREMENT, articulo TEXT NOT NULL,linea,cantidad,obs)'); 
@@ -114,10 +115,13 @@ function insertar(){
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALI-01",1,5,2,54.03,124.269)')	//54	
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALI-02",2,6,0,46.95,129.582)')		//54
 
+		/*
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia UNO", "1020","Lunes","Dirección del cliente","2281545130","C","30",10000.00,2324.65)');      
         tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia DOS", "1030","Martes","Dirección del cliente  DOS","2281545130","C","30",30000.00,20000.00)'); 
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia TRES", "1040","Miercoles","Dirección del cliente","2281545130","C","30",3000.00,0.00)');        
         tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia CUATRO", "1050","Jueves","Dirección del cliente  CUATRO","2281545130","C","30",5000.00,0.00)'); 		
+		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Vendedor de Ruta", "9999","Jueves","Dirección del cliente  9999","2281545130","C","30",0.00,0.00)'); 		
+		
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ("1","00041534","1020",437.55,437.55,"08/05/2013","08/06/2013","S",54)');  		       
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041535","1020",888.55,1000.55,"15/05/2013","15/06/2013","S",31)');  
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041537","1020",998.55,1000.55,"15/05/2013","15/06/2013","S",31)');        
@@ -125,6 +129,7 @@ function insertar(){
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041540","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041538","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "1","00041539","1030",5000.00,5000.00,"08/06/2013","08/07/2013","N",24)');        
+		*/
 		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza1")');        
 		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza2")');        
 		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza3")');        
@@ -400,6 +405,7 @@ function guardaencdev(querydev,total){
 		 //alert('total '+total);
 		   actsaldo(total*-1);//actualiza saldo del cliente, la funcion esta en almacenamiento.js		   		   
 		   window.localStorage.setItem("sioperacion",'S');
+		   obtenerconse();
 		   navigator.notification.alert('Devolución Guardada',null,'Guardar Devolución','Aceptar');										 });
 		  				
     	function insertadet(tx) {		
@@ -627,3 +633,130 @@ function f1_1(){
 		}
 
 }//function f1_1
+function cargaclientes(ruta,direccion){
+alert('entra');
+//	var datosPassword = $("#regEmail").val()
+	
+  	//archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
+	//archivoValidacion ="http://aplicacion.netai.net/index.php?jsoncallback=?"	
+	//var archivoValidacion ="http://192.168.3.46/prueba.php?jsoncallback=?";
+	$.getJSON( direccion, {numruta:ruta})
+	.done(function(data) {
+		var query=[];
+		 var clientes = data.clientes;
+	     var diasruta = data.diasruta;
+		 var fpen = data.facpen;
+		 var i=0;
+		$.each(clientes, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  
+			query[i]='INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("'+val['nombre']+'", "'+val['cliente']+'","Lunes","'+val['direccion']+'","'+val['telefono']+'","'+val['categoria']+'","'+val['diascredito']+'",'+val['limite']+','+val['saldo']+')';
+			i++;
+		});
+		alert('procesando diascliente');
+		$.each(diasruta, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  
+			query[i]='INSERT INTO RUTA_CLIENTE (ruta,cliente,dia,orden) VALUES ("'+val['ruta']+'", "'+val['cliente']+'",'+val['dia']+','+val['orden']+')';
+			i++;
+		});
+		alert('procesando pendcobro');
+		$.each(fpen, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  			
+			query[i]='INSERT INTO PENCOBRO (documento,cliente,saldo,monto,fecha,fechaven) VALUES ("'+val['documento']+'","'+val['cliente']+'",'+val['saldo']+','+val['monto']+',"'+val['fecha'].substr(0,2)+'/'+val['fecha'].substr(2,2)+'/'+val['fecha'].substr(4,4)+'","'+val['fechaven'].substr(0,2)+'/'+val['fechaven'].substr(2,2)+'/'+val['fechaven'].substr(4,4)+'")';
+			i++;
+		});
+		alert(i);
+		alert('insertando datos');
+		insertabd(query,"Clientes Cargados");
+	})
+	
+	.fail(function( jqxhr, textStatus, error ) {
+	
+	 	 var err = textStatus + ', ' + error;
+			 alert( jqxhr.responseText);
+ 		 alert( "Request Failed: " + err);
+
+	});
+
+
+	return false;
+	
+		//alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora + "\n" +respuestaServer.generador)		
+		//alert(respuestaServer.Numreporte)
+		
+		//if(respuestaServer.validacion == "ok"){
+}
+function cargarutacli(ruta,direccion){
+	alert('entra ruta cliente');	
+	$.getJSON( direccion, {numruta:ruta})
+	.done(function(data) {
+		var query=[];
+		$.each(data, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  
+			query[key]='INSERT INTO RUTA_CLIENTE (ruta,cliente,dia,orden) VALUES ("'+val['ruta']+'", "'+val['cliente']+'",'+val['dia']+','+val['orden']+')';
+			});
+		insertabd(query,"DiasRuta Cargados");
+	})
+	
+	.fail(function( jqxhr, textStatus, error ) {
+	 	 var err = textStatus + ', ' + error;
+			 alert( jqxhr.responseText);
+ 		 alert( "Request Failed: " + err);
+	});
+	return false;	
+}
+
+
+function insertabd(query,mensaje){
+	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
+	     //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
+	base.transaction(insertadet,function(err){
+    	  alert("Error al insertar datos cargados: "+err.code+err.message);
+          },function(){		  
+		   navigator.notification.alert(mensaje,null,'Carga Datos','Aceptar');										 });
+		  				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+			for (var i = 0, long = query.length; i < long; i++) {   									   								
+				//alert(query[i]);
+				tx.executeSql(query[i]); 						   
+					   
+			}// for (var i = 0, long = query.length; i < long; i++) 
+		}
+	
+}
+function pruebaphp(){
+var datosUsuario ="ricardo";
+	var datosPassword = "123";
+	
+  	archivoValidacion = "http://192.168.3.46/validar.php?jsoncallback=?"
+	//archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback";
+ 
+	$.getJSON( archivoValidacion, { usuario:datosUsuario ,password:datosPassword})
+	.done(function(respuestaServer) {
+		
+		alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora + "\n" +respuestaServer.generador)
+		
+		if(respuestaServer.validacion == "ok"){
+		  
+		 	/// si la validacion es correcta, muestra la pantalla "home"
+			//$.mobile.changePage("#home")
+			alert('jala');
+		  
+		}else{
+		  alert('jala');
+		  /// ejecutar una conducta cuando la validacion falla
+		}
+  
+	})
+	.fail(function( jqxhr, textStatus, error ) {
+	
+	 	 var err = textStatus + ', ' + error;
+			 alert( jqxhr.responseText);
+ 		 alert( "Request Failed: " + err);
+
+	});
+
+
+	return false;
+
+}

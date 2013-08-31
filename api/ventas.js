@@ -645,6 +645,7 @@ function guardadetpedido(query,total){
 		 //alert('total '+total);
 		   actsaldo(total);//actualiza saldo del cliente, la funcion esta en almacenamiento.js		   		   
 		   window.localStorage.setItem("sioperacion",'S');
+		   obtenerconse();
 		   navigator.notification.alert('Venta Guardada',null,'Guardar Venta','Aceptar');										 });
 		  				
     	function insertadet(tx) {		

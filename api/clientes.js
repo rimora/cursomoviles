@@ -1,5 +1,5 @@
 // CLIENTES
-function mostrarclientes(dia){
+function mostrarclientes(dia){	
  // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);
@@ -9,10 +9,10 @@ function mostrarclientes(dia){
 	function poblarcli(tx){  
 	    
 	    if (dia!="Todos"){
-			var sql='SELECT * FROM CLIENTES WHERE DIA="'+dia+'" ORDER BY nombre  '			
+			var sql='SELECT b.clave,b.nombre FROM RUTA_CLIENTE a inner join CLIENTES b on b.clave=a.cliente WHERE a.dia='+dia+' ORDER BY nombre  '			
 		}
 		else {
-			var sql='SELECT * FROM CLIENTES ORDER BY nombre'			
+			var sql='SELECT b.clave,b.nombre FROM RUTA_CLIENTE a inner join CLIENTES b on b.clave=a.cliente ORDER BY nombre  '			
 		}
 		tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select clientes por dia: "+err.code+err.message);
@@ -62,7 +62,7 @@ function mostrarcliente(clavecli){
 		});	
 	function consulta(tx) {
 		tx.executeSql('SELECT * FROM CLIENTES  WHERE clave="'+clavecli+'"',[],exito,errorconsulta);
-		tx.executeSql('SELECT * FROM PENCOBRO WHERE saldo>0 and cliente="'+clavecli+'"',[],poblarfac,errorconsulta);    	
+		tx.executeSql('SELECT a.fechaven,b.tipo,b.diasc FROM PENCOBRO a inner join CLIENTES b on b.clave=a.cliente WHERE a.saldo>0 and a.cliente="'+clavecli+'"',[],poblarfac,errorconsulta);    	
 		//alert('entro a la consulta de datos de un cliente');
 		}
 	
@@ -80,7 +80,7 @@ function mostrarcliente(clavecli){
 			limite=Number(row['lcredito']);*/
 			$('#nomcli').text("Clave: "+row['clave']+" Nombre: "+row['nombre']);  	   		    
 			$('#direccion').text("Dirección: "+row['direccion']+" Telefono: "+row['telefono']);  	   		
-	   		$('#tipo').text("Estado: Credito "+row['tipo']+" Dias de Crédito: "+row['diasc']);
+	   		$('#tipo').text("Estado:"+row['tipo']+" Dias de Crédito: "+row['diasc']);
 	   		//$('#limitecredito').text("Límite de Crédito: "+row['lcredito']+" Saldo: "+row['saldo']);			
 			limite=Number(row['lcredito']);			
 			saldo=Number(row['saldo']);
@@ -93,17 +93,18 @@ function mostrarcliente(clavecli){
 		function poblarfac(tx,results){ 			 
 			  var tipo="";			  
 			  $.each(results.rows,function(index){
-				  var row = results.rows.item(index); 				     
-				     if (row['tipo']=="1"){
-						 tipo="FAC"
-					 }
-					 else  {
-						 tipo="OTRO" 
-					 }
-					 if (row['vencida']=="S"){
-						 vencida="SI"						 
-					 }
-					 
+				  var row = results.rows.item(index); 				  
+				  var fechaact=new Date();			 
+	              var ffac=row['fechaven'].split("/");//viene en formato dd/mm/yyyy
+			 	  var fechafac=new Date(Number(ffac[2]),Number(ffac[1])-1,Number(ffac[0]));	//año mes dia		 
+				  //tenemos los dias despues del vencimiento
+				  dias = (fechaact - fechafac)/86400000; 
+				  	if (row['tipo']=='CRE' || row['tipo']=='CONT'){
+						var diascre=Number(row['diasc']);
+						if (dias>diascre){
+						 	vencida="SI"						 
+						 }
+					}
 			  });					
 					
 					if (vencida=="S") {

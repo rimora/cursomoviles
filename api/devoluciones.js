@@ -24,11 +24,11 @@ function listafacturas(cliente){
 			 var html="";               		
 			 var fecha1 = row['fecha'].split("-");	 
 			 var fecha2=fecha1[2]+'/'+fecha1[1]+'/'+fecha1[0];	
-					 
+			 var monto=Number(row['monto']);		 
 			 html+='<li id="'+row['factura']+'">';
 	         html+='<a href="#"><h5> Documento: '+row['factura']+'</h5>';
 			// html+='Total:  '+row['monto']+'    Pedido:   '+row['pedido']+'    Fecha:   '+row['fecha']+'</a></li>';
-			 html+='Total:  '+row['monto']+' Fecha:   '+fecha2+'</a></li>';
+			 html+='Total:  '+monto.toFixed(2)+' Fecha:   '+fecha2+'</a></li>';
 			 //alert('antes del append de listfac '+html);
 			 $('#listahistfac').append(html);  			
 			 //alert('despues del append de listfac '+html); 
@@ -190,24 +190,26 @@ function mostrarhistfac(factura){
 
   }//mostrarartdev
   
-function guardadev(observagen){	
-var cabinsertada=false;
+function guardadev(observagen,cargovendedor){	
+var sumtotlineav=0; var summontodescv=0; var sumivalineav=0; var sumtotalv=0;
+var conseped=window.localStorage.getItem("consepedido");
+var longitud=conseped.length; var inicial=conseped.substr(0,3); var numpedido= conseped.substr(3,(longitud-3));
+ //alert(numpedido); 
+var incremetarp=Number(numpedido)+1;
+ //alert(incremetarp); 
+var pedido=inicial+pad(incremetarp,6);
+ //alert(pedido); 
+var vendedor= window.localStorage.getItem("vendedor");
 var renglones=0; var sumtotal=0;
-var sumtotlinea=0;
-var summontodesc=0;
-var sumivalinea=0;
-var factura=window.localStorage.getItem("factura");
-var cliente=window.localStorage.getItem("clave");
-var consecutivo=window.localStorage.getItem("consedev");
-var ruta=window.localStorage.getItem("ruta");
+var sumtotlinea=0; var summontodesc=0; var sumivalinea=0;
+var factura=window.localStorage.getItem("factura"); var cliente=window.localStorage.getItem("clave");
+var consecutivo=window.localStorage.getItem("consedev"); var ruta=window.localStorage.getItem("ruta");
 var bodega=window.localStorage.getItem("bodega");
 var horaini=window.localStorage.getItem("fechahora");//fecha y hora actual guardada cuando inicio la devolución de la factura.
 guardafechaactual();//guarda en memoria la fecha con hora, actuales
 var horafin= window.localStorage.getItem("fechahora");//recuperamos la nueva fecha y hora actual
 var fechadev=window.localStorage.getItem("fecha");//recuperamos la fecha actual
-var longitud=consecutivo.length; 
-var inicial=consecutivo.substr(0,3);
-var numdev= consecutivo.substr(3,(longitud-3));
+var longitud=consecutivo.length; var inicial=consecutivo.substr(0,3); var numdev= consecutivo.substr(3,(longitud-3));
  //alert(numdev); 
 var incremetard=Number(numdev)+1;
  //alert(incremetard); 
@@ -227,22 +229,26 @@ var devolucion=inicial+pad(incremetard,6);
 		  	 $.each(results.rows,function(index){           			 
 			 var row = results.rows.item(index);  			 
 			 
-			 var totimpdes=(Number(row['precio'])*Number(row['cantidad']))-Number(row['totlinea']);
-			 var pordesc=(totimpdes*100)/(Number(row['precio'])*Number(row['cantidad']));			 
-			 var cantidad=row['cantidad'];//cantidad vendida			 
+			     //precio unitario del articulo en la factura (precio publico)* cantidad facturada, menos el total de la linea que incluye el descuento aplicado
+			 var totimpdes=(Number(row['precio'])*Number(row['cantfac']))-Number(row['totlinea']);//se obtiene el importe de descuento de la linea de factura			 
+			    //se obtiene el porcentaje de descuento asignado en la factura para calcularlo ahora en los renglones de la devolucion
+			 var pordesc=(totimpdes*100)/(Number(row['precio'])*Number(row['cantfac']));			 
+			 var cantidad=row['cantidad'];//cantidad devuelta			 
 			 var linea=row['linea'];//linea afectada			 
-			 var precio=row['precio'];//precio sin descuento y sin iva			 			 
-			 var totalinea=Number(row['cantidad'])*Number(row['precio']);//total de linea sin descuento y sin iva
+			 var precio=row['precio'];//precio sin descuento y sin iva, precio publico asignado en la factura
+			 var totalinea=Number(row['cantidad'])*Number(row['precio']);//total de linea devuelta sin descuento y sin iva
+				 //monto de descuento aplicado a la linea de devolucion
 			 var montodesc=(Number(totalinea)/100)*Number(pordesc); 
 			 var lineacdes=totalinea-montodesc;//importe de linea con descuento
-			 var ivalinea=lineacdes*(row['impuesto']/100);			 			 
+				//total de iva de la linea de devolucion
+			 var ivalinea=lineacdes*(row['impuesto']/100);
 			 //var preciociva=preciocdesc*(1+(row['impuesto']/100));			 			 
 			 var articulo=row['articulo'];			 
 			 var observa=row['obs'];
 			
 			 sumtotlinea+=totalinea;//suma del total de linea sin descuento y sin iva
 			 sumtotal+=lineacdes+ivalinea;//
-			 //summontodesc+=summontodesc+montodesc;//suma del total de linea sin descuento y sin iva
+			 summontodesc+=montodesc;//suma del monto de descuento
 			 sumivalinea+=ivalinea;//suma del total de linea sin descuento y sin iva
 			 //alert('antes de llamar a funcion guardadev');
 			 //guardadetdev(devolucion,ruta,articulo,totalinea.toFixed(2),precio,cantidad,observa,montodesc.toFixed(2),pordesc,factura,linea);
@@ -251,29 +257,42 @@ var devolucion=inicial+pad(incremetard,6);
 			i++;
 			querydev[i]='UPDATE DETHISFAC SET devuelto=devuelto+'+cantidad+' where linea='+linea+' and factura="'+factura+'"';		
 		     i++;
-			 /*
-			 if (tipodev=='0') {
-			   querydev[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 	 
+			 
+			 if (cargovendedor=='S') {
+			   querydev[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totalinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 	 
 				i++; 
-			 }*/
+			 }
+			 else{
 			 querydev[i]='UPDATE ARTICULO_EXISTENCIA SET existencia=existencia+'+cantidad+' WHERE articulo="'+articulo+'" and bodega="'+bodega+'"';
 			 i++;
+			 }
 			 //actexis(articulo,cantidad);
 			 //alert('despues de llamar a funcion guardadev');
 			
-		 	});
+		 	});//each
 			//alert('antes de llamar a funcion guardaencdev');
 			querydev[i]='INSERT INTO ENCDEV (num_dev,cod_zon,cod_clt,hor_ini,hor_fin,fec_dev,obs_dev,num_itm,est_dev,mon_siv,mon_dsc,por_dsc_ap,mon_imp_vt,mon_imp_cs,cod_bod,impreso,num_ref) VALUES("'+devolucion+'","'+ruta+'","'+cliente+'","'+horaini+'","'+horafin+'","'+fechadev+'","'+observagen+'",'+renglones+',"A",'+sumtotlinea.toFixed(2)+',0,0,'+sumivalinea.toFixed(2)+',0,"'+bodega+'","N","'+factura+'")'; 
 			i++;
    			querydev[i]='UPDATE PARAMETROS SET num_dev="'+devolucion+'"';		
 			i++;
+			if (cargovendedor=='S') {				
+				var totalpedido=Number(sumtotlinea)+Number(sumivalinea);								
+				querydev[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+pedido+'","'+ruta+'","'+vendedor+'","S","'+horaini+'","'+fechadev+'","'+fechadev+'",'+sumivalinea.toFixed(2)+','+totalpedido.toFixed(2)+','+sumtotlinea.toFixed(2)+','+summontodesc.toFixed(2)+',"Venta por devolucion con cargo al vendedor","F",'+30+',"'+bodega+'")'; 
+				//alert(querydev[i]);
+				i++;				
+				querydev[i]='UPDATE PARAMETROS SET num_fac="'+pedido+'"';		
+				i++;	
+				querydev[i]='UPDATE CLIENTES SET SALDO=saldo+'+sumtotal+' where clave="9999"';        					
+			}
+			
+			
 			// guardaencdev(devolucion,ruta,cliente,horaini,horafin,fechadev,observagen,renglones,sumtotlinea.toFixed(2),sumivalinea.toFixed(2),bodega,factura)
 			//alert('despues de llamar a funcion guardaencdev');
 		  }//if (results.rows.length>0){		  
  	}//function listo(tx,results){ 
 	function consultatemp(tx){  
 	          //   alert('ENTRA A CONSultatepm'); 
-				  var sql='SELECT b.factura,a.articulo,a.cantidad,b.precio,a.obs,a.linea,b.totlinea, ';
+				  var sql='SELECT b.factura,a.articulo,a.cantidad,b.precio,a.obs,a.linea,b.totlinea,b.cantidad as cantfac, ';
 	  			  sql+='c.impuesto,c.descuento FROM TEMDEV a left outer join DETHISFAC b on b.linea=a.linea ';					  
 			      sql+='left outer join articulo c on c.articulo=a.articulo  ';
 				  sql+=' where a.cantidad > 0 and b.factura="'+window.localStorage.getItem("factura")+'"';	
@@ -425,3 +444,33 @@ function eliminatempdev(){
 		}
 	
 }//function eliminatempdev
+function validavigencia(factura){	
+var dias=0;
+	function listo(tx,results){
+		   $.each(results.rows,function(index){           
+			 var row = results.rows.item(index); 
+			 var fechaact=new Date();			 
+			 var ffac=row['fecha'].split("-");
+			 var fechafac=new Date(Number(ffac[0]),Number(ffac[1])-1,Number(ffac[2]));			 
+			 dias = (fechaact - fechafac)/86400000; 
+			 guardadiasfactura(dias);
+		 });    		 	      
+ 	}//function listo(tx,results){ 
+	function consultatemp(tx){   	       				
+				 var sql='SELECT a.fecha ';
+	   			 sql+='FROM ENCHISFAC a ';	
+				 sql+='where a.factura="'+factura+'"';
+			tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error query Consultar ENCHISFAC para vigencia : "+articulo+err.code+err.message);
+         		});    									
+	}
+	base.transaction(consultatemp, function(err){
+    	 			 alert("Error Consultar ENCHISFAC para vigencia : "+err.code+err.message);
+         		},function(){
+					if (dias>15){//si tiene antigüedad mayor a 15 dias la dev debe ser con cargo al vend.
+					  navigator.notification.alert('La factura supera la antigüedad permitida para devolución (15 días), por lo tanto, la devolución será con cargo al vendedor',null,'Factura fuera de política permitida','Aceptar');					
+					  cargovendedor='S';
+					  }
+				});		
+				
+}//function copiadethistempd

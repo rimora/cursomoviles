@@ -53,7 +53,7 @@ function listafacturaspend(cliente){
 					 //importe=precio*row['cantidad'];
 					 //total+=Number(importe);					 
 					if (row['vencida']=='S') {
-						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-e"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="FFFFFF">'+row['documento']+'</font></a></div></div>';
+						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-e"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="#FFFFFF">'+row['documento']+'</font></a></div></div>';
 					}
 					else
 					{
@@ -306,7 +306,7 @@ function poblarcheques(){
 			  $.each(results.rows,function(index){				  
 				  var row = results.rows.item(index); 				     			     
 					 var monto=Number(row['monto']);
-					 montot+=monto;
+					 montot+=monto.toFixed(2);
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
                    	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 

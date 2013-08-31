@@ -11,6 +11,12 @@ $(document).ready(function() {
 	 //$('#divnumcobros').hide(); 
 	 var articulo='';	
 	 var longitud=0;
+	 var cargovendedor='';
+	 var now = new Date();
+	 var diasemana=now.getDay();
+	
+
+
 	window.localStorage.clear();
 	//obtenerconse();//funcion que almacena localmente los consecutivos de documentos actuales.funcion en configuraciones.js
 	window.localStorage.setItem("saldo",0);	
@@ -18,6 +24,7 @@ $(document).ready(function() {
 	window.localStorage.setItem("ruta","S04");
 	window.localStorage.setItem("bodega","K01");
 	window.localStorage.setItem("sioperacion",'');
+	window.localStorage.setItem("vendedor",'9999');	
 	document.addEventListener("backbutton", function(){
 			
 		    return false;	
@@ -28,7 +35,24 @@ $(document).ready(function() {
 				var Usuario = $("#nombredeusuario").val()	
 				var Pass = $("#clave").val()	  	
 				if(Usuario == "r1"){
-
+					if (diasemana == 1){					
+						navigator.notification.alert('Es lunes. Y vuelta a empezar',null,'Saludos','Aceptar');					
+					}
+					else if (diasemana == 2){
+						navigator.notification.alert('Es martes, mejor que lunes',null,'Saludos','Aceptar');					
+					}
+					else if (diasemana == 3){
+						navigator.notification.alert('Es miércoles, ¿qué tal va la semana?',null,'Saludos','Aceptar');					
+					}
+					else if (diasemana == 4){
+						navigator.notification.alert('Es jueves, ¿cómo estás hoy?',null,'Saludos','Aceptar');					
+					}
+					else if (diasemana == 5){
+						navigator.notification.alert('¡Por fin es viernes!',null,'Saludos','Aceptar');					
+					}
+					else if (diasemana == 6){
+						navigator.notification.alert('Es sábado. Que tengas un buen fin de semana',null,'Saludos','Aceptar');					
+					}
 					window.location.href='#page';
 		  		}else{		  		  
 				alert('Usuario No Válio');
@@ -50,17 +74,14 @@ $(document).ready(function() {
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
                });			   
 			  
-	$("#bclientes").tap(function() { 
-                 //var clavecli = $(this).attr("id");
-				 //botón clientes, genera lista con los clientes del día lunes
-				  //alert ('llama a mostrar clientes');
-				  
-				  window.location.href='#pclientes';				                    
-				  mostrarclientes("Lunes");
-				  //$("select#menu").val("Lunes").selectmenu("refresh");   
-				  $("select#menu").val("Lunes");   
-				  //$.mobile.changePage($("#datoscli"));	  			  				  
-               });
+	$("#bclientes").tap(function() {                  
+				 // recibosindep();//valida que no existan recibos sin deposito, en esta funcion abre ventana de clientes en caso de que pase la validación				  
+				  window.location.href='#pclientes';
+				  				                    
+		 		 mostrarclientes(diasemana-1);
+		 		 //$("select#menu").val("Lunes").selectmenu("refresh");   
+		 		 $("select#menu").val(diasemana-1); 	
+    });
   /*  $("#bguardacli").tap(function() { 
 	            var nombre = $("#nomnuevocli").val()	
 				var empresa = $("#empnuevocli").val()	
@@ -249,26 +270,13 @@ $(document).ready(function() {
 			var ruta=window.localStorage.getItem("ruta");//recuperamos la clave del cliente
 			var visitaini=$("#visitaini").val();	
 			var visitafin=$("#visitafin").val();	
-			alert(razon);
+			//alert(razon);
 			if (razon=='Razon') {
 				navigator.notification.alert('Debe indicar razon de visita',null,'Error al guardar visita','Aceptar');					
-			}else{
-				navigator.notification.confirm('¿Deseas Registrar la Visita?',onConfirm,'Registrar Visita','SI,NO');// botones 
-					  function onConfirm(button) {
-						if (button==1){			
-							guardavisita(cliente,visitaini,visitafin,visitaini,notas,razon,ruta);
-							window.location.href='#pclientes';					  
-
-        		  		 }
-						 else{							 
-							 return false;
-						 }
-					  
-				  	 }		  
-			
-			
-			
-			 }
+			}else{		
+				guardavisita(cliente,visitaini,visitafin,visitaini,notas,razon,ruta);
+				window.location.href='#pclientes';					  
+            }
      	});//$("#bguardavisita").tap(function() {                   				  				  	
 //**********VENTAS************	
 $("#bventa").tap(function() {		 	 
@@ -407,22 +415,37 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 	 //*****D E V O L U C I O N E S *****
 	 $("#bdevoluciones").tap(function() {                   
 				  //limpiartemp();
-				  var cliente=window.localStorage.getItem("clave");			                    
+				  window.location.href='#ptipodev';
+     });		 
+	 $("#btipodev").tap(function() {                   
+				  //limpiartemp();
+				  var tipodev=$("#menutipodev").val();
+				  if (tipodev=='1'){
 				  window.location.href='#phistfac';
+  				  var cliente=window.localStorage.getItem("clave");			                    				  
 				  listafacturas(cliente);	
 				  $("#divgriddev").hide();				  
 				  $('#divnumdev').hide();
+
+				  }
+				  else if (tipodev=='2'){
+					  alert('dev sin documento con cargo al vendedor');
+					  
+				  }
+				  else if (tipodev=='3'){
+					  alert('dev sin documento por cancelacion de cuenta');
+					  
+				  }				  
+				  
      });		 
+
 	 $("#listahistfac li").live('click',function(){
 		          //al seleccionar una factura de la lista, muestra los articulos				  
                   var factura = $(this).attr("id");				  
-				 
-				  /*
-				  var vigenciafac=verificarvigencia(factura);
-				  if (vigenciafac=='0'){// cero significa que la factura tiene antigüedad mayor a 15 dias y por lo tanto, la dev debe ser con cargo al vend.
-					  navigator.notification.alert('La factura supera la antigüedad permitida para devolución, por lo tanto, la devolución será con cargo al vendedor',null,'Factura fuera de política permitida','Aceptar');					
-				  }*/
-					  
+                  cargovendedor='';
+				  validavigencia(factura);			  
+				  //var diasfac=window.localStorage.getItem("diasfac");	
+				  //alert(diasfac);			  
 				  
 				  //window.location.href='#pdethistfac';				  				  
 				  $("#divgriddev").show();				  
@@ -437,7 +460,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
     });
 	$("#bdevtodo").tap(function() {                   
 				  //limpiartemp();	
-				  var factura=window.localStorage.getItem("factura");				  
+				  var factura=window.localStorage.getItem("factura");
 				  copiadethistempd(factura,'S');					  
 				  //mostrarhistfac(factura);
       			  //mostrarartdev();
@@ -500,9 +523,13 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
                 function onConfirm(button) {
 					if (button==1){
 						 var observagen=$("#obsgendev").val();
-						 guardadev(observagen);//guarda la devolución.						 
-						// window.location.href='#phistfac';
-						
+						// alert(cargovendedor);
+						 var diasfac=window.localStorage.getItem("diasfac");	
+						 if (diasfac>15){
+							 cargovendedor='S'							 
+						 }
+						 guardadev(observagen,cargovendedor);//guarda la devolución.						 
+						// window.location.href='#phistfac';						
 						 eliminatempdev();
 						 guardatotaldev(0);						 
 						 $("#divgriddev").hide();
@@ -537,6 +564,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				  $('#divnumcobros').hide();
 				  $("#labelencpcobros").empty();	
 				  $("#labelencpcobros").append("Cobrar Facturas pendientes del cliente: "+cliente);				  				 				  
+				   
 				  eliminatempcob();
 				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
 				  //listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
@@ -617,6 +645,8 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				  }
     });
 	$("#regresardecob").tap(function(){
+		 var cliente=window.localStorage.getItem("clave"); 
+		 consultasivencidas(cliente);
      	 var vencida=window.localStorage.getItem("vencida"); 
 		 var saldo=Number(window.localStorage.getItem("saldo")); 
 		 var limite=Number(window.localStorage.getItem("limite")); 
@@ -780,13 +810,23 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
   }); 
 //**********D E P O S I T O S	 *************
  $("#bdepositos").tap(function() {                   				  				  
+				  window.location.href='#pfichadep';
+				  poblarcuentadep();				  
+  });
+  $("#bdatosdep").tap(function() { 
+				var banco=$("#menucuentad").val();				
+   				if (banco=='Banco'){
+					 navigator.notification.alert('Debe seleccionar algún banco',null,'Seleccione Banco','Aceptar');					
+				}else{
 				  window.location.href='#pdepositos';
-				  listarecibos();
-				  poblarcuentadep();
-				  guardafechaactual();
-				  $("#numficha").val(""); 
-				  $("#totaldep").val(0); 
+				  var pos=banco.indexOf("@");//el valor regresado en Banco es codigo+cuenta bancaria
+                  var codigo= banco.substr(0,(pos));//se obtiene el codigo del catalogo de bancos, para relacionar con CUENTASB
+  				  listarecibos(codigo);				  
+				  guardafechaactual();	
+	  			  $("#labeldeposito").empty();
+				  $("#labeldeposito").append('Banco seleccionado: ');				  				  
 				  $("#obsdep").val("");
+				}
   });
   $("#regresardep").tap(function(){
                 function onConfirm(button) {
@@ -803,23 +843,40 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
     }); 
 	$("#bguardadep").tap(function(){
 		var recibos='';
-		var banco=$("#menucuentad").val();		
+		var faltandatos=false;
+		var banco=$("#menucuentad").val();
 		guardafechaactual();//guarda en memoria la fecha con hora, actuales
 		var fecha= window.localStorage.getItem("fechahora");//recuperamos la nueva fecha y hora actual
+		var efectivo= Number(window.localStorage.getItem("depositoefe"));//
+		var cheque= Number(window.localStorage.getItem("depositoche"));//
+		var chequeotros= Number(window.localStorage.getItem("depositocheotros"));//
 		var longitud=banco.length;
-		
-
                 function onConfirm(button) {
 					if (button==1){						 						 
-						 if ($("#numficha").val().length==0 || $("#totaldep").val()==0 || banco=='Banco'){
-							 navigator.notification.alert('Debe indicar numero de ficha,banco y seleccionar algun recibo',null,'Faltan Datos','Aceptar');
+						if (efectivo>0){
+							if ($("#fichaefe").val().length==0){
+								faltandatos=true; }
+						}
+						if (cheque>0){
+							if ($("#fichache").val().length==0){
+								faltandatos=true; }
+						}
+						if (chequeotros>0){
+							if ($("#fichacheotros").val().length==0){
+								faltandatos=true; }
+						}
+						if (faltandatos){
+							 navigator.notification.alert('Debe indicar numero de ficha para los importes a depositar',null,'Faltan Datos','Aceptar');
 							 return false;
-							 
 						 }
 						 else{
 							 var pos=banco.indexOf("@");
 						     var codigo= banco.substr(0,(pos));
 					         var cuenta=banco.substr(pos+1,longitud-(pos+1));
+							 alert('deposito guardado');
+							// alert('f1'+$("#fichaefe").val()+' f2 '+$("#fichache").val()+'f3 '+$("#fichacheotros").val());
+							 
+							 /*
 							 $('input:checkbox.clasedep').each(function () {
         		   				if (this.checked) {
 						 		  //alert('nombre '+$(this).attr("name")+' valor '+$(this).val()+'banco '+banco+' codigo '+codigo+' cuenta '+cuenta);
@@ -831,7 +888,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 							});//$('input:checkbox.clasep').each(function () {								 
 							 //alert(recibos);
 							 guardaencdep(codigo,cuenta,$("#numficha").val(),fecha,$("#totaldep").val(),$("#obsdep").val())
-							 
+							 */
 						 }				 
 						 
 						 window.location.href='#page';
@@ -847,21 +904,23 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 	 $("input:checkbox.clasedep").live("change",function(event){
 			//alert('entra');
 		if ($(this).prop("checked")){
-			var total=$("#totaldep").val();
+			var total=$("#totalselec").val();
 			var importe=$(this).val();
+			var monto=Number(total)+Number(importe);
 		   //alert("checado");
 		   //alert($(this).val());
-		   $("#totaldep").val(Number(total)+Number(importe));
+		   $("#totalselec").val(monto.toFixed(2));
 		   
 	   }
 	   else{
 		   //alert("NO checado");
 		   //alert($(this).val());	
-		   var total=$("#totaldep").val();
+		   	var total=$("#totalselec").val();
 			var importe=$(this).val();
+			var monto=Number(total)-Number(importe);
 		   //alert("checado");
 		   //alert($(this).val());
-		   $("#totaldep").val(Number(total)-Number(importe));
+		   $("#totalselec").val(monto.toFixed(2));
 	   }
   
      });
@@ -1195,6 +1254,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 	    $("#blimpiarcant").tap(function() {                                                                                                                
           $('#cantcat').val('');                         
        });
+	   
 //**********TECLADO NUMERICO USADO EN VENTAS *************	
 	   $("#bacepven").tap(function() {                                                   	       
            var cantidad = parseInt($("#cantv").val()); 		  
@@ -1401,8 +1461,13 @@ window.localStorage.setItem("clave",'');
 $("#divclientes").hide();
 
 });
-
-
+$("#bcargaclientes").tap(function() {  
+		  var ruta=window.localStorage.getItem("ruta");
+		  //var direccion ="http://192.168.3.46/prueba.php?jsoncallback=?";
+		  var direccion ="http://sardelfr03.zapto.org/prueba.php?jsoncallback=?";
+          cargaclientes(ruta,direccion);                       
+		 // cargarutacli(ruta,direccion);                       		  
+       });
   },false);//document.addEventListener("deviceready",function(){	
 });//$(document).ready(function() 
 			   

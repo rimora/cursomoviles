@@ -119,23 +119,23 @@
 		<h5>Catálogo de clientes</h5>
     </div>
     <div data-role="content">
-            <div style="width: 300px; float:left ">
+            <div style="width: 450px; float:left ">
                 <div data-role="fieldcontain" data-theme="b" style="width:300px">
                 <label for="menu"><b>Día:</b></label>
                 <select name="Dia" id="menu" data-theme="b" class="diasruta">
-                    <option value="Lunes">
+                    <option value=0>
                         Lunes
                     </option>
-                    <option value="Martes">
+                    <option value=1>
                         Martes
                     </option>
-                    <option value="Miercoles">
+                    <option value=2>
                         Miercoles
                     </option>
-                    <option value="Jueves">
+                    <option value=3>
                         Jueves
                     </option>
-                    <option value="Viernes">
+                    <option value=4>
                         Viernes
                     </option>
                     <option value="Todos">
@@ -374,6 +374,7 @@
 		<ul data-role="listview" data-inset="true" data-theme="b">     
             <a href="" id ="carga" data-mini="true" data-role="button" data-theme="e" data-icon="refresh" data-iconpos="left"> Carga</a>              
             <a href="" id ="envia"  data-role="button" data-theme="b"> agrega datos</a> 
+            <a href="" id ="bcargaclientes"  data-role="button" data-theme="b">Carga de Datos</a> 
             <a href="#page" class="ui-btn-right" id="regresardatos" data-role="button" 
             data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>
 		</ul>	
@@ -604,7 +605,7 @@
 	</div>
 	<div data-role="content">
         <div style="width: 300px; float:left ">	        
-	    	<ul id="listahistfac" data-role="listview" data-inset="true"  data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que Factura buscas?">			        
+	    	<ul id="listahistfac" data-role="listview" data-inset="true"  data-theme="b" data-autodividers="true" data-filter="true" data-filter-placeholder="¿Que Factura buscas?">			        
             
     	    </ul>               
         </div>  
@@ -660,20 +661,35 @@
     
 </div>
 <!-- P A G I N A  DIALOGO SELECCIONAR TIPO DEVOLUCION-->
-<div data-role="dialog" id="pcantidaddev">
+<div data-role="dialog" id="ptipodev">
     <div data-role="header" data-theme="b">
-        <h1 id="encdialogotipo">Tipo de Devolución</h1>
+        <h1>Tipo de Devolución</h1>
     </div>
     <div data-role="content">
        <div data-role="fieldcontain">
-		<label for="cantidaddev">Cantidad:</label>
-		<input type="number" data-type="range" name="cantidaddev" id="cantidaddev" value="0" min="0" max="100" data-theme="a" data-track-theme="b" />
-        <label for="obsrendev">Observaciones:</label>
-        <textarea cols="3"  name="obsrendev" id="obsrendev"></textarea> 
-        <a href="#" data-role="button" data-rel="back" id="bcantidaddev">Aceptar</a>
+		<div data-role="fieldcontain" data-theme="b" >
+                <label for="menutipodev"><b>Tipo:</b></label>
+                <select name="dia" id="menutipodev" data-theme="b" >
+	                 <option value="tipo">
+                        Selecciona Tipo
+                    </option>
+                    <option value="1">
+                        Con Documento
+                    </option>
+                    <option value="2">
+                        Sin Docto(Cargo al Vendedor)
+                    </option>
+                    <option value="3">
+                        Sin Docto(Cancelación de Cuenta)
+                    </option>
+                   
+                </select>
+                </div>	
+                <a href="#" data-role="button" id="btipodev">Aceptar</a>
 		</div>
     </div>
 </div>
+
 <!--PAGINA DETALLE HISTORICO FACTURAS DE CLIENTE -->
 <div data-role="page" id="pdethistfac">
 	<div data-role="header" data-theme="b">
@@ -881,41 +897,67 @@
 <!--PAGINA DEPOSITOS -->
 <div data-role="page" id="pdepositos">
 	<div data-role="header" data-position="fixed" data-theme="b">
-		<h3 style="text-align:center">Registro de Depositos</h3>  
-          <div data-role="navbar">
-        
-    		<div data-role="fieldcontain">	
-				<label for="numficha" style="font-size:18px">Núm. Ficha:</label>
-				<input name="" type="number" id="numficha" style="width:20%;color:#F00; font-weight:bold">	
-                <label for="totaldep" style="font-size:18px">Total:</label>
-				<input name="" type="number" id="totaldep" style="width:20%; color:#F00; font-weight:bold"" readonly >						    
-		   </div> 
-           
-    
-   		 </div>     
+		<h5 style="text-align:center">Registro de Depositos</h5>                		
 	</div>
-	<div data-role="content">	          
-            <div data-role="fieldcontain" data-theme="b">           		
-		            <select name="menucuentad" id="menucuentad" data-theme="b" >
-		                  
-		            </select>
-	        </div>	
-            <div class=ui-grid-a id="gridrecibosdep">         
-		    	   
-   			</div>
-            <div data-role="fieldcontain" data-theme="b">           		
-	            <label for="obsdep">Observaciones:</label>
-    	   		<textarea cols="3"  name="obsdep" id="obsdep"></textarea> 
-            </div>    
-           
-    </div>    
-	<div data-role="footer" data-position="fixed">       
+	<div data-role="content">
+    	<center><label id="labeldeposito" style="font-size:24px; font-weight:bold"></label></center>
+	    <div class="ui-grid-a" id="griddepefe" style="float:left">
+		  <div class="ui-block-a" style="width:150px;text-align: left" ><div class="ui-bar ui-bar-a">Cheques mismo Banco</div></div>
+		  <div class="ui-block-b" style="width:140px;text-align: left" ><div class="ui-bar ui-bar-a" style="height: 20px">Ficha</div></div>
+        </div><!--class="ui-grid-c"-->   
+        <div class="ui-grid-a" id="griddepche" style="float:left">
+		  <div class="ui-block-a" style="width:150px;text-align: left" ><div class="ui-bar ui-bar-a">Cheques mismo Banco</div></div>
+		  <div class="ui-block-b" style="width:140px;text-align: left" ><div class="ui-bar ui-bar-a" style="height: 20px">Ficha</div></div>        </div><!--class="ui-grid-c"-->   
+        <div class="ui-grid-a" id="griddepcheotros" style="float:left">
+          <div class="ui-block-a" style="width:150px;text-align: left" ><div class="ui-bar ui-bar-a">Cheques mismo Banco</div></div>
+		  <div class="ui-block-b" style="width:140px;text-align: left" ><div class="ui-bar ui-bar-a" style="height: 20px">Ficha</div></div>
+        </div><!--class="ui-grid-c"-->   
+         <div class="ui-grid-a" id="griddeptotal" >
+           <div class="ui-block-a" style="width:150px;text-align: left" ><div class="ui-bar ui-bar-a">Cheques mismo Banco</div></div>
+		  <div class="ui-block-b" style="width:140px;text-align: left" ><div class="ui-bar ui-bar-a" style="height: 20px">Ficha</div></div>
+        </div><!--class="ui-grid-c"-->   
+      <!-- <div style="position:absolute; left:300px; top:57px">
+       <center><label style="font-size:24px; font-weight:bold">Depositado:</label></center>
+        <div class="ui-grid-c" id="griddepositado" style="text-align: right">
+        </div>class="ui-grid-c"
+      </div>  -->
+      <br>
+      <div style="float:left">
+        <label style="font-size:24px; font-weight:bold">Recibos cobrados con efectivo</label>
+        <div class=ui-grid-a id="gridrecibosefe">         		    	   
+		</div>
+      </div>  
+      <div style="position:relative;left:50px " > 
+        <label style="font-size:24px; font-weight:bold">Recibos cobrados con cheque mismo banco</label>
+        <div class=ui-grid-c id="gridrecibosche">         		    	   
+		</div>
+      </div>  
+      <label style="font-size:24px; font-weight:bold">Recibos cobrados con cheque de otros bancos</label>
+      <div class=ui-grid-c id="gridreciboscheotros">         		    	   
+      </div>      
+      <div data-role="fieldcontain" data-theme="b">           		
+	        <label for="obsdep" style="font-size:18px">Observaciones:</label>
+	      	<textarea cols="3"  name="obsdep" id="obsdep" ></textarea>                 
+      </div>               
+  </div>    
+  <div data-role="footer" data-position="fixed">       
          <a href="#" class="ui-btn-right" id="regresardep" data-role="button" 
          data-theme="b" data-icon="back" data-iconpos="left" >Regresar</a>    
-        <a href="#" class="ui-btn-right" id="bguardadep" data-role="button" 
-         data-theme="b" data-icon="plus" data-iconpos="left" >Guardar</a>        
-        
-	</div>
+        <a href="#" class="ui-btn-right" id="bguardadep" data-role="button"          data-theme="b" data-icon="plus" data-iconpos="left" >Guardar Deposito</a>        
+  </div>
+</div>
+<div data-role="dialog" id="pfichadep">
+    <div data-role="header" data-theme="b">
+        <h1>Datos para Deposito</h1>
+    </div>
+    <div data-role="content">       
+          <div data-role="fieldcontain" data-theme="b">           		
+	            <center><select name="menucuentad" id="menucuentad" data-theme="b" >
+		        </select></center>
+                <br>
+				<a href="#" data-role="button" id="bdatosdep" data-theme="b">Guardar</a>
+          </div>	
+    </div>
 </div>
 <!--PAGINA REPORTE MONTO COBRADO Y VENDIDO -->
 <div data-role="page" id="prepcobven">
