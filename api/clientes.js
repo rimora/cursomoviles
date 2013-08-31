@@ -98,7 +98,7 @@ function mostrarcliente(clavecli){
 	              var ffac=row['fechaven'].split("/");//viene en formato dd/mm/yyyy
 			 	  var fechafac=new Date(Number(ffac[2]),Number(ffac[1])-1,Number(ffac[0]));	//año mes dia		 
 				  //tenemos los dias despues del vencimiento
-				  dias = (fechaact - fechafac)/86400000; 
+				  var dias = (fechaact - fechafac)/86400000; 
 				  	if (row['tipo']=='CRE' || row['tipo']=='CONT'){
 						var diascre=Number(row['diasc']);
 						if (dias>diascre){
