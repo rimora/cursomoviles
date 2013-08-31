@@ -676,7 +676,7 @@ alert(direccion);
 		});
 		 
 		alert('procesando articulos');
-		$.each(fpen, function(key, val) {    
+		$.each(art, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  			
 		query[i]='INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi,categoria) VALUES ("'+val['articulo']+'","'+val['descripcion']+'","'+val['clasificacion']+'","'+val['acciont']+'",'+val['impuesto']+','+val['precio']+','+val['descuento']+',"'+val['laboratorio']+'","'+val['pactivo']+'","'+val['ubi']+'","'+val['categoria']+'")'; 
 					
@@ -736,9 +736,9 @@ function insertabd(query,mensaje){
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
 				//alert(query[i]);
-				if (i>649){
+				/*if (i>649){
 					alert(query[i]);
-				}
+				}*/
 				tx.executeSql(query[i]); 						   
 					   
 			}// for (var i = 0, long = query.length; i < long; i++) 
