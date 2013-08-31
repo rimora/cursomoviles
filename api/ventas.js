@@ -607,6 +607,7 @@ var i=0;
 						 sumtotlineaped+=Number(totlinea);//suma del total de linea sin descuento y sin iva
 						 summontodescped+=Number(montodesc);//suma del monto de descuento de cada linea
 						 sumivalineaped+=Number(ivalinea);//suma del total de iva de cada linea
+						 alert(query[i]);
 						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 
 					 }
 					 if (abordo>0){
@@ -624,7 +625,8 @@ var i=0;
 						 sumivalineafac+=Number(ivalinea);//suma del total de iva de cada linea
 						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+factura+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')';						 
 						 i++;
-						 query[i]='UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+abordo+' WHERE articulo="'+articulo+'" and bodega="'+bodega+'"';						 
+						 alert(query[i]);
+						 query[i]='UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+abordo+' WHERE articulo="'+articulo+'" and bodega="'+bodega+'"';						 alert(query[i]);
 					 }
 			 i++;
 			 
@@ -648,16 +650,21 @@ var i=0;
 			 if (sumtotal>0){
 			query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+pedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineaped.toFixed(2)+','+sumtotal.toFixed(2)+','+sumtotlineaped.toFixed(2)+','+summontodescped.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
 			i++;			
+			alert(query[i]);
 			query[i]='UPDATE PARAMETROS SET num_ped="'+pedido+'"';		
+			alert(query[i]);
 			i++;			
 			 }
 			 if (sumtotalfac>0){
 				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+factura+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineafac.toFixed(2)+','+sumtotalfac.toFixed(2)+','+sumtotlineafac.toFixed(2)+','+summontodescfac.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
 			i++;			 
+			alert(query[i]);
 			query[i]='UPDATE PARAMETROS SET num_fac="'+factura+'"';		
+			alert(query[i]);
 			i++;
 			 }
 			query[i]='DELETE FROM TEMPEDIDO where cliente="'+cliente+'"';        
+			alert(query[i]);
 			
 		  	 //guardaencpedido(pedido,ruta,cliente,fechayhora,fechaact,sumivalinea,(sumtotlinea+sumivalinea),sumtotlinea,summontodesc,obs,30,"K01");
 				//alert('despues de llamar a funcion guardated');
@@ -698,7 +705,7 @@ function guardadetpedido(query,total){
     	function insertadet(tx) {		
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
-				//alert(query[i]);
+				alert(query[i]);
 				tx.executeSql(query[i]); 						   
 					   
 			}// for (var i = 0, long = query.length; i < long; i++) 
