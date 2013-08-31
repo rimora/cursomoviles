@@ -741,9 +741,9 @@ function insertabd(query,mensaje){
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
 				//alert(query[i]);
-				/*if (i>649){
+				if (i>649){
 					alert(query[i]);
-				}*/
+				}
 				tx.executeSql(query[i]); 						   
 					   
 			}// for (var i = 0, long = query.length; i < long; i++) 
