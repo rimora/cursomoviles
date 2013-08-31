@@ -667,14 +667,7 @@ alert(direccion);
 			query[i]='INSERT INTO PENCOBRO (documento,cliente,saldo,monto,fecha,fechaven) VALUES ("'+val['documento']+'","'+val['cliente']+'",'+val['saldo']+','+val['monto']+',"'+val['fecha'].substr(0,2)+'/'+val['fecha'].substr(2,2)+'/'+val['fecha'].substr(4,4)+'","'+val['fechaven'].substr(0,2)+'/'+val['fechaven'].substr(2,2)+'/'+val['fechaven'].substr(4,4)+'")';
 			i++;
 		});
-		/*
-		alert('procesando articulos');
-		$.each(fpen, function(key, val) {    
-			//alert(key + ' ' + val['cliente'] );  			
-		query[i]='INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi,categoria) VALUES ("'+val['articulo']+'","'+val['descripcion']+'","'+val['clasificacion']+'","'+val['acciont']+'",'+val['impuesto']+','+val['precio']+','+val['descuento']+',"'+val['laboratorio']+'","'+val['pactivo']+'","'+val['ubi']+'","'+val['categoria']+'")'; 
-					
-			i++;
-		});*/
+		
 		alert('procesando existencias');
 		$.each(exis, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  			
@@ -682,6 +675,13 @@ alert(direccion);
 			i++;
 		});
 		 
+		alert('procesando articulos');
+		$.each(fpen, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  			
+		query[i]='INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi,categoria) VALUES ("'+val['articulo']+'","'+val['descripcion']+'","'+val['clasificacion']+'","'+val['acciont']+'",'+val['impuesto']+','+val['precio']+','+val['descuento']+',"'+val['laboratorio']+'","'+val['pactivo']+'","'+val['ubi']+'","'+val['categoria']+'")'; 
+					
+			i++;
+		});
 		alert(i);
 		alert('insertando datos');
 		insertabd(query,"Clientes Cargados");
@@ -726,10 +726,9 @@ function cargarutacli(ruta,direccion){
 
 function insertabd(query,mensaje){
 	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
-	     //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
-		 alert('entra query');
+	     //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);		
 	base.transaction(insertadet,function(err){
-    	  alert("Error al insertar datos cargados: "+err.code+err.message);
+    	  alert("Error al insertar datos cargados: "+err.code+' '+err.message);
           },function(){		  
 		   navigator.notification.alert(mensaje,null,'Carga Datos','Aceptar');										 });
 		  				
@@ -737,6 +736,9 @@ function insertabd(query,mensaje){
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
 				//alert(query[i]);
+				if (i>649){
+					alert(query[i]);
+				}
 				tx.executeSql(query[i]); 						   
 					   
 			}// for (var i = 0, long = query.length; i < long; i++) 
