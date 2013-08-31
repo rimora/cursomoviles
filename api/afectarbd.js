@@ -733,7 +733,8 @@ function insertabd(query,mensaje){
 	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
 	     //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);		
 	base.transaction(insertadet,function(err){
-    	  alert("Error al insertar datos cargados: "+err.code+' '+err.message);
+		var bandera=0;
+    	  alert("Error al insertar datos cargados: "+bandera+''+err.code+' '+err.message);
           },function(){		  
 		   navigator.notification.alert(mensaje,null,'Carga Datos','Aceptar');										 });
 		  				
@@ -741,9 +742,11 @@ function insertabd(query,mensaje){
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
 				//alert(query[i]);
+				bandera=i;
+				/*
 				if (i>649){
 					alert(query[i]);
-				}
+				}*/
 				tx.executeSql(query[i]); 						   
 					   
 			}// for (var i = 0, long = query.length; i < long; i++) 
