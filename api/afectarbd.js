@@ -155,12 +155,12 @@ function insertar(){
 		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento) VALUES ("AGU-10","AGUA OXIGENADA CON 100 ML.","CATA","ANTIGRIPAL",0,50,30)'); 
 		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento) VALUES ("AMO-19","AMOXIL SUSP. 500 MG. C/75 ML.","OFERTA","ANTIDEA",16,40,30)'); 
 		 tx.executeSql('INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento) VALUES ("AZA-02","ARTI DE PRUEBA","OFERTA","PRUEBA",16,100,40)'); 
-		 */
+		 
 		 tx.executeSql('INSERT INTO ARTICULO_EXISTENCIA ( articulo,bodega,existencia) VALUES ("ACA-01","K01",20)'); 
 		 tx.executeSql('INSERT INTO ARTICULO_EXISTENCIA ( articulo,bodega,existencia) VALUES ("ACE-01","K01",30)'); 
 		 tx.executeSql('INSERT INTO ARTICULO_EXISTENCIA ( articulo,bodega,existencia) VALUES ("ACE-02","K01",40)'); 
 		 tx.executeSql('INSERT INTO ARTICULO_EXISTENCIA ( articulo,bodega,existencia) VALUES ("ACF-01","ALG",50)'); 
-		 tx.executeSql('INSERT INTO ARTICULO_EXISTENCIA ( articulo,bodega,existencia) VALUES ("ACL-01","ALG",60)'); 
+		 tx.executeSql('INSERT INTO ARTICULO_EXISTENCIA ( articulo,bodega,existencia) VALUES ("ACL-01","ALG",60)'); */
 		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1020","ACA-01",5)'); 
 		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1020","ACE-01",5)'); 
 		 tx.executeSql('INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("1020","ACE-02",5)'); 
@@ -648,6 +648,7 @@ alert(direccion);
 	     var diasruta = data.diasruta;
 		 var fpen = data.facpen;
 		 var art= data.articulos;
+		 var exis= data.existencias;
 		 var i=0;
 		$.each(clientes, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  
@@ -666,14 +667,21 @@ alert(direccion);
 			query[i]='INSERT INTO PENCOBRO (documento,cliente,saldo,monto,fecha,fechaven) VALUES ("'+val['documento']+'","'+val['cliente']+'",'+val['saldo']+','+val['monto']+',"'+val['fecha'].substr(0,2)+'/'+val['fecha'].substr(2,2)+'/'+val['fecha'].substr(4,4)+'","'+val['fechaven'].substr(0,2)+'/'+val['fechaven'].substr(2,2)+'/'+val['fechaven'].substr(4,4)+'")';
 			i++;
 		});
+		/*
 		alert('procesando articulos');
 		$.each(fpen, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  			
 		query[i]='INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi,categoria) VALUES ("'+val['articulo']+'","'+val['descripcion']+'","'+val['clasificacion']+'","'+val['acciont']+'",'+val['impuesto']+','+val['precio']+','+val['descuento']+',"'+val['laboratorio']+'","'+val['pactivo']+'","'+val['ubi']+'","'+val['categoria']+'")'; 
 					
 			i++;
+		});*/
+		alert('procesando existencias');
+		$.each(exis, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  			
+		query[i]='INSERT INTO ARTICULO_EXISTENCIA (articulo,bodega,existencia) VALUES ("'+val['articulo']+'","'+val['bodega']+'",'+val['existencia']+')'; 			
+			i++;
 		});
-
+		 
 		alert(i);
 		alert('insertando datos');
 		insertabd(query,"Clientes Cargados");
