@@ -640,9 +640,9 @@ alert('entra');
   	//archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
 	//archivoValidacion ="http://aplicacion.netai.net/index.php?jsoncallback=?"	
 	//var archivoValidacion ="http://192.168.3.46/prueba.php?jsoncallback=?";
-	$.getJSON( direccion, {numruta:ruta})
+	$.getJSON(direccion, {numruta:ruta})
 	.done(function(data) {
-		var query=[];
+		 var query=[];
 		 var clientes = data.clientes;
 	     var diasruta = data.diasruta;
 		 var fpen = data.facpen;
@@ -709,6 +709,7 @@ function cargarutacli(ruta,direccion){
 function insertabd(query,mensaje){
 	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
 	     //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
+		 alert('entra query');
 	base.transaction(insertadet,function(err){
     	  alert("Error al insertar datos cargados: "+err.code+err.message);
           },function(){		  
