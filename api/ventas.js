@@ -546,8 +546,10 @@ function fichaarticulo(articulo){//
   }//
 function guardarventa(cliente,obs,total){	
 var cabinsertada=false;
-var sumtotlinea=0; var summontodesc=0; var sumivalinea=0; var sumtotal=0; var bodega=window.localStorage.getItem("bodega");
+var sumtotlineaped=0; var summontodescped=0; var sumivalineaped=0; var sumtotal=0; var bodega=window.localStorage.getItem("bodega");
+var sumtotlineafac=0; var summontodescfac=0; var sumivalineafac=0; var sumtotalfac=0;
 var consecutivo=window.localStorage.getItem("consepedido");
+var consefac=window.localStorage.getItem("consefactura");
 var ruta=window.localStorage.getItem("ruta");
 var fecha = new Date();
 var fechaact=fecha.getFullYear()+"/"+(fecha.getMonth()+1)+"/"+fecha.getDate();
@@ -555,11 +557,11 @@ var hora=fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
 var fechayhora=fechaact+" "+hora;
 //+"\nMilisegundo: "+fecha.getMilliseconds());
 var longitud=consecutivo.length; var inicial=consecutivo.substr(0,3); var numpedido= consecutivo.substr(3,(longitud-3));
- //alert(numpedido); 
-var incremetarp=Number(numpedido)+1;
- //alert(incremetarp); 
-var pedido=inicial+pad(incremetarp,6);
- //alert(pedido); 
+var incremetarp=Number(numpedido)+1; var pedido=inicial+pad(incremetarp,6);
+var longfac=consefac.length; var inicialfac=consefac.substr(0,3); var numfac=consefac.substr(3,(longfac-3));
+var incremetarf=Number(numfac)+1; var factura=inicialfac+pad(incremetarf,6);
+
+
 var query=[];
    function pad(n, length){
 	   //alert('entra a funcion'+n); 
@@ -570,23 +572,60 @@ var query=[];
 var i=0;
 	function listo(tx,results){ 	      
 	      if (results.rows.length>0){		
-		  	 $.each(results.rows,function(index){           			 
+		  	 $.each(results.rows,function(index){   
 			 var row = results.rows.item(index);    
-			 var precio=row['precio'];//precio sin descuento y sin iva			 
-			 var pordesc=row['descuento'];//porcentaje de descuento que se aplica 
-			 var totlinea=Number(row['cantidad'])*Number(row['precio']);//total de linea sin descuento y sin iva
-			 var montodesc=(Number(totlinea.toFixed(2))/100)*Number(row['descuento']); 
-			 var lineacdes=totlinea-montodesc;//importe de linea con descuento
-			 var ivalinea=lineacdes*(row['impuesto']/100);			 			 
-			 var preciocdesc=Number(row['precio'])-((Number(row['precio'])/100)*Number(row['descuento']));  
-			 var preciociva=preciocdesc*(1+(row['impuesto']/100));			 
-			 var cantidad=row['cantidad'];
-			 var articulo=row['articulo'];
-
-			 sumtotlinea+=Number(totlinea);//suma del total de linea sin descuento y sin iva
-			 summontodesc+=Number(montodesc);//suma del monto de descuento de cada linea
-			 sumivalinea+=Number(ivalinea);//suma del total de iva de cada linea
-			 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 
+			 
+			 var precio=Number(row['precio']);//precio sin descuento y sin iva			 
+			 var pordesc=Number(row['descuento']);//porcentaje de descuento que se aplica 
+			 var articulo=row['articulo'];			 
+			 var preventa=0; var abordo=0; var totlinea=0; var montodesc=0; var lineacdes=0; var ivalinea=0; var preciocdesc=0; var preciociva=0;
+			 var existencia=Number(row['existencia']);
+			 var cantidad=Number(row['cantidad']);
+			 var dif=existencia-cantidad;
+					 if (existencia==0){
+						 preventa=cantidad;							 
+					 }
+					 else{
+						 if (dif>=0){						 
+						 abordo=cantidad;						 
+						 }
+						 else{
+							 preventa=cantidad-existencia;
+							 abordo=existencia;
+						 }
+					 }					 
+					 if (preventa>0){
+						 totlinea=preventa*precio;//total de linea sin descuento y sin iva
+						 montodesc=(Number(totlinea.toFixed(2))/100)*Number(row['descuento']); 
+						 lineacdes=totlinea-montodesc;//importe de linea con descuento
+						 //iva de la linea
+						 ivalinea=lineacdes*(row['impuesto']/100); 
+						 //precio del articulo con descuento sin aplicar iva
+						 preciocdesc=row['precio']-((row['precio']/100)*Number(row['descuento']));  
+						 //precio del articulo con descuento aplicando iva
+						 preciociva=preciocdesc*(1+(row['impuesto']/100));	
+						 sumtotlineaped+=Number(totlinea);//suma del total de linea sin descuento y sin iva
+						 summontodescped+=Number(montodesc);//suma del monto de descuento de cada linea
+						 sumivalineaped+=Number(ivalinea);//suma del total de iva de cada linea
+						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 
+					 }
+					 if (abordo>0){
+						 totlinea=abordo*precio;//total de linea sin descuento y sin iva
+						 montodesc=(Number(totlinea.toFixed(2))/100)*Number(row['descuento']); 
+						 lineacdes=totlinea-montodesc;//importe de linea con descuento
+						 //iva de la linea
+						 ivalinea=lineacdes*(row['impuesto']/100); 
+						 //precio del articulo con descuento sin aplicar iva
+						 preciocdesc=row['precio']-((row['precio']/100)*Number(row['descuento']));  
+						 //precio del articulo con descuento aplicando iva
+						 preciociva=preciocdesc*(1+(row['impuesto']/100));			 
+						 sumtotlineafac+=Number(totlinea);//suma del total de linea sin descuento y sin iva
+						 summontodescfac+=Number(montodesc);//suma del monto de descuento de cada linea
+						 sumivalineafac+=Number(ivalinea);//suma del total de iva de cada linea
+						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+factura+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')';						 
+						 i++;
+						 query[i]='UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+abordo+' WHERE articulo="'+articulo+'" and bodega="'+bodega+'"';						 
+					 }
 			 i++;
 			 
 			 //guardadetpedido(pedido,articulo,precio,pordesc,totlinea,montodesc,precio,cantidad);
@@ -600,16 +639,24 @@ var i=0;
 
 			 */			 			 
 		 	});
-			sumtotal=Number(sumtotlinea)+Number(sumivalinea);
+			sumtotal=Number(sumtotlineaped)+Number(sumivalineaped);
+			sumtotalfac=Number(sumtotlineafac)+Number(sumivalineafac);
 			 /*
 			 alert(sumtotal);
 			 alert(sumtotlinea);
 			 alert(sumivalinea);			 */
-
-			query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+pedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalinea.toFixed(2)+','+sumtotal.toFixed(2)+','+sumtotlinea.toFixed(2)+','+summontodesc.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
+			 if (sumtotal>0){
+			query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+pedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineaped.toFixed(2)+','+sumtotal.toFixed(2)+','+sumtotlineaped.toFixed(2)+','+summontodescped.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
 			i++;			
-			query[i]='UPDATE PARAMETROS SET num_fac="'+pedido+'"';		
+			query[i]='UPDATE PARAMETROS SET num_ped="'+pedido+'"';		
 			i++;			
+			 }
+			 if (sumtotalfac>0){
+				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+factura+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineafac.toFixed(2)+','+sumtotalfac.toFixed(2)+','+sumtotlineafac.toFixed(2)+','+summontodescfac.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
+			i++;			 
+			query[i]='UPDATE PARAMETROS SET num_fac="'+factura+'"';		
+			i++;
+			 }
 			query[i]='DELETE FROM TEMPEDIDO where cliente="'+cliente+'"';        
 			
 		  	 //guardaencpedido(pedido,ruta,cliente,fechayhora,fechaact,sumivalinea,(sumtotlinea+sumivalinea),sumtotlinea,summontodesc,obs,30,"K01");
@@ -619,9 +666,9 @@ var i=0;
 	function consultatemp(tx){  
 	             //alert('ENTRA A CONSultatepm'); 
 				var sql='SELECT a.articulo,a.cantidad,b.impuesto,b.precio,';
-				sql+='b.descuento ';	
-				sql+='FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo ';
-				sql+='WHERE  a.cliente="'+cliente+'"  ';
+				sql+='b.descuento,c.existencia ';	
+				sql+='FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo left outer join ARTICULO_EXISTENCIA c ';
+				sql+='on c.articulo=a.articulo and c.bodega="'+bodega+'" WHERE  a.cliente="'+cliente+'"  ';
 			    //alert(sql);
 								
 			tx.executeSql(sql,[],listo,function(err){
