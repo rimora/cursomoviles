@@ -681,7 +681,7 @@ alert(direccion);
 			var articulo=val['articulo'];
 			var descripcion=val['descripcion'];
 			articulo=articulo.replace('\\','');
-			descripcion=descripcion.replce('\\','');
+			descripcion=descripcion.replace('\\','');
 			 			
 		query[i]='INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi,categoria) VALUES ("'+articulo+'","'+descripcion+'","'+val['clasificacion']+'","'+val['acciont']+'",'+val['impuesto']+','+val['precio']+','+val['descuento']+',"'+val['laboratorio']+'","'+val['pactivo']+'","'+val['ubi']+'","'+val['categoria']+'")'; 
 					
