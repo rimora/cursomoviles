@@ -366,7 +366,7 @@ return pendiente;
 
   
 function guardacob(){	
-
+alert('entra guardacob');
 var totalrecibo=0;
 var tipo='5';//recibo 5 o nt credito 7
 var tipoaso='1';//documento abonado,factura 1 o nt credito 7
