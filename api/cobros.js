@@ -374,8 +374,10 @@ var estado='A'; //A=activo, N=anulado
 var monefe=Number(window.localStorage.getItem("efectivo"));
 var monche=Number(window.localStorage.getItem("cheque"));
 var cliente=window.localStorage.getItem("clave");
+alert('antes DE consecutivo');
 var consecutivo=window.localStorage.getItem("conserec");
-//alert(consecutivo);
+alert('DESPUES DE consecutivo');
+alert(consecutivo);
 var ruta=window.localStorage.getItem("ruta");
 var horaini=window.localStorage.getItem("fechahora");//fecha y hora actual guardada cuando inicio la devolución de la factura.
 guardafechaactual();//guarda en memoria la fecha con hora, actuales

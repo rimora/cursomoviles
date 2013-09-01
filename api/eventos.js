@@ -77,7 +77,7 @@ $(document).ready(function() {
 	$("#bclientes").tap(function() {                  
 				 // recibosindep();//valida que no existan recibos sin deposito, en esta funcion abre ventana de clientes en caso de que pase la validación				  
 				  window.location.href='#pclientes';
-				  				                    
+				  alert(diasemana);				                    
 		 		 mostrarclientes(diasemana-1);
 		 		 //$("select#menu").val("Lunes").selectmenu("refresh");   
 		 		 $("select#menu").val(diasemana-1); 	
