@@ -379,13 +379,16 @@ var consecutivo=window.localStorage.getItem("conserec");
 alert('DESPUES DE consecutivo');
 alert(consecutivo);
 var ruta=window.localStorage.getItem("ruta");
+alert('DESPUES DE ruta');
 var horaini=window.localStorage.getItem("fechahora");//fecha y hora actual guardada cuando inicio la devolución de la factura.
 guardafechaactual();//guarda en memoria la fecha con hora, actuales
 var horafin= window.localStorage.getItem("fechahora");//recuperamos la nueva fecha y hora actual
 var fecharec=window.localStorage.getItem("fecha");//recuperamos la fecha actual
+alert('antes DE usar consecutivo');
 var longitud=consecutivo.length;
 var inicial=consecutivo.substr(0,3);
 var numrec= consecutivo.substr(3,(longitud-3));
+alert('DESPUES DE usar consecutivo');
 var incrementarec=Number(numrec)+1;
 var recibo=inicial+pad(incrementarec,6);
 alert('DESPUES DE declaraciones');

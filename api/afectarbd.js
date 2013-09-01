@@ -117,7 +117,7 @@ function insertar(){
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALI-01",1,5,2,54.03,124.269)')	//54	
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALI-02",2,6,0,46.95,129.582)')		//54
 
-		
+		/*
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia UNO", "1020","Lunes","Dirección del cliente","2281545130","C","30",10000.00,2324.65)');      
         tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia DOS", "1030","Martes","Dirección del cliente  DOS","2281545130","C","30",30000.00,20000.00)'); 
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia TRES", "1040","Miercoles","Dirección del cliente","2281545130","C","30",3000.00,0.00)');        
@@ -131,7 +131,7 @@ function insertar(){
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "00041540","1030",5000.00,5000.00,"08/06/2013","08/07/2013")');        
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "00041538","1030",5000.00,5000.00,"08/06/2013","08/07/2013")');        
 		tx.executeSql('INSERT INTO PENCOBRO (tipo,documento,cliente,saldo,monto,fecha,fechaven,vencida,diasv) VALUES ( "00041539","1030",5000.00,5000.00,"08/06/2013","08/07/2013")');        
-		
+		*/
 		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza1")');        
 		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza2")');        
 		tx.executeSql('INSERT INTO NOTASCOB (factura,nota) VALUES ( "00041534","notas de cobranza3")');        
