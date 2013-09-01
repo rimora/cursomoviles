@@ -187,6 +187,7 @@ $(document).ready(function() {
     $("#menu").bind("change",function(event,ui){
 		//alert($("#menu").val());
 		window.localStorage.setItem("clave",'');//limpia clave de cliente
+		//window.localStorage.setItem("clinom",'');//limpia nombre de cliente
 	    mostrarclientes($("#menu").val());	
 		
 		$("#divclientes").hide();		
@@ -282,12 +283,13 @@ $(document).ready(function() {
 $("#bventa").tap(function() {		 	 
                  var cliente=window.localStorage.getItem("clave");
 				 var vencida=window.localStorage.getItem("vencida");
+				 var tipocli=window.localStorage.getItem("tipocliente");
              	 var saldo=Number(window.localStorage.getItem("saldo")); 
         		 var limite=Number(window.localStorage.getItem("limite")); 
 		         var disp=limite-saldo;
         		 //if (disp<=0 || vencida=='S'){
-					 if (vencida=='S'){
-					navigator.notification.alert('Cliente con Saldo Vencido, realiza abono',null,'Acceso a Ventas','Aceptar');										 
+				 if (vencida=='S' || tipocli=='SUSP'){
+					navigator.notification.alert('Cliente con Saldo Vencido o Credito Suspendido, realiza abono',null,'Acceso a Ventas','Aceptar');										 
 				 }
 				 else{
         				 window.location.href='#pventas';			
@@ -1463,8 +1465,8 @@ $("#divclientes").hide();
 });
 $("#bcargaclientes").tap(function() {  
 		  var ruta=window.localStorage.getItem("ruta");
-		  //var direccion ="http://192.168.3.46/prueba.php?jsoncallback=?";
-		  var direccion ="http://sardelfr03.zapto.org/prueba.php?jsoncallback=?";
+		  var direccion ="http://192.168.3.46/prueba.php?jsoncallback=?";
+		  //var direccion ="http://sardelfr03.zapto.org/prueba.php?jsoncallback=?";
           cargaclientes(ruta,direccion);                       
 		 // cargarutacli(ruta,direccion);                       		  
        });

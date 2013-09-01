@@ -41,12 +41,13 @@ function mostrarcliente(clavecli){
 	   var saldo=0;
 	   var disponible=0;
 	   var vencida='NO';
+	   var nombre='';
 		$('#notascxc').text("Notas para el cliente " + clavecli);
 		$('#clienteselec').empty();
-		$('#clienteselec').append("Cliente Seleccionado:" + clavecli);
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta,function(){
 			var html='';
+			$('#clienteselec').append("Cliente Seleccionado:" + clavecli+' '+nombre);
 			$('#gridtotalescli').empty();
 			html='<div class="ui-block-a" style="width:120px" ><div class="ui-bar ui-bar-a">Lim. Cred</div></div>';
             html+='<div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-a" >Ocupado</div></div>';
@@ -78,6 +79,7 @@ function mostrarcliente(clavecli){
 	   		$('#limitecredito').text("Límite de Crédito: "+row['lcredito']);
 	   		$('#saldo').text("Saldo: "+row['saldo']);
 			limite=Number(row['lcredito']);*/
+			nombre=row['nombre'];
 			$('#nomcli').text("Clave: "+row['clave']+" Nombre: "+row['nombre']);  	   		    
 			$('#direccion').text("Dirección: "+row['direccion']+" Telefono: "+row['telefono']);  	   		
 	   		$('#tipo').text("Estado:"+row['tipo']+" Dias de Crédito: "+row['diasc']);
@@ -89,6 +91,7 @@ function mostrarcliente(clavecli){
 			
 			window.localStorage.setItem("limite",Number(row['lcredito']));
 			window.localStorage.setItem("saldo",Number(row['saldo']));
+			window.localStorage.setItem("tipocliente",row['tipo']);
 		}
 		function poblarfac(tx,results){ 			 
 			  var tipo="";			  

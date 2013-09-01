@@ -58,6 +58,10 @@ function listafacturaspend(cliente){
 					 var fechafac=new Date(Number(ffac[2]),Number(ffac[1])-1,Number(ffac[0]));	//año mes dia		 
 				  	//tenemos los dias despues del vencimiento
 				     var dias = (fechaact - fechafac)/86400000; 
+					 if (dias <0) {
+						dias=0; 
+						 
+					 }
 					 /*
 				  	 if (row['tipo']=='CRE' || row['tipo']=='CONT'){
 						var diascre=Number(row['diasc']);
@@ -74,7 +78,7 @@ function listafacturaspend(cliente){
 					}
 					
 					 html+='<div class="ui-block-b" style="width:120px"><div class="ui-bar ui-bar-b">'+row['fechaven']+'</div></div>';
-		      html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b">'+dias+'</div></div>';
+		      html+='<div class="ui-block-c" style="width:90px"><div class="ui-bar ui-bar-b">'+Math.round(dias)+'</div></div>';
         	  html+='<div class="ui-block-d" style="width:90px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div>';
 		      html+='<div class="ui-block-e"  >';
               html+='<div class="ui-grid-b"  style="margin-top:0px;width:280px">';
@@ -400,20 +404,20 @@ var recibo=inicial+pad(incrementarec,6);
 			 var saldo_doc=Number(saldo)-Number(monto);//saldo nuevo de la factura
 			 
 			 totalrecibo+=monto;//suma de los abonos a facturas			
-			 //alert('antes de llamar a funcion guardadetcob');
+			 alert('antes de llamar a funcion guardadetcob');
+			 
 			 guardadetcob(cliente,tipo,tipoaso,ruta,recibo,factura,estado,monto.toFixed(2),saldo_doc.toFixed(2));			 
-			 //alert('despues de llamar a funcion guardadev');
-			
+			 alert('despues de llamar a funcion guardadev');			
 		 	});
-			//alert('antes de llamar a funcion guardaenccob');			
+			alert('antes de llamar a funcion guardaenccob');			
 			//alert(cliente+','+tipo+','+ruta+','+recibo+','+horaini+','+horafin+','+estado+','+monche.toFixed(2)+','+monefe.toFixed(2)+','+totalrecibo.toFixed(2));
 			 guardaenccob(cliente,tipo,ruta,recibo,horaini,horafin,estado,monche.toFixed(2),monefe.toFixed(2),totalrecibo.toFixed(2));
-			//alert('despues de llamar a funcion guardaenccob');
+			alert('despues de llamar a funcion guardaenccob');
 		  }//if (results.rows.length>0){		  
  	}//function listo(tx,results){ 
 	function consultatemp(tx){  
 	             //alert('ENTRA A CONSultatepm'); 
-				  var sql='SELECT a.factura,a.abonado,b.saldo,b.vencida ';
+				  var sql='SELECT a.factura,a.abonado,b.saldo ';
 	  			  sql+='FROM TEMCOBROS a left outer join PENCOBRO b on b.documento=a.factura ';					  
 				  sql+=' where a.abonado > 0 ';		    				 
 				//alert(sql);				
@@ -559,7 +563,7 @@ function consultasivencidas(cliente){
     	 		 alert("Error poblar facturas para cobro: "+err.code+err.message);
          		},function(){guardasivencida(vencida)});		
 	function poblarfac(tx){  
-			var sql='SELECT a.saldo,a.vencida FROM PENCOBRO a ';		
+			var sql='SELECT a.saldo,a.fechaven FROM PENCOBRO a ';		
 				sql+=' WHERE a.cliente="'+cliente+'" and a.saldo>0 '
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select facturas pendientes de cobro: "+err.code+err.message);
@@ -567,8 +571,20 @@ function consultasivencidas(cliente){
 	}
 	function listo(tx,results){  
 			  $.each(results.rows,function(index){				  
-				  var row = results.rows.item(index); 				     			     
-					if (row['vencida']=='S') {
+				  var row = results.rows.item(index); 
+				  	 var fechaact=new Date();			 
+	              	 var ffac=row['fechaven'].split("/");//viene en formato dd/mm/yyyy
+					 var fechafac=new Date(Number(ffac[2]),Number(ffac[1])-1,Number(ffac[0]));	//año mes dia		 
+				  	//tenemos los dias despues del vencimiento
+				     var dias = (fechaact - fechafac)/86400000; 
+					 /*
+				  	 if (row['tipo']=='CRE' || row['tipo']=='CONT'){
+						var diascre=Number(row['diasc']);
+						if (dias>diascre){
+						 	vencida="SI"						 
+						 }
+					 }*/
+					 if (dias>30){ 									  
 					  vencida='S';	
 					}
 			  });//.each

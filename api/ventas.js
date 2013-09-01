@@ -574,7 +574,7 @@ var i=0;
 	      if (results.rows.length>0){		
 		  	 $.each(results.rows,function(index){   
 			 var row = results.rows.item(index);    
-			 
+			 alert('entra a listo');
 			 var precio=Number(row['precio']);//precio sin descuento y sin iva			 
 			 var pordesc=Number(row['descuento']);//porcentaje de descuento que se aplica 
 			 var articulo=row['articulo'];			 
@@ -595,6 +595,7 @@ var i=0;
 						 }
 					 }					 
 					 if (preventa>0){
+						 alert('preventa');
 						 totlinea=preventa*precio;//total de linea sin descuento y sin iva
 						 montodesc=(Number(totlinea.toFixed(2))/100)*Number(row['descuento']); 
 						 lineacdes=totlinea-montodesc;//importe de linea con descuento
@@ -606,9 +607,9 @@ var i=0;
 						 preciociva=preciocdesc*(1+(row['impuesto']/100));	
 						 sumtotlineaped+=Number(totlinea);//suma del total de linea sin descuento y sin iva
 						 summontodescped+=Number(montodesc);//suma del monto de descuento de cada linea
-						 sumivalineaped+=Number(ivalinea);//suma del total de iva de cada linea
-						 alert(query[i]);
+						 sumivalineaped+=Number(ivalinea);//suma del total de iva de cada linea						 
 						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 
+						 alert(query[i]);
 					 }
 					 if (abordo>0){
 						 totlinea=abordo*precio;//total de linea sin descuento y sin iva
