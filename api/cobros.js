@@ -386,7 +386,7 @@ var inicial=consecutivo.substr(0,3);
 var numrec= consecutivo.substr(3,(longitud-3));
 var incrementarec=Number(numrec)+1;
 var recibo=inicial+pad(incrementarec,6);
-
+alert('DESPUES DE declaraciones');
    function pad(n, length){
 	   //alert('entra a funcion'+n); 
   	 n = n.toString();
