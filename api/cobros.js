@@ -394,6 +394,7 @@ var recibo=inicial+pad(incrementarec,6);
   	 return n;
    }
 	function listo(tx,results){ 	      
+		alert('entra lito');
 	      if (results.rows.length>0){
 			  renglones=results.rows.length;
 		  	 $.each(results.rows,function(index){           			 
@@ -416,11 +417,11 @@ var recibo=inicial+pad(incrementarec,6);
 		  }//if (results.rows.length>0){		  
  	}//function listo(tx,results){ 
 	function consultatemp(tx){  
-	             //alert('ENTRA A CONSultatepm'); 
+	             alert('ENTRA A CONSultatepm'); 
 				  var sql='SELECT a.factura,a.abonado,b.saldo ';
 	  			  sql+='FROM TEMCOBROS a left outer join PENCOBRO b on b.documento=a.factura ';					  
 				  sql+=' where a.abonado > 0 ';		    				 
-				//alert(sql);				
+				alert(sql);				
 								
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error al preparar guardar cobro : "+linea+err.code+err.message);
