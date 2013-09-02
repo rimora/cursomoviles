@@ -547,7 +547,7 @@ function fichaarticulo(articulo){//
 function guardarventa(cliente,obs,total){	
 var cabinsertada=false;
 var sumtotlineaped=0; var summontodescped=0; var sumivalineaped=0; var sumtotal=0; var bodega=window.localStorage.getItem("bodega");
-var sumtotlineafac=0; var summontodescfac=0; var sumivalineafac=0; var sumtotalfac=0;
+var sumtotlineafac=0; var summontodescfac=0; var sumivalineafac=0; var sumtotalfac=0; var totalfactura=0;
 var consecutivo=window.localStorage.getItem("consepedido");
 var consefac=window.localStorage.getItem("consefactura");
 var ruta=window.localStorage.getItem("ruta"); var tipocliente=window.localStorage.getItem("tipocliente");
@@ -611,6 +611,7 @@ var i=0;
 						 sumivalineaped+=Number(ivalinea);//suma del total de iva de cada linea						 
 						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 
 						 alert(query[i]);
+						 i++;
 					 }
 					 if (abordo>0){
 						 totlinea=abordo*precio;//total de linea sin descuento y sin iva
