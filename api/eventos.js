@@ -76,9 +76,8 @@ $(document).ready(function() {
 			  
 	$("#bclientes").tap(function() {                  
 				 // recibosindep();//valida que no existan recibos sin deposito, en esta funcion abre ventana de clientes en caso de que pase la validación				  
-				  window.location.href='#pclientes';
-				  alert(diasemana);				                    
-		 		 mostrarclientes(diasemana-1);
+				  window.location.href='#pclientes';				  				                    
+		 		  mostrarclientes(diasemana-1);
 		 		 //$("select#menu").val("Lunes").selectmenu("refresh");   
 		 		 $("select#menu").val(diasemana-1); 	
     });
@@ -559,13 +558,14 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
  //*****C O B R O S *****	 
 	  $("#bcobros").tap(function() {                   				  
 			  var cliente=window.localStorage.getItem("clave");//Obtiene clave del cliente 
+			  var nomcli=window.localStorage.getItem("clavenombre");//Obtiene clave del cliente
 			  var saldo=Number(window.localStorage.getItem("saldo"));
 			  if (saldo>0){				  
 				  window.location.href='#pcobros';
 				  $("#divencnum").hide();
 				  $('#divnumcobros').hide();
 				  $("#labelencpcobros").empty();	
-				  $("#labelencpcobros").append("Cobrar Facturas pendientes del cliente: "+cliente);				  				 				  
+				  $("#labelencpcobros").append("Cobrar Facturas pendientes del cliente: "+nomcli);				  				 				  
 				   
 				  eliminatempcob();
 				  copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
@@ -773,6 +773,8 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 			}
 			if (monto>pendiente || monto<0){
 				navigator.notification.alert('La cantidad indicada excede el saldo pendiente por abonar o es inválida',null,'Cantidad inválida','Aceptar');
+				alert(monto);
+				alert(pendiente);
 				$("#monto").focus();
 				$("#monto").val(0); 
 			}			
@@ -806,10 +808,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
     );
 				 
 				  
-  }); 
-  $("#salirdecheque").tap(function(){
-    	
-  }); 
+  });   
 //**********D E P O S I T O S	 *************
  $("#bdepositos").tap(function() {                   				  				  
 				  window.location.href='#pfichadep';

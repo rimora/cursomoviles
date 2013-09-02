@@ -550,9 +550,10 @@ var sumtotlineaped=0; var summontodescped=0; var sumivalineaped=0; var sumtotal=
 var sumtotlineafac=0; var summontodescfac=0; var sumivalineafac=0; var sumtotalfac=0;
 var consecutivo=window.localStorage.getItem("consepedido");
 var consefac=window.localStorage.getItem("consefactura");
-var ruta=window.localStorage.getItem("ruta");
+var ruta=window.localStorage.getItem("ruta"); var tipocliente=window.localStorage.getItem("tipocliente");
 var fecha = new Date();
 var fechaact=fecha.getFullYear()+"/"+(fecha.getMonth()+1)+"/"+fecha.getDate();
+var fechadmy=fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
 var hora=fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
 var fechayhora=fechaact+" "+hora;
 //+"\nMilisegundo: "+fecha.getMilliseconds());
@@ -624,6 +625,7 @@ var i=0;
 						 sumtotlineafac+=Number(totlinea);//suma del total de linea sin descuento y sin iva
 						 summontodescfac+=Number(montodesc);//suma del monto de descuento de cada linea
 						 sumivalineafac+=Number(ivalinea);//suma del total de iva de cada linea
+						 totalfactura+=(lineacdes+ivalinea);
 						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+factura+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')';						 
 						 i++;
 						 alert(query[i]);
@@ -658,11 +660,17 @@ var i=0;
 			 }
 			 if (sumtotalfac>0){
 				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+factura+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineafac.toFixed(2)+','+sumtotalfac.toFixed(2)+','+sumtotlineafac.toFixed(2)+','+summontodescfac.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
-			i++;			 
-			alert(query[i]);
-			query[i]='UPDATE PARAMETROS SET num_fac="'+factura+'"';		
-			alert(query[i]);
-			i++;
+				i++;			 
+				alert(query[i]);
+				query[i]='UPDATE PARAMETROS SET num_fac="'+factura+'"';		
+				alert(query[i]);
+				i++;
+				
+				if (tipocliente=='CONT'){
+					query[i]='INSERT INTO PENCOBRO (documento,cliente,saldo,monto,fecha,fechaven) VALUES ("'+factura+'","'+cliente+'",'+totalfactura+','+totalfactura+',"'+fechadmy+'","'+fechadmy+'")';
+					i++;
+				}
+				
 			 }
 			query[i]='DELETE FROM TEMPEDIDO where cliente="'+cliente+'"';        
 			alert(query[i]);

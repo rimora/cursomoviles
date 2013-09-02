@@ -53,11 +53,7 @@ function listafacturaspend(cliente){
 						abonot+=abonado;						
 					 //importe=precio*row['cantidad'];
 					 //total+=Number(importe);	
-					 var fechaact=new Date();			 
-	              	 var ffac=row['fechaven'].split("/");//viene en formato dd/mm/yyyy
-					 var fechafac=new Date(Number(ffac[2]),Number(ffac[1])-1,Number(ffac[0]));	//año mes dia		 
-				  	//tenemos los dias despues del vencimiento
-				     var dias = (fechaact - fechafac)/86400000; 
+					 var dias=diasvencida(row['fechaven']);
 					 if (dias <0) {
 						dias=0; 
 						 
@@ -69,7 +65,7 @@ function listafacturaspend(cliente){
 						 	vencida="SI"						 
 						 }
 					 }*/
-					 if (dias>30){ 					
+					 if (dias>=31){ 					
 						html+='<div class="ui-block-a" style="width:110px"><div class="ui-bar ui-bar-e"><a href="#" class="clasecob" name="'+row['documento']+'"><font color="#FFFFFF">'+row['documento']+'</font></a></div></div>';
 					}
 					else
@@ -365,8 +361,7 @@ return pendiente;
 }
 
   
-function guardacob(){	
-alert('entra guardacob');
+function guardacob(){
 var totalrecibo=0;
 var tipo='5';//recibo 5 o nt credito 7
 var tipoaso='1';//documento abonado,factura 1 o nt credito 7
@@ -374,24 +369,18 @@ var estado='A'; //A=activo, N=anulado
 var monefe=Number(window.localStorage.getItem("efectivo"));
 var monche=Number(window.localStorage.getItem("cheque"));
 var cliente=window.localStorage.getItem("clave");
-alert('antes DE consecutivo');
 var consecutivo=window.localStorage.getItem("conserec");
-alert('DESPUES DE consecutivo');
-alert(consecutivo);
 var ruta=window.localStorage.getItem("ruta");
-alert('DESPUES DE ruta');
 var horaini=window.localStorage.getItem("fechahora");//fecha y hora actual guardada cuando inicio la devolución de la factura.
 guardafechaactual();//guarda en memoria la fecha con hora, actuales
 var horafin= window.localStorage.getItem("fechahora");//recuperamos la nueva fecha y hora actual
 var fecharec=window.localStorage.getItem("fecha");//recuperamos la fecha actual
-alert('antes DE usar consecutivo');
 var longitud=consecutivo.length;
 var inicial=consecutivo.substr(0,3);
 var numrec= consecutivo.substr(3,(longitud-3));
-alert('DESPUES DE usar consecutivo');
 var incrementarec=Number(numrec)+1;
 var recibo=inicial+pad(incrementarec,6);
-alert('DESPUES DE declaraciones');
+
    function pad(n, length){
 	   //alert('entra a funcion'+n); 
   	 n = n.toString();
@@ -399,7 +388,7 @@ alert('DESPUES DE declaraciones');
   	 return n;
    }
 	function listo(tx,results){ 	      
-		alert('entra lito');
+
 	      if (results.rows.length>0){
 			  renglones=results.rows.length;
 		  	 $.each(results.rows,function(index){           			 
@@ -410,23 +399,16 @@ alert('DESPUES DE declaraciones');
 			 var saldo_doc=Number(saldo)-Number(monto);//saldo nuevo de la factura
 			 
 			 totalrecibo+=monto;//suma de los abonos a facturas			
-			 alert('antes de llamar a funcion guardadetcob');
-			 
 			 guardadetcob(cliente,tipo,tipoaso,ruta,recibo,factura,estado,monto.toFixed(2),saldo_doc.toFixed(2));			 
-			 alert('despues de llamar a funcion guardadev');			
 		 	});
-			alert('antes de llamar a funcion guardaenccob');			
 			//alert(cliente+','+tipo+','+ruta+','+recibo+','+horaini+','+horafin+','+estado+','+monche.toFixed(2)+','+monefe.toFixed(2)+','+totalrecibo.toFixed(2));
 			 guardaenccob(cliente,tipo,ruta,recibo,horaini,horafin,estado,monche.toFixed(2),monefe.toFixed(2),totalrecibo.toFixed(2));
-			alert('despues de llamar a funcion guardaenccob');
 		  }//if (results.rows.length>0){		  
  	}//function listo(tx,results){ 
-	function consultatemp(tx){  
-	             alert('ENTRA A CONSultatepm'); 
+	function consultatemp(tx){ 
 				  var sql='SELECT a.factura,a.abonado,b.saldo ';
 	  			  sql+='FROM TEMCOBROS a left outer join PENCOBRO b on b.documento=a.factura ';					  
-				  sql+=' where a.abonado > 0 ';		    				 
-				alert(sql);				
+				  sql+=' where a.abonado > 0 ';								
 								
 			tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error al preparar guardar cobro : "+linea+err.code+err.message);

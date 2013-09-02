@@ -1,9 +1,9 @@
 // crear e insertar en tablas
 function consultadb()
 {
-	alert('antes de db');
+	//alert('antes de db');
 	var db = window.openDatabase("Database", "1.0", "SARDEL", 10000000);
-	alert('despues de db');
+	//alert('despues de db');
 	return db;	
 }
 

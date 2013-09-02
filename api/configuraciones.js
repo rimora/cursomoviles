@@ -31,3 +31,15 @@ function obtenerconse(){
 					
 	   }//function exito	
 }// obtenerconse()
+function diasvencida(fechavencimiento){
+	var fechaact=new Date();			 
+	var ffac=fechavencimiento.split("/");//viene en formato dd/mm/yyyy
+	var fechafac=new Date(Number(ffac[2]),Number(ffac[1])-1,Number(ffac[0]));	//año mes dia		 
+	//tenemos los dias despues del vencimiento
+	var dias = (fechaact - fechafac)/86400000; 
+	//if (row['tipo']=='CRE' || row['tipo']=='CONT'){
+		//				var diascre=Number(row['diasc']);
+	return dias;			
+	
+
+}

@@ -1,9 +1,9 @@
 // almacenamiento de datos locales
 function saveidcliente(clave){
-	window.localStorage.setItem("clave",clave);
-	//alert (window.localStorage.getItem("clave"));
-	
-	
+	window.localStorage.setItem("clave",clave);		
+}
+function guardaclientenombre(cadena){
+	window.localStorage.setItem("clavenombre",cadena);		
 }
 function guardaarticulo(articulo){
 	window.localStorage.setItem("articulo",articulo);

@@ -47,6 +47,7 @@ function mostrarcliente(clavecli){
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 200000);
 		consultadb().transaction(consulta, errorconsulta,function(){
 			var html='';
+			guardaclientenombre(clavecli+' '+nombre);
 			$('#clienteselec').append("Cliente Seleccionado:" + clavecli+' '+nombre);
 			$('#gridtotalescli').empty();
 			html='<div class="ui-block-a" style="width:120px" ><div class="ui-bar ui-bar-a">Lim. Cred</div></div>';
@@ -97,20 +98,14 @@ function mostrarcliente(clavecli){
 			  var tipo="";			  
 			  $.each(results.rows,function(index){
 				  var row = results.rows.item(index); 				  
-				  var fechaact=new Date();			 
-	              var ffac=row['fechaven'].split("/");//viene en formato dd/mm/yyyy
-			 	  var fechafac=new Date(Number(ffac[2]),Number(ffac[1])-1,Number(ffac[0]));	//año mes dia		 
-				  //tenemos los dias despues del vencimiento
-				  var dias = (fechaact - fechafac)/86400000; 
-				  	if (row['tipo']=='CRE' || row['tipo']=='CONT'){
-						var diascre=Number(row['diasc']);
-						if (dias>diascre){
+				  var dias=diasvencida(row['fechaven']);		 
+				  //tenemos los dias despues del vencimiento				   
+				  	if (dias>=31){
 						 	vencida="SI"						 
-						 }
-					}
+					}					
 			  });					
 					
-					if (vencida=="S") {
+					if (vencida=="SI") {
 						//navigator.notification.alert('El cliente tiene facturas vencidas, no podrá realizar ventas',null,'Saldo Vencido','Aceptar');					
 						//$("#bventa").addClass('ui-disabled');
 						guardasivencida('S');
