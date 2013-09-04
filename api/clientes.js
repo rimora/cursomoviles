@@ -93,6 +93,8 @@ function mostrarcliente(clavecli){
 			window.localStorage.setItem("limite",Number(row['lcredito']));
 			window.localStorage.setItem("saldo",Number(row['saldo']));
 			window.localStorage.setItem("tipocliente",row['tipo']);
+			window.localStorage.setItem("diascredito",row['diasc']);
+			window.localStorage.setItem("direntrega",row['dir_ent']);
 		}
 		function poblarfac(tx,results){ 			 
 			  var tipo="";			  

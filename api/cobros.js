@@ -369,7 +369,7 @@ var estado='A'; //A=activo, N=anulado
 var monefe=Number(window.localStorage.getItem("efectivo"));
 var monche=Number(window.localStorage.getItem("cheque"));
 var cliente=window.localStorage.getItem("clave");
-var consecutivo=window.localStorage.getItem("conserec");
+var consecutivo=window.localStorage.getItem("conserec"); var conserecibo=window.localStorage.getItem("conserec");
 var ruta=window.localStorage.getItem("ruta");
 var horaini=window.localStorage.getItem("fechahora");//fecha y hora actual guardada cuando inicio la devolución de la factura.
 guardafechaactual();//guarda en memoria la fecha con hora, actuales
@@ -380,7 +380,7 @@ var inicial=consecutivo.substr(0,3);
 var numrec= consecutivo.substr(3,(longitud-3));
 var incrementarec=Number(numrec)+1;
 var recibo=inicial+pad(incrementarec,6);
-
+var query=[]; var i=0;
    function pad(n, length){
 	   //alert('entra a funcion'+n); 
   	 n = n.toString();
@@ -399,10 +399,19 @@ var recibo=inicial+pad(incrementarec,6);
 			 var saldo_doc=Number(saldo)-Number(monto);//saldo nuevo de la factura
 			 
 			 totalrecibo+=monto;//suma de los abonos a facturas			
-			 guardadetcob(cliente,tipo,tipoaso,ruta,recibo,factura,estado,monto.toFixed(2),saldo_doc.toFixed(2));			 
+			 //guardadetcob(cliente,tipo,tipoaso,ruta,recibo,factura,estado,monto.toFixed(2),saldo_doc.toFixed(2));
+			 query[i]='INSERT INTO DETCOBROS (cliente,tipo,tipoaso,ruta,recibo,docafectado,estado,monto,saldo_doc) VALUES("'+cliente+'","'+tipo+'","'+tipoaso+'","'+ruta+'","'+conserecibo+'","'+factura+'","'+estado+'",'+monto.toFixed(2)+','+saldo_doc.toFixed(2)+')';
+			 i++;
+			 query[i]='UPDATE PENCOBRO SET saldo='+saldo_doc+' where documento="'+factura+'"';
+			 i++;				 
 		 	});
 			//alert(cliente+','+tipo+','+ruta+','+recibo+','+horaini+','+horafin+','+estado+','+monche.toFixed(2)+','+monefe.toFixed(2)+','+totalrecibo.toFixed(2));
-			 guardaenccob(cliente,tipo,ruta,recibo,horaini,horafin,estado,monche.toFixed(2),monefe.toFixed(2),totalrecibo.toFixed(2));
+			 //guardaenccob(cliente,tipo,ruta,recibo,horaini,horafin,estado,monche.toFixed(2),monefe.toFixed(2),totalrecibo.toFixed(2));
+			 query[i]='INSERT INTO ENCOBROS (cliente,tipo,ruta,recibo,hor_ini,hor_fin,impreso,estado,monche,monefe,mondoc) VALUES("'+cliente+'","'+tipo+'","'+ruta+'","'+conserecibo+'","'+horaini+'","'+horafin+'","N","'+estado+'",'+monche.toFixed(2)+','+monefe.toFixed(2)+','+totalrecibo.toFixed(2)+')';
+			 i++;
+			 query[i]='UPDATE CHEQUES SET recibo="'+conserecibo+'" where recibo="99999" and cliente="'+cliente+'"';
+			 i++;							
+			 query[i]='UPDATE PARAMETROS SET num_rec="'+recibo+'"';	
 		  }//if (results.rows.length>0){		  
  	}//function listo(tx,results){ 
 	function consultatemp(tx){ 
@@ -416,9 +425,33 @@ var recibo=inicial+pad(incrementarec,6);
 	}
 	consultadb().transaction(consultatemp, function(err){
     	 			 alert("Error select tabla temporal temcobros: "+err.code+err.message);
-         		});		
+         		},function(){
+								
+					ejecutaquerycob(query,totalrecibo);
+					
+				});	
 				
 }//function guardacob
+function ejecutaquerycob(query,total){
+	   //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
+	base.transaction(insertadet,function(err){
+    	  alert("Error al insertar en detallepedido: "+err.code+err.message);
+          },function(){		  
+		    alert('total '+total);
+		    actsaldo(total*-1);  
+			consultasivencidas(cliente);			
+			window.localStorage.setItem("sioperacion","S");
+			obtenerconse();
+		    navigator.notification.alert('Cobro Guardado',null,'Guardar Cobro','Aceptar');
+		  });		  				
+    	function insertadet(tx) {
+			for (var i = 0, long = query.length; i < long; i++) {   									   								
+				//alert(query[i]);
+				tx.executeSql(query[i]);					   
+			}// for (var i = 0, long = query.length; i < long; i++) 
+		}
+	
+}//function ejecutaquerycob
 function pagarximp(cliente,cantidad){	
 	var html="";
 	var disponible=0;

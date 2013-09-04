@@ -40,6 +40,10 @@ function diasvencida(fechavencimiento){
 	//if (row['tipo']=='CRE' || row['tipo']=='CONT'){
 		//				var diascre=Number(row['diasc']);
 	return dias;			
-	
-
 }
+ function rellenar(n, length){
+	   //alert('entra a funcion'+n); 
+  	 n = n.toString();
+   	 while(n.length < length) n = "0" + n;
+  	 return n;
+   }

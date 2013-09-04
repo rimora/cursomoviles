@@ -158,7 +158,7 @@ function repinventario(){
 	        //alert('entra al poblarcat armacatalogo');        	   
 			var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,';
 			sql+='a.precio';
-			sql+=' FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
+			sql+=' FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="G01" ';
 			sql+=' order by a.descripcion';
 			//alert('despues del sql armacatalogo');        
 			

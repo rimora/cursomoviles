@@ -115,7 +115,7 @@ function modificalineap(articulo,cantidad){
 				var sql='SELECT a.articulo,a.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as precio,';
 				sql+='c.existencia ';	
 				sql+='FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo ';
-				sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="K01" WHERE a.articulo="'+articulo+'" and a.cliente="'+window.localStorage.getItem("clave")+'"  ';
+				sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="G01" WHERE a.articulo="'+articulo+'" and a.cliente="'+window.localStorage.getItem("clave")+'"  ';
 			
 								
 			tx.executeSql(sql,[],listo,function(err){
@@ -218,7 +218,7 @@ function modificalineaf(articulo,cantidad){
 				var sql='SELECT a.articulo,a.cantidad,b.impuesto,(b.precio-((b.precio/100)*b.descuento)) as precio,';
 				sql+='c.existencia,d.cantidad as cantpedido ';	
 				sql+='FROM TEMFACTURA a left outer join articulo b on b.articulo=a.articulo ';
-				sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="K01" ';
+				sql+='left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="G01" ';
 				sql+='left outer join TEMPEDIDO d on d.articulo=a.articulo WHERE a.articulo="'+articulo+'"  ';
 			
 								

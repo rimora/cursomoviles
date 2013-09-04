@@ -160,7 +160,7 @@ function mostrarpedido(cliente){
  var saldo=Number(window.localStorage.getItem("saldo"));
  var disp=limite-saldo;
  
-		var bodega='K01';
+		var bodega='G01';
 		base.transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
 		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto,c.existencia FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo left outer join ARTICULO_EXISTENCIA c on c.articulo=a.articulo and c.bodega="'+bodega+'" where a.cliente="'+cliente+'"',[],exito,errorconsulta);
@@ -324,7 +324,7 @@ function mostrarpedido(cliente){
 	function poblarcat(tx){  	        
 			var sql='SELECT a.articulo,a.descripcion,a.descuento,b.existencia as ebodega,c.existencia as ealg,';			
 			sql+='a.precio,a.clas,a.accion,a.laboratorio,a.sal ';
-			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
+			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="G01" ';
 			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" where a.articulo LIKE "%'+criterio+'%"';
 			sql+=' or a.descripcion like "%'+criterio+'%" or a.clas like "%'+criterio+'%" or a.accion like "%'+criterio+'%" or a.laboratorio like "%'+criterio+'%" ';
 			sql+=' or a.sal like "%'+criterio+'%" order by a.descripcion';
@@ -391,7 +391,7 @@ function gridvalorescat(cliente){//muestra en un grid los totales de preventa y 
  var limite=Number(window.localStorage.getItem("limite"));
  var saldo=Number(window.localStorage.getItem("saldo"));
  var disp=limite-saldo;
-		var bodega='K01';
+		var bodega='G01';
 		base.transaction(consulta, errorconsulta);	
 	function consulta(tx) {		
 		tx.executeSql('SELECT a.articulo,b.descripcion,b.precio,b.descuento,a.cantidad,b.impuesto,c.existencia FROM TEMPEDIDO a left outer join articulo b on b.articulo=a.articulo left outer join ARTICULO_EXISTENCIA c on c.articulo=a.articulo and c.bodega="'+bodega+'" where a.cliente="'+cliente+'"',[],exito,errorconsulta);
@@ -490,12 +490,12 @@ function existeenpedido(articulo,cliente){
 	
 }//function existeenpedido
 function fichaarticulo(articulo){//
-		var bodega='K01';
+		var bodega='G01';
 		base.transaction(consulta, errorconsulta);	
 	function consulta(tx) {
 		var sql='SELECT a.articulo,a.descripcion,a.clas,a.accion,a.impuesto,a.descuento,b.existencia as ebodega,c.existencia as ealg,';			
 			sql+='a.precio,a.laboratorio,a.sal ';
-			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
+			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="G01" ';
 			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG"  WHERE a.articulo="'+articulo+'" order by a.descripcion';
 					
 		tx.executeSql(sql,[],exito,errorconsulta);
@@ -545,11 +545,11 @@ function fichaarticulo(articulo){//
 
   }//
 function guardarventa(cliente,obs,total){	
-var cabinsertada=false;
+var cabinsertada=false; var diascredito=window.localStorage.getItem("diascredito"); var direntrega=window.localStorage.getItem("direntrega");
 var sumtotlineaped=0; var summontodescped=0; var sumivalineaped=0; var sumtotal=0; var bodega=window.localStorage.getItem("bodega");
 var sumtotlineafac=0; var summontodescfac=0; var sumivalineafac=0; var sumtotalfac=0; var totalfactura=0;
-var consecutivo=window.localStorage.getItem("consepedido");
-var consefac=window.localStorage.getItem("consefactura");
+var consecutivo=window.localStorage.getItem("consepedido"); var consepedido=window.localStorage.getItem("consepedido");
+var consefac=window.localStorage.getItem("consefactura"); var consefactura=window.localStorage.getItem("consefactura");
 var ruta=window.localStorage.getItem("ruta"); var tipocliente=window.localStorage.getItem("tipocliente");
 var fecha = new Date();
 var fechaact=fecha.getFullYear()+"/"+(fecha.getMonth()+1)+"/"+fecha.getDate();
@@ -570,12 +570,11 @@ var query=[];
    	 while(n.length < length) n = "0" + n;
   	 return n;
    }
-var i=0;
+var i=0; var lineaped=1; var lineafac=1;
 	function listo(tx,results){ 	      
 	      if (results.rows.length>0){		
 		  	 $.each(results.rows,function(index){   
-			 var row = results.rows.item(index);    
-			 alert('entra a listo');
+			 var row = results.rows.item(index);    			 
 			 var precio=Number(row['precio']);//precio sin descuento y sin iva			 
 			 var pordesc=Number(row['descuento']);//porcentaje de descuento que se aplica 
 			 var articulo=row['articulo'];			 
@@ -596,7 +595,7 @@ var i=0;
 						 }
 					 }					 
 					 if (preventa>0){
-						 alert('preventa');
+						// alert('preventa');
 						 totlinea=preventa*precio;//total de linea sin descuento y sin iva
 						 montodesc=(Number(totlinea.toFixed(2))/100)*Number(row['descuento']); 
 						 lineacdes=totlinea-montodesc;//importe de linea con descuento
@@ -609,8 +608,9 @@ var i=0;
 						 sumtotlineaped+=Number(totlinea);//suma del total de linea sin descuento y sin iva
 						 summontodescped+=Number(montodesc);//suma del monto de descuento de cada linea
 						 sumivalineaped+=Number(ivalinea);//suma del total de iva de cada linea						 
-						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')'; 
-						 alert(query[i]);
+						 query[i]='INSERT INTO DETPEDIDO (linea,num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES('+lineaped+',"'+consepedido+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+preventa+')'; 
+						// alert(query[i]);
+						lineaped++;
 						 i++;
 					 }
 					 if (abordo>0){
@@ -627,12 +627,15 @@ var i=0;
 						 summontodescfac+=Number(montodesc);//suma del monto de descuento de cada linea
 						 sumivalineafac+=Number(ivalinea);//suma del total de iva de cada linea
 						 totalfactura+=(lineacdes+ivalinea);
-						 query[i]='INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+factura+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+cantidad+')';						 
+						 query[i]='INSERT INTO DETPEDIDO (linea,num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES('+lineafac+',"'+consefactura+'","'+articulo+'",'+precio+','+pordesc+','+totlinea.toFixed(2)+','+montodesc.toFixed(2)+','+precio+','+abordo+')';						 
+						 //alert(query[i]);
+						 i++;						 
+						 query[i]='UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+abordo+' WHERE articulo="'+articulo+'" and bodega="'+bodega+'"';
+						 //alert(query[i]);
 						 i++;
-						 alert(query[i]);
-						 query[i]='UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+abordo+' WHERE articulo="'+articulo+'" and bodega="'+bodega+'"';						 alert(query[i]);
+						 lineafac++;
 					 }
-			 i++;
+			
 			 
 			 //guardadetpedido(pedido,articulo,precio,pordesc,totlinea,montodesc,precio,cantidad);
 			
@@ -652,29 +655,29 @@ var i=0;
 			 alert(sumtotlinea);
 			 alert(sumivalinea);			 */
 			 if (sumtotal>0){
-			query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+pedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineaped.toFixed(2)+','+sumtotal.toFixed(2)+','+sumtotlineaped.toFixed(2)+','+summontodescped.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
-			i++;			
-			alert(query[i]);
-			query[i]='UPDATE PARAMETROS SET num_ped="'+pedido+'"';		
-			alert(query[i]);
-			i++;			
+				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent) VALUES ("'+consepedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineaped.toFixed(2)+','+sumtotal.toFixed(2)+','+sumtotlineaped.toFixed(2)+','+summontodescped.toFixed(2)+','+(lineaped-1)+',"'+obs+'","F",'+diascredito+',"'+bodega+'","'+direntrega+'")'; 
+				i++;			
+			//alert(query[i]);
+				query[i]='UPDATE PARAMETROS SET num_ped="'+pedido+'"';		
+			//alert(query[i]);
+				i++;			
 			 }
 			 if (sumtotalfac>0){
-				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod) VALUES ("'+factura+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineafac.toFixed(2)+','+sumtotalfac.toFixed(2)+','+sumtotlineafac.toFixed(2)+','+summontodescfac.toFixed(2)+',"'+obs+'","F",'+30+',"'+bodega+'")'; 
+				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent) VALUES ("'+consefactura+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineafac.toFixed(2)+','+sumtotalfac.toFixed(2)+','+sumtotlineafac.toFixed(2)+','+summontodescfac.toFixed(2)+','+(lineafac-1)+',"'+obs+'","F",'+diascredito+',"'+bodega+'","'+direntrega+'")';
 				i++;			 
-				alert(query[i]);
+				//alert(query[i]);
 				query[i]='UPDATE PARAMETROS SET num_fac="'+factura+'"';		
-				alert(query[i]);
+				//alert(query[i]);
 				i++;
 				
-				if (tipocliente=='CONT'){
-					query[i]='INSERT INTO PENCOBRO (documento,cliente,saldo,monto,fecha,fechaven) VALUES ("'+factura+'","'+cliente+'",'+totalfactura+','+totalfactura+',"'+fechadmy+'","'+fechadmy+'")';
+				//if (tipocliente=='CONT'){
+					query[i]='INSERT INTO PENCOBRO (documento,cliente,saldo,monto,fecha,fechaven) VALUES ("'+consefactura+'","'+cliente+'",'+totalfactura+','+totalfactura+',"'+fechadmy+'","'+fechadmy+'")';
 					i++;
-				}
+				//}
 				
 			 }
 			query[i]='DELETE FROM TEMPEDIDO where cliente="'+cliente+'"';        
-			alert(query[i]);
+			//alert(query[i]);
 			
 		  	 //guardaencpedido(pedido,ruta,cliente,fechayhora,fechaact,sumivalinea,(sumtotlinea+sumivalinea),sumtotlinea,summontodesc,obs,30,"K01");
 				//alert('despues de llamar a funcion guardated');
@@ -713,7 +716,7 @@ function guardadetpedido(query,total){
 		   navigator.notification.alert('Venta Guardada',null,'Guardar Venta','Aceptar');										 });
 		  				
     	function insertadet(tx) {		
-		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+		alert('entra ainsertadet');		
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
 				alert(query[i]);
 				tx.executeSql(query[i]); 						   
@@ -750,6 +753,7 @@ function previolinea(articulo,cantidad){
 				  var row = results.rows.item(index); 				  	 					 
 				     preciocdesc=Number(row['precio'])-((Number(row['precio'])/100)*Number(row['descuento']));				     			     				     
 				     precio=Number(preciocdesc)*(1+(Number(row['impuesto'])/100));				 
+					 precio=(Math.round(precio*100)) / 100;
 					 parcial=precio*Number(cantidad);					 
 					 html+='<div class="ui-block-a" style="width:90px" ><div class="ui-bar ui-bar-a">Precio</div></div>';
 					 html+='<div class="ui-block-b" style="width:90px"><div class="ui-bar ui-bar-a">Cantidad</div></div>';

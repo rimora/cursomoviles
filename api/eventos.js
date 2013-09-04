@@ -69,8 +69,7 @@ $(document).ready(function() {
      $("#envia").tap(function() { 
                  //var clavecli = $(this).attr("id");
 				  //alert (oID);
-				  insertar();
-				  obtenerconse();//funcion que almacena localmente los consecutivos de documentos actuales.funcion en configuraciones.js
+				  insertar();				  
 				  //$.mobile.changePage($("#datoscli"));	  			  				  
                });			   
 			  
@@ -1466,9 +1465,23 @@ $("#bcargaclientes").tap(function() {
 		  var ruta=window.localStorage.getItem("ruta");
 		  //var direccion ="http://192.168.3.46/prueba.php?jsoncallback=?";
 		  var direccion ="http://sardelfr03.zapto.org/prueba.php?jsoncallback=?";
-          cargaclientes(ruta,direccion);                       
+          cargaclientes(ruta,direccion);                       		                  
 		 // cargarutacli(ruta,direccion);                       		  
        });
+$("#bcargaclientes2").tap(function() {  
+		  var ruta=window.localStorage.getItem("ruta");
+		  var direccion ="http://192.168.3.46/prueba.php";
+		  //var direccion ="http://sardelfr03.zapto.org/prueba.php?jsoncallback=?";         
+		  cargaclientes2(ruta,direccion);                       
+		 // cargarutacli(ruta,direccion);                       		  
+       });	
+$("#benvia2").tap(function() {  
+		  var ruta=window.localStorage.getItem("ruta");
+		  //var direccion ="http://192.168.3.46/enviar.php";
+		  var direccion ="http://sardelfr03.zapto.org/enviar.php";         
+		  enviadatos(ruta,direccion);                       
+		 // cargarutacli(ruta,direccion);                       		  
+       });		      
   },false);//document.addEventListener("deviceready",function(){	
 });//$(document).ready(function() 
 			   

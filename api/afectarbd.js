@@ -53,7 +53,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS VISITA (id INTEGER PRIMARY KEY AUTOINCREMENT,cliente,doc_pro,fecha_plan,fin,inicio,notas,razon,ruta,tipo)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS CUENTASB (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT NOT NULL,descripcion)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS CUENTASDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT NOT NULL,cuenta,descripcion)'); 
-         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL,direccion TEXT NOT NULL,telefono TEXT NOT NULL,tipo TEXT NOT NULL,diasc TEXT NOT NULL,lcredito,saldo )'); 
+         tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, clave TEXT NOT NULL,dia TEXT NOT NULL,direccion TEXT NOT NULL,telefono TEXT NOT NULL,tipo TEXT NOT NULL,diasc TEXT NOT NULL,lcredito,saldo,dir_ent)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS PENCOBRO (id INTEGER PRIMARY KEY AUTOINCREMENT, documento TEXT NOT NULL,cliente TEXT NOT NULL,saldo,monto,fecha,fechaven)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS TEMPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, articulo TEXT NOT NULL,cantidad,cliente)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS TEMFACTURA (id INTEGER PRIMARY KEY AUTOINCREMENT, articulo TEXT NOT NULL,cantidad,cliente)'); 
@@ -63,8 +63,8 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS ARTICULO (id INTEGER PRIMARY KEY AUTOINCREMENT, articulo TEXT NOT NULL,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi,categoria)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS ARTICULO_EXISTENCIA (id INTEGER PRIMARY KEY AUTOINCREMENT, articulo TEXT NOT NULL,bodega TEXT NOT NULL,existencia)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS SUGERIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, cliente TEXT NOT NULL,articulo TEXT NOT NULL,cantidad)'); 
-         tx.executeSql('CREATE TABLE IF NOT EXISTS ENCPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, num_ped,cod_zon,doc_pro,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,obs_ped,estado,cod_cnd,cod_bod)'); 
-         tx.executeSql('CREATE TABLE IF NOT EXISTS DETPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max)'); 
+         tx.executeSql('CREATE TABLE IF NOT EXISTS ENCPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, num_ped,cod_zon,doc_pro,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent)'); 
+         tx.executeSql('CREATE TABLE IF NOT EXISTS DETPEDIDO (id INTEGER PRIMARY KEY AUTOINCREMENT, linea,num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max,doc_pro)'); 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS ENCDEV (id INTEGER PRIMARY KEY AUTOINCREMENT, num_dev,cod_zon,cod_clt,hor_ini,hor_fin,fec_dev,obs_dev,num_itm,est_dev,doc_pro,mon_siv,mon_dsc,por_dsc_ap,mon_imp_vt,mon_imp_cs,cod_bod,impreso,num_ref)'); 
          tx.executeSql('CREATE TABLE IF NOT EXISTS DETDEV  (id INTEGER PRIMARY KEY AUTOINCREMENT, num_dev,cod_zon,cod_art,ind_dev,mon_tot,mon_prc_mx,mon_prc_mn,cnt_max,obs_dev,mon_dsc,por_dsc_ap)'); 
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCOBROS (id INTEGER PRIMARY KEY AUTOINCREMENT, cliente,tipo,ruta,recibo,doc_pro,fec_pro,hor_ini,hor_fin,impreso,estado,monche,monefe,mondoc,depositado)'); 
@@ -90,7 +90,7 @@ function insertar(){
           }, navigator.notification.alert('Datos insertados',null,'Insertar Datos','Aceptar'));
 				
     	function insertarcli(tx) {	
-		tx.executeSql('INSERT INTO PARAMETROS (cod_zon,num_ped,num_rec,num_dev,num_fac) VALUES ("S04","S04000216","R04000656","D04000001","F04000646")'); 	
+		//tx.executeSql('INSERT INTO PARAMETROS (cod_zon,num_ped,num_rec,num_dev,num_fac) VALUES ("S08","S08001091","R08002066","D08000001","F08001923")'); 	
 		tx.executeSql('INSERT INTO RAZONVISITA (cod_rzn,des_rzn) VALUES ("R1","Ventas")'); 
 		tx.executeSql('INSERT INTO RAZONVISITA (cod_rzn,des_rzn) VALUES ("R2","Cobros")'); 
 		tx.executeSql('INSERT INTO RAZONVISITA (cod_rzn,des_rzn) VALUES ("R3","Local Cerrado")'); 
@@ -104,7 +104,7 @@ function insertar(){
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("BSANTAND","92001407761","Santander")'); 
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("ND","110120113112","ERNESTO ARANA")'); 
 		tx.executeSql('INSERT INTO CUENTASDEP (codigo,cuenta,descripcion) VALUES("BITAL","04045430485","HSBC")'); 		
-		tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046441",241.643,"1020","F06000779","2013-08-09")');  		
+		/*tx.executeSql('INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("00046441",241.643,"1020","F06000779","2013-08-09")');  		
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACA-01",0,2,0,85.77,77.193)')	//55	
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACE-01",1,5,0,59.80,74.75)')	//75	
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046441","ACE-02",2,6,0,59.8,89.70)')	//75	
@@ -116,7 +116,7 @@ function insertar(){
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALC-01",0,2,1,185,92.50)')//75	
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALI-01",1,5,2,54.03,124.269)')	//54	
 		tx.executeSql('INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("00046443","ALI-02",2,6,0,46.95,129.582)')		//54
-
+		*/
 		/*
 		tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia UNO", "1020","Lunes","Dirección del cliente","2281545130","C","30",10000.00,2324.65)');      
         tx.executeSql('INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("Farmacia DOS", "1030","Martes","Dirección del cliente  DOS","2281545130","C","30",30000.00,20000.00)'); 
@@ -226,7 +226,7 @@ function insertatempfactura(articulo,cantidad){
     	function insertadet(tx) {		
 		
 		tx.executeSql('INSERT INTO TEMFACTURA (articulo,cantidad,cliente) VALUES ("'+articulo+'",'+Number(cantidad)+',"'+window.localStorage.getItem("clave")+'")');
-		tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+Number(cantidad)+' WHERE articulo="'+articulo+'" and bodega="K01"');        
+		tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+Number(cantidad)+' WHERE articulo="'+articulo+'" and bodega="G01"');        
 		}
 	
 }//function insertatempfactura
@@ -240,7 +240,7 @@ function eliminatempfactura(articulo,cantidad){
     	function insertadet(tx) {		
 		//alert('entra a delete de detallefactura');
 		tx.executeSql('DELETE FROM TEMFACTURA WHERE ARTICULO="'+articulo+'" and cliente="'+window.localStorage.getItem("clave")+'"');        
-		tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia+'+cantidad+' WHERE articulo="'+articulo+'" and bodega="K01"');
+		tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia+'+cantidad+' WHERE articulo="'+articulo+'" and bodega="G01"');
 		}
 	
 }//function eliminatempfactura
@@ -254,13 +254,13 @@ function modificatempfactura(articulo,cantidad){
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 		if (Number(cantidad)>0){
 			tx.executeSql('UPDATE TEMFACTURA SET CANTIDAD=cantidad+'+cantidad+' WHERE ARTICULO="'+articulo+'" and cliente="'+window.localStorage.getItem("clave")+'"');        
-			tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+cantidad+' WHERE articulo="'+articulo+'" and bodega="K01"');
+			tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia-'+cantidad+' WHERE articulo="'+articulo+'" and bodega="G01"');
 		}
 		else{
 			cantidad=Number(cantidad)*-1
 			//alert('cantidad menor a cero');
 			tx.executeSql('UPDATE TEMFACTURA SET CANTIDAD=cantidad-'+cantidad+' WHERE ARTICULO="'+articulo+'" and cliente="'+window.localStorage.getItem("clave")+'"');        
-			tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia+'+cantidad+' WHERE articulo="'+articulo+'" and bodega="K01"');	
+			tx.executeSql('UPDATE ARTICULO_EXISTENCIA SET existencia=existencia+'+cantidad+' WHERE articulo="'+articulo+'" and bodega="G01"');	
 		}
 		}
 	
@@ -334,7 +334,7 @@ function guardadetfactura(pedido,articulo,precio,pordescuento,totalinea,descuent
     	function insertadet(tx) {		
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 		
-			tx.executeSql('INSERT INTO DETPEDIDO (num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES("'+pedido+'","'+articulo+'",'+precio+','+pordescuento+','+totalinea+','+descuento+','+precio+','+cantidad+')'); 
+			tx.executeSql('INSERT INTO DETPEDIDO (linea,num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max) VALUES(0,"'+pedido+'","'+articulo+'",'+precio+','+pordescuento+','+totalinea+','+descuento+','+precio+','+cantidad+')'); 
 		}
 	
 }//function guardadetfactura
@@ -636,48 +636,53 @@ function f1_1(){
 
 }//function f1_1
 function cargaclientes(ruta,direccion){
-alert(direccion);
+//alert(direccion);
 //	var datosPassword = $("#regEmail").val()
 	
   	//archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
 	//archivoValidacion ="http://aplicacion.netai.net/index.php?jsoncallback=?"	
 	//var archivoValidacion ="http://192.168.3.46/prueba.php?jsoncallback=?";
+	
 	$.getJSON(direccion, {numruta:ruta})
 	.done(function(data) {
-		alert('en resultado');
+		
 		 var query=[];
 		 var clientes = data.clientes;
 	     var diasruta = data.diasruta;
 		 var fpen = data.facpen;
 		 var art= data.articulos;
 		 var exis= data.existencias;
+         var parametros= data.param;
+		 
+		 var encfac= data.devocab;
+		 var detfac= data.devodet;
 		 var i=0;
 		$.each(clientes, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  
-			query[i]='INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("'+val['nombre']+'", "'+val['cliente']+'","Lunes","'+val['direccion']+'","'+val['telefono']+'","'+val['categoria']+'","'+val['diascredito']+'",'+val['limite']+','+val['saldo']+')';
+			query[i]='INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo,dir_ent) VALUES ("'+val['nombre']+'", "'+val['cliente']+'","Lunes","'+val['direccion']+'","'+val['telefono']+'","'+val['categoria']+'","'+val['diascredito']+'",'+val['limite']+','+val['saldo']+',"'+val['dir_ent']+'")';
 			i++;
 		});
-		alert('procesando diascliente');
+		//alert('procesando diascliente');
 		$.each(diasruta, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  
 			query[i]='INSERT INTO RUTA_CLIENTE (ruta,cliente,dia,orden) VALUES ("'+val['ruta']+'", "'+val['cliente']+'",'+val['dia']+','+val['orden']+')';
 			i++;
 		});
-		alert('procesando pendcobro');
+		//alert('procesando pendcobro');
 		$.each(fpen, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  			
 			query[i]='INSERT INTO PENCOBRO (documento,cliente,saldo,monto,fecha,fechaven) VALUES ("'+val['documento']+'","'+val['cliente']+'",'+val['saldo']+','+val['monto']+',"'+val['fecha'].substr(0,2)+'/'+val['fecha'].substr(2,2)+'/'+val['fecha'].substr(4,4)+'","'+val['fechaven'].substr(0,2)+'/'+val['fechaven'].substr(2,2)+'/'+val['fechaven'].substr(4,4)+'")';
 			i++;
 		});
 		
-		alert('procesando existencias');
+		//alert('procesando existencias');
 		$.each(exis, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  			
 		query[i]='INSERT INTO ARTICULO_EXISTENCIA (articulo,bodega,existencia) VALUES ("'+val['articulo']+'","'+val['bodega']+'",'+val['existencia']+')'; 			
 			i++;
 		});
 		 
-		alert('procesando articulos');
+		//alert('procesando articulos');
 		$.each(art, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] ); 
 			var articulo=val['articulo'];
@@ -689,9 +694,31 @@ alert(direccion);
 					
 			i++;
 		});
-		alert(i);
-		alert('insertando datos');
-		insertabd(query,"Clientes Cargados");
+		//alert('procesando parametros');		
+		$.each(parametros, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] ); 			 					
+			query[i]='INSERT INTO PARAMETROS (cod_zon,num_ped,num_rec,num_dev,num_fac) VALUES ("'+val['ruta']+'","'+val['pedido']+'","'+val['recibo']+'","'+val['devo']+'","'+val['factura']+'")';
+			i++;
+		});
+		//alert('procesando enc de historicos de facturas para devolucion');		
+		
+		$.each(encfac, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] ); 			 								
+			query[i]='INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("'+val['factura']+'",'+val['monto']+',"'+val['cliente']+'","'+val['pedido']+'","'+val['fecha'].substr(0,2)+'/'+val['fecha'].substr(2,2)+'/'+val['fecha'].substr(4,4)+'")';
+			i++;
+		});
+		//alert('procesando detalledes de historicos de facturas para devolucion');		
+		$.each(detfac, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] ); 			 								
+			query[i]='INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("'+val['factura']+'","'+val['articulo']+'",'+val['linea']+','+val['cantidad']+','+val['devuelto']+','+val['precio']+','+val['totlinea']+')';
+			i++;
+		});
+
+		
+
+		//alert(i);
+		//navigator.notification.alert('Insertando Datos',null,'Insertando Datos','Aceptar');										 
+		insertabd(query,"Datos Cargados");
 	})	
 	.fail(function( jqxhr, textStatus, error ) {
 	
@@ -708,6 +735,33 @@ alert(direccion);
 		//alert(respuestaServer.Numreporte)
 		
 		//if(respuestaServer.validacion == "ok"){
+}
+
+function insertabd(query,mensaje){
+	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
+	     //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);		
+	base.transaction(insertadet,function(err){
+		var bandera=0;
+    	  alert("Error al insertar datos cargados: "+bandera+''+err.code+' '+err.message);
+          },function(){		  
+		   	navigator.notification.alert(mensaje,null,'Carga Datos','Aceptar');										
+			obtenerconse();//funcion que almacena localmente los consecutivos de documentos actuales.funcion en configuraciones.js
+		   });
+		  				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+			for (var i = 0, long = query.length; i < long; i++) {   									   								
+				//alert(query[i]);
+				bandera=i;
+				/*
+				if (i>649){
+					alert(query[i]);
+				}*/
+				tx.executeSql(query[i]); 						   
+					   
+			}// for (var i = 0, long = query.length; i < long; i++) 
+		}
+	
 }
 function cargarutacli(ruta,direccion){
 	alert('entra ruta cliente');
@@ -728,32 +782,6 @@ function cargarutacli(ruta,direccion){
  		 alert( "Request Failed: " + err);
 	});
 	return false;	
-}
-
-
-function insertabd(query,mensaje){
-	  //alert(devolucion+' '+ruta+' '+cliente+' '+horaini+' '+horafin+' '+fecha+' '+obs+' '+renglones+' '+subtotal+' '+impuesto+' '+bodega+' '+factura);
-	     //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);		
-	base.transaction(insertadet,function(err){
-		var bandera=0;
-    	  alert("Error al insertar datos cargados: "+bandera+''+err.code+' '+err.message);
-          },function(){		  
-		   navigator.notification.alert(mensaje,null,'Carga Datos','Aceptar');										 });
-		  				
-    	function insertadet(tx) {		
-		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
-			for (var i = 0, long = query.length; i < long; i++) {   									   								
-				//alert(query[i]);
-				bandera=i;
-				/*
-				if (i>649){
-					alert(query[i]);
-				}*/
-				tx.executeSql(query[i]); 						   
-					   
-			}// for (var i = 0, long = query.length; i < long; i++) 
-		}
-	
 }
 function pruebaphp(){
 var datosUsuario ="ricardo";
@@ -790,4 +818,194 @@ var datosUsuario ="ricardo";
 
 	return false;
 
+}
+function cargaclientes2(ruta,direccion){
+alert('entra cargaclientes2');
+//	var datosPassword = $("#regEmail").val()
+	
+  	//archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
+	//archivoValidacion ="http://aplicacion.netai.net/index.php?jsoncallback=?"	
+	//var archivoValidacion ="http://192.168.3.46/prueba.php?jsoncallback=?";
+	$.ajax({
+	type:GET,		
+    url: direccion, data: { numruta: ruta},
+    dataType: 'json',
+    success: function(data){
+      	 var query=[];
+		 var clientes = data.clientes;
+	     var diasruta = data.diasruta;
+		 var fpen = data.facpen;
+		 var art= data.articulos;
+		 var exis= data.existencias;
+         var parametros= data.param;		 
+		 var enchisfac= data.devocab;
+		 //var dethisfac= data.devodet;
+		 var i=0;
+		$.each(clientes, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  
+			query[i]='INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("'+val['nombre']+'", "'+val['cliente']+'","Lunes","'+val['direccion']+'","'+val['telefono']+'","'+val['categoria']+'","'+val['diascredito']+'",'+val['limite']+','+val['saldo']+')';
+			i++;
+		});
+		//alert('procesando diascliente');
+		$.each(diasruta, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  
+			query[i]='INSERT INTO RUTA_CLIENTE (ruta,cliente,dia,orden) VALUES ("'+val['ruta']+'", "'+val['cliente']+'",'+val['dia']+','+val['orden']+')';
+			i++;
+		});
+		//alert('procesando pendcobro');
+		$.each(fpen, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  			
+			query[i]='INSERT INTO PENCOBRO (documento,cliente,saldo,monto,fecha,fechaven) VALUES ("'+val['documento']+'","'+val['cliente']+'",'+val['saldo']+','+val['monto']+',"'+val['fecha'].substr(0,2)+'/'+val['fecha'].substr(2,2)+'/'+val['fecha'].substr(4,4)+'","'+val['fechaven'].substr(0,2)+'/'+val['fechaven'].substr(2,2)+'/'+val['fechaven'].substr(4,4)+'")';
+			i++;
+		});
+		
+		//alert('procesando existencias');
+		$.each(exis, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] );  			
+		query[i]='INSERT INTO ARTICULO_EXISTENCIA (articulo,bodega,existencia) VALUES ("'+val['articulo']+'","'+val['bodega']+'",'+val['existencia']+')'; 			
+			i++;
+		});
+		 
+		//alert('procesando articulos');
+		$.each(art, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] ); 
+			var articulo=val['articulo'];
+			var descripcion=val['descripcion'];
+			articulo=articulo.replace(/\\/g,'');
+			descripcion=descripcion.replace(/\\/g,'');
+			 			
+		query[i]='INSERT INTO ARTICULO (articulo,descripcion,clas,accion,impuesto,precio,descuento,laboratorio,sal,ubi,categoria) VALUES ("'+articulo+'","'+descripcion+'","'+val['clasificacion']+'","'+val['acciont']+'",'+val['impuesto']+','+val['precio']+','+val['descuento']+',"'+val['laboratorio']+'","'+val['pactivo']+'","'+val['ubi']+'","'+val['categoria']+'")'; 
+					
+			i++;
+		});
+		//alert('procesando parametros');		
+		$.each(parametros, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] ); 			 					
+			query[i]='INSERT INTO PARAMETROS (cod_zon,num_ped,num_rec,num_dev,num_fac) VALUES ("'+val['ruta']+'","'+val['pedido']+'","'+val['recibo']+'","'+val['devo']+'","'+val['factura']+'")';
+			i++;
+		});
+		//alert('procesando enc de historicos de facturas para devolucion');		
+		
+		$.each(enchisfac, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] ); 			 								
+			query[i]='INSERT INTO ENCHISFAC (factura,monto,cliente,pedido,fecha) VALUES ("'+val['factura']+'",'+val['monto']+',"'+val['cliente']+'","'+val['pedido']+'","'+val['fecha'].substr(0,2)+'/'+val['fecha'].substr(2,2)+'/'+val['fecha'].substr(4,4)+'")';
+			i++;
+		});/*
+		//alert('procesando detalledes de historicos de facturas para devolucion');		
+		$.each(dethisfac, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] ); 			 								
+			query[i]='INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("'+val['factura']+'","'+val['articulo']+'",'+val['linea']+','+val['cantidad']+','+val['devuelto']+','+val['precio']+','+val['totlinea']+')';
+			i++;
+		});
+
+		*/
+
+		//alert(i);
+		//navigator.notification.alert('Insertando Datos',null,'Insertando Datos','Aceptar');										 
+		insertabd(query,"Datos Cargados"); 
+    },
+    error: function(xhr) {
+        alert (xhr.statusText);
+    }
+});
+return false;
+	
+		//alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora + "\n" +respuestaServer.generador)		
+		//alert(respuestaServer.Numreporte)
+		
+		//if(respuestaServer.validacion == "ok"){
+}
+function enviadatos(ruta,direccion){
+//alert(direccion);
+//	var datosPassword = $("#regEmail").val()
+	
+  	//archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
+	//archivoValidacion ="http://aplicacion.netai.net/index.php?jsoncallback=?"	
+	//var archivoValidacion ="http://192.168.3.46/prueba.php?jsoncallback=?";
+	var bodega='G01';
+	
+	
+	var query=[];
+	
+	function consulta(tx) {
+		var sql='SELECT linea,num_ped,cod_art,mon_prc_mn,por_dsc_ap,mon_tot,mon_dsc,mon_prc_mx,cnt_max ';						
+			sql+='FROM DETPEDIDO ';
+			sql+=' WHERE doc_pro is null order by num_ped';			
+		var sql2='SELECT num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent ';						
+			sql2+='FROM ENCPEDIDO ';
+			sql2+=' WHERE doc_pro is null order by num_ped';			
+		tx.executeSql(sql,[],detallesped,errorconsulta);
+		tx.executeSql(sql2,[],cabeceraped,errorconsulta);
+		}
+		
+		function detallesped(tx,results){	
+			  var detalles='[';			
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 
+				  detalles += '{"linea":"'+row['linea']+'","num_ped":"'+row['num_ped']+'", "cod_art":"'+row['cod_art']+'","mon_prc_mn" : "'+row['mon_prc_mn']+'", "por_dsc_ap" : "'+row['por_dsc_ap']+'", "mon_tot" : "'+row['mon_tot']+'", "mon_dsc" : "'+row['mon_dsc']+'", "mon_prc_mx" : "'+row['mon_prc_mx']+'","cnt_max" : "'+row['cnt_max']+'"},';
+			  });//.each	
+			  var longitud=detalles.length; detalles=detalles.substr(0,(longitud-1));				
+			  detalles=detalles+']';
+			  window.localStorage.setItem("pedidosdet",detalles);
+			  alert(detalles);
+	    }//function detallesped
+	    function cabeceraped(tx,results){				
+				var detalles='[';			
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 
+				  detalles += '{"num_ped":"'+row['num_ped']+'", "cod_zon":"'+row['cod_zon']+'","cod_clt" : "'+row['tip_doc']+'", "hor_fin" : "'+row['hor_fin']+'", "fec_ped" : "'+row['fec_ped']+'", "fec_des" : "'+row['fec_des']+'", "mon_imp_vt" : "'+row['mon_imp_vt']+'","mon_civ" : "'+row['mon_civ']+'","mon_siv" : "'+row['mon_siv']+'","mon_dsc" : "'+row['mon_dsc']+'","num_itm" : "'+row['num_itm']+'","obs_ped" : "'+row['obs_ped']+'","estado" : "'+row['estado']+'","cod_cnd" : "'+row['cod_cnd']+'","cod_bod" : "'+row['cod_bod']+'","dir_ent" : "'+row['dir_ent']+'"},';
+			  });//.each	
+			  var longitud=detalles.length; detalles=detalles.substr(0,(longitud-1));				
+			  detalles=detalles+']';
+			  window.localStorage.setItem("pedidoscab",detalles);
+			  alert(detalles);
+	    }//function detallesped
+ 		
+	function errorconsulta(err) {
+    	alert("Error SQL al obtener datos para enviar: "+err.code+err.message);
+	}
+	base.transaction(consulta, errorconsulta,function(){
+		   var pedidosdet=window.localStorage.getItem("pedidosdet");
+		   var pedidoscab=window.localStorage.getItem("pedidoscab");
+		   alert('pedidos detalle: '+pedidosdet);
+		   alert('pedidos cabecera: '+pedidoscab);
+			$.getJSON(direccion, {numruta:ruta,peddet:pedidosdet,pedcab:pedidoscab})
+	.done(function(data) {
+		
+		
+		 /*
+		 var clientes = data.clientes;
+	     var diasruta = data.diasruta;
+		 var fpen = data.facpen;
+		 var art= data.articulos;
+		 var exis= data.existencias;
+         var parametros= data.param;
+		 
+		 var encfac= data.devocab;
+		 var detfac= data.devodet;*/
+		 var pedidos = data.pedido;
+		 var i=0;
+		$.each(pedidos, function(key, val) {    
+			alert(key + ' ' + val['resultado'] +' peddet '+val['peddet'] +' pedcab '+val['pedcab'] );  
+			//query[i]='INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("'+val['nombre']+'", "'+val['cliente']+'","Lunes","'+val['direccion']+'","'+val['telefono']+'","'+val['categoria']+'","'+val['diascredito']+'",'+val['limite']+','+val['saldo']+')';
+			i++;
+		});
+	})	
+	.fail(function( jqxhr, textStatus, error ) {
+	
+	 	 var err = textStatus + ', ' + error;
+			 alert( jqxhr.responseText);
+ 		 alert( "Request Failed: " + err);
+
+	});	
+		
+		
+	});
+//  });	
+	return false;
+	
+		//alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora + "\n" +respuestaServer.generador)		
+		//alert(respuestaServer.Numreporte)
+		
+		//if(respuestaServer.validacion == "ok"){
 }
