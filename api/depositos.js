@@ -335,7 +335,8 @@ function recibosindep(){
 				
 }//function recibosindep
 function guardadep(codigo,cuenta,fecha,obs){
-	var totalefe=0; var totalche=0; var totalcheotros=0; var query=[];	
+	var totalefe=0; var totalche=0; var totalcheotros=0; var query=[]; var i=0;	
+	var depefe=$("#fichaefe").val(); var depche=$("#fichache").val(); var depcheotros=$("#fichacheotros").val();
 		consultadb().transaction(poblarfac, function(err){
     	 		 alert("Error poblar recibos para deposito: "+err.code+err.message);
          		},function(){					
@@ -351,10 +352,8 @@ function guardadep(codigo,cuenta,fecha,obs){
 			var sql3='SELECT a.recibo,a.monto,a.numcheque,b.nombre,c.descripcion FROM CHEQUES a ';//recibos en efectivo no depositado
 				sql3+=' left outer join CLIENTES b on b.clave=a.cliente left OUTER JOIN CUENTASB c on c.codigo=a.codbanco ';	
 				sql3+=' left outer join ENCOBROS d on d.recibo=a.recibo WHERE d.depositado is null and  a.codbanco<>"'+codigo+'"  ORDER BY a.recibo';	//recibos con cheque no depositados
-			var i=0;
-			var depefe=$("#fichaefe").val();
-			var depche=$("#fichache").val();
-			var depcheotros=$("#fichacheotros").val();
+			
+			
 			
 				
 				tx.executeSql(sql,[],listo,function(err){
