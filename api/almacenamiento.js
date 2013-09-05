@@ -23,7 +23,7 @@ function actsaldo(importe){
 }
 function guardafechaactual(){
 var fecha = new Date();
-var fechaact=fecha.getFullYear()+"-"+rellenar((fecha.getMonth()+1),2)+"-"+fecha.getDate();
+var fechaact=fecha.getFullYear()+"-"+rellenar((fecha.getMonth()+1),2)+"-"+rellenar(fecha.getDate(),2);
 var hora=fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
 var fechaactual=fechaact+" "+hora;	
 //+"\nMilisegundo: "+fecha.getMilliseconds());

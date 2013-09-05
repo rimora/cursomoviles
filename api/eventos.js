@@ -406,8 +406,9 @@ $("#bcatalogo").tap(function(){
 $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
                  //var clavecli = $(this).attr("id");
 				 //muestra el pedido 
+				var bodega=window.localStorage.getItem("bodega");	 
      			var criterio=$('#buscaart').val();			  				
-				armacatalogo(criterio);				  
+				armacatalogo(criterio,bodega);				  
 				  
 });	
 
@@ -870,10 +871,12 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 							 return false;
 						 }
 						 else{
+							  
+							 
 							 var pos=banco.indexOf("@");
 						     var codigo= banco.substr(0,(pos));
 					         var cuenta=banco.substr(pos+1,longitud-(pos+1));
-							 alert('deposito guardado');
+							 guardadep(codigo,cuenta,fecha,$("#obsdep").val());
 							// alert('f1'+$("#fichaefe").val()+' f2 '+$("#fichache").val()+'f3 '+$("#fichacheotros").val());
 							 
 							 /*
@@ -891,7 +894,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 							 */
 						 }				 
 						 
-						 window.location.href='#page';
+						
 			
 					}//if (button==1){
 				}			  
@@ -924,6 +927,23 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 	   }
   
      });
+ $('#fichaefe').live('blur', function() {
+    	if ($('#fichaefe').val()==$('#fichache').val() || $('#fichaefe').val()==$('#fichacheotros').val()){
+			$('#fichaefe').val('');
+			
+		}
+});
+$('#fichache').live('blur', function() {
+    	if ($('#fichache').val()==$('#fichaefe').val() || $('#fichache').val()==$('#fichacheotros').val()){
+			$('#fichache').val('');			
+		}
+});
+$('#fichacheotros').live('blur', function() {
+    	if ($('#fichacheotros').val()==$('#fichache').val() || $('#fichacheotros').val()==$('#fichaefe').val()){
+			$('#fichacheotros').val('');
+			
+		}
+});
 	 //**********R E P O R T E S	 *************	
 	 $("#reporte1").tap(function() {     
 	               navigator.notification.alert('entra tap reporte1',null,'pruebas','Aceptar');             				  				  
@@ -1463,8 +1483,8 @@ $("#divclientes").hide();
 });
 $("#bcargaclientes").tap(function() {  
 		  var ruta=window.localStorage.getItem("ruta");
-		  //var direccion ="http://192.168.3.46/prueba.php?jsoncallback=?";
-		  var direccion ="http://sardelfr03.zapto.org/prueba.php?jsoncallback=?";
+		  var direccion ="http://192.168.3.46/prueba.php?jsoncallback=?";
+		  //var direccion ="http://sardelfr03.zapto.org/prueba.php?jsoncallback=?";
           cargaclientes(ruta,direccion);                       		                  
 		 // cargarutacli(ruta,direccion);                       		  
        });
@@ -1477,8 +1497,8 @@ $("#bcargaclientes2").tap(function() {
        });	
 $("#benvia2").tap(function() {  
 		  var ruta=window.localStorage.getItem("ruta");
-		  //var direccion ="http://192.168.3.46/enviar.php";
-		  var direccion ="http://sardelfr03.zapto.org/enviar.php";         
+		  var direccion ="http://192.168.3.46/enviar.php";
+		  //var direccion ="http://sardelfr03.zapto.org/enviar.php";         
 		  enviadatos(ruta,direccion);                       
 		 // cargarutacli(ruta,direccion);                       		  
        });		      

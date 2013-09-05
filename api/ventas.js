@@ -314,7 +314,7 @@ function mostrarpedido(cliente){
 //  });	
 
   }//mostrarpedido
- function armacatalogo(criterio){
+ function armacatalogo(criterio,bodega){
  // $('#pclientes').live('pageshow',function(event, ui){
 		//alert('This page was just hidden: '+ ui.prevPage);		
 		//var db = window.openDatabase("Database", "1.0", "SARDEL", 1000000);		
@@ -324,7 +324,7 @@ function mostrarpedido(cliente){
 	function poblarcat(tx){  	        
 			var sql='SELECT a.articulo,a.descripcion,a.descuento,b.existencia as ebodega,c.existencia as ealg,';			
 			sql+='a.precio,a.clas,a.accion,a.laboratorio,a.sal ';
-			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="G01" ';
+			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="'+bodega+'" ';
 			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" where a.articulo LIKE "%'+criterio+'%"';
 			sql+=' or a.descripcion like "%'+criterio+'%" or a.clas like "%'+criterio+'%" or a.accion like "%'+criterio+'%" or a.laboratorio like "%'+criterio+'%" ';
 			sql+=' or a.sal like "%'+criterio+'%" order by a.descripcion';
@@ -333,8 +333,7 @@ function mostrarpedido(cliente){
 			sql+='a.precio,a.laboratorio,a.sal ';
 			sql+='FROM articulo a left outer join articulo_existencia b on b.articulo=a.articulo and b.bodega="K01" ';
 			sql+=' left outer join articulo_existencia c on c.articulo=a.articulo and c.bodega="ALG" order by a.descripcion';*/
-			//alert('despues del sql armacatalogo');        			
-			
+			//alert('despues del sql armacatalogo');
 		    tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select catalogo: "+sql+err.code+err.message);
          	});    	
@@ -552,8 +551,8 @@ var consecutivo=window.localStorage.getItem("consepedido"); var consepedido=wind
 var consefac=window.localStorage.getItem("consefactura"); var consefactura=window.localStorage.getItem("consefactura");
 var ruta=window.localStorage.getItem("ruta"); var tipocliente=window.localStorage.getItem("tipocliente");
 var fecha = new Date();
-var fechaact=fecha.getFullYear()+"/"+(fecha.getMonth()+1)+"/"+fecha.getDate();
-var fechadmy=fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
+var fechaact=fecha.getFullYear()+"-"+rellenar((fecha.getMonth()+1),2)+"-"+rellenar(fecha.getDate(),2);
+var fechadmy=rellenar(fecha.getDate(),2)+'/'+rellenar((fecha.getMonth()+1),2)+'/'+fecha.getFullYear();
 var hora=fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
 var fechayhora=fechaact+" "+hora;
 //+"\nMilisegundo: "+fecha.getMilliseconds());
@@ -582,6 +581,9 @@ var i=0; var lineaped=1; var lineafac=1;
 			 var existencia=Number(row['existencia']);
 			 var cantidad=Number(row['cantidad']);
 			 var dif=existencia-cantidad;
+			 alert ('existencia '+existencia);
+			 alert ('cantidad '+cantidad);
+			 alert ('dif '+dif);
 					 if (existencia==0){
 						 preventa=cantidad;							 
 					 }
@@ -655,7 +657,7 @@ var i=0; var lineaped=1; var lineafac=1;
 			 alert(sumtotlinea);
 			 alert(sumivalinea);			 */
 			 if (sumtotal>0){
-				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent) VALUES ("'+consepedido+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineaped.toFixed(2)+','+sumtotal.toFixed(2)+','+sumtotlineaped.toFixed(2)+','+summontodescped.toFixed(2)+','+(lineaped-1)+',"'+obs+'","F",'+diascredito+',"'+bodega+'","'+direntrega+'")'; 
+				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent) VALUES ("'+consepedido+'","'+ruta+'","'+cliente+'","1","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineaped.toFixed(2)+','+sumtotal.toFixed(2)+','+sumtotlineaped.toFixed(2)+','+summontodescped.toFixed(2)+','+(lineaped-1)+',"'+obs+'","N",'+diascredito+',"'+bodega+'","'+direntrega+'")'; 
 				i++;			
 			//alert(query[i]);
 				query[i]='UPDATE PARAMETROS SET num_ped="'+pedido+'"';		
@@ -663,7 +665,7 @@ var i=0; var lineaped=1; var lineafac=1;
 				i++;			
 			 }
 			 if (sumtotalfac>0){
-				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent) VALUES ("'+consefactura+'","'+ruta+'","'+cliente+'","S","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineafac.toFixed(2)+','+sumtotalfac.toFixed(2)+','+sumtotlineafac.toFixed(2)+','+summontodescfac.toFixed(2)+','+(lineafac-1)+',"'+obs+'","F",'+diascredito+',"'+bodega+'","'+direntrega+'")';
+				query[i]='INSERT INTO ENCPEDIDO (num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent) VALUES ("'+consefactura+'","'+ruta+'","'+cliente+'","F","'+fechayhora+'","'+fechaact+'","'+fechaact+'",'+sumivalineafac.toFixed(2)+','+sumtotalfac.toFixed(2)+','+sumtotlineafac.toFixed(2)+','+summontodescfac.toFixed(2)+','+(lineafac-1)+',"'+obs+'","F",'+diascredito+',"'+bodega+'","'+direntrega+'")';
 				i++;			 
 				//alert(query[i]);
 				query[i]='UPDATE PARAMETROS SET num_fac="'+factura+'"';		

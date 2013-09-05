@@ -97,8 +97,7 @@ function listarecibos(codigo){
                      var efectivo=Number(row['monefe']);	
 					 totalefe+=efectivo;				 
 					 //montot+=Number(row['mondoc']);
-              
-					 
+
 					//html+='<div class="ui-block-a" style="width:60px;height:20px;margin-left:-10px" >';              
            			//html+='<div class="ui-bar ui-bar-e" style="margin-right:-10px">';      		 		                   	
             		//html+='     <input type="checkbox" id="D'+row['recibo']+'" name="'+row['recibo']+'" value="'+row['monefe']+'" class="clasedep"  />';
@@ -266,7 +265,7 @@ function poblarcuentadep(){
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
 }// poblarcuentadep
-function guardadep(recibo,deposito){
+function guardadepxxx(recibo,deposito){
 	function listo(tx,results){ 	      
 	      if (results.rows.length>0){
 			  renglones=results.rows.length;
@@ -335,3 +334,104 @@ function recibosindep(){
 				});		
 				
 }//function recibosindep
+function guardadep(codigo,cuenta,fecha,obs){
+	var totalefe=0; var totalche=0; var totalcheotros=0; var query=[];	
+		consultadb().transaction(poblarfac, function(err){
+    	 		 alert("Error poblar recibos para deposito: "+err.code+err.message);
+         		},function(){					
+		    		 insertadep(query);
+				});		
+			
+	function poblarfac(tx){  				
+			var sql='SELECT a.recibo,a.mondoc,b.nombre,a.monefe FROM ENCOBROS a ';		
+				sql+=' left outer join CLIENTES b on b.clave=a.cliente WHERE a.depositado is null and a.monefe>0 ORDER BY a.recibo';
+			var sql2='SELECT a.recibo,a.monto,a.numcheque,b.nombre,c.descripcion FROM CHEQUES a ';//recibos en efectivo no depositado
+				sql2+=' left outer join CLIENTES b on b.clave=a.cliente left OUTER JOIN CUENTASB c on c.codigo=a.codbanco ';	
+				sql2+=' left outer join ENCOBROS d on d.recibo=a.recibo WHERE d.depositado is null and  a.codbanco="'+codigo+'"  ORDER BY a.recibo';	//recibos con cheque no depositados
+			var sql3='SELECT a.recibo,a.monto,a.numcheque,b.nombre,c.descripcion FROM CHEQUES a ';//recibos en efectivo no depositado
+				sql3+=' left outer join CLIENTES b on b.clave=a.cliente left OUTER JOIN CUENTASB c on c.codigo=a.codbanco ';	
+				sql3+=' left outer join ENCOBROS d on d.recibo=a.recibo WHERE d.depositado is null and  a.codbanco<>"'+codigo+'"  ORDER BY a.recibo';	//recibos con cheque no depositados
+			var i=0;
+			var depefe=$("#fichaefe").val();
+			var depche=$("#fichache").val();
+			var depcheotros=$("#fichacheotros").val();
+			
+				
+				tx.executeSql(sql,[],listo,function(err){
+    	 		 alert("Error select recibos: "+err.code+err.message);
+         		});   
+				alert('despues de execute listo'); 	
+				tx.executeSql(sql2,[],cheques,function(err){
+    	 		 alert("Error select cheques mismo banco para deposito: "+err.code+err.message);
+         		});  
+				alert('despues de execute cheques');  					
+				tx.executeSql(sql3,[],chequesotro,function(err){
+    	 		 alert("Error select cheques otros bancos: "+err.code+err.message);
+				 
+         		});    
+				alert('despues de execute chequesotro');	
+	}
+	   function listo(tx,results){ 			  			
+			  $.each(results.rows,function(index){				  
+				  	 var row = results.rows.item(index); 				     			     				
+                     var efectivo=Number(row['monefe']);	
+					 
+					 totalefe+=efectivo;
+					 query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES(0,'+efectivo+',"'+depefe+'","'+row['recibo']+'")'; 				 
+					 i++;
+					 query[i]='UPDATE ENCOBROS SET depositado="S" where recibo="'+row['recibo']+'"';	
+					 i++;
+			  });//.each
+			  	if (totalefe>0){
+					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depefe+'","'+fecha+'",'+totalefe+',"'+obs+'")'; 	
+					i++;
+				}				
+	   }//function listo
+	   function cheques(tx,results){ 			  		      
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 				     			     				     
+				  var cheque=Number(row['monto']);
+				  totalche+=cheque;
+				  query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES('+cheque+',0,'+depche+'","'+row['recibo']+'")'; 				 
+				  i++;
+				  query[i]='UPDATE ENCOBROS SET depositado="S" where recibo="'+row['recibo']+'"';	
+				  i++;
+			  });//.each
+			  if (totalche>0){
+					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depche+'","'+fecha+'",'+totalche+',"'+obs+'")'; 	
+					i++;
+			 }
+	   }//function cheques	 
+	    function chequesotro(tx,results){ 			  		      			
+			 $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 				     			     				     
+				  var cheque=Number(row['monto']);
+				  totalcheotros+=cheque;
+				  query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES('+cheque+',0,'+depcheotros+'","'+row['recibo']+'")'; 				 
+				  i++;
+				  query[i]='UPDATE ENCOBROS SET depositado="S" where recibo="'+row['recibo']+'"';	
+				  i++;
+			  });//.each
+			  if (totalcheotros>0){
+					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depcheotros+'","'+fecha+'",'+totalcheotros+',"'+obs+'")'; 	
+					i++;
+			 }
+		}//function chequesotro	  		
+}// guardadep()
+function insertadep(query){
+	base.transaction(insertadet,function(err){
+		var bandera=0;
+    	  alert("Error al insertar depositos: "+bandera+''+err.code+' '+err.message);
+          },function(){		  
+		   	navigator.notification.alert('Deposito Generado',null,'Depositos','Aceptar');													
+	        window.location.href='#page';
+		   });		  				
+    	function insertadet(tx) {		
+		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
+			for (var i = 0, long = query.length; i < long; i++) {   									   								
+				alert(query[i]);				
+				tx.executeSql(query[i]); 						   
+					   
+			}// for (var i = 0, long = query.length; i < long; i++) 
+		}	
+}
