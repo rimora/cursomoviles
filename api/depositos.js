@@ -358,33 +358,27 @@ function guardadep(codigo,cuenta,fecha,obs){
 				
 				tx.executeSql(sql,[],listo,function(err){
     	 		 alert("Error select recibos: "+err.code+err.message);
-         		});   
-				alert('despues de execute listo'); 	
+         		});   				
 				tx.executeSql(sql2,[],cheques,function(err){
     	 		 alert("Error select cheques mismo banco para deposito: "+err.code+err.message);
          		});  
-				alert('despues de execute cheques');  					
 				tx.executeSql(sql3,[],chequesotro,function(err){
     	 		 alert("Error select cheques otros bancos: "+err.code+err.message);				 
-         		});    
-				alert('despues de execute chequesotro');	
+         		});  
 	}
 	   function listo(tx,results){ 	
-	      alert('entra a listo');		  			
 			  $.each(results.rows,function(index){				  
 				  	 var row = results.rows.item(index); 				     			     				
                      var efectivo=Number(row['monefe']);	
 					 
 					 totalefe+=efectivo;
-					 alert('antes del query');
 					 query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES(0,'+efectivo+',"'+depefe+'","'+row['recibo']+'")'; 				 
 					 i++;
-					 alert('despues insert '+i+' '+query[i]);	
 					 query[i]='UPDATE ENCOBROS SET depositado="S" where recibo="'+row['recibo']+'"';	
 					 i++;
 			  });//.each
 			  	if (totalefe>0){
-					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depefe+'","'+fecha+'",'+totalefe+',"'+obs+'")'; 	
+					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depefe+'","'+fecha+'",'+totalefe.toFixed(2)+',"'+obs+'")'; 	
 					i++;
 				}				
 	   }//function listo
@@ -395,12 +389,11 @@ function guardadep(codigo,cuenta,fecha,obs){
 				  totalche+=cheque;
 				  query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES('+cheque+',0,"'+depche+'","'+row['recibo']+'")'; 				 
 				  i++;
-				  alert('despues insert en cheques');	
 				  query[i]='UPDATE ENCOBROS SET depositado="S" where recibo="'+row['recibo']+'"';	
 				  i++;
 			  });//.each
 			  if (totalche>0){
-					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depche+'","'+fecha+'",'+totalche+',"'+obs+'")'; 	
+					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depche+'","'+fecha+'",'+totalche.toFixed(2)+',"'+obs+'")'; 	
 					i++;
 			 }
 	   }//function cheques	 
@@ -411,19 +404,17 @@ function guardadep(codigo,cuenta,fecha,obs){
 				  totalcheotros+=cheque;
 				  query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES('+cheque+',0,"'+depcheotros+'","'+row['recibo']+'")'; 				 
 				  i++;
-				  alert('despues insert en otros');	
 				  query[i]='UPDATE ENCOBROS SET depositado="S" where recibo="'+row['recibo']+'"';	
 				  i++;
 			  });//.each
 			  if (totalcheotros>0){
-					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depcheotros+'","'+fecha+'",'+totalcheotros+',"'+obs+'")'; 	
+					query[i]='INSERT INTO ENCDEP (codigo,cuenta,deposito,fec_dep,mon_dep,obs) VALUES("'+codigo+'","'+cuenta+'","'+depcheotros+'","'+fecha+'",'+totalcheotros.toFixed(2)+',"'+obs+'")'; 	
 					i++;
 			 }
 		}//function chequesotro	  		
 }// guardadep()
 function insertadep(query){
 	base.transaction(insertadet,function(err){
-		var bandera=0;
     	  alert("Error al insertar depositos: "+bandera+''+err.code+' '+err.message);
           },function(){		  
 		   	navigator.notification.alert('Deposito Generado',null,'Depositos','Aceptar');													

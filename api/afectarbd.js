@@ -70,7 +70,7 @@ consultadb().transaction(creartb, errorCB, successCB);
 		 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCOBROS (id INTEGER PRIMARY KEY AUTOINCREMENT, cliente,tipo,ruta,recibo,doc_pro,fec_pro,hor_ini,hor_fin,impreso,estado,monche,monefe,mondoc,depositado)'); 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS DETCOBROS (id INTEGER PRIMARY KEY AUTOINCREMENT, cliente,tipo,tipoaso,ruta,recibo,docafectado,doc_pro,fec_pro,estado,monto,saldo_doc,fec_doc)'); 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS ENCDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo,cuenta,deposito,doc_pro,fec_dep,mon_dep,obs)'); 
-		  tx.executeSql('CREATE TABLE IF NOT EXISTS DETDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, monche,monefe,deposito,recibo,obs)'); 
+		  tx.executeSql('CREATE TABLE IF NOT EXISTS DETDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, monche,monefe,deposito,recibo,obs,doc_pro)'); 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS NOTASCOB (id INTEGER PRIMARY KEY AUTOINCREMENT, factura,nota)'); 
 		 }		 
 		 
@@ -885,19 +885,19 @@ function enviadatos(ruta,direccion){
 		var sql4='SELECT tipo,ruta,recibo,tipoaso,docafectado,cliente,fec_doc,fec_pro,estado,monto,saldo_doc ';						
 			sql4+='FROM DETCOBROS ';
 			sql4+=' WHERE doc_pro is null order by recibo';	
-		var sql5='SELECT tipo,ruta,recibo,tipoaso,docafectado,cliente,fec_doc,fec_pro,estado,monto,saldo_doc ';						
-			sql5+='FROM DETCOBROS ';
-			sql5+=' WHERE doc_pro is null order by recibo';		
-			
-			 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo,cuenta,deposito,doc_pro,fec_dep,mon_dep,obs)'); 
-		  tx.executeSql('CREATE TABLE IF NOT EXISTS DETDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, monche,monefe,deposito,recibo,obs)'); 
-			
-
+		var sql5='SELECT codigo,cuenta,deposito,fec_dep,mon_dep,obs ';						
+			sql5+='FROM ENCDEP ';
+			sql5+=' WHERE doc_pro is null order by deposito';		
+		var sql6='SELECT monche,monefe,deposito,recibo,obs ';						
+			sql6+='FROM DETDEP ';
+			sql6+=' WHERE doc_pro is null order by deposito';		
 
 		tx.executeSql(sql,[],detallesped,errorconsulta);
 		tx.executeSql(sql2,[],cabeceraped,errorconsulta);
 		tx.executeSql(sql3,[],cabeceracob,errorconsulta);
 		tx.executeSql(sql4,[],detallescob,errorconsulta);
+		tx.executeSql(sql5,[],cabeceradep,errorconsulta);
+		tx.executeSql(sql6,[],detallesdep,errorconsulta);
 		}
 		
 		function detallesped(tx,results){	
@@ -944,6 +944,28 @@ function enviadatos(ruta,direccion){
 			  window.localStorage.setItem("cobrosdet",detalles);
 			  //alert(detalles);
 	    }//function detallescob
+		function cabeceradep(tx,results){				
+				var detalles='[';			
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 				  
+				  detalles += '{"cta_bco":"'+row['cuenta']+'", "cod_bco":"'+row['codigo']+'","num_dep" : "'+row['deposito']+'", "mon_dep" : "'+row['mon_dep']+'","fec_dep" : "'+row['fec_dep']+'","notas" : "'+row['obs']+'"},';  				  
+			  });//.each	
+			  var longitud=detalles.length; detalles=detalles.substr(0,(longitud-1));				
+			  detalles=detalles+']';
+			  window.localStorage.setItem("depositoscab",detalles);
+			  //alert(detalles);
+	    }//function cabeceradep
+		function detallesdep(tx,results){				
+				var detalles='[';			
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 				  
+				  detalles += '{"num_dep":"'+row['deposito']+'", "num_doc":"'+row['recibo']+'","mon_che" : "'+row['monche']+'", "mon_efe" : "'+row['monefe']+'"},';  				  		  
+			  });//.each	
+			  var longitud=detalles.length; detalles=detalles.substr(0,(longitud-1));				
+			  detalles=detalles+']';
+			  window.localStorage.setItem("depositosdet",detalles);
+			  //alert(detalles);
+	    }//function detallesdep
  		
 	function errorconsulta(err) {
     	alert("Error SQL al obtener datos para enviar: "+err.code+err.message);
@@ -953,11 +975,16 @@ function enviadatos(ruta,direccion){
 		   var pedidoscab=window.localStorage.getItem("pedidoscab");
 		   var cobroscab=window.localStorage.getItem("cobroscab");
 		   var cobrosdet=window.localStorage.getItem("cobrosdet");
+		   var depositoscab=window.localStorage.getItem("depositoscab");
+		   var depositosdet=window.localStorage.getItem("depositosdet");
 		   alert('pedidos detalle: '+pedidosdet);
 		   alert('pedidos cabecera: '+pedidoscab);
 		   alert('cobros cabecera: '+cobroscab);
 		   alert('cobros detalle: '+cobrosdet);
-			$.getJSON(direccion, {numruta:ruta,peddet:pedidosdet,pedcab:pedidoscab,cobcab:cobroscab,cobdet:cobrosdet})
+		   alert('depositos cabecera: '+depositoscab);
+		   alert('depositos detalle: '+depositosdet);
+		   
+			$.getJSON(direccion, {numruta:ruta,peddet:pedidosdet,pedcab:pedidoscab,cobcab:cobroscab,cobdet:cobrosdet,depcab:depositoscab,depdet:depositosdet})
 	.done(function(data) {
 		
 		
@@ -974,7 +1001,7 @@ function enviadatos(ruta,direccion){
 		 var pedidos = data.resultado;
 		 var i=0;
 		$.each(pedidos, function(key, val) {    
-			alert(key + ' ' + val['conexion'] +' peddet '+val['respeddet'] +' pedcab '+val['respedcab']+' cobcab '+val['rescobcab'] );  
+			alert(key + ' ' + val['conexion'] +' peddet '+val['respeddet'] +' pedcab '+val['respedcab']+' cobcab '+val['rescobcab']+' cobdet '+val['rescobdet']+' depcab '+val['resdepcab']+' depdet '+val['resdepdet'] );  
 			//query[i]='INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("'+val['nombre']+'", "'+val['cliente']+'","Lunes","'+val['direccion']+'","'+val['telefono']+'","'+val['categoria']+'","'+val['diascredito']+'",'+val['limite']+','+val['saldo']+')';
 			i++;
 		});
