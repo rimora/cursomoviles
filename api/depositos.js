@@ -392,7 +392,7 @@ function guardadep(codigo,cuenta,fecha,obs){
 				  var row = results.rows.item(index); 				     			     				     
 				  var cheque=Number(row['monto']);
 				  totalche+=cheque;
-				  query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES('+cheque+',0,'+depche+'","'+row['recibo']+'")'; 				 
+				  query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES('+cheque+',0,"'+depche+'","'+row['recibo']+'")'; 				 
 				  i++;
 				  query[i]='UPDATE ENCOBROS SET depositado="S" where recibo="'+row['recibo']+'"';	
 				  i++;
@@ -407,7 +407,7 @@ function guardadep(codigo,cuenta,fecha,obs){
 				  var row = results.rows.item(index); 				     			     				     
 				  var cheque=Number(row['monto']);
 				  totalcheotros+=cheque;
-				  query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES('+cheque+',0,'+depcheotros+'","'+row['recibo']+'")'; 				 
+				  query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES('+cheque+',0,"'+depcheotros+'","'+row['recibo']+'")'; 				 
 				  i++;
 				  query[i]='UPDATE ENCOBROS SET depositado="S" where recibo="'+row['recibo']+'"';	
 				  i++;
