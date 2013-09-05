@@ -879,16 +879,20 @@ function enviadatos(ruta,direccion){
 		var sql2='SELECT num_ped,cod_zon,cod_clt,tip_doc,hor_fin,fec_ped,fec_des,mon_imp_vt,mon_civ,mon_siv,mon_dsc,num_itm,obs_ped,estado,cod_cnd,cod_bod,dir_ent ';						
 			sql2+='FROM ENCPEDIDO ';
 			sql2+=' WHERE doc_pro is null order by num_ped';			
-			alert('antes sql3 ');
 		var sql3='SELECT recibo,tipo,ruta,cliente,fec_pro,estado,mondoc,monefe,monche,hor_ini,hor_fin,impreso ';						
 			sql3+='FROM ENCOBROS ';
 			sql3+=' WHERE doc_pro is null order by recibo';	
-			alert('despues sql3 '+sql3);			
 		var sql4='SELECT tipo,ruta,recibo,tipoaso,docafectado,cliente,fec_doc,fec_pro,estado,monto,saldo_doc ';						
 			sql4+='FROM DETCOBROS ';
-			sql4+=' WHERE doc_pro is null order by recibo';		
-			alert('despues sql4 '+sql4);
-//COD_CIA	COD_TIP_DC	COD_ZON	NUM_REC	NUM_DOC	COD_TIP_DA	NUM_DOC_AF	COD_CLT	FEC_DOC	FEC_PRO	IND_ANL	MON_MOV_LOCAL	MON_MOV_DOL	MON_SAL_LOC	MON_SAL_DOL	DOC_PRO	NoteExistsFlag	RecordDate	RowPointer	CreatedBy	UpdatedBy	CreateDate
+			sql4+=' WHERE doc_pro is null order by recibo';	
+		var sql5='SELECT tipo,ruta,recibo,tipoaso,docafectado,cliente,fec_doc,fec_pro,estado,monto,saldo_doc ';						
+			sql5+='FROM DETCOBROS ';
+			sql5+=' WHERE doc_pro is null order by recibo';		
+			
+			 tx.executeSql('CREATE TABLE IF NOT EXISTS ENCDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo,cuenta,deposito,doc_pro,fec_dep,mon_dep,obs)'); 
+		  tx.executeSql('CREATE TABLE IF NOT EXISTS DETDEP (id INTEGER PRIMARY KEY AUTOINCREMENT, monche,monefe,deposito,recibo,obs)'); 
+			
+
 
 		tx.executeSql(sql,[],detallesped,errorconsulta);
 		tx.executeSql(sql2,[],cabeceraped,errorconsulta);

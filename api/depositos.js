@@ -366,17 +366,18 @@ function guardadep(codigo,cuenta,fecha,obs){
          		});  
 				alert('despues de execute cheques');  					
 				tx.executeSql(sql3,[],chequesotro,function(err){
-    	 		 alert("Error select cheques otros bancos: "+err.code+err.message);
-				 
+    	 		 alert("Error select cheques otros bancos: "+err.code+err.message);				 
          		});    
 				alert('despues de execute chequesotro');	
 	}
-	   function listo(tx,results){ 			  			
+	   function listo(tx,results){ 	
+	      alert('entra a listo');		  			
 			  $.each(results.rows,function(index){				  
 				  	 var row = results.rows.item(index); 				     			     				
                      var efectivo=Number(row['monefe']);	
 					 
 					 totalefe+=efectivo;
+					 alert('antes del query');
 					 query[i]='INSERT INTO DETDEP (monche,monefe,deposito,recibo) VALUES(0,'+efectivo+',"'+depefe+'","'+row['recibo']+'")'; 				 
 					 i++;
 					 alert('despues insert '+i+' '+query[i]);	
