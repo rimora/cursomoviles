@@ -14,7 +14,7 @@ function guardafactura(factura){
 	//alert (window.localStorage.getItem("clave"));
 }
 function actsaldo(importe){
-	alert('importe dentro de acsaldo '+importe);
+	//alert('importe dentro de acsaldo '+importe);
 	var saldoact=Number(window.localStorage.getItem("saldo"))+Number(importe);
 	//alert(saldoact);
 	window.localStorage.setItem("saldo",saldoact);

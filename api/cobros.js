@@ -436,23 +436,21 @@ var query=[]; var i=0;
 				});	
 				
 }//function guardacob
-function ejecutaquerycob(query,total){
+function ejecutaquerycob(query,total,cliente){
 	   //alert (pedido+articulo+precio+pordescuento+totalinea+descuento+precio+cantidad);
 	base.transaction(insertadet,function(err){
     	  alert("Error al insertar en detallepedido: "+err.code+err.message);
           },function(){		  
 		    //alert('total '+total);
-		    actsaldo(total*-1);  
-			alert('despues de actsaldo'); 
-			consultasivencidas(cliente);	
-			alert('despues de consultasivencidas');		
+		    actsaldo(total*-1);  			
+			consultasivencidas(cliente);				
 			window.localStorage.setItem("sioperacion","S");
 			obtenerconse();
 		    navigator.notification.alert('Cobro Guardado',null,'Guardar Cobro','Aceptar');
 		  });		  				
     	function insertadet(tx) {
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
-				alert(query[i]);
+				//alert(query[i]);
 				tx.executeSql(query[i]);					   
 			}// for (var i = 0, long = query.length; i < long; i++) 
 		}
@@ -573,8 +571,7 @@ function insertarcheque(nche,ncta,banco,monto){
 		}
 	
 }//function insertarcheque(nche,ncta,banco,monto)
-function consultasivencidas(cliente){
-	alert('entra a consultasivencidas');
+function consultasivencidas(cliente){	
 	var vencida='';
 		base.transaction(poblarfac, function(err){
     	 		 alert("Error poblar facturas para cobro: "+err.code+err.message);
