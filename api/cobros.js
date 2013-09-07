@@ -450,7 +450,7 @@ function ejecutaquerycob(query,total){
 		  });		  				
     	function insertadet(tx) {
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
-				//alert(query[i]);
+				alert(query[i]);
 				tx.executeSql(query[i]);					   
 			}// for (var i = 0, long = query.length; i < long; i++) 
 		}
@@ -572,6 +572,7 @@ function insertarcheque(nche,ncta,banco,monto){
 	
 }//function insertarcheque(nche,ncta,banco,monto)
 function consultasivencidas(cliente){
+	alert('entra a consultasivencidas');
 	var vencida='';
 		base.transaction(poblarfac, function(err){
     	 		 alert("Error poblar facturas para cobro: "+err.code+err.message);
