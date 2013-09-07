@@ -431,7 +431,7 @@ var query=[]; var i=0;
     	 			 alert("Error select tabla temporal temcobros: "+err.code+err.message);
          		},function(){
 								
-					ejecutaquerycob(query,totalrecibo);
+					ejecutaquerycob(query,totalrecibo,cliente);
 					
 				});	
 				
@@ -444,7 +444,8 @@ function ejecutaquerycob(query,total){
 		    //alert('total '+total);
 		    actsaldo(total*-1);  
 			alert('despues de actsaldo'); 
-			consultasivencidas(cliente);			
+			consultasivencidas(cliente);	
+			alert('despues de consultasivencidas');		
 			window.localStorage.setItem("sioperacion","S");
 			obtenerconse();
 		    navigator.notification.alert('Cobro Guardado',null,'Guardar Cobro','Aceptar');

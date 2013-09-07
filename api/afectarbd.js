@@ -648,7 +648,7 @@ function cargaclientes(ruta,direccion){
 	}
 	else{
 		 
-		 $.getJSON('http://192.168.3.44/conexion.php?jsoncallback=?', {})
+		 $.getJSON('http://sardelfr03.zapto.org/conexion.php?jsoncallback=?', {})
 		.done(function(data) {
 			navigator.notification.alert('Conectado a internet usando: '+estadoconexion+' '+data['resultado'],null,'Detectar Conexion','Aceptar');			
 		})		
