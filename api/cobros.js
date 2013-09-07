@@ -443,6 +443,7 @@ function ejecutaquerycob(query,total){
           },function(){		  
 		    //alert('total '+total);
 		    actsaldo(total*-1);  
+			alert('despues de actsaldo'); 
 			consultasivencidas(cliente);			
 			window.localStorage.setItem("sioperacion","S");
 			obtenerconse();
