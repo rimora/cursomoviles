@@ -183,15 +183,12 @@ $(document).ready(function() {
 					 var saldo=Number(window.localStorage.getItem("saldo"));  
 					// alert('saldo '+saldo);
 					 if (saldo>0){
-				 		 //eliminatempcob();
-						 alert('saldo '+saldo);
 						 copiatemcobros(cliente);//copia a tabla temporal las facturas pendientes de cobro. funcion de archivo cobros.js
 		                 window.location.href='#pcobros';
 	                     $("#divencnum").hide();
 				  		 $("#divnumcobros").hide();
 					     $("#labelencpcobros").empty();	
-				         $("#labelencpcobros").append("Cobrar Facturas pendientes del cliente: "+cliente);				  				 				  				  
-				         
+				         $("#labelencpcobros").append("Cobrar Facturas pendientes del cliente: "+cliente);				         
 				         //listafacturaspend(cliente);//lista las facturas pendientes de cobro, del cliente seleccionado				  				  
 					 }
 					 else{
@@ -284,6 +281,9 @@ $("#bventa").tap(function() {
 		         var disp=limite-saldo;
         		 //if (disp<=0 || vencida=='S'){
 				 if (vencida=='S' || tipocli=='SUSP' || disp<=0){
+					 alert(vencida);
+					 alert(tipocli);
+					 alert(disp);
 					navigator.notification.alert('Cliente con Saldo Vencido, Credito Suspendido o Límite de Crédito Excedido, realiza abono',null,'Acceso a Ventas','Aceptar');										 
 				 }
 				 else{
