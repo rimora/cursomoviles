@@ -16,7 +16,7 @@ function obtenerconse(){
 			  $.each(results.rows,function(index){				  
 			
 				  var row = results.rows.item(index); 
-				  //alert (row['num_ped']+','+row['num_fac']+','+row['num_dev']+','+row['num_rec']);
+				  alert (row['num_ped']+','+row['num_fac']+','+row['num_dev']+','+row['num_rec']);
 				  
 				  window.localStorage.setItem("consepedido",row['num_ped']);
 				  

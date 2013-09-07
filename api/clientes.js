@@ -108,10 +108,13 @@ function mostrarcliente(clavecli){
 					if (vencida=="SI") {
 						//navigator.notification.alert('El cliente tiene facturas vencidas, no podrá realizar ventas',null,'Saldo Vencido','Aceptar');					
 						//$("#bventa").addClass('ui-disabled');
-						guardasivencida('S');
-
-						
-					}/*
+						guardasivencida('S');						
+					}
+					else
+					{
+						guardasivencida('');						
+					}
+					/*
 					else if (saldo>limite){						
 						navigator.notification.alert('Cliente con limite de credito excedido, no podrá realizar ventas',null,'Limite de Crédito Excedido','Aceptar');					
 						$("#bventa").addClass('ui-disabled');
