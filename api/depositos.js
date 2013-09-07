@@ -423,7 +423,7 @@ function insertadep(query){
     	function insertadet(tx) {		
 		//alert('entra a modificar detallefactura cantidad: '+cantidad);		
 			for (var i = 0, long = query.length; i < long; i++) {   									   								
-				alert(query[i]);				
+				//alert(query[i]);				
 				tx.executeSql(query[i]); 						   
 					   
 			}// for (var i = 0, long = query.length; i < long; i++) 

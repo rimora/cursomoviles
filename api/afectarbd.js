@@ -642,6 +642,24 @@ function cargaclientes(ruta,direccion){
   	//archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
 	//archivoValidacion ="http://aplicacion.netai.net/index.php?jsoncallback=?"	
 	//var archivoValidacion ="http://192.168.3.46/prueba.php?jsoncallback=?";
+	var estadoconexion=navigator.network.connection.type;
+	if (estadoconexion==Connection.NONE){
+		navigator.notification.alert('No hay conexion a Internet',null,'Detectar Conexion','Aceptar');
+	}
+	else{
+		 
+		 $.getJSON('http://192.168.3.44/conexion.php?jsoncallback=?', {})
+		.done(function(data) {
+			navigator.notification.alert('Conectado a internet usando: '+estadoconexion+' '+data['resultado'],null,'Detectar Conexion','Aceptar');			
+		})		
+		.fail(function( jqxhr, textStatus, error ) {
+	
+	 	 var err = textStatus + ', ' + error;
+			 alert( jqxhr.responseText);
+ 		 alert( "Request Failed: " + err);
+
+	});		
+	}	
 	
 	$.getJSON(direccion, {numruta:ruta})
 	.done(function(data) {
@@ -656,6 +674,7 @@ function cargaclientes(ruta,direccion){
 		 
 		 var encfac= data.devocab;
 		 var detfac= data.devodet;
+		// var sug= data.sugerido;
 		 var i=0;
 		$.each(clientes, function(key, val) {    
 			//alert(key + ' ' + val['cliente'] );  
@@ -713,7 +732,14 @@ function cargaclientes(ruta,direccion){
 			query[i]='INSERT INTO DETHISFAC (factura,articulo,linea,cantidad,devuelto,precio,totlinea) VALUES ("'+val['factura']+'","'+val['articulo']+'",'+val['linea']+','+val['cantidad']+','+val['devuelto']+','+val['precio']+','+val['totlinea']+')';
 			i++;
 		});
-
+		//alert('procesando sugerido de venta');		
+		/*
+		$.each(sug, function(key, val) {    
+			//alert(key + ' ' + val['cliente'] ); 			 								
+			query[i]='INSERT INTO SUGERIDO (cliente,articulo,cantidad) VALUES ("'+val['cliente']+'","'+val['articulo']+'",'+val['cantidad']+')';
+			i++;
+		});
+*/
 		
 
 		//alert(i);
@@ -891,6 +917,17 @@ function enviadatos(ruta,direccion){
 		var sql6='SELECT monche,monefe,deposito,recibo,obs ';						
 			sql6+='FROM DETDEP ';
 			sql6+=' WHERE doc_pro is null order by deposito';		
+		var sql7='SELECT num_dev,cod_zon,cod_clt,hor_fin,fec_dev,hor_ini,mon_imp_vt,mon_imp_cs,mon_siv,mon_dsc,num_itm,obs_dev,est_dev,cod_bod,impreso,num_ref,por_dsc_ap ';						
+			sql7+='FROM ENCDEV ';
+			sql7+=' WHERE doc_pro is null order by num_dev';			
+		var sql8='SELECT a.num_dev,a.cod_art,a.mon_prc_mn,a.por_dsc_ap,a.mon_tot,a.mon_dsc,a.mon_prc_mx,a.cnt_max,a.cod_zon,a.ind_dev,a.obs_dev ';						
+			sql8+='FROM DETDEV a inner join ENCDEV b on b.num_dev=a.num_dev ';
+			sql8+=' WHERE b.doc_pro is null order by a.num_dev';			
+
+
+
+
+
 
 		tx.executeSql(sql,[],detallesped,errorconsulta);
 		tx.executeSql(sql2,[],cabeceraped,errorconsulta);
@@ -898,6 +935,8 @@ function enviadatos(ruta,direccion){
 		tx.executeSql(sql4,[],detallescob,errorconsulta);
 		tx.executeSql(sql5,[],cabeceradep,errorconsulta);
 		tx.executeSql(sql6,[],detallesdep,errorconsulta);
+		tx.executeSql(sql7,[],cabeceradev,errorconsulta);
+		tx.executeSql(sql8,[],detallesdev,errorconsulta);
 		}
 		
 		function detallesped(tx,results){	
@@ -921,7 +960,7 @@ function enviadatos(ruta,direccion){
 			  detalles=detalles+']';
 			  window.localStorage.setItem("pedidoscab",detalles);
 			  //alert(detalles);
-	    }//function detallesped
+	    }//function cabeceradep
 		 function cabeceracob(tx,results){				
 				var detalles='[';			
 			  $.each(results.rows,function(index){				  
@@ -966,7 +1005,28 @@ function enviadatos(ruta,direccion){
 			  window.localStorage.setItem("depositosdet",detalles);
 			  //alert(detalles);
 	    }//function detallesdep
- 		
+	    function cabeceradev(tx,results){				
+				var detalles='[';			
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 
+				  detalles += '{"num_dev":"'+row['num_dev']+'", "cod_zon":"'+row['cod_zon']+'","cod_clt" : "'+row['cod_clt']+'","hor_fin" : "'+row['hor_fin']+'", "fec_dev" : "'+row['fec_dev']+'", "hor_ini" : "'+row['hor_ini']+'", "mon_imp_vt" : "'+row['mon_imp_vt']+'","mon_imp_cs" : "'+row['mon_imp_cs']+'","mon_siv" : "'+row['mon_siv']+'","mon_dsc" : "'+row['mon_dsc']+'","num_itm" : "'+row['num_itm']+'","obs_dev" : "'+row['obs_dev']+'","est_dev" : "'+row['est_dev']+'","cod_bod" : "'+row['cod_bod']+'","impreso" : "'+row['impreso']+'","num_ref" : "'+row['num_ref']+'","por_dsc_ap" : "'+row['por_dsc_ap']+'"},';
+			  });//.each	
+			  var longitud=detalles.length; detalles=detalles.substr(0,(longitud-1));				
+			  detalles=detalles+']';
+			  window.localStorage.setItem("devolucioncab",detalles);
+			  //alert(detalles);
+	    }//function cabeceradev
+		function detallesdev(tx,results){	
+			  var detalles='[';			
+			  $.each(results.rows,function(index){				  
+				  var row = results.rows.item(index); 
+				  detalles += '{"num_dev":"'+row['num_dev']+'","cod_art":"'+row['cod_art']+'","mon_prc_mn" : "'+row['mon_prc_mn']+'", "por_dsc_ap" : "'+row['por_dsc_ap']+'", "mon_tot" : "'+row['mon_tot']+'", "mon_dsc" : "'+row['mon_dsc']+'", "mon_prc_mx" : "'+row['mon_prc_mx']+'","cnt_max" : "'+row['cnt_max']+'","cod_zon" : "'+row['cod_zon']+'","ind_dev" : "'+row['ind_dev']+'","obs_dev" : "'+row['obs_dev']+'"},';
+			  });//.each	
+			  var longitud=detalles.length; detalles=detalles.substr(0,(longitud-1));				
+			  detalles=detalles+']';
+			  window.localStorage.setItem("devoluciondet",detalles);
+			  //alert(detalles);
+	    }//function detallesdev
 	function errorconsulta(err) {
     	alert("Error SQL al obtener datos para enviar: "+err.code+err.message);
 	}
@@ -977,14 +1037,18 @@ function enviadatos(ruta,direccion){
 		   var cobrosdet=window.localStorage.getItem("cobrosdet");
 		   var depositoscab=window.localStorage.getItem("depositoscab");
 		   var depositosdet=window.localStorage.getItem("depositosdet");
+		   var devolucioncab=window.localStorage.getItem("devolucioncab");
+		   var devoluciondet=window.localStorage.getItem("devoluciondet");
 		   alert('pedidos detalle: '+pedidosdet);
 		   alert('pedidos cabecera: '+pedidoscab);
 		   alert('cobros cabecera: '+cobroscab);
 		   alert('cobros detalle: '+cobrosdet);
 		   alert('depositos cabecera: '+depositoscab);
 		   alert('depositos detalle: '+depositosdet);
+		   alert('devolucion cabecera: '+devolucioncab);
+		   alert('devolucion detalle: '+devoluciondet);
 		   
-			$.getJSON(direccion, {numruta:ruta,peddet:pedidosdet,pedcab:pedidoscab,cobcab:cobroscab,cobdet:cobrosdet,depcab:depositoscab,depdet:depositosdet})
+			$.getJSON(direccion, {numruta:ruta,peddet:pedidosdet,pedcab:pedidoscab,cobcab:cobroscab,cobdet:cobrosdet,depcab:depositoscab,depdet:depositosdet,devcab:devolucioncab,devdet:devoluciondet})
 	.done(function(data) {
 		
 		
@@ -1001,7 +1065,7 @@ function enviadatos(ruta,direccion){
 		 var pedidos = data.resultado;
 		 var i=0;
 		$.each(pedidos, function(key, val) {    
-			alert(key + ' ' + val['conexion'] +' peddet '+val['respeddet'] +' pedcab '+val['respedcab']+' cobcab '+val['rescobcab']+' cobdet '+val['rescobdet']+' depcab '+val['resdepcab']+' depdet '+val['resdepdet'] );  
+			alert(key + ' ' + val['conexion'] +' peddet '+val['respeddet'] +' pedcab '+val['respedcab']+' cobcab '+val['rescobcab']+' cobdet '+val['rescobdet']+' depcab '+val['resdepcab']+' depdet '+val['resdepdet']+' devcab '+val['resdevcab']+' devdet '+val['resdevdet'] );  
 			//query[i]='INSERT INTO CLIENTES (nombre,clave,dia,direccion,telefono,tipo,diasc,lcredito,saldo) VALUES ("'+val['nombre']+'", "'+val['cliente']+'","Lunes","'+val['direccion']+'","'+val['telefono']+'","'+val['categoria']+'","'+val['diascredito']+'",'+val['limite']+','+val['saldo']+')';
 			i++;
 		});

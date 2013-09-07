@@ -251,7 +251,7 @@ var devolucion=inicial+pad(incremetard,6);
 			 sumivalinea+=ivalinea;//suma del total de linea sin descuento y sin iva
 			 //alert('antes de llamar a funcion guardadev');
 			 //guardadetdev(devolucion,ruta,articulo,totalinea.toFixed(2),precio,cantidad,observa,montodesc.toFixed(2),pordesc,factura,linea);
-			querydev[i]='INSERT INTO DETDEV (num_dev,cod_zon,cod_art,ind_dev,mon_tot,mon_prc_mx,mon_prc_mn,cnt_max,obs_dev,mon_dsc,por_dsc_ap) VALUES("'+devolucion+'","'+ruta+'","'+articulo+'","B",'+totalinea.toFixed(2)+','+precio+','+precio+','+cantidad+',"'+observa+'",'+montodesc.toFixed(2)+','+pordesc+')'; 
+			querydev[i]='INSERT INTO DETDEV (num_dev,cod_zon,cod_art,ind_dev,mon_tot,mon_prc_mx,mon_prc_mn,cnt_max,obs_dev,mon_dsc,por_dsc_ap) VALUES("'+consecutivo+'","'+ruta+'","'+articulo+'","B",'+totalinea.toFixed(2)+','+precio+','+precio+','+cantidad+',"'+observa+'",'+montodesc.toFixed(2)+','+pordesc+')'; 
 			//alert('despues de insertadet');				
 			i++;
 			querydev[i]='UPDATE DETHISFAC SET devuelto=devuelto+'+cantidad+' where linea='+linea+' and factura="'+factura+'"';		
@@ -270,7 +270,7 @@ var devolucion=inicial+pad(incremetard,6);
 			linea++;
 		 	});//each
 			//alert('antes de llamar a funcion guardaencdev');
-			querydev[i]='INSERT INTO ENCDEV (num_dev,cod_zon,cod_clt,hor_ini,hor_fin,fec_dev,obs_dev,num_itm,est_dev,mon_siv,mon_dsc,por_dsc_ap,mon_imp_vt,mon_imp_cs,cod_bod,impreso,num_ref) VALUES("'+devolucion+'","'+ruta+'","'+cliente+'","'+horaini+'","'+horafin+'","'+fechadev+'","'+observagen+'",'+renglones+',"A",'+sumtotlinea.toFixed(2)+',0,0,'+sumivalinea.toFixed(2)+',0,"'+bodega+'","N","'+factura+'")'; 
+			querydev[i]='INSERT INTO ENCDEV (num_dev,cod_zon,cod_clt,hor_ini,hor_fin,fec_dev,obs_dev,num_itm,est_dev,mon_siv,mon_dsc,por_dsc_ap,mon_imp_vt,mon_imp_cs,cod_bod,impreso,num_ref) VALUES("'+consecutivo+'","'+ruta+'","'+cliente+'","'+horaini+'","'+horafin+'","'+fechadev+'","'+observagen+'",'+renglones+',"A",'+sumtotlinea.toFixed(2)+',0,0,'+sumivalinea.toFixed(2)+',0,"'+bodega+'","N","'+factura+'")'; 
 			i++;
    			querydev[i]='UPDATE PARAMETROS SET num_dev="'+devolucion+'"';		
 			i++;

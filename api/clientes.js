@@ -34,9 +34,6 @@ function mostrarclientes(dia){
 }// mostrarclientes
 function mostrarcliente(clavecli){
 //  $('#datoscli').live('pageshow',function(event, ui){
-   	   
-	   //guarda el cliente con el que se harán operaciones
-	   saveidcliente(clavecli);
        var limite=0;
 	   var saldo=0;
 	   var disponible=0;
@@ -99,7 +96,8 @@ function mostrarcliente(clavecli){
 		function poblarfac(tx,results){ 			 
 			  var tipo="";			  
 			  $.each(results.rows,function(index){
-				  var row = results.rows.item(index); 				  
+				  var row = results.rows.item(index); 	
+				  //alert('entra y no deberia'+row['fechaven']);			  
 				  var dias=diasvencida(row['fechaven']);		 
 				  //tenemos los dias despues del vencimiento				   
 				  	if (dias>=31){

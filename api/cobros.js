@@ -112,12 +112,15 @@ function listafacturaspend(cliente){
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
 }// listafacturaspend(cliente)
+
 function copiatemcobros(cliente,copiar){	//llamada de eventos.js
 //el parametro copiar indica si el usuario selecciono el boton de copiar la columna saldo a la columna a pagar
 //
 var querycob=[];
 var i=0;
 	function listo(tx,results){
+		     querycob[i]='DELETE FROM TEMCOBROS ';	
+			 i++;
 		   $.each(results.rows,function(index){           
 			 var row = results.rows.item(index); 			 
 			 if (copiar=='S'){
@@ -127,6 +130,7 @@ var i=0;
 				 querycob[i]='INSERT INTO TEMCOBROS (factura,abonado,saldo) VALUES ("'+row['documento']+'",'+0+','+row['saldo']+')';						 
 			 }
 			 i++;
+				 
 		 });    		 	      
  	}//function listo(tx,results){ 
 	function consultatemp(tx){   	       
@@ -159,11 +163,13 @@ function mostrardcob(factura){
 	function listo(tx,results){ 	      
 	      if (results.rows.length>0){			
 			 	var row = results.rows.item(0); 
+				var saldo=Number(row['saldo']);
+				var abonado=Number(row['abonado']);				
 				if (row['abonado']==0){
-					$("#importecobro").val(row['saldo']);
+					$("#importecobro").val(saldo.toFixed(2));
 				}
 				else{
-					$("#importecobro").val(row['abonado']);
+					$("#importecobro").val(abonado.toFixed(2));
 					
 				}
 		  }//if (results.rows.length>0){		  
@@ -245,7 +251,7 @@ function aplicacionpago(saldofac,abono){
 				
 }//function aplicacionpago()
 function otro(){	
-alert('entra a otro');
+//alert('entra a otro');
 }
 
 function gridtotalescob(){	
@@ -316,7 +322,7 @@ function poblarcheques(){
 			  $.each(results.rows,function(index){				  
 				  var row = results.rows.item(index); 				     			     
 					 var monto=Number(row['monto']);
-					 montot+=monto.toFixed(2);
+					 montot+=monto;
 					html+='<div class="ui-block-a" style="width:70px;height:20px" >';              
            			html+='<div class="ui-bar ui-bar-e"  >';      		 		
                    	html+='<div style="padding:0px; margin-top:-8px; margin-left:-10px">'; 
@@ -330,9 +336,9 @@ function poblarcheques(){
 	                html+='<div class="ui-block-e" style="width:100px"><div class="ui-bar ui-bar-b">'+monto.toFixed(2)+'</div></div> ';                  	 
 			  });//.each
 			} 
-			  		guardacheque(montot);					
+			  		guardacheque(Number(montot));					
 					//alert('pendiente '+pendiente);					
-					alert('montot '+montot);					
+					//alert('montot '+montot);					
 					$("#gridcheques").append(html); 
 					//$("#tpedido").attr("value",total); 													
 					
@@ -352,9 +358,9 @@ var abono=window.localStorage.getItem("abono");//lo que el usuario indicó que s
 var montoefe=window.localStorage.getItem("efectivo");//el importe indicado en efectivo hasta el momento
 var montoche=window.localStorage.getItem("cheque");//el importe indicado en cheque hasta el momento
 var pendiente=Number(abono)-Number(montoefe)-Number(montoche);	
-alert('montoefe '+montoefe);
-alert('montoche '+montoche);
-alert('pendiente '+pendiente);
+//alert('montoefe '+montoefe);
+//alert('montoche '+montoche);
+//alert('pendiente '+pendiente);
 return pendiente;
 }
   
@@ -435,7 +441,7 @@ function ejecutaquerycob(query,total){
 	base.transaction(insertadet,function(err){
     	  alert("Error al insertar en detallepedido: "+err.code+err.message);
           },function(){		  
-		    alert('total '+total);
+		    //alert('total '+total);
 		    actsaldo(total*-1);  
 			consultasivencidas(cliente);			
 			window.localStorage.setItem("sioperacion","S");
@@ -532,18 +538,7 @@ function mostrarnotascob(factura){
          		});		
 				
 }//function mostrarnotascob(factura)
-function eliminatempcob(){
-	   //alert('inserttafactura'+cantidad);
-	    base.transaction(insertadet,function(err){
-    	  alert("Error al eliminar temcobros: "+err.code+err.message);
-          });
-				
-    	function insertadet(tx) {		
-		//alert('entra a eliminar temcobros');
-		   tx.executeSql('DELETE FROM TEMCOBROS ');		
-		}
-	
-}//function eliminatempcob()
+
 function insertatempcob(querycob){
 	 // navigator.notification.alert('entra insertatempcob '+factura+' '+abono+' '+saldo,null,'','Aceptar');	
 	    base.transaction(insertadet,function(err){
@@ -613,5 +608,16 @@ function consultasivencidas(cliente){
  // });	//$('#pclientes').live('pageshow',function(event, ui){
 	
 }// listafacturaspend(cliente)
-
+function eliminatempcob(){
+	   //alert('inserttafactura'+cantidad);
+	    base.transaction(insertadet,function(err){
+    	  alert("Error al eliminar temcobros: "+err.code+err.message);
+          });
+				
+    	function insertadet(tx) {		
+		//alert('entra a eliminar temcobros');
+		   tx.executeSql('DELETE FROM TEMCOBROS ');		
+		}
+	
+}//function eliminatempcob()
 
