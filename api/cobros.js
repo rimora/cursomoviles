@@ -488,7 +488,7 @@ function pagarximp(cliente,cantidad){
  	}//function listo(tx,results){ 
 	function consultatemp(tx){   	       
 				//alert('articulo de MODIFICAR temPEDIDO '+articulo);
-				var sql='SELECT a.documento,a.saldo,a.monto,a.fechaven,b.abonado,a.vencida,a.diasv FROM PENCOBRO a ';		
+				var sql='SELECT a.documento,a.saldo,a.monto,a.fechaven,b.abonado FROM PENCOBRO a ';		
 				sql+=' left outer join TEMCOBROS b on b.factura=a.documento WHERE a.cliente="'+cliente+'" ORDER BY fechaven'
 		
 								

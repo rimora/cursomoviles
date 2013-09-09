@@ -21,7 +21,7 @@
 /*global document: false, history: false, location: false, window: false */
 
 (function () {
-	alert('entra');
+	//alert('entra');
     "use strict";
     var link = [],
         states = [],
