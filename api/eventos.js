@@ -786,7 +786,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				window.localStorage.setItem("tipocob","C");
 				longitud=8;
 				//$("#numcuenta").val("");  				 
-     });
+     });*/
 	 $("#baceptaraplic").tap(function() {                   				  
 	 	var pendiente=Number(saldopendiente());
 		//alert('pendiente '+pendiente);
@@ -805,7 +805,7 @@ $("#bbuscaart").tap(function() { //boton buscar articulo en catalogo
 				}
 			}
 	        
-     });*/
+     });
 	 $("#regresardeaplic").tap(function(){
                 function onConfirm(button) {
 					if (button==1){						 
